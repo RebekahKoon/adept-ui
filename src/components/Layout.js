@@ -34,19 +34,21 @@ body {
 
 .Layout {
 
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-
-}
-
-.content {
-    
     flex: 1;
     display: flex;
     flex-direction: column;
 
+    height: 100%;
+    width: 100%;
+
+    .content {
+    
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    
+    }
+    
 }
 `;
 
@@ -71,7 +73,7 @@ const Layout = props => (
             <div className="Content">{props.children}</div>
 
             <Footer />
-            
+
         </Container>
         
         
