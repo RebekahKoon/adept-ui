@@ -45,10 +45,21 @@ body {
     
         flex: 1;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+
+        background: #2a3747;
+        color: #fff;
+        font-family: Arial, sans-serif;
+
+        a {
+            color: inherit;
+        }
     
     }
-    
+
 }
 `;
 
@@ -56,7 +67,11 @@ const Container = styled.div`
     test-align: center;
 `;
 
-const Layout = props => (
+const Layout = props => {
+
+    const appTitle = `> Adept`;
+
+    return (
 
     <div className="Layout">
         <Head>
@@ -65,6 +80,7 @@ const Layout = props => (
             <meta charSet="utf-8" />
         </Head>
 
+
         <Container>
             <GlobalStyle />
             
@@ -72,12 +88,13 @@ const Layout = props => (
 
             <div className="Content">{props.children}</div>
 
-            <Footer />
+            <Footer appTitle={appTitle} />
 
         </Container>
         
         
     </div>
-);
+    );
+}
 
 export default Layout;

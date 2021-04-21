@@ -13,11 +13,11 @@ const StyledNavBar = styled.nav`
         width: 100%;
         padding: 10px 0;
 
-        background: crimson;
+        background: #FFFFFF;
 
         font-family: Arial, sans-serif
         font-size: 22px;
-        color: white;
+        color: #A1A1A1;
 
         box-shadow: 0px -2px 15px rgba(50, 50, 50, 0.45);
 
@@ -27,7 +27,7 @@ const StyledNavBar = styled.nav`
         }
 
         .active {
-            color: navy;
+            color: #FA4141;
         }
     }
 `;

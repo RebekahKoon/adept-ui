@@ -1,6 +1,8 @@
 // componenets/Footer.js
 import React from "react";
 
+import Link from "next/link";
+
 import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
@@ -15,31 +17,28 @@ const StyledFooter = styled.footer`
 
         padding: 0 20px;
 
-        font-family: Arial, sans-serif;
+        font-family: 'Arial, sans-serif';
         font-size: 24px;
         font-weight: bold;
-        color: white;
+        color: #fff;
         text-transform: uppercase;
 
-        background: crimson;
+        background: #FA4141;
 
         cursonr: pointer;
 
     }
 `;
 
-const Footer = () => (
+const Footer = props => (
     <StyledFooter>
-        <div className="Footer">
-            FOOTER
-            <style jsx>{`
-                background-color: blue;
-                color: white;
-                width: 100%;
-                height: 50px;
-            `}</style>
-        </div>
+        <Link href="/">        
+            <div className="Footer">
+                {props.appTitle}
+            </div>
+        </Link>
     </StyledFooter>
+
 );
 
 export default Footer;
