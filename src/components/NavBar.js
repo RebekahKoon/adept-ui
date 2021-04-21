@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // componenets/NavBar.js
 import React from "react";
 
