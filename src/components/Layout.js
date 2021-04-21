@@ -8,6 +8,51 @@ import NavBar from "./NavBar";
 
 import Head from "next/head";
 
+import styled, { createGlobalStyle } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#__next {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smothing: grayscale;
+}
+
+.Layout {
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+}
+
+.content {
+    
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+}
+`;
+
+const Container = styled.div`
+    test-align: center;
+`;
 
 const Layout = props => (
 
@@ -18,51 +63,17 @@ const Layout = props => (
             <meta charSet="utf-8" />
         </Head>
 
-        <NavBar />
-
-        <div className="Content">{props.children}</div>
-
-        <Footer />
-
-        <style jsx global>{`
-            * {
-                box-sizing: border-box;
-            }
-
-            html,
-            body,
-            #__next {
-                height: 100%;
-                width: 100%;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-                  "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-                  "Helvetica Neue", sans-serif;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smothing: grayscale;
-            }
+        <Container>
+            <GlobalStyle />
             
-            .Layout {
+            <NavBar />
 
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-                width: 100%;
+            <div className="Content">{props.children}</div>
 
-            }
-
-            .content {
-                
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-
-            }
-        `}</style>
+            <Footer />
+            
+        </Container>
+        
         
     </div>
 );
