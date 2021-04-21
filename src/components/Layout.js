@@ -41,7 +41,7 @@ body {
     height: 100%;
     width: 100%;
 
-    .content {
+    .Content {
     
         flex: 1;
         display: flex;
@@ -49,6 +49,7 @@ body {
         align-items: center;
 
         width: 100%;
+        height: 100%;
 
         background: #2a3747;
         color: #fff;
