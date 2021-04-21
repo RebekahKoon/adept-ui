@@ -5,6 +5,8 @@ import React from "react";
 
 import Link from "next/link";
 
+import { withRouter } from "next/router";
+
 import styled from 'styled-components';
 
 const StyledNavButton = styled.li`
@@ -31,14 +33,14 @@ const StyledNavButton = styled.li`
 
 const NavButton = props => (
     <StyledNavButton>
-            <Link href={props.path}>
-            <div className="NavButton">
-            <div className="Icon">{props.icon}</div>
-            <span className="Label">{props.label}</span>
-            </div>
-        </Link>
+      <Link href={props.path}>
+        <div className={`NavButton ${ 
+          props.router.pathname === props.path ? "active" : ""
+        }`}>
+          <span className="Label">{props.label}</span>
+        </div>
+      </Link>
     </StyledNavButton>
-  
 );
 
-export default NavButton;
+export default withRouter(NavButton);
