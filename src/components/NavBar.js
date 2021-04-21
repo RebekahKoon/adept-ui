@@ -1,16 +1,18 @@
 // componenets/NavBar.js
 import React from "react";
 
-const navBarStyle = {
-    backgroundColor: "red",
-    color: "white",
-    width: "100%",
-    height: "60px"
-};
-
 const NavBar = () => (
-    <div className="NavBar" style={navBarStyle}>
+    <div className="NavBar">
         NAVBAR
+
+        <style jsx>{`
+
+            background-color: red;
+            color: white;
+            width: 100%;
+            height: 60px;
+
+        `}</style>
     </div>
 );
 
