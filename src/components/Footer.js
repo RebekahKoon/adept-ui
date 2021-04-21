@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // componenets/Footer.js
 import React from "react";
 

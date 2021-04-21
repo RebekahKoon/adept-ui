@@ -3,6 +3,8 @@ import React from "react";
 
 import styled from 'styled-components';
 
+import NavButton from "./NavButton"
+
 const StyledNavBar = styled.nav`
     .NavBar {
         display: flex;
@@ -32,10 +34,16 @@ const StyledNavBar = styled.nav`
     }
 `;
 
-const NavBar = () => (
+const NavBar = props => (
     <StyledNavBar>
         <div className="NavBar">
-            NAVBAR
+            {props.navButtons.map(button => (
+                <NavButton
+                key={button.path}
+                path={button.path}
+                label={button.label}
+                />
+            ))}
         </div>
     </StyledNavBar>
 );

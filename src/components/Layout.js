@@ -6,6 +6,8 @@ import Footer from "./Footer.js";
 
 import NavBar from "./NavBar";
 
+import navButtons from "../config/buttons";
+
 import Head from "next/head";
 
 import styled, { createGlobalStyle } from 'styled-components';
@@ -84,7 +86,7 @@ const Layout = props => {
         <Container>
             <GlobalStyle />
             
-            <NavBar />
+            <NavBar navButtons={navButtons}/>
 
             <div className="Content">{props.children}</div>
 

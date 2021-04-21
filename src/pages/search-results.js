@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // pages/dashboard.js
 
 import React from 'react';
