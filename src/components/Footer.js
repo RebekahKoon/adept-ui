@@ -18,13 +18,12 @@ const StyledFooter = styled.footer`
 
         padding: 0 20px;
 
-        font-family: 'Arial, sans-serif';
+        font-family: 'PT Sans', sans-serif;
         font-size: 24px;
-        font-weight: bold;
-        color: #fff;
+        color: #FFFFFF;
         text-transform: uppercase;
 
-        background: #FA4141;
+        background: #191C3C;
 
         cursonr: pointer;
 
@@ -33,11 +32,9 @@ const StyledFooter = styled.footer`
 
 const Footer = props => (
     <StyledFooter>
-        <Link href="/">        
-            <div className="Footer">
-                {props.appTitle}
-            </div>
-        </Link>
+        <div className="Footer">
+            <h5>{props.appTitle}</h5>
+        </div>
     </StyledFooter>
 
 );

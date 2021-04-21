@@ -27,9 +27,7 @@ body,
 body {
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-      "Helvetica Neue", sans-serif;
+    font-family: 'PT Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smothing: grayscale;
 }
@@ -54,7 +52,7 @@ body {
 
         background: #2a3747;
         color: #fff;
-        font-family: Arial, sans-serif;
+        font-family: 'PT Sans', sans-serif;
 
         a {
             color: inherit;

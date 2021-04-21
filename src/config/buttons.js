@@ -19,15 +19,6 @@ const navButtons = [
   {
     label: "Login",
     path: "/login",
-  },
-  {
-    label: "Register",
-    path: "/register",
-  }
-  ,
-  {
-    label: "Landing",
-    path: "/landing",
   }
 ];
 

@@ -16,11 +16,11 @@ const StyledNavBar = styled.nav`
         width: 100%;
         padding: 10px 0;
 
-        background: #FFFFFF;
+        background: #570FF1;
 
-        font-family: Arial, sans-serif
+        font-family: 'PT Sans', sans-serif;
         font-size: 22px;
-        color: #A1A1A1;
+        color: #FFFFFF;
 
         box-shadow: 0px -2px 15px rgba(50, 50, 50, 0.45);
 
