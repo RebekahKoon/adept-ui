@@ -28,42 +28,55 @@ const StyledFooter = styled.footer`
         cursonr: pointer;
 
     }
-
+    #Logo {
+        padding: 10px 0;
+    }
     #Row1, #Row2, #Row3 {
         font-size: 12px;
     }
-    #UL1, #UL2, #UL3 {
+    .UL1, .UL2, .UL3 {
         list-style-type: none;
+        margin-bottom: 10px;
+    }
+
+    #LI {
+        margin: 0 10px 10px 0;
+        text-transform: none;
+    }
+
+    #LIHeader {
+        margin: 0 10px 10px 0;
+        color: #919496;
     }
 `;
 
 const Footer = props => (
     <StyledFooter>
         <div className="Footer">
-            <h5>{props.appTitle}</h5>
+            <h5 id="Logo">{props.appTitle}</h5>
             <div className="FooterData" id="Row1">
-                <p>FOR JOB SEEKERS</p>
-                <ul id="UL1">
-                    <li>Browse Jobs</li>
-                    <li>Browse Contacts</li>
-                    <li>Skills</li>
-                    <li>Visualize Data</li>
+                <ul className="UL1">
+                    <li id="LIHeader">FOR JOB SEEKERS</li>
+                    <li id= "LI">Browse Jobs</li>
+                    <li id= "LI">Browse Contacts</li>
+                    <li id= "LI">Skills</li>
+                    <li id= "LI">Visualize Data</li>
                 </ul>
             </div>
             <div className="FooterData" id="Row2">
-                <p>FOR EMPLOYERS</p>
-                <ul id="UL2">
-                    <li>Post a Job</li>
-                    <li>View Posted Jobs</li>
-                    <li>View Applicants</li>
+                <ul className="UL2">
+                    <li id="LIHeader">FOR EMPLOYERS</li>
+                    <li id= "LI">Post a Job</li>
+                    <li id= "LI">View Posted Jobs</li>
+                    <li id= "LI">View Applicants</li>
                 </ul>
             </div>
             <div className="FooterData" id="Row3">
-                <p>RESOURCES</p>
-                <ul id="UL3">
-                    <li>About Adept</li>
-                    <li>Contact</li>
-                    <li>View Repository</li>
+                <ul className="UL3">
+                    <li id="LIHeader">RESOURCES</li>
+                    <li id= "LI">About Adept</li>
+                    <li id= "LI">Contact</li>
+                    <li id= "LI">View Repository</li>
                 </ul>
             </div>
         </div>

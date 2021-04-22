@@ -8,7 +8,6 @@ const navButtons = [
   {
     label: "Dashboard",
     path: "/dashboard",
-
   },
   {
     label: "Post Job",
