@@ -20,15 +20,14 @@ const StyledNavButton = styled.li`
   
     cursor: pointer;
   
-    .Icon {
-      font-size: 20px;
-    }
-  
     .Label {
       font-size: 12px;
       text-transform: capitalize;
     }
   }
+li {
+  list-style-type: none;
+}
 `;
 
 const NavButton = props => (

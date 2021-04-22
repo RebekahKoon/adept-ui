@@ -13,7 +13,7 @@ const StyledFooter = styled.footer`
         justify-content: flex-start;
         align-items: center;
 
-        height: 50px;
+        height: 300px;
         width: 100%;
 
         padding: 0 20px;
@@ -28,37 +28,44 @@ const StyledFooter = styled.footer`
         cursonr: pointer;
 
     }
+
+    #Row1, #Row2, #Row3 {
+        font-size: 12px;
+    }
+    #UL1, #UL2, #UL3 {
+        list-style-type: none;
+    }
 `;
 
 const Footer = props => (
     <StyledFooter>
         <div className="Footer">
             <h5>{props.appTitle}</h5>
-        </div>
-        <div className="FooterData" id="Row1">
-            <p>FOR JOB SEEKERS</p>
-            <ul id="UL1">
-                <li>Browse Jobs</li>
-                <li>Browse Contacts</li>
-                <li>Skills</li>
-                <li>Visualize Data</li>
-            </ul>
-        </div>
-        <div className="FooterData" id="Row2">
-            <p>FOR EMPLOYERS</p>
-            <ul id="UL2">
-                <li>Post a Job</li>
-                <li>View Posted Jobs</li>
-                <li>View Applicants</li>
-            </ul>
-        </div>
-        <div className="FooterData" id="Row3">
-            <p>RESOURCES</p>
-            <ul id="UL3">
-                <li>About Adept</li>
-                <li>Contact</li>
-                <li>View Repository</li>
-            </ul>
+            <div className="FooterData" id="Row1">
+                <p>FOR JOB SEEKERS</p>
+                <ul id="UL1">
+                    <li>Browse Jobs</li>
+                    <li>Browse Contacts</li>
+                    <li>Skills</li>
+                    <li>Visualize Data</li>
+                </ul>
+            </div>
+            <div className="FooterData" id="Row2">
+                <p>FOR EMPLOYERS</p>
+                <ul id="UL2">
+                    <li>Post a Job</li>
+                    <li>View Posted Jobs</li>
+                    <li>View Applicants</li>
+                </ul>
+            </div>
+            <div className="FooterData" id="Row3">
+                <p>RESOURCES</p>
+                <ul id="UL3">
+                    <li>About Adept</li>
+                    <li>Contact</li>
+                    <li>View Repository</li>
+                </ul>
+            </div>
         </div>
     </StyledFooter>
 
