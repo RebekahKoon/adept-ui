@@ -13,9 +13,6 @@ import Head from "next/head";
 import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-* {
-    box-sizing: border-box;
-}
 
 html,
 body,
@@ -48,7 +45,9 @@ body {
         align-items: center;
 
         width: 100%;
-        height: 100%;
+        height: 701px;
+        min-height: 100%;
+        padding-bottom: 200 px;
 
         background: #2a3747;
         color: #fff;

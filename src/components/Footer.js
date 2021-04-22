@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 // componenets/Footer.js
 import React from "react";
@@ -10,10 +11,12 @@ const StyledFooter = styled.footer`
     .Footer {
 
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
+        position: fixed;
+        bottom: 0;
 
-        height: 300px;
+        height: 200px;
         width: 100%;
 
         padding: 0 20px;
@@ -25,15 +28,33 @@ const StyledFooter = styled.footer`
 
         background: #191C3C;
 
-        cursonr: pointer;
+        cursor: pointer;
 
     }
     #Logo {
         padding: 10px 0;
+        flex: 1 20%;
     }
     #Row1, #Row2, #Row3 {
-        font-size: 12px;
+        font-size: 14px;
     }
+
+    #Row1 {
+        flex: 2 20%;
+    }
+
+    #Row2 {
+        flex: 3 20%;
+    }
+
+    #Row3 {
+        flex: 4 20% ;
+    }
+
+    #Links {
+        flex: 5 20%;
+    }
+
     .UL1, .UL2, .UL3 {
         list-style-type: none;
         margin-bottom: 10px;
@@ -79,6 +100,7 @@ const Footer = props => (
                     <li id= "LI">View Repository</li>
                 </ul>
             </div>
+            <div className="FooterData" id="Links">Here thar be links</div>
         </div>
     </StyledFooter>
 
