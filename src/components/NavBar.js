@@ -6,6 +6,12 @@ import styled from 'styled-components';
 
 import NavButton from "./NavButton"
 
+import Image from 'next/image';
+
+import Link from "next/link";
+
+
+
 const StyledNavBar = styled.nav`
     .NavBar {
         display: flex;
@@ -40,13 +46,20 @@ const StyledNavBar = styled.nav`
 const NavBar = props => (
     <StyledNavBar>
         <div className="NavBar">
-            {props.navButtons.map(button => (
-                <NavButton
-                key={button.path}
-                path={button.path}
-                label={button.label}
-                />
-            ))}
+            <div id="NavLogo">
+                <Link href='/dashboard'>        
+                    <Image src='/LogoWhite.png' alt='me' width='64' height='64'/>
+                </Link>
+            </div>
+            <div id="NavButtons">
+                {props.navButtons.map(button => (
+                    <NavButton
+                    key={button.path}
+                    path={button.path}
+                    label={button.label}
+                    />
+                ))}
+            </div>
         </div>
     </StyledNavBar>
 );

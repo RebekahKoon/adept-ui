@@ -7,10 +7,6 @@ import React from "react";
 
 const navButtons = [
   {
-    label: "Dashboard",
-    path: "/dashboard",
-  },
-  {
     label: "Post Job",
     path: "/post-job",
   },

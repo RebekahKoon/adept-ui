@@ -5,6 +5,8 @@ import React from "react";
 
 import Link from "next/link";
 
+import Image from 'next/image';
+
 import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
@@ -100,7 +102,11 @@ const Footer = props => (
                     <li id= "LI">View Repository</li>
                 </ul>
             </div>
-            <div className="FooterData" id="Links">Here thar be links</div>
+            <div className="FooterData" id="Links">
+                <Image src='/GithubIcon1.png' alt='me' width='40' height='40'/>
+                <Image src='/GithubIcon2.png' alt='me' width='40' height='40'/>
+                <Image src='/GithubIcon3.png' alt='me' width='40' height='40'/>
+            </div>
         </div>
     </StyledFooter>
 
