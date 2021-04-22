@@ -13,21 +13,19 @@ const StyledNavButton = styled.li`
 .NavButton {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
   
     height: 100%;
+    width: 300px;
   
     cursor: pointer;
+
   
     .Label {
-      font-size: 12px;
+      font-size: 16px;
       text-transform: capitalize;
     }
   }
-li {
-  list-style-type: none;
-}
 `;
 
 const NavButton = props => (

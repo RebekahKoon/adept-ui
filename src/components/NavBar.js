@@ -9,12 +9,14 @@ import NavButton from "./NavButton"
 const StyledNavBar = styled.nav`
     .NavBar {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
 
         height: 60px;
         width: 100%;
-        padding: 10px 0;
+        padding: 10px ;
+
+        list-style-type: none;
 
         background: #570FF1;
 

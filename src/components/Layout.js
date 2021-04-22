@@ -49,8 +49,8 @@ body {
         min-height: 100%;
         padding-bottom: 200 px;
 
-        background: #2a3747;
-        color: #fff;
+        background: #FFFFFF;
+        color: #000000;
         font-family: 'PT Sans', sans-serif;
 
         a {
