@@ -34,8 +34,8 @@ const StyledFooter = styled.footer`
 
     }
     #Logo {
-        padding: 10px 0;
-        flex: 1 20%;
+        padding: 10%;
+        flex: 1 10%;
     }
     #Row1, #Row2, #Row3 {
         font-size: 14px;
@@ -76,7 +76,9 @@ const StyledFooter = styled.footer`
 const Footer = props => (
     <StyledFooter>
         <div className="Footer">
-            <h5 id="Logo">{props.appTitle}</h5>
+            <div id="Logo">
+                <Image src='/TextLogo.png' alt='TextLogo' width='150' height='70' />
+            </div>
             <div className="FooterData" id="Row1">
                 <ul className="UL1">
                     <li id="LIHeader">FOR JOB SEEKERS</li>

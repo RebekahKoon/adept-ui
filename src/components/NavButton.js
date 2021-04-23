@@ -13,18 +13,24 @@ import styled from 'styled-components';
 const StyledNavButton = styled.li`
 .NavButton {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
   
-    height: 100%;
-    width: 300px;
-  
+    height: 100%;  
+    width: 100px;
     cursor: pointer;
 
   
     .Label {
       font-size: 16px;
+      font-weight: bold;
       text-transform: capitalize;
+    }
+
+    .icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 `;

@@ -15,7 +15,6 @@ import Link from "next/link";
 const StyledNavBar = styled.nav`
     .NavBar {
         display: flex;
-        justify-content: center;
         align-items: center;
 
         height: 60px;
@@ -25,12 +24,27 @@ const StyledNavBar = styled.nav`
         list-style-type: none;
 
         background: #570FF1;
+        
+    }
+
+    #NavLogo{
+        flex: 1 100%;
+        padding: 10%;
+    }
+
+    #NavButtons{
+        display: flex;
+        justify-content: center;
+        flex: 2 33%;
+        flex-shring: 0;
+
+        height: 60px;
+        width: 100%;
+        padding: 10px ;
 
         font-family: 'PT Sans', sans-serif;
         font-size: 22px;
         color: #FFFFFF;
-
-        box-shadow: 0px -2px 15px rgba(50, 50, 50, 0.45);
 
         a {
             color: inherit;
@@ -39,7 +53,6 @@ const StyledNavBar = styled.nav`
 
         .active {
             color: #FA4141;
-        }
     }
 `;
 
