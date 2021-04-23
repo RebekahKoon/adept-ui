@@ -9,9 +9,9 @@ import Image from 'next/image';
 
 import styled from 'styled-components';
 
-import StyledFooter from './FooterStyle.js';
+import StyledFooter from '../styles/FooterStyle.js';
 
-import {StyledLogo, StyledRow1, StyledRow2, StyledRow3, StyledLinks, StyledUl, StyledLi, StyledLiHeader} from './FooterStyle.js';
+import {StyledLogo, StyledRow1, StyledRow2, StyledRow3, StyledLinks, StyledUl, StyledLi, StyledLiHeader} from '../styles/FooterStyle.js';
 
   
 

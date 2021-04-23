@@ -4,7 +4,7 @@ import React from "react";
 
 import styled from 'styled-components';
 
-import NavButton from "./NavButton"
+import StyledNavButton from '../styles/NavButtonStyle.js'
 
 import Image from 'next/image';
 
@@ -65,13 +65,15 @@ const NavBar = props => (
                 </Link>
             </div>
             <div id="NavButtons">
-                {props.navButtons.map(button => (
-                    <NavButton
-                    key={button.path}
-                    path={button.path}
-                    label={button.label}
-                    />
-                ))}
+            <StyledNavButton>
+                <Link href='/post-job'>Post Job</Link>
+            </StyledNavButton>
+            <StyledNavButton>
+                <Link href='/search'>Search</Link>
+            </StyledNavButton>
+            <StyledNavButton>
+                <Link href='/login'>Login</Link>
+            </StyledNavButton>
             </div>
         </div>
     </StyledNavBar>
