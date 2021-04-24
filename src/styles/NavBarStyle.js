@@ -9,9 +9,6 @@ const StyledNavBar = styled.nav`
     padding: 10px ;
 
     list-style-type: none;
-
-    background: #570FF1;
-
 `;
 
 export const StyledNavLogo = styled.div`

@@ -8,69 +8,15 @@ import NavBar from "./NavBar";
 
 import Head from "next/head";
 
-import styled, { createGlobalStyle } from 'styled-components';
+import GlobalStyle from '../styles/LayoutStyle';
 
-const GlobalStyle = createGlobalStyle`
-
-html,
-body,
-#__next {
-    height: 100%;
-    width: 100%;
-    min-height: 100%
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'PT Sans', sans-serif;
-}
-
-.Layout {
-
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-
-    height: 100%;
-    width: 100%;
-
-    .Content {
-    
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        width: 100%;
-        height: 701px;
-        min-height: 100%;
-        padding-bottom: 200 px;
-
-        background: #FFFFFF;
-        color: #000000;
-        font-family: 'PT Sans', sans-serif;
-
-        a {
-            color: inherit;
-        }
-    
-    }
-
-}
-`;
-
-const Container = styled.div`
-    test-align: center;
-`;
+import {StyledContentContainer, StyledContent, StyledLayout} from '../styles/LayoutStyle';
 
 const Layout = props => {
 
-    const appTitle = `> Adept`;
-
     return (
 
-    <div className="Layout">
+    <StyledLayout>
         <Head>
             <title>Adept</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -78,19 +24,19 @@ const Layout = props => {
         </Head>
 
 
-        <Container>
+        <StyledContentContainer>
             <GlobalStyle />
             
             <NavBar />
 
-            <div className="Content">{props.children}</div>
+            <StyledContent>{props.children}</StyledContent>
 
-            <Footer appTitle={appTitle} />
+            <Footer />
 
-        </Container>
+        </StyledContentContainer>
         
         
-    </div>
+    </StyledLayout>
     );
 }
 
