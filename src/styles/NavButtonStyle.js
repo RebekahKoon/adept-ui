@@ -18,21 +18,32 @@ const StyledNavButton = styled.div`
 `;
 
 export const StyledLogin = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-height: 100%;  
-width: 100px;
-cursor: pointer;
+    height: 100%;  
+    width: 100px;
+    cursor: pointer;
 
-font-size: 16px;
-font-weight: bold;
-text-transform: capitalize;
-color: #FFFFFF;
-font-family: 'PT Sans', sans-serif;
-border-style: solid;
-border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: capitalize;
+    color: #FFFFFF;
+    font-family: 'PT Sans', sans-serif;
+    border-style: solid;
+    border-radius: 12px;
+
+    ${StyledNavButton}:hover & {
+        background: "#efefef"
+      }
+
+`;
+
+export const StyledNavLink = styled.div`
+    ${StyledNavButton}:hover & {
+        background: "#efefef"
+    }
 
 `;
 

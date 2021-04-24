@@ -30,6 +30,7 @@ export const StyledNavButtons = styled.div`
         color: inherit;
         text-decoration: none;
     }
+
 `;
 
 export default StyledNavBar;
