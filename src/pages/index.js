@@ -5,10 +5,14 @@ import Image from 'next/image';
 
 import Layout from "../components/Layout"
 
+import LandingStyle from "../styles/LandingStyle"
+
 
 const Index = props => 
     <Layout>
-        
+        <LandingStyle>
+            Start your journey to become an expert
+        </LandingStyle>
     </Layout>
 
 
