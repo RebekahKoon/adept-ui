@@ -21,7 +21,7 @@ export const StyledNavButtons = styled.div`
     justify-content: center;
     flex: 2 33%;
 
-    height: 60px;
+    height: 40px;
     width: 100%;
     padding: 10px ;
 
