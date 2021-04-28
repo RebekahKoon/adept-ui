@@ -1,11 +1,31 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 
-const Index = () => {
-  return (
-    <div>
-      <h1>Insert Cool Project Here</h1>
-    </div>
-  )
-}
+import Link from 'next/link';
+
+import Layout from "../components/Layout/Layout"
+
+import StyledHero from "../styles/LandingStyle"
+
+import {StyledImg, StyledDivider, StyledGetStarted} from "../styles/LandingStyle"
+
+
+
+const Index = props => 
+    <StyledImg>
+        <Layout>
+            <StyledHero>
+                <p><span id= 'span1'>Start your journey to</span>
+                <span id='span2'>become an expert</span></p>
+            </StyledHero>
+            <StyledDivider>
+                    <hr></hr>
+            </StyledDivider>
+            <StyledGetStarted>
+                <Link href='/register'>Get Started</Link>
+            </StyledGetStarted>
+        </Layout>
+    </StyledImg>
+
 
 export default Index
