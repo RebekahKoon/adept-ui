@@ -4,6 +4,6 @@ import React from 'react';
 
 import Layout from "../components/Layout/Layout";
 
-const DashboardView = props => <Layout>{`Dashboard View`}</Layout>
+const DashboardView = () => <Layout>{`Dashboard View`}</Layout>
 
 export default DashboardView;
