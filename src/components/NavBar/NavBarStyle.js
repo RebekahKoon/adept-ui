@@ -3,10 +3,26 @@ import styled from 'styled-components';
 const StyledNavBar = styled.nav`
     display: flex;
     align-items: center;
+    position: absolute;
+    float: right;
+    top: 20px;
+
+    overflow: hidden;
 
     height: 60px;
     width: 100%;
-    padding: 10px ;
+`;
+
+export const StyledNavContainer = styled.div`
+    display: flex;
+    align-items: center;    
+    
+
+    height: 60px;
+    width: 100%;
+
+    margin-left: 150px;
+    margin-right: 150px;
 
     list-style-type: none;
 `;

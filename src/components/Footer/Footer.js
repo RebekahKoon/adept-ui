@@ -7,16 +7,15 @@ import Link from "next/link";
 
 import Image from 'next/image';
 
-import styled from 'styled-components';
-
 import StyledFooter from './FooterStyle.js';
 
-import {StyledLogo, StyledRow1, StyledRow2, StyledRow3, StyledLinks, StyledUl, StyledLi, StyledLiHeader} from './FooterStyle.js';
+import {StyledFooterContainer, StyledLogo, StyledRow1, StyledRow2, StyledRow3, StyledLinks, StyledUl, StyledLi, StyledLiHeader} from './FooterStyle.js';
 
   
 
 const Footer = props => (
     <StyledFooter>
+        <StyledFooterContainer>
             <StyledLogo>
                 <Image src='/TextLogo.png' alt='TextLogo' width='150' height='70' />
             </StyledLogo>
@@ -50,6 +49,7 @@ const Footer = props => (
                 <Image src='/GithubIcon2.png' alt='me' width='40' height='40'/>
                 <Image src='/GithubIcon3.png' alt='me' width='40' height='40'/>
             </StyledLinks>
+        </StyledFooterContainer>
     </StyledFooter>
 
 );

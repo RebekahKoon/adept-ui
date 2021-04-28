@@ -13,10 +13,11 @@ import StyledNavButton from './NavButtonStyle.js'
 
 import StyledNavBar from './NavBarStyle.js'
 
-import {StyledNavLogo, StyledNavButtons} from './NavBarStyle.js'
+import {StyledNavContainer, StyledNavLogo, StyledNavButtons} from './NavBarStyle.js'
 
 const NavBar = props => (
     <StyledNavBar>
+        <StyledNavContainer>
             <StyledNavLogo>
                 <Link href='/dashboard'>        
                     <Image src='/LogoWhite.png' alt='me' width='64' height='64'/>
@@ -44,6 +45,7 @@ const NavBar = props => (
                 </StyledNavButton>
                 
             </StyledNavButtons>
+        </StyledNavContainer>
     </StyledNavBar>
 );
 

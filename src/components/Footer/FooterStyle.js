@@ -4,14 +4,29 @@ const StyledFooter = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    bottom: 0;
+    position: absolute;
+    top: 900px;
+    float: right;
+
+    overflow: hidden;
 
     height: 200px;
     width: 100%;
 
-    padding: 0 20px;
+    background: #191C3C;
+`;
 
+export const StyledFooterContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    float: right;
+
+    height: 200px;
+    width: 100%;
+    margin-left: 150px;
+    margin-right: 150px;
     font-family: 'PT Sans', sans-serif;
     font-size: 24px;
     color: #FFFFFF;
