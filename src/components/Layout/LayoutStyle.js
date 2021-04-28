@@ -21,10 +21,6 @@ export const StyledContentContainer = styled.div`
 `;
 
 export const StyledContent = styled.div`
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
     width: 100%;
     height: 701px;
@@ -40,9 +36,6 @@ export const StyledContent = styled.div`
 `;
 
 export const StyledLayout = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
 
     height: 100%;
     width: 100%;

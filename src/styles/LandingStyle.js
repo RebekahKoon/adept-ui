@@ -1,17 +1,35 @@
 import styled from 'styled-components';
 
 const StyledHero = styled.div`
-    display: flex;
-    align-items: center;
     font-family: 'PT Sans', sans-serif;
+    font-weight: bold;
     font-size: 96px;
     color: #FFFFFF;
 
-    padding: 10%;
-    width: 100%;
+    padding-left: 10%;
+    padding-top: 7%;
+    padding-right: 10%;
+    padding-bottom: 7%;
 
     margin-left: 150px;
-    margin-right: 150px;
+    margin-bottom: 0px;
+
+
+    p span {
+        display: block;
+    }
+
+    #span2 {
+        float: right;
+    }
+`;
+
+export const StyledDivider = styled.div`
+    padding-bottom: 7%;
+    hr {
+        width: 50%;
+        margin: auto;
+    }
 `;
 
 export const StyledImg = styled.div`

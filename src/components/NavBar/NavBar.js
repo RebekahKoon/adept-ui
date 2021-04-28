@@ -20,7 +20,7 @@ const NavBar = props => (
         <StyledNavContainer>
             <StyledNavLogo>
                 <Link href='/dashboard'>        
-                    <Image src='/LogoWhite.png' alt='me' width='64' height='64'/>
+                    <Image src='/TextLogo.png' alt='me' width='150' height='64'/>
                 </Link>
             </StyledNavLogo>
 

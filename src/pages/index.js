@@ -7,7 +7,7 @@ import Layout from "../components/Layout/Layout"
 
 import StyledHero from "../styles/LandingStyle"
 
-import {StyledImg} from "../styles/LandingStyle"
+import {StyledImg, StyledDivider} from "../styles/LandingStyle"
 
 
 
@@ -15,8 +15,12 @@ const Index = props =>
     <StyledImg>
         <Layout>
             <StyledHero>
-                Start your journey to become an expert
+                <p><span id= 'span1'>Start your journey to</span>
+                <span id='span2'>become an expert</span></p>
             </StyledHero>
+            <StyledDivider>
+                    <hr></hr>
+            </StyledDivider>
         </Layout>
     </StyledImg>
 
