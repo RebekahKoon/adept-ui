@@ -15,6 +15,17 @@ const StyledNavButton = styled.div`
     color: #FFFFFF;
     font-family: 'PT Sans', sans-serif;
 
+    a{
+        text-decoration: none;
+    }
+    a:hover{
+        text-decoration: underline;
+    }
+    a:active {
+        text-decoration: underline;
+        color: hotpink;
+    }
+
 `;
 
 export const StyledLogin = styled.div`
@@ -34,16 +45,17 @@ export const StyledLogin = styled.div`
     border-style: solid;
     border-radius: 12px;
 
-    ${StyledNavButton}:hover & {
-        background: "#efefef"
-      }
-
-`;
-
-export const StyledNavLink = styled.div`
-    ${StyledNavButton}:hover & {
-        background: "#efefef"
+    a{
+        text-decoration: none;
     }
+    a:hover{
+        text-decoration: underline;
+    }
+    a:active {
+        text-decoration: underline;
+        color: hotpink;
+    }
+
 
 `;
 

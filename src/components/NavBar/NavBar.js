@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 import Link from "next/link";
 
-import {StyledLogin, StyledNavLink} from './NavButtonStyle.js'
+import {StyledLogin} from './NavButtonStyle.js'
 
 import StyledNavButton from './NavButtonStyle.js'
 
@@ -27,15 +27,11 @@ const NavBar = props => (
             <StyledNavButtons>
 
                 <StyledNavButton>
-                    <StyledNavLink>
-                        <Link href='/post-job'>Post Job</Link>
-                    </StyledNavLink>
+                    <Link href='/post-job'>Post Job</Link>
                 </StyledNavButton>
 
                 <StyledNavButton>
-                    <StyledNavLink>
-                        <Link href='/search'>Search</Link>
-                    </StyledNavLink>
+                    <Link href='/search'>Search</Link>
                 </StyledNavButton>
 
                 <StyledNavButton>

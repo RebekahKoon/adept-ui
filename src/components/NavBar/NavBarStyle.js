@@ -30,6 +30,13 @@ export const StyledNavContainer = styled.div`
 export const StyledNavLogo = styled.div`
     flex: 1 100%;
     padding: 10%;
+    div:hover{
+        opacity: .5;
+        outline: 1px solid #FFFFFF;
+    }
+    div:active{
+        outline: 1px solid #FFFFFF;
+    }
 `;
 
 export const StyledNavButtons = styled.div`

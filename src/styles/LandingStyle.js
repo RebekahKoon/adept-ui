@@ -25,7 +25,7 @@ const StyledHero = styled.div`
 `;
 
 export const StyledDivider = styled.div`
-    padding-bottom: 7%;
+    padding-bottom: 5%;
     hr {
         width: 50%;
         margin: auto;
@@ -39,6 +39,31 @@ export const StyledImg = styled.div`
     left: 0;
     bottom: 0;
     background: url('/adept-hero.png') no-repeat;
+`;
+
+export const StyledGetStarted = styled.div`
+    height: 50px;
+    width: 200px;
+    text-align: center;
+    margin: auto;
+
+    font-size: 32px;
+    color: #FFFFFF;
+    font-family: 'PT Sans', sans-serif;
+    border-style: solid;
+    border-radius: 12px;
+    line-height: 50px;
+
+    a{
+        text-decoration: none;
+    }
+    a:hover{
+        text-decoration: underline;
+    }
+    a:active {
+        text-decoration: underline;
+        color: hotpink;
+    }
 `;
 
 export default StyledHero;
