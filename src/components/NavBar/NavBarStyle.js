@@ -3,13 +3,12 @@ import styled from 'styled-components';
 const StyledNavBar = styled.nav`
     display: flex;
     align-items: center;
-    position: absolute;
+    position: fixed;
     float: right;
-    top: 20px;
 
     overflow: hidden;
 
-    height: 60px;
+    height: 80px;
     width: 100%;
 `;
 
