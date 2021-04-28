@@ -26,7 +26,6 @@ export const StyledFooterContainer = styled.div`
     height: 200px;
     width: 100%;
     margin-left: 150px;
-    margin-right: 150px;
     font-family: 'PT Sans', sans-serif;
     font-size: 24px;
     color: #FFFFFF;

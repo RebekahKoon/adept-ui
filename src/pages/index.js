@@ -5,15 +5,20 @@ import Image from 'next/image';
 
 import Layout from "../components/Layout/Layout"
 
-import LandingStyle from "../styles/LandingStyle"
+import StyledHero from "../styles/LandingStyle"
+
+import {StyledImg} from "../styles/LandingStyle"
+
 
 
 const Index = props => 
-    <Layout>
-        <LandingStyle>
-            Start your journey to become an expert
-        </LandingStyle>
-    </Layout>
+    <StyledImg>
+        <Layout>
+            <StyledHero>
+                Start your journey to become an expert
+            </StyledHero>
+        </Layout>
+    </StyledImg>
 
 
 export default Index

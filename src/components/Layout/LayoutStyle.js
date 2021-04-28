@@ -18,7 +18,6 @@ body {
 `;
 
 export const StyledContentContainer = styled.div`
-    test-align: center;
 `;
 
 export const StyledContent = styled.div`
@@ -48,7 +47,6 @@ export const StyledLayout = styled.div`
     height: 100%;
     width: 100%;
 
-    background: #570FF1;
 `;
 
 export default GlobalStyle;
