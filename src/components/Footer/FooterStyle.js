@@ -1,84 +1,80 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const StyledFooter = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 900px;
-    float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 900px;
+  float: right;
 
-    overflow: hidden;
+  overflow: hidden;
 
-    height: 200px;
-    width: 100%;
+  height: 200px;
+  width: 100%;
 
-    background: #191C3C;
-`;
+  background: #191c3c;
+`
 
 export const StyledFooterContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    bottom: 0;
-    float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  float: right;
 
-    height: 200px;
-    width: 100%;
-    margin-left: 150px;
-    font-family: 'PT Sans', sans-serif;
-    font-size: 24px;
-    color: #FFFFFF;
-    text-transform: uppercase;
+  height: 200px;
+  width: 100%;
+  margin-left: 150px;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 24px;
+  color: #ffffff;
+  text-transform: uppercase;
 
-    background: #191C3C;
+  background: #191c3c;
 
-    cursor: pointer;
-    
-    li {
-        margin: 0 10px 10px 0;
-        text-transform: none;
-    }
-`;
+  cursor: pointer;
+
+  li {
+    margin: 0 10px 10px 0;
+    text-transform: none;
+  }
+`
 
 export const StyledLogo = styled.div`
-    padding: 10%;
-    flex: 1 10%;
-`;
+  padding: 10%;
+  flex: 1 10%;
+`
 
 export const StyledRow1 = styled.div`
-    font-size: 14px;
-    flex: 2 20%;
-`;
+  font-size: 14px;
+  flex: 2 20%;
+`
 
 export const StyledRow2 = styled.div`
-    font-size: 14px;
-    flex: 3 20%;
-`;
+  font-size: 14px;
+  flex: 3 20%;
+`
 
 export const StyledRow3 = styled.div`
-    font-size: 14px;
-    flex: 4 20%;
-`;
+  font-size: 14px;
+  flex: 4 20%;
+`
 
 export const StyledLinks = styled.div`
-    flex: 5 20%;
-`;
+  flex: 5 20%;
+`
 
 export const StyledUl = styled.ul`
-    list-style-type: none;
-    margin-bottom: 10px;
-`;
+  list-style-type: none;
+  margin-bottom: 10px;
+`
 
-export const StyledLi = styled.li`
-
-`;
+export const StyledLi = styled.li``
 
 export const StyledLiHeader = styled.li`
-    margin: 0 10px 10px 0;
-    color: #919496;
-`;
+  margin: 0 10px 10px 0;
+  color: #919496;
+`
 
-
-
-export default StyledFooter;
+export default StyledFooter

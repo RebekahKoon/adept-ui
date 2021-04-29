@@ -1,43 +1,41 @@
 /* eslint-disable react/prop-types */
 // components/Layout.js
-import React from "react";
+import React from 'react'
 
-import Footer from "../Footer/Footer.js";
+import Footer from '../Footer/Footer.js'
 
-import NavBar from "../NavBar/NavBar";
+import NavBar from '../NavBar/NavBar'
 
-import Head from "next/head";
+import Head from 'next/head'
 
-import GlobalStyle from './LayoutStyle';
+import GlobalStyle from './LayoutStyle'
 
-import {StyledContentContainer, StyledContent, StyledLayout} from './LayoutStyle';
+import {
+  StyledContentContainer,
+  StyledContent,
+  StyledLayout,
+} from './LayoutStyle'
 
-const Layout = props => {
-
-    return (
-
+const Layout = (props) => {
+  return (
     <StyledLayout>
-        <Head>
-            <title>Adept</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <meta charSet="utf-8" />
-        </Head>
+      <Head>
+        <title>Adept</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charSet="utf-8" />
+      </Head>
 
+      <StyledContentContainer>
+        <GlobalStyle />
 
-        <StyledContentContainer>
-            <GlobalStyle />
-            
-            <NavBar />
+        <NavBar />
 
-            <StyledContent>{props.children}</StyledContent>
+        <StyledContent>{props.children}</StyledContent>
 
-            <Footer />
-
-        </StyledContentContainer>
-        
-        
+        <Footer />
+      </StyledContentContainer>
     </StyledLayout>
-    );
+  )
 }
 
-export default Layout;
+export default Layout

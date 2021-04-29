@@ -1,62 +1,59 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const StyledNavButton = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  
-    height: 100%;  
-    width: 100px;
-    cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: capitalize;
-    color: #FFFFFF;
-    font-family: 'PT Sans', sans-serif;
+  height: 100%;
+  width: 100px;
+  cursor: pointer;
 
-    a{
-        text-decoration: none;
-    }
-    a:hover{
-        text-decoration: underline;
-    }
-    a:active {
-        text-decoration: underline;
-        color: hotpink;
-    }
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: #ffffff;
+  font-family: 'PT Sans', sans-serif;
 
-`;
+  a {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  a:active {
+    text-decoration: underline;
+    color: hotpink;
+  }
+`
 
 export const StyledLogin = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    height: 100%;  
-    width: 100px;
-    cursor: pointer;
+  height: 100%;
+  width: 100px;
+  cursor: pointer;
 
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: capitalize;
-    color: #FFFFFF;
-    font-family: 'PT Sans', sans-serif;
-    border-style: solid;
-    border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: #ffffff;
+  font-family: 'PT Sans', sans-serif;
+  border-style: solid;
+  border-radius: 12px;
 
-    a{
-        text-decoration: none;
-    }
-    a:hover{
-        text-decoration: underline;
-    }
-    a:active {
-        text-decoration: underline;
-        color: hotpink;
-    }
+  a {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  a:active {
+    text-decoration: underline;
+    color: hotpink;
+  }
+`
 
-
-`;
-
-export default StyledNavButton;
+export default StyledNavButton
