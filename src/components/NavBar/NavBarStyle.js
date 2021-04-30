@@ -6,6 +6,8 @@ const StyledNavBar = styled.nav`
   position: fixed;
   float: right;
 
+  transition: 250ms;
+
   overflow: hidden;
 
   height: 80px;
@@ -21,13 +23,14 @@ export const StyledNavContainer = styled.div`
 
   margin-left: 150px;
   margin-right: 150px;
+  padding:5%;
 
   list-style-type: none;
 `
 
 export const StyledNavLogo = styled.div`
   flex: 1 100%;
-  padding: 10%;
+  padding: 5%;
   div:hover {
     opacity: 0.5;
     outline: 1px solid #ffffff;
@@ -44,7 +47,6 @@ export const StyledNavButtons = styled.div`
 
   height: 40px;
   width: 100%;
-  padding: 10px;
 
   a {
     color: inherit;

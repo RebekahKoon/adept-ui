@@ -29,20 +29,18 @@ const StyledNavButton = styled.div`
 
 export const StyledLogin = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
+  position: static;
+  width: 70px;
+  height: 29px;
+  left: 206px;
+  top: 0px;
 
-  height: 100%;
-  width: 100px;
-  cursor: pointer;
-
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: capitalize;
-  color: #ffffff;
-  font-family: 'PT Sans', sans-serif;
-  border-style: solid;
-  border-radius: 12px;
+  border: 1px solid #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 6px;
 
   a {
     text-decoration: none;

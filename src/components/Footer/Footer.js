@@ -17,7 +17,6 @@ import {
   StyledRow3,
   StyledLinks,
   StyledUl,
-  StyledLi,
   StyledLiHeader,
 } from './FooterStyle.js'
 
@@ -30,26 +29,26 @@ const Footer = (props) => (
       <StyledRow1>
         <StyledUl>
           <StyledLiHeader>FOR JOB SEEKERS</StyledLiHeader>
-          <StyledLi>Browse Jobs</StyledLi>
-          <StyledLi>Browse Contacts</StyledLi>
-          <StyledLi>Skills</StyledLi>
-          <StyledLi>Visualize Data</StyledLi>
+          <li>Browse Jobs</li>
+          <li>Browse Contacts</li>
+          <li>Skills</li>
+          <li>Visualize Data</li>
         </StyledUl>
       </StyledRow1>
       <StyledRow2>
         <StyledUl>
           <StyledLiHeader>FOR EMPLOYERS</StyledLiHeader>
-          <StyledLi>Post a Job</StyledLi>
-          <StyledLi>View Posted Jobs</StyledLi>
-          <StyledLi>View Applicants</StyledLi>
+          <li>Post a Job</li>
+          <li>View Posted Jobs</li>
+          <li>View Applicants</li>
         </StyledUl>
       </StyledRow2>
       <StyledRow3>
         <StyledUl>
           <StyledLiHeader>RESOURCES</StyledLiHeader>
-          <StyledLi>About Adept</StyledLi>
-          <StyledLi>Contact</StyledLi>
-          <StyledLi>View Repository</StyledLi>
+          <li>About Adept</li>
+          <li>Contact</li>
+          <li>View Repository</li>
         </StyledUl>
       </StyledRow3>
       <StyledLinks>

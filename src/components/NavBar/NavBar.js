@@ -52,7 +52,7 @@ export default class NavBar extends React.Component {
     return (
       <StyledNavBar
         style={{
-          backgroundColor: this.state.status === 'top' ? '' : '#570FF1',
+          backgroundColor: this.state.status === 'top' ? 'rgba(87, 15, 241, 0)' : 'rgba(87, 15, 241, 1)',
         }}
       >
         <StyledNavContainer>
