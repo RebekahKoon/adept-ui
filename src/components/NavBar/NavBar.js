@@ -58,7 +58,7 @@ export default class NavBar extends React.Component {
         <StyledNavContainer>
           <StyledNavLogo>
             <Link href="/dashboard">
-              <Image src="/TextLogo.png" alt="me" width="150" height="64" />
+              Adept
             </Link>
           </StyledNavLogo>
 

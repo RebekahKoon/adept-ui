@@ -29,14 +29,19 @@ export const StyledNavContainer = styled.div`
 `
 
 export const StyledNavLogo = styled.div`
-  flex: 1 100%;
-  padding: 5%;
-  div:hover {
-    opacity: 0.5;
-    outline: 1px solid #ffffff;
+  font-family: 'PT Sans', sans-serif;
+  width: 1085px;
+  font-size: 40px;
+  color: #FFFFFF;
+  margin-left: 80px;
+
+  a {
+    color: #FFFFFF;
+    text-decoration: none;
   }
-  div:active {
-    outline: 1px solid #ffffff;
+
+  a:hover {
+    text-decoration: underline;
   }
 `
 
