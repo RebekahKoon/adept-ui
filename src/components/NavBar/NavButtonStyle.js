@@ -1,62 +1,57 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const StyledNavButton = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  
-    height: 100%;  
-    width: 100px;
-    cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: capitalize;
-    color: #FFFFFF;
-    font-family: 'PT Sans', sans-serif;
+  height: 100%;
+  width: 100px;
+  cursor: pointer;
 
-    a{
-        text-decoration: none;
-    }
-    a:hover{
-        text-decoration: underline;
-    }
-    a:active {
-        text-decoration: underline;
-        color: hotpink;
-    }
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: #ffffff;
+  font-family: 'PT Sans', sans-serif;
 
-`;
+  a {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  a:active {
+    text-decoration: underline;
+    color: hotpink;
+  }
+`
 
 export const StyledLogin = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: static;
+  width: 70px;
+  height: 29px;
+  left: 206px;
+  top: 0px;
 
-    height: 100%;  
-    width: 100px;
-    cursor: pointer;
+  border: 1px solid #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 6px;
 
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: capitalize;
-    color: #FFFFFF;
-    font-family: 'PT Sans', sans-serif;
-    border-style: solid;
-    border-radius: 12px;
+  a {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  a:active {
+    text-decoration: underline;
+    color: hotpink;
+  }
+`
 
-    a{
-        text-decoration: none;
-    }
-    a:hover{
-        text-decoration: underline;
-    }
-    a:active {
-        text-decoration: underline;
-        color: hotpink;
-    }
-
-
-`;
-
-export default StyledNavButton;
+export default StyledNavButton

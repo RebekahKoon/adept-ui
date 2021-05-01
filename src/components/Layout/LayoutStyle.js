@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
 
@@ -15,31 +15,27 @@ body {
     padding: 0;
     font-family: 'PT Sans', sans-serif;
 }
-`;
+`
 
-export const StyledContentContainer = styled.div`
-`;
+export const StyledContentContainer = styled.div``
 
 export const StyledContent = styled.div`
+  width: 100%;
+  height: 701px;
+  min-height: 100%;
+  padding-bottom: 200 px;
 
-    width: 100%;
-    height: 701px;
-    min-height: 100%;
-    padding-bottom: 200 px;
+  color: #000000;
+  font-family: 'PT Sans', sans-serif;
 
-    color: #000000;
-    font-family: 'PT Sans', sans-serif;
-
-    a {
-        color: inherit;
-    }
-`;
+  a {
+    color: inherit;
+  }
+`
 
 export const StyledLayout = styled.div`
+  height: 100%;
+  width: 100%;
+`
 
-    height: 100%;
-    width: 100%;
-
-`;
-
-export default GlobalStyle;
+export default GlobalStyle
