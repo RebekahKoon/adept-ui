@@ -2,9 +2,11 @@
 // components/Layout.js
 import React from 'react'
 
-import Footer from '../Footer/Footer.js'
+import Footer from '../Footer/Footer'
 
 import NavBar from '../NavBar/NavBar'
+
+import SearchBar from '../SearchBar/SearchBar'
 
 import Head from 'next/head'
 
@@ -28,7 +30,7 @@ const Layout = (props) => {
       <StyledContentContainer>
         <GlobalStyle />
 
-        <NavBar />
+        <SearchBar />
 
         <StyledContent>{props.children}</StyledContent>
 
