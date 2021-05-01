@@ -39,8 +39,11 @@ export const StyledFooterContainer = styled.div`
 `;
 
 export const StyledLogo = styled.div`
-    padding: 10%;
     flex: 1 10%;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 30px;
+    color: #FFFFFF;
+    margin-left: 175px;
 `;
 
 export const StyledRow1 = styled.div`

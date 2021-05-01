@@ -22,7 +22,7 @@ const Footer = (props) => (
   <StyledFooter>
     <StyledFooterContainer>
       <StyledLogo>
-        <Image src="/TextLogo.png" alt="TextLogo" width="150" height="70" />
+        Adept
       </StyledLogo>
       <StyledRow1>
         <StyledUl>
