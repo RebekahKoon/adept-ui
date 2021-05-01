@@ -30,7 +30,7 @@ const Layout = (props) => {
       <StyledContentContainer>
         <GlobalStyle />
 
-        <SearchBar />
+        <NavBar />
 
         <StyledContent>{props.children}</StyledContent>
 
