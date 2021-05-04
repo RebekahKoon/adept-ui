@@ -3,15 +3,15 @@ import styled from 'styled-components'
 const StyledHero = styled.div`
   font-family: 'PT Sans', sans-serif;
   font-weight: bold;
-  font-size: 96px;
+  font-size: 84px;
   color: #ffffff;
 
   padding-left: 10%;
-  padding-top: 7%;
+  padding-top: 9%;
   padding-right: 10%;
-  padding-bottom: 7%;
+  padding-bottom: 9%;
 
-  margin-left: 150px;
+  margin-left: 15%;
   margin-bottom: 0px;
 
   p span {
@@ -20,12 +20,12 @@ const StyledHero = styled.div`
 
   #span2 {
     float: right;
-    margin-right: 20%;
+    margin-right: 24%;
   }
 `
 
 export const StyledDivider = styled.div`
-  padding-bottom: 5%;
+  padding-bottom: 7%;
   hr {
     width: 50%;
     margin: auto;
