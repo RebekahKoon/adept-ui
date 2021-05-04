@@ -8,9 +8,7 @@ import StyledFooter from './FooterStyle.js'
 import {
   StyledFooterContainer,
   StyledLogo,
-  StyledRow1,
-  StyledRow2,
-  StyledRow3,
+  StyledColumn,
   StyledLinks,
   StyledUl,
   StyledLiHeader,
@@ -20,7 +18,7 @@ const Footer = (props) => (
   <StyledFooter>
     <StyledFooterContainer>
       <StyledLogo>Adept</StyledLogo>
-      <StyledRow1>
+      <StyledColumn columnNumber="1">
         <StyledUl>
           <StyledLiHeader>FOR JOB SEEKERS</StyledLiHeader>
           <li>Browse Jobs</li>
@@ -28,23 +26,23 @@ const Footer = (props) => (
           <li>Skills</li>
           <li>Visualize Data</li>
         </StyledUl>
-      </StyledRow1>
-      <StyledRow2>
+      </StyledColumn>
+      <StyledColumn columnNumber="2">
         <StyledUl>
           <StyledLiHeader>FOR EMPLOYERS</StyledLiHeader>
           <li>Post a Job</li>
           <li>View Posted Jobs</li>
           <li>View Applicants</li>
         </StyledUl>
-      </StyledRow2>
-      <StyledRow3>
+      </StyledColumn>
+      <StyledColumn columnNumber="3">
         <StyledUl>
           <StyledLiHeader>RESOURCES</StyledLiHeader>
           <li>About Adept</li>
           <li>Contact</li>
           <li>View Repository</li>
         </StyledUl>
-      </StyledRow3>
+      </StyledColumn>
       <StyledLinks>
         <Image src="/GithubIcon1.png" alt="me" width="40" height="40" />
         <Image src="/GithubIcon2.png" alt="me" width="40" height="40" />

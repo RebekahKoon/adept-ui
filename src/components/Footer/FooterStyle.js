@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const StyledFooter = styled.div`
   display: flex;
@@ -11,8 +11,8 @@ const StyledFooter = styled.div`
   height: 200px;
   width: 100%;
 
-  background: #191C3C;
-`;
+  background: #191c3c;
+`
 
 export const StyledFooterContainer = styled.div`
   display: flex;
@@ -25,66 +25,49 @@ export const StyledFooterContainer = styled.div`
   margin-right: 150px;
   font-family: 'PT Sans', sans-serif;
   font-size: 24px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-transform: uppercase;
 
-  background: #191C3C;
+  background: #191c3c;
 
   cursor: pointer;
-    
+
   li {
     margin: 0 10px 10px 0;
     text-transform: none;
   }
-`;
+`
 
 export const StyledLogo = styled.div`
-    flex: 1 10%;
-    font-family: 'PT Sans', sans-serif;
-    font-size: 30px;
-    color: #FFFFFF;
-    margin-left: 175px;
-`;
+  flex: 1 10%;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 30px;
+  color: #ffffff;
+  margin-left: 175px;
+`
 
-export const StyledRow1 = styled.div`
+export const StyledColumn = styled.div`
   font-size: 14px;
-  flex: 2 20%;
+  flex: ${(props) => props.columnNumber} 20%;
   margin-top: 30px;
-`;
-
-export const StyledRow2 = styled.div`
-  font-size: 14px;
-  flex: 3 20%;
-  margin-top: 5px;
-
-`;
-
-export const StyledRow3 = styled.div`
-  font-size: 14px;
-  flex: 4 20%;
-  margin-top: 5px;
-`;
+`
 
 export const StyledLinks = styled.div`
   //padding: 10%;
   flex: 5 20%;
   margin-top: 50px;
-`;
+`
 
 export const StyledUl = styled.ul`
   list-style-type: none;
   margin-bottom: 10px;
-`;
+`
 
-export const StyledLi = styled.li`
-
-`;
+export const StyledLi = styled.li``
 
 export const StyledLiHeader = styled.li`
   margin: 0 10px 10px 0;
   color: #919496;
-`;
+`
 
-
-
-export default StyledFooter;
+export default StyledFooter
