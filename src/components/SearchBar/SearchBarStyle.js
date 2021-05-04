@@ -38,7 +38,7 @@ export const StyledSearchHeaderContainer = styled.div`
   left: 150px;
   top: 40px;
 
-  font-family: PT Sans;
+  font-family: 'PT Sans', sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 48px;
