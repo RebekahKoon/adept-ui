@@ -20,6 +20,7 @@ const StyledHero = styled.div`
 
   #span2 {
     float: right;
+    margin-right: 20%;
   }
 `
 

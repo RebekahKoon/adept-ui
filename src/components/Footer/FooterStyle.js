@@ -21,8 +21,8 @@ export const StyledFooterContainer = styled.div`
   align-items: center;
   height: 200px;
   width: 100%;
-  margin-left: 150px;
-  margin-right: 150px;
+  margin-left: 17%;
+  margin-right: 16.25%;
   font-family: 'PT Sans', sans-serif;
   font-size: 24px;
   color: #ffffff;
@@ -43,7 +43,7 @@ export const StyledLogo = styled.div`
   font-family: 'PT Sans', sans-serif;
   font-size: 30px;
   color: #ffffff;
-  margin-left: 175px;
+  margin-left: 12%;
 `
 
 export const StyledColumn = styled.div`
@@ -52,10 +52,17 @@ export const StyledColumn = styled.div`
   margin-top: 30px;
 `
 
-export const StyledLinks = styled.div`
-  //padding: 10%;
-  flex: 5 20%;
+export const StyledLink = styled.div`
+  margin-left: 20px;
   margin-top: 50px;
+`
+
+export const StyledLinkContainer = styled.div`
+  flex: 5 20%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 50px;
+  margin-right: 13%;
 `
 
 export const StyledUl = styled.ul`

@@ -4,7 +4,6 @@ const StyledNavBar = styled.nav`
   display: flex;
   align-items: center;
   position: fixed;
-  float: right;
 
   transition: 250ms;
 
@@ -21,22 +20,22 @@ export const StyledNavContainer = styled.div`
   height: 60px;
   width: 100%;
 
-  margin-left: 150px;
-  margin-right: 150px;
-  padding:5%;
+  margin-left: 16.25%;
+  margin-right: 16.25%;
 
   list-style-type: none;
 `
 
 export const StyledNavLogo = styled.div`
+  flex: 1 20%;
   font-family: 'PT Sans', sans-serif;
   width: 1085px;
   font-size: 40px;
-  color: #FFFFFF;
-  margin-left: 80px;
+  color: #ffffff;
+  margin-left: 12%;
 
   a {
-    color: #FFFFFF;
+    color: #ffffff;
     text-decoration: none;
   }
 

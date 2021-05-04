@@ -5,11 +5,17 @@ import Image from 'next/image'
 
 import StyledFooter from './FooterStyle.js'
 
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
+import '@fortawesome/fontawesome-free/js/brands'
+
 import {
   StyledFooterContainer,
   StyledLogo,
   StyledColumn,
-  StyledLinks,
+  StyledLinkContainer,
+  StyledLink,
   StyledUl,
   StyledLiHeader,
 } from './FooterStyle.js'
@@ -18,7 +24,7 @@ const Footer = (props) => (
   <StyledFooter>
     <StyledFooterContainer>
       <StyledLogo>Adept</StyledLogo>
-      <StyledColumn columnNumber="1">
+      <StyledColumn columnNumber="2">
         <StyledUl>
           <StyledLiHeader>FOR JOB SEEKERS</StyledLiHeader>
           <li>Browse Jobs</li>
@@ -27,7 +33,7 @@ const Footer = (props) => (
           <li>Visualize Data</li>
         </StyledUl>
       </StyledColumn>
-      <StyledColumn columnNumber="2">
+      <StyledColumn columnNumber="3">
         <StyledUl>
           <StyledLiHeader>FOR EMPLOYERS</StyledLiHeader>
           <li>Post a Job</li>
@@ -35,7 +41,7 @@ const Footer = (props) => (
           <li>View Applicants</li>
         </StyledUl>
       </StyledColumn>
-      <StyledColumn columnNumber="3">
+      <StyledColumn columnNumber="4">
         <StyledUl>
           <StyledLiHeader>RESOURCES</StyledLiHeader>
           <li>About Adept</li>
@@ -43,11 +49,17 @@ const Footer = (props) => (
           <li>View Repository</li>
         </StyledUl>
       </StyledColumn>
-      <StyledLinks>
-        <Image src="/GithubIcon1.png" alt="me" width="40" height="40" />
-        <Image src="/GithubIcon2.png" alt="me" width="40" height="40" />
-        <Image src="/GithubIcon3.png" alt="me" width="40" height="40" />
-      </StyledLinks>
+      <StyledLinkContainer>
+        <StyledLink columnNumber="5">
+          <i className="fab fa-github"></i>
+        </StyledLink>
+        <StyledLink columnNumber="6">
+          <i class="fab fa-github-square"></i>
+        </StyledLink>
+        <StyledLink columnNumber="7">
+          <i class="fab fa-github-alt"></i>
+        </StyledLink>
+      </StyledLinkContainer>
     </StyledFooterContainer>
   </StyledFooter>
 )
