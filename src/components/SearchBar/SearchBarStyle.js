@@ -19,7 +19,10 @@ export const StyledSearchContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px 150px;
+  padding: 40px;
+
+  margin-left: 13.6%;
+  margin-right: 16.25%;
 
   position: static;
   width: 1495px;
@@ -51,7 +54,7 @@ export const StyledSearchBarContainer = styled.div`
   padding: 0px 20px;
 
   position: static;
-  width: 1290px;
+  width: 950px;
   height: 60px;
   left: 150px;
   top: 113px;
@@ -68,7 +71,7 @@ export const StyledSearchFormContainer = styled.div`
   padding: 0px;
 
   position: static;
-  width: 1290px;
+  width: 950px;
   height: 83px;
   left: 210px;
   top: 18px;
@@ -77,7 +80,7 @@ export const StyledSearchFormContainer = styled.div`
 export const StyledSearchFormInput = styled.input`
   padding: 0px;
   position: static;
-  width: 900px;
+  width: 700px;
   height: 24px;
   left: 210px;
   top: 18px;
