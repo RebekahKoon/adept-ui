@@ -1,12 +1,11 @@
-/* eslint-disable react/prop-types */
 // components/Layout.js
 import React from 'react'
 
-import Footer from '../Footer/Footer'
+import Footer from '../Footer'
 
-import NavBar from '../NavBar/NavBar'
+import NavBar from '../NavBar'
 
-import SearchBar from '../SearchBar/SearchBar'
+import SearchBar from '../SearchBar'
 
 import Head from 'next/head'
 

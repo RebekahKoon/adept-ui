@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 // componenets/NavBar.js
 import React from 'react'
 
@@ -52,14 +50,15 @@ export default class NavBar extends React.Component {
     return (
       <StyledNavBar
         style={{
-          backgroundColor: this.state.status === 'top' ? 'rgba(87, 15, 241, 0)' : 'rgba(87, 15, 241, 1)',
+          backgroundColor:
+            this.state.status === 'top'
+              ? 'rgba(87, 15, 241, 0)'
+              : 'rgba(87, 15, 241, 1)',
         }}
       >
         <StyledNavContainer>
           <StyledNavLogo>
-            <Link href="/dashboard">
-              Adept
-            </Link>
+            <Link href="/dashboard">Adept</Link>
           </StyledNavLogo>
 
           <StyledNavButtons>

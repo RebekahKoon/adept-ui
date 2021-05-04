@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 // componenets/Footer.js
 import React from 'react'
 
@@ -21,9 +19,7 @@ import {
 const Footer = (props) => (
   <StyledFooter>
     <StyledFooterContainer>
-      <StyledLogo>
-        Adept
-      </StyledLogo>
+      <StyledLogo>Adept</StyledLogo>
       <StyledRow1>
         <StyledUl>
           <StyledLiHeader>FOR JOB SEEKERS</StyledLiHeader>

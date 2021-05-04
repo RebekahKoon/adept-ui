@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import styled from 'styled-components'
 
 const StyledSearchBar = styled.nav`
@@ -66,7 +64,6 @@ export const StyledSearchBarContainer = styled.div`
 `
 
 export const StyledSearchFormContainer = styled.div`
-
   display: inline-block;
   padding: 0px;
 
@@ -78,7 +75,6 @@ export const StyledSearchFormContainer = styled.div`
 `
 
 export const StyledSearchFormInput = styled.input`
-
   padding: 0px;
   position: static;
   width: 900px;
@@ -86,10 +82,12 @@ export const StyledSearchFormInput = styled.input`
   left: 210px;
   top: 18px;
   border: 0;
-  
-  input:focus, textarea:focus, select:focus{
-        outline: none;
-    } 
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+  }
 `
 
 export const StyledSearchButton = styled.button`
@@ -98,7 +96,6 @@ export const StyledSearchButton = styled.button`
   background: url('/search.png');
   background-size: cover;
   border: 0;
-  
 `
 
 export const StyledSearchIcon = styled.div`
@@ -148,8 +145,8 @@ export const StyledSearchDividerDiv = styled.div`
   height: 42px;
   left: 2px;
   top: 5px;
-  border: 1px solid #AEB7D0;
-`;
+  border: 1px solid #aeb7d0;
+`
 
 export const StyledSearchDropdown = styled.div`
   display: flex;
