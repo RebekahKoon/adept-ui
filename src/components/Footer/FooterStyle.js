@@ -44,6 +44,7 @@ export const StyledLogo = styled.div`
   font-size: 30px;
   color: #ffffff;
   margin-left: 12%;
+  margin-top: 50px;
 `
 
 export const StyledColumn = styled.div`
@@ -61,8 +62,10 @@ export const StyledLinkContainer = styled.div`
   flex: 5 20%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin-top: 50px;
   margin-right: 13%;
+  margin-bottom: 50px;
 `
 
 export const StyledUl = styled.ul`
