@@ -4,6 +4,7 @@ const StyledFooter = styled.div`
   display: flex;
   position: absolute;
   top: 900px;
+  bottom: 0;
   float: right;
 
   overflow: hidden;
