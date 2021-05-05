@@ -6,7 +6,6 @@ const StyledSearchBar = styled.nav`
   align-items: flex-start;
   padding: 0px;
 
-  position: fixed;
   width: 100%;
   height: 298px;
   left: 0px;
@@ -121,7 +120,6 @@ export const StyledSearchFiller = styled.div`
   font-weight: normal;
   font-size: 16px;
   line-height: 21px;
-  /* identical to box height */
 
   display: flex;
   align-items: center;

@@ -1,9 +1,6 @@
 // pages/dashboard.js
-
 import React from 'react'
-
 import Layout from '../components/Layout'
-
 import StyledSearchResults from '../styles/SearchResultsStyle'
 
 const SearchResultView = (props) => (

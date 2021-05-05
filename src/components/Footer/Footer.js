@@ -1,15 +1,10 @@
 // componenets/Footer.js
 import React from 'react'
-
-import Image from 'next/image'
-
-import StyledFooter from './FooterStyle.js'
-
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
-
+import StyledFooter from './FooterStyle.js'
 import {
   StyledFooterContainer,
   StyledLogo,
@@ -39,6 +34,7 @@ const Footer = (props) => (
           <li>Post a Job</li>
           <li>View Posted Jobs</li>
           <li>View Applicants</li>
+          <li>Contacts</li>
         </StyledUl>
       </StyledColumn>
       <StyledColumn columnNumber="4">
@@ -47,6 +43,7 @@ const Footer = (props) => (
           <li>About Adept</li>
           <li>Contact</li>
           <li>View Repository</li>
+          <li>Help Center</li>
         </StyledUl>
       </StyledColumn>
       <StyledLinkContainer>
@@ -54,10 +51,10 @@ const Footer = (props) => (
           <i className="fab fa-github"></i>
         </StyledLink>
         <StyledLink columnNumber="6">
-          <i class="fab fa-github-square"></i>
+          <i className="fab fa-github-square"></i>
         </StyledLink>
         <StyledLink columnNumber="7">
-          <i class="fab fa-github-alt"></i>
+          <i className="fab fa-github-alt"></i>
         </StyledLink>
       </StyledLinkContainer>
     </StyledFooterContainer>

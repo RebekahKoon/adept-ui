@@ -1,13 +1,8 @@
 import React from 'react'
-
 import Router from 'next/router'
-
-import Link from 'next/link'
-
 import Image from 'next/image'
-
+import NavBar from '../NavBar'
 import StyledSearchBar from './SearchBarStyle'
-
 import {
   StyledSearchContainer,
   StyledSearchHeaderContainer,
@@ -22,8 +17,6 @@ import {
   StyledSearchDropdownArrow,
   StyledSearchDropdownText,
 } from './SearchBarStyle'
-
-import NavBar from '../NavBar'
 
 export default class SearchBar extends React.Component {
   constructor(props) {

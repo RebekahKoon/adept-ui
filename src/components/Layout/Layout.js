@@ -1,16 +1,10 @@
 // components/Layout.js
 import React from 'react'
-
-import Footer from '../Footer'
-
-import NavBar from '../NavBar'
-
-import SearchBar from '../SearchBar'
-
 import Head from 'next/head'
-
+import Footer from '../Footer'
+import NavBar from '../NavBar'
+import SearchBar from '../SearchBar'
 import GlobalStyle from './LayoutStyle'
-
 import {
   StyledContentContainer,
   StyledContent,

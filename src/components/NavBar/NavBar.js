@@ -1,16 +1,9 @@
 // componenets/NavBar.js
 import React from 'react'
-
-import Image from 'next/image'
-
 import Link from 'next/link'
-
-import { StyledLogin } from './NavButtonStyle.js'
-
 import StyledNavButton from './NavButtonStyle.js'
-
 import StyledNavBar from './NavBarStyle.js'
-
+import { StyledLogin } from './NavButtonStyle.js'
 import {
   StyledNavContainer,
   StyledNavLogo,
