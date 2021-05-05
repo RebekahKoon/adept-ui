@@ -1,35 +1,19 @@
-// components/Layout.js
 import React from 'react'
-import Head from 'next/head'
+
 import Footer from '../Footer'
 import NavBar from '../NavBar'
-import SearchBar from '../SearchBar'
-import GlobalStyle from './LayoutStyle'
-import {
-  StyledContentContainer,
-  StyledContent,
-  StyledLayout,
-} from './LayoutStyle'
+import { Meta } from '../Meta'
+import { GlobalStyle } from '../../components/styles'
 
-const Layout = (props) => {
+const Layout = ({ children }) => {
   return (
-    <StyledLayout>
-      <Head>
-        <title>Adept</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charSet="utf-8" />
-      </Head>
-
-      <StyledContentContainer>
-        <GlobalStyle />
-
-        <SearchBar />
-
-        <StyledContent>{props.children}</StyledContent>
-
-        <Footer />
-      </StyledContentContainer>
-    </StyledLayout>
+    <>
+      <GlobalStyle />
+      <Meta />
+      <NavBar />
+      {children}
+      <Footer />
+    </>
   )
 }
 
