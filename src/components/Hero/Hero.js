@@ -40,8 +40,6 @@ const Break = styled.hr`
   margin-bottom: 3rem;
 `
 
-const HeroContent = () => {}
-
 const Hero = () => {
   return (
     <StyledHero>

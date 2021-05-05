@@ -1,17 +1,16 @@
-// components/Layout.js
 import React from 'react'
 import Footer from '../Footer'
 import NavBar from '../NavBar'
 import { Meta } from '../Meta'
 import { GlobalStyle } from '../../components/styles'
 
-const Layout = (props) => {
+const Layout = ({ children }) => {
   return (
     <>
       <GlobalStyle />
       <Meta />
       <NavBar />
-      {props.children}
+      {children}
       <Footer />
     </>
   )
