@@ -60,7 +60,7 @@ export default class NavBar extends React.Component {
             </StyledNavButton>
 
             <StyledNavButton>
-              <Link href="/search">Search</Link>
+              <Link href="/search-results">Search</Link>
             </StyledNavButton>
 
             <StyledNavButton>

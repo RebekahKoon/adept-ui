@@ -84,6 +84,7 @@ export const StyledSearchFormInput = styled.input`
   left: 210px;
   top: 18px;
   border: 0;
+  font-size: 1rem;
 
   input:focus,
   textarea:focus,
