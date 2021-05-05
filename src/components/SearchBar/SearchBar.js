@@ -33,7 +33,7 @@ export default class SearchBar extends React.Component {
         <NavBar />
         <StyledSearchContainer>
           <StyledSearchHeaderContainer>
-            Discover New Jobs and Connections
+            Search Jobs
             <StyledSearchBarContainer>
               <StyledSearchDropdown>
                 <StyledSearchDropdownText>All</StyledSearchDropdownText>

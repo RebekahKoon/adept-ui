@@ -20,8 +20,8 @@ export const StyledSearchContainer = styled.div`
   align-items: center;
   padding: 40px;
 
-  margin-left: 13.6%;
-  margin-right: 16.25%;
+  margin-left: 13.3%;
+  margin-right: 15%;
 
   position: static;
   width: 1495px;
