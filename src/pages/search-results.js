@@ -1,10 +1,13 @@
-/* eslint-disable no-unused-vars */
 // pages/dashboard.js
 
 import React from 'react'
 
-import Layout from '../components/Layout/Layout'
+import Layout from '../components/Layout'
 
-const SearchResultView = (props) => <Layout>{`Search Result View`}</Layout>
+import StyledSearchResults from '../styles/SearchResultsStyle'
+
+const SearchResultView = (props) => (
+  <Layout>{<StyledSearchResults>Search Results</StyledSearchResults>}</Layout>
+)
 
 export default SearchResultView

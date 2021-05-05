@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 // pages/job-posting.js
 
 import React from 'react'
 
-import Layout from '../components/Layout/Layout'
+import Layout from '../components/Layout'
 
 const JobPostingView = (props) => <Layout>{`JobPosting View`}</Layout>
 

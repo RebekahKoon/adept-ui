@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
 
 import Link from 'next/link'
 
-import Layout from '../components/Layout/Layout'
+import Layout from '../components/Layout'
 
 import StyledHero from '../styles/LandingStyle'
 
