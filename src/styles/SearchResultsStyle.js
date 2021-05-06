@@ -190,7 +190,7 @@ export const SSRSearchResultDiv = styled.div`
   padding: 40px;
 
   position: static;
-  width: 718px;
+  width: 600px;
   height: 211px;
   left: 0px;
   top: 753px;
@@ -206,12 +206,13 @@ export const SSRSearchResultDiv = styled.div`
 export const SSRSearchResultFooter = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
   justify-content: space-between;
   align-items: center;
   padding: 0px;
 
   position: static;
-  width: 638px;
+  width: 500px;
   height: 32px;
   left: 40px;
   top: 139px;
@@ -233,14 +234,13 @@ export const SSRSkillsContainer = styled.div`
 export const SSRDate = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: flex-end;
+  justify-content: flex-end;
   padding: 0px;
 
   position: static;
-  width: 65px;
+  width: 100px;
   height: 16px;
-  left: 573px;
-  top: 8px;
 `
 
 export const SSRSearchResultContainer = styled.div`
@@ -251,7 +251,7 @@ export const SSRSearchResultContainer = styled.div`
   padding: 0px;
 
   position: static;
-  width: 638px;
+  width: 500px;
   height: 59px;
   left: 40px;
   top: 40px;
@@ -316,8 +316,9 @@ export const SSRSkillDiv = styled.div`
   justify-content: center;
   align-items: center;
   padding: 8px;
+  margin-right: 1rem;
 
-  width: 54px;
+  width: 104px;
   height: 32px;
   left: 358px;
   top: 1942px;
@@ -331,9 +332,11 @@ export const SSRJobLogoContainer = styled.div`
   align-items: flex-start;
   padding: 0px 40px 0px 0px;
 
+  font-size: 2.5rem;
+
   position: static;
-  width: 88px;
-  height: 48px;
+  width: 100px;
+  height: 100px;
   left: 0px;
   top: 0px;
 `
@@ -368,6 +371,7 @@ export const SSRJobInfoContainer = styled.div`
 export const SSRJobButton = styled.button`
   background: transparent;
   border: none;
+  font-size: 1.25rem;
 `
 
 export const SSRCompanyContainer = styled.div`
@@ -429,7 +433,7 @@ export const SSRMainContentFooter = styled.div`
   padding: 0px;
 
   position: static;
-  width: 1108px;
+  width: 908px;
   height: 132px;
   left: 16px;
   top: 1057px;
@@ -460,6 +464,9 @@ export const SSRPagePrev = styled.button`
   height: 52px;
   left: 40px;
   top: 40px;
+
+  background: none;
+  border: 0;
 `
 
 export const SSRPageNumber = styled.div`
@@ -487,6 +494,9 @@ export const SSRPageNext = styled.button`
   height: 52px;
   left: 360px;
   top: 40px;
+
+  background: none;
+  border: 0;
 `
 
 export const SearchResultsParent = styled.div``

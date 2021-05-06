@@ -1,5 +1,6 @@
 // pages/dashboard.js
 import React from 'react'
+import Router from 'next/router'
 import { useState } from 'react'
 import Layout from '../components/Layout'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -65,6 +66,11 @@ function SearchResultView(props) {
 
   const handleCheckboxChange = (event) => {
     setChecked(event.target.checked)
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    Router.push('/job-posting')
   }
   return (
     <Layout>
@@ -190,7 +196,7 @@ function SearchResultView(props) {
                       <SSRSearchResultContent>
                         <SSRJobInfoAndLogo>
                           <SSRJobLogoContainer>
-                            <i className="fab fa-adn"></i>
+                            <i class="fab fa-adn"></i>
                           </SSRJobLogoContainer>
                           <SSRMainContent>
                             <SSRJobTitleContainer>
@@ -208,7 +214,11 @@ function SearchResultView(props) {
                       </SSRSearchResultContent>
                       <SSRSearchResultLinkContainer>
                         View Job
-                        <SSRJobButton value="View Job" label="ViewJob">
+                        <SSRJobButton
+                          value="View Job"
+                          label="ViewJob"
+                          onClick={handleClick}
+                        >
                           <i className="fas fa-arrow-right"></i>
                         </SSRJobButton>
                       </SSRSearchResultLinkContainer>
@@ -245,7 +255,11 @@ function SearchResultView(props) {
                       </SSRSearchResultContent>
                       <SSRSearchResultLinkContainer>
                         View Job
-                        <SSRJobButton value="View Job" label="ViewJob">
+                        <SSRJobButton
+                          value="View Job"
+                          label="ViewJob"
+                          onClick={handleClick}
+                        >
                           <i className="fas fa-arrow-right"></i>
                         </SSRJobButton>
                       </SSRSearchResultLinkContainer>
@@ -282,7 +296,11 @@ function SearchResultView(props) {
                       </SSRSearchResultContent>
                       <SSRSearchResultLinkContainer>
                         View Job
-                        <SSRJobButton value="View Job" label="ViewJob">
+                        <SSRJobButton
+                          value="View Job"
+                          label="ViewJob"
+                          onClick={handleClick}
+                        >
                           <i className="fas fa-arrow-right"></i>
                         </SSRJobButton>
                       </SSRSearchResultLinkContainer>
@@ -319,7 +337,11 @@ function SearchResultView(props) {
                       </SSRSearchResultContent>
                       <SSRSearchResultLinkContainer>
                         View Job
-                        <SSRJobButton value="View Job" label="ViewJob">
+                        <SSRJobButton
+                          value="View Job"
+                          label="ViewJob"
+                          onClick={handleClick}
+                        >
                           <i className="fas fa-arrow-right"></i>
                         </SSRJobButton>
                       </SSRSearchResultLinkContainer>
@@ -337,13 +359,17 @@ function SearchResultView(props) {
               </SSRMainContentContainer>
               <SSRMainContentFooter>
                 <SSRPagination>
-                  <SSRPagePrev>{'<'}</SSRPagePrev>
+                  <SSRPagePrev>
+                    {<i className="fas fa-chevron-left"></i>}
+                  </SSRPagePrev>
                   <SSRPageNumber>{'1'}</SSRPageNumber>
                   <SSRPageNumber>{'2'}</SSRPageNumber>
                   <SSRPageNumber>{'3'}</SSRPageNumber>
                   <SSRPageNumber>{'...'}</SSRPageNumber>
                   <SSRPageNumber>{'11'}</SSRPageNumber>
-                  <SSRPageNext>{'>'}</SSRPageNext>
+                  <SSRPageNext>
+                    {<i className="fas fa-chevron-right"></i>}
+                  </SSRPageNext>
                 </SSRPagination>
               </SSRMainContentFooter>
             </SSRMain>
