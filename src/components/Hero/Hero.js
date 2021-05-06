@@ -35,7 +35,6 @@ const Divider = styled.hr`
   opacity: 75%;
   border: none;
   border-top: solid 1px var(--white);
-  height: 3px double var(--white);
   margin-top: 2rem;
   margin-bottom: 3rem;
 `
