@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 // pages/login.js
 
 import React from 'react'
 
-import Layout from '../components/Layout/Layout'
+import Layout from '../components/Layout'
 
 const LoginView = (props) => <Layout>{`Login View`}</Layout>
 

@@ -1,23 +1,15 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 // componenets/NavBar.js
 import React from 'react'
-
-import Image from 'next/image'
-
 import Link from 'next/link'
-
-import { StyledLogin } from './NavButtonStyle.js'
-
-import StyledNavButton from './NavButtonStyle.js'
-
 import StyledNavBar from './NavBarStyle.js'
-
 import {
   StyledNavContainer,
   StyledNavLogo,
-  StyledNavButtons,
+  StyledNavItems,
+  StyledNavItem,
 } from './NavBarStyle.js'
+import MainContentContainer from '../styles/MainContentContainer'
+import ButtonOutline from '../Button/ButtonOutline.js'
 
 export default class NavBar extends React.Component {
   constructor(props) {
@@ -52,32 +44,33 @@ export default class NavBar extends React.Component {
     return (
       <StyledNavBar
         style={{
-          backgroundColor: this.state.status === 'top' ? 'rgba(87, 15, 241, 0)' : 'rgba(87, 15, 241, 1)',
+          backgroundColor:
+            this.state.status === 'top'
+              ? 'rgba(87, 15, 241, 0)'
+              : 'rgba(87, 15, 241, 1)',
         }}
       >
-        <StyledNavContainer>
-          <StyledNavLogo>
-            <Link href="/dashboard">
-              Adept
-            </Link>
-          </StyledNavLogo>
+        <MainContentContainer>
+          <StyledNavContainer>
+            <StyledNavLogo>
+              <Link href="/dashboard">Adept</Link>
+            </StyledNavLogo>
 
-          <StyledNavButtons>
-            <StyledNavButton>
-              <Link href="/post-job">Post Job</Link>
-            </StyledNavButton>
+            <StyledNavItems>
+              <StyledNavItem>
+                <Link href="/post-job">Post Job</Link>
+              </StyledNavItem>
 
-            <StyledNavButton>
-              <Link href="/search">Search</Link>
-            </StyledNavButton>
+              <StyledNavItem>
+                <Link href="/search">Search</Link>
+              </StyledNavItem>
 
-            <StyledNavButton>
-              <StyledLogin>
-                <Link href="/login">Login</Link>
-              </StyledLogin>
-            </StyledNavButton>
-          </StyledNavButtons>
-        </StyledNavContainer>
+              <StyledNavItem>
+                <ButtonOutline href="/login">Login</ButtonOutline>
+              </StyledNavItem>
+            </StyledNavItems>
+          </StyledNavContainer>
+        </MainContentContainer>
       </StyledNavBar>
     )
   }
