@@ -11,12 +11,12 @@ const StyledLargeButton = styled.button`
   color: var(--white);
   :hover {
     cursor: pointer;
-    border: solid 3px var(--purple);
-    color: var(--purple);
+    border: solid 3px var(--darkPurple);
+    color: var(--darkPurple);
   }
 `
 
-const LargeButton = ({ href, children }) => {
+const LargeButtonOutline = ({ href, children }) => {
   return (
     <Link href={href ?? ''}>
       <StyledLargeButton>{children}</StyledLargeButton>
@@ -24,4 +24,4 @@ const LargeButton = ({ href, children }) => {
   )
 }
 
-export default LargeButton
+export default LargeButtonOutline

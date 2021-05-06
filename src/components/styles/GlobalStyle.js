@@ -25,6 +25,7 @@ const GlobalStyle = createGlobalStyle`
     background: var(--white);
     color: var(--black);
     font-size: 16px;
+    box-sizing: border-box;
   }
 
   main {
@@ -38,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
 
   hr {
     box-sizing: content-box; /* 1 */
-    /* height: 0; */
+    height: 0;
     overflow: visible; /* 2 */
   }
 
@@ -49,6 +50,11 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     background-color: transparent;
+    text-decoration: none;
+    color: var(--white);
+    :hover {
+      text-decoration: underline;
+    }
   }
 
   abbr[title] {
