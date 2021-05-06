@@ -7,6 +7,7 @@ const StyledNavBar = styled.nav`
   transition: 250ms;
   height: 80px;
   width: 100%;
+  z-index: 1;
 `
 
 export const StyledNavContainer = styled.div`
