@@ -77,25 +77,54 @@ export const SSRFilterOptions = styled.div`
   padding: 0px;
 
   position: static;
-  width: 87px;
+  width: 200px;
   height: 160px;
   left: 0px;
   top: 31px;
-  background-color: blue;
+  //background-color: blue;
+`
+
+export const SSRFilterOptionHeader = styled.div`
+  font-weight: bold;
 `
 
 export const SSRCheckBoxOption = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   padding: 0px;
+  position: relative;
+  color: black;
+  height: 100%;
+
+  label {
+    margin-top: 1.5rem;
+  }
+`
+
+export const SSRDividerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 0px;
 
   position: static;
-  width: 87px;
+  width: 270px;
   height: 40px;
-  left: 0px;
-  top: 120px;
+  left: 40px;
+  top: 462px;
 `
+
+export const SSRDivider = styled.div`
+  position: static;
+  width: 190px;
+  height: 0px;
+  left: 0px;
+  top: 20px;
+
+  border: 1px solid #d2d0c9;
+`
+
 export const SSRCheckBox = styled.input.attrs({ type: 'checkbox' })`
   border: 0;
   clip: rect(0 0 0 0);
@@ -114,6 +143,10 @@ export const CheckboxContainer = styled.div`
   vertical-align: middle;
 `
 
+export const CheckboxLabel = styled.div`
+  margin-top: 2rem;
+`
+
 export const Icon = styled.svg`
   fill: none;
   stroke: white;
@@ -121,15 +154,17 @@ export const Icon = styled.svg`
 `
 
 export const StyledCheckbox = styled.div`
-  display: inline-block;
+  display: flex;
   width: 16px;
   height: 16px;
-  background: ${(props) => (props.checked ? 'salmon' : 'papayawhip')};
+  background: ${(props) => (props.checked ? '#570FF1' : 'white')};
   border-radius: 3px;
+  border: 2px solid black;
   transition: all 150ms;
+  margin-right: 1rem;
 
   ${SSRCheckBox}:focus + & {
-    box-shadow: 0 0 0 3px pink;
+    box-shadow: 0 0 0 3px black;
   }
 
   ${Icon} {
@@ -144,9 +179,23 @@ export const SSRSearchResults = styled.div`
   padding: 0px;
 
   position: static;
-  width: 600px;
+  width: 718px;
   height: 964px;
+  left: 390px;
   top: 16.5px;
+`
+export const SSRSearchResultDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 40px;
+
+  position: static;
+  width: 718px;
+  height: 211px;
+  left: 0px;
+  top: 753px;
+  margin-bottom: 1.5rem;
 
   background: #ffffff;
   border: 1px solid #d2d0c9;
@@ -154,6 +203,7 @@ export const SSRSearchResults = styled.div`
   box-shadow: 0px 4px 10px rgba(80, 120, 239, 0.1);
   border-radius: 5px;
 `
+
 export const SSRSearchResultsHeader = styled.div`
   display: flex;
   flex-direction: row;

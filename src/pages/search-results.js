@@ -11,6 +11,7 @@ import {
   SSRMain,
   SSRMainContentContainer,
   SSRSearchResultsHeader,
+  SSRSearchResultDiv,
   SSRSortByDropdown,
   SSRMainContentFooter,
   SSRPagination,
@@ -19,10 +20,14 @@ import {
   SSRPageNumber,
   SSRFilterSection,
   SSRFilterOptions,
+  SSRFilterOptionHeader,
+  SSRDividerContainer,
+  SSRDivider,
   SSRCheckBoxOption,
   SSRCheckBox,
   CheckboxContainer,
   StyledCheckbox,
+  CheckboxLabel,
   Icon,
 } from '../styles/SearchResultsStyle'
 
@@ -56,7 +61,7 @@ function SearchResultView(props) {
               <SSRMainContentContainer>
                 <SSRFilterSideBar>
                   <SSRFilterSection>
-                    JobType
+                    <SSRFilterOptionHeader>JobType</SSRFilterOptionHeader>
                     <SSRFilterOptions>
                       <SSRCheckBoxOption>
                         <label>
@@ -64,25 +69,108 @@ function SearchResultView(props) {
                             checked={checked}
                             onChange={handleCheckboxChange}
                           />
-                          <span>Label Text</span>
+                          <span>Option</span>
+                        </label>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
+                        </label>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
+                        </label>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
                         </label>
                       </SSRCheckBoxOption>
                     </SSRFilterOptions>
                   </SSRFilterSection>
                   <SSRFilterSection>
-                    Job Category
+                    <SSRDividerContainer>
+                      <SSRDivider />
+                    </SSRDividerContainer>
+                    <SSRFilterOptionHeader>Job Category</SSRFilterOptionHeader>
                     <SSRFilterOptions>
-                      <SSRCheckBoxOption></SSRCheckBoxOption>
+                      <SSRCheckBoxOption>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
+                        </label>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
+                        </label>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
+                        </label>
+                      </SSRCheckBoxOption>
                     </SSRFilterOptions>
                   </SSRFilterSection>
                   <SSRFilterSection>
-                    Experience
+                    <SSRDividerContainer>
+                      <SSRDivider />
+                    </SSRDividerContainer>
+                    <SSRFilterOptionHeader>Experience</SSRFilterOptionHeader>
                     <SSRFilterOptions>
-                      <SSRCheckBoxOption></SSRCheckBoxOption>
+                      <SSRCheckBoxOption>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
+                        </label>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
+                        </label>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
+                        </label>
+                        <label>
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Option</span>
+                        </label>
+                      </SSRCheckBoxOption>
                     </SSRFilterOptions>
                   </SSRFilterSection>
                 </SSRFilterSideBar>
-                <SSRSearchResults>Bye</SSRSearchResults>
+                <SSRSearchResults>
+                  <SSRSearchResultDiv>Bye</SSRSearchResultDiv>
+                  <SSRSearchResultDiv>Bye</SSRSearchResultDiv>
+                  <SSRSearchResultDiv>Bye</SSRSearchResultDiv>
+                  <SSRSearchResultDiv>Bye</SSRSearchResultDiv>
+                </SSRSearchResults>
               </SSRMainContentContainer>
               <SSRMainContentFooter>
                 <SSRPagination>
