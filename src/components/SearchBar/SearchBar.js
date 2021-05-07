@@ -4,7 +4,7 @@ import Select from 'react-select'
 import {
   StyledSearchHeader,
   StyledSearchContainer,
-  CustomStyles,
+  StyledDropdown,
   StyledSearchBar,
   StyledInput,
   StyledSearchDivider,
@@ -46,7 +46,7 @@ const SearchBar = () => {
             defaultValue={options[0]}
             onChange={handleOptionChange}
             options={options}
-            styles={CustomStyles}
+            styles={StyledDropdown}
             indicatorSeparator={false}
             isSearchable={false}
           />

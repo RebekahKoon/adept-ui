@@ -73,7 +73,7 @@ export const StyledInput = styled.input`
   }
 `
 
-export const CustomStyles = {
+export const StyledDropdown = {
   option: (provided) => ({
     ...provided,
     color: '#191C3C',
@@ -99,6 +99,11 @@ export const CustomStyles = {
   indicatorSeparator: (base) => ({
     ...base,
     display: 'none',
+  }),
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    transition: 'all .25s ease',
+    transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : null,
   }),
   menu: (base) => ({
     ...base,
