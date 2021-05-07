@@ -2,6 +2,7 @@ import React from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
 import { useState } from 'react'
+import Select from 'react-select'
 import Image from 'next/image'
 import StyledSearchBar from './SearchBarStyle'
 import NavBar from '../NavBar'
@@ -9,6 +10,7 @@ import {
   StyledSearchHeader,
   StyledSearchContainer,
   StyledDropdown,
+  customStyles,
   // StyledSearchContainer,
   // StyledSearchHeaderContainer,
   // StyledSearchBarContainer,
@@ -77,39 +79,41 @@ import {
 //   }
 // }
 
-const options = [
-  {
-    label: 'Job Postings',
-    value: 'jobPostings',
-  },
-  {
-    label: 'Users',
-    value: 'users',
-  },
-]
-
 const SearchBar = () => {
   const [option, setOption] = useState('All')
   const handleOptionChange = (e) => {
-    setOption(e.target.value)
+    setOption(e.value)
+    console.log(e.value)
   }
+
+  const options = [
+    {
+      label: 'All',
+      value: 'all',
+    },
+    {
+      label: 'Job Postings',
+      value: 'jobPostings',
+    },
+    {
+      label: 'Users',
+      value: 'users',
+    },
+  ]
 
   return (
     <StyledSearchHeader>
       <StyledSearchContainer>
         <h1>Discover Jobs and Make Connections</h1>
         <StyledDropdown>
-          <select
-            value={option}
+          <Select
+            defaultValue={options[0]}
             onChange={handleOptionChange}
-            className="optionSelect"
-          >
-            <option value="all" label="ALL">
-              All
-            </option>
-            <option value="jobPostings" label="Job Postings"></option>
-            <option value="users" label="Users"></option>
-          </select>
+            options={options}
+            styles={customStyles}
+            indicatorSeparator={false}
+            isSearchable={false}
+          />
         </StyledDropdown>
       </StyledSearchContainer>
     </StyledSearchHeader>

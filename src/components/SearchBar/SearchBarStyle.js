@@ -18,6 +18,7 @@ export const StyledSearchHeader = styled.div`
 `
 
 export const StyledSearchContainer = styled.div`
+  width: 100%;
   max-width: var(--maxWidth);
   position: relative;
   justify-content: center;
@@ -47,6 +48,12 @@ export const StyledDropdown = styled.div`
     -webkit-appearance: none;
     -moz-appearance: none;
   }
+
+  option {
+    background: var(--white);
+    color: var(--darkPurple);
+  }
+
   select.optionSelect {
     background-image: linear-gradient(45deg, transparent 50%, gray 50%),
       linear-gradient(135deg, gray 50%, transparent 50%),
@@ -60,6 +67,40 @@ export const StyledDropdown = styled.div`
     outline: 0;
   }
 `
+
+export const customStyles = {
+  option: (provided) => ({
+    ...provided,
+    color: '#191C3C',
+    backgroundColor: '#FFFFFF',
+    '&:hover': {
+      backgroundColor: '#EEF2FF',
+    },
+    width: '15rem',
+  }),
+  control: (provided) => ({
+    ...provided,
+    borderRadius: '5px 0px 0px 5px',
+    color: '#191C3C',
+    boxShadow: 'none',
+    width: '15rem',
+    paddingTop: '.5rem',
+    paddingBottom: '.5rem',
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#D2D0C9',
+    width: '15rem',
+  }),
+  indicatorSeparator: (base) => ({
+    ...base,
+    display: 'none',
+  }),
+  menu: (base) => ({
+    ...base,
+    width: '15rem',
+  }),
+}
 
 // export const StyledDropdownContainer = styled.form`
 //   display: flex;
