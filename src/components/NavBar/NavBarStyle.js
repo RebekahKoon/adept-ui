@@ -4,6 +4,7 @@ const StyledNavBar = styled.nav`
   display: flex;
   align-items: center;
   position: fixed;
+  z-index: 1;
 
   transition: 250ms;
 
