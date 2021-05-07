@@ -3,6 +3,7 @@ import React from 'react'
 import Router from 'next/router'
 import { useState } from 'react'
 import Layout from '../components/Layout'
+import SearchResult from '../components/SearchResult'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -47,7 +48,6 @@ import {
   SSRCheckBox,
   CheckboxContainer,
   StyledCheckbox,
-  CheckboxLabel,
   Icon,
 } from '../styles/SearchResultsStyle'
 
@@ -63,6 +63,23 @@ const Checkbox = ({ className, checked, ...props }) => (
 )
 function SearchResultView(props) {
   const [checked, setChecked] = useState(false)
+  const JobType = ['Full Time', 'Part Time', 'Contract', 'Internship']
+  const JobCategory = ['Option', 'Option', 'Option']
+  const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
+
+  const createCheckboxes = () => items.map(createCheckbox)
+
+  const createCheckbox = (label) => (
+    <Checkbox label={label} handleCheckboxChange={toggleCheckbox} key={label} />
+  )
+
+  const toggleCheckbox = (label) => {
+    if (selectedCheckboxes.has(label)) {
+      selectedCheckboxes.delete(label)
+    } else {
+      selectedCheckboxes.add(label)
+    }
+  }
 
   const handleCheckboxChange = (event) => {
     setChecked(event.target.checked)
@@ -94,28 +111,28 @@ function SearchResultView(props) {
                             checked={checked}
                             onChange={handleCheckboxChange}
                           />
-                          <span>Option</span>
+                          <span>Full Time</span>
                         </label>
                         <label>
                           <Checkbox
                             checked={checked}
                             onChange={handleCheckboxChange}
                           />
-                          <span>Option</span>
+                          <span>Part Time</span>
                         </label>
                         <label>
                           <Checkbox
                             checked={checked}
                             onChange={handleCheckboxChange}
                           />
-                          <span>Option</span>
+                          <span>Contract</span>
                         </label>
                         <label>
                           <Checkbox
                             checked={checked}
                             onChange={handleCheckboxChange}
                           />
-                          <span>Option</span>
+                          <span>Internship</span>
                         </label>
                       </SSRCheckBoxOption>
                     </SSRFilterOptions>
@@ -163,198 +180,38 @@ function SearchResultView(props) {
                             checked={checked}
                             onChange={handleCheckboxChange}
                           />
-                          <span>Option</span>
+                          <span>Entry Level</span>
                         </label>
                         <label>
                           <Checkbox
                             checked={checked}
                             onChange={handleCheckboxChange}
                           />
-                          <span>Option</span>
+                          <span>Associate</span>
                         </label>
                         <label>
                           <Checkbox
                             checked={checked}
                             onChange={handleCheckboxChange}
                           />
-                          <span>Option</span>
+                          <span>Senior</span>
                         </label>
                         <label>
                           <Checkbox
                             checked={checked}
                             onChange={handleCheckboxChange}
                           />
-                          <span>Option</span>
+                          <span>Leadership</span>
                         </label>
                       </SSRCheckBoxOption>
                     </SSRFilterOptions>
                   </SSRFilterSection>
                 </SSRFilterSideBar>
                 <SSRSearchResults>
-                  <SSRSearchResultDiv>
-                    <SSRSearchResultContainer>
-                      <SSRSearchResultContent>
-                        <SSRJobInfoAndLogo>
-                          <SSRJobLogoContainer>
-                            <i class="fab fa-adn"></i>
-                          </SSRJobLogoContainer>
-                          <SSRMainContent>
-                            <SSRJobTitleContainer>
-                              Job Title
-                            </SSRJobTitleContainer>
-                            <SSRJobInfoContainer>
-                              <SSRCompanyContainer>
-                                <SSRCompanyTextContainer>
-                                  Text
-                                </SSRCompanyTextContainer>
-                              </SSRCompanyContainer>
-                            </SSRJobInfoContainer>
-                          </SSRMainContent>
-                        </SSRJobInfoAndLogo>
-                      </SSRSearchResultContent>
-                      <SSRSearchResultLinkContainer>
-                        View Job
-                        <SSRJobButton
-                          value="View Job"
-                          label="ViewJob"
-                          onClick={handleClick}
-                        >
-                          <i className="fas fa-arrow-right"></i>
-                        </SSRJobButton>
-                      </SSRSearchResultLinkContainer>
-                    </SSRSearchResultContainer>
-                    <SSRSearchResultFooter>
-                      <SSRSkillsContainer>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                      </SSRSkillsContainer>
-                      <SSRDate>Apr 20, 2021</SSRDate>
-                    </SSRSearchResultFooter>
-                  </SSRSearchResultDiv>
-                  <SSRSearchResultDiv>
-                    <SSRSearchResultContainer>
-                      <SSRSearchResultContent>
-                        <SSRJobInfoAndLogo>
-                          <SSRJobLogoContainer>
-                            <i class="fab fa-adn"></i>
-                          </SSRJobLogoContainer>
-                          <SSRMainContent>
-                            <SSRJobTitleContainer>
-                              Job Title
-                            </SSRJobTitleContainer>
-                            <SSRJobInfoContainer>
-                              <SSRCompanyContainer>
-                                <SSRCompanyTextContainer>
-                                  Text
-                                </SSRCompanyTextContainer>
-                              </SSRCompanyContainer>
-                            </SSRJobInfoContainer>
-                          </SSRMainContent>
-                        </SSRJobInfoAndLogo>
-                      </SSRSearchResultContent>
-                      <SSRSearchResultLinkContainer>
-                        View Job
-                        <SSRJobButton
-                          value="View Job"
-                          label="ViewJob"
-                          onClick={handleClick}
-                        >
-                          <i className="fas fa-arrow-right"></i>
-                        </SSRJobButton>
-                      </SSRSearchResultLinkContainer>
-                    </SSRSearchResultContainer>
-                    <SSRSearchResultFooter>
-                      <SSRSkillsContainer>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                      </SSRSkillsContainer>
-                      <SSRDate>Apr 20, 2021</SSRDate>
-                    </SSRSearchResultFooter>
-                  </SSRSearchResultDiv>
-                  <SSRSearchResultDiv>
-                    <SSRSearchResultContainer>
-                      <SSRSearchResultContent>
-                        <SSRJobInfoAndLogo>
-                          <SSRJobLogoContainer>
-                            <i class="fab fa-adn"></i>
-                          </SSRJobLogoContainer>
-                          <SSRMainContent>
-                            <SSRJobTitleContainer>
-                              Job Title
-                            </SSRJobTitleContainer>
-                            <SSRJobInfoContainer>
-                              <SSRCompanyContainer>
-                                <SSRCompanyTextContainer>
-                                  Text
-                                </SSRCompanyTextContainer>
-                              </SSRCompanyContainer>
-                            </SSRJobInfoContainer>
-                          </SSRMainContent>
-                        </SSRJobInfoAndLogo>
-                      </SSRSearchResultContent>
-                      <SSRSearchResultLinkContainer>
-                        View Job
-                        <SSRJobButton
-                          value="View Job"
-                          label="ViewJob"
-                          onClick={handleClick}
-                        >
-                          <i className="fas fa-arrow-right"></i>
-                        </SSRJobButton>
-                      </SSRSearchResultLinkContainer>
-                    </SSRSearchResultContainer>
-                    <SSRSearchResultFooter>
-                      <SSRSkillsContainer>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                      </SSRSkillsContainer>
-                      <SSRDate>Apr 20, 2021</SSRDate>
-                    </SSRSearchResultFooter>
-                  </SSRSearchResultDiv>
-                  <SSRSearchResultDiv>
-                    <SSRSearchResultContainer>
-                      <SSRSearchResultContent>
-                        <SSRJobInfoAndLogo>
-                          <SSRJobLogoContainer>
-                            <i class="fab fa-adn"></i>
-                          </SSRJobLogoContainer>
-                          <SSRMainContent>
-                            <SSRJobTitleContainer>
-                              Job Title
-                            </SSRJobTitleContainer>
-                            <SSRJobInfoContainer>
-                              <SSRCompanyContainer>
-                                <SSRCompanyTextContainer>
-                                  Text
-                                </SSRCompanyTextContainer>
-                              </SSRCompanyContainer>
-                            </SSRJobInfoContainer>
-                          </SSRMainContent>
-                        </SSRJobInfoAndLogo>
-                      </SSRSearchResultContent>
-                      <SSRSearchResultLinkContainer>
-                        View Job
-                        <SSRJobButton
-                          value="View Job"
-                          label="ViewJob"
-                          onClick={handleClick}
-                        >
-                          <i className="fas fa-arrow-right"></i>
-                        </SSRJobButton>
-                      </SSRSearchResultLinkContainer>
-                    </SSRSearchResultContainer>
-                    <SSRSearchResultFooter>
-                      <SSRSkillsContainer>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                        <SSRSkillDiv>Skill</SSRSkillDiv>
-                      </SSRSkillsContainer>
-                      <SSRDate>Apr 20, 2021</SSRDate>
-                    </SSRSearchResultFooter>
-                  </SSRSearchResultDiv>
+                  <SearchResult />
+                  <SearchResult />
+                  <SearchResult />
+                  <SearchResult />
                 </SSRSearchResults>
               </SSRMainContentContainer>
               <SSRMainContentFooter>
