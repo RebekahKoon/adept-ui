@@ -2,9 +2,10 @@ import MainContentContainer from '../styles/MainContentContainer'
 import SearchBar from '../SearchBar'
 
 const DashboardContent = () => {
+  const headerText = 'Discover Jobs and Make Connections'
   return (
     <MainContentContainer>
-      <SearchBar />
+      <SearchBar headerText={headerText} />
     </MainContentContainer>
   )
 }
