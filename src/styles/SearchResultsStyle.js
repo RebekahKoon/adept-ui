@@ -190,7 +190,7 @@ export const SSRSearchResultDiv = styled.div`
   padding: 40px;
 
   position: static;
-  width: 600px;
+  width: 590px;
   height: 211px;
   left: 0px;
   top: 753px;
@@ -234,7 +234,7 @@ export const SSRSkillsContainer = styled.div`
 export const SSRDate = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-end;
   padding: 0px;
 
@@ -251,7 +251,7 @@ export const SSRSearchResultContainer = styled.div`
   padding: 0px;
 
   position: static;
-  width: 500px;
+  width: 505px;
   height: 59px;
   left: 40px;
   top: 40px;
@@ -260,15 +260,13 @@ export const SSRSearchResultContainer = styled.div`
 export const SSRSearchResultLinkContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   padding: 0px;
 
   position: static;
-  width: 69px;
+  width: 200px;
   height: 20px;
-  left: 569px;
-  top: 0px;
 `
 
 export const SSRSearchResultContent = styled.div`
@@ -278,7 +276,7 @@ export const SSRSearchResultContent = styled.div`
   padding: 0px;
 
   position: static;
-  width: 483px;
+  width: 400px;
   height: 59px;
   left: 0px;
   top: 0px;
@@ -408,7 +406,7 @@ export const SSRSearchResultsHeader = styled.div`
   padding: 0px;
 
   position: static;
-  width: 1108px;
+  width: 1095px;
   height: 28px;
 `
 
