@@ -101,6 +101,11 @@ const FormFooter = () => {
   )
 }
 
+const UserType = {
+  EMPLOYEE: 'EMPLOYEE',
+  EMPLOYER: 'EMPLOYER',
+}
+
 const RegisterForm = () => {
   const {
     register,
@@ -109,11 +114,30 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = (data) => {
+    const input = {
+      name: 'a user',
+      email: 'ausersemail@a.a',
+      password: 'abc',
+      type: UserType.EMPLOYEE,
+    }
+    registerUser({ variables: input })
+  }
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
+  const [registerUser, { loading, error }] = useMutation(REGISTER_USER, {
+    onCompleted({ registerUser }) {
+      if (registerUser) {
+        console.log(registerUser)
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+  })
+
+  // useEffect(() => {
+  //   console.log(data)
+  // }, [data])
 
   return (
     <FormContainer>

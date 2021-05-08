@@ -9,7 +9,7 @@ import { GlobalStyle } from '../../components/styles'
 // uri needs to be changed to accommodate production
 const client = new ApolloClient({
   cache,
-  uri: 'http://localhost:4000',
+  uri: 'http://localhost:4000/graphql',
 })
 
 const Layout = ({ children, hasNav = true, hasFooter = true }) => {
