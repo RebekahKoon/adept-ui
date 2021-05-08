@@ -6,7 +6,6 @@ export const StyledDashboardBody = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding: 2.5rem 0px 8rem;
-  padding-top: 20rem;
 `
 
 export const StyledResume = styled.div`
