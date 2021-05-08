@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
     --purple: #570EF1;
     --darkPurple: #311C87;
     --darkerPurple: #191C3C;
+    --lightPurple: #AEB7D0;
     --lightGray: #D2D0C9;
     --lightGrey: #D2D0C9;
     --lighterGray: #F2F2F2;
