@@ -13,8 +13,8 @@ const DashboardView = () => {
   const headerText = 'Discover Jobs and Make Connections'
   return (
     <Layout>
+      <SearchBar headerText={headerText} />
       <MainContentContainer>
-        <SearchBar headerText={headerText} />
         <StyledDashboardBody>
           <StyledSideBar>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id
