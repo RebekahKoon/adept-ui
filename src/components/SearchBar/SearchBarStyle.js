@@ -43,8 +43,8 @@ export const StyledSearchBar = styled.div`
     width: 5%;
     margin: auto;
     height: 3.25rem;
-    font-size: 1.25rem;
-    color: var(--lightGray);
+    font-size: 1.5rem;
+    color: var(--lightPurple);
     background-color: var(--white);
     border: none;
     border-radius: 0px 5px 5px 0px;
