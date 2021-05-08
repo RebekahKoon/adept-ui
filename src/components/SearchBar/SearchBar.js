@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import Select from 'react-select'
 import {
@@ -10,7 +9,7 @@ import {
   StyledSearchDivider,
 } from './SearchBarStyle'
 
-const SearchBar = (props) => {
+const SearchBar = ({ headerText }) => {
   const [option, setOption] = useState('All')
   const handleOptionChange = (e) => {
     setOption(e.value)
@@ -40,7 +39,7 @@ const SearchBar = (props) => {
   return (
     <StyledSearchHeader>
       <StyledSearchContainer>
-        <h1>{props.headerText}</h1>
+        <h1>{headerText}</h1>
         <StyledSearchBar>
           <Select
             defaultValue={options[0]}
