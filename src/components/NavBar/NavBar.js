@@ -1,13 +1,7 @@
 // componenets/NavBar.js
 import React from 'react'
 import Link from 'next/link'
-<<<<<<< HEAD
-import StyledNavButton from './NavButtonStyle.js'
 import StyledNavBar from './NavBarStyle.js'
-import { StyledLogin } from './NavButtonStyle.js'
-=======
-import StyledNavBar from './NavBarStyle.js'
->>>>>>> Development
 import {
   StyledNavContainer,
   StyledNavLogo,
