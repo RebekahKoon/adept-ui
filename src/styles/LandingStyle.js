@@ -1,3 +1,4 @@
+// These are unused. Should be safe to delete.
 import styled from 'styled-components'
 
 const StyledHero = styled.div`

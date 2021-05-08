@@ -4,59 +4,38 @@ const StyledNavBar = styled.nav`
   display: flex;
   align-items: center;
   position: fixed;
-  z-index: 1;
-
   transition: 250ms;
-
-  overflow: hidden;
-
   height: 80px;
   width: 100%;
+  z-index: 1;
 `
 
 export const StyledNavContainer = styled.div`
   display: flex;
-  align-items: center;
-
-  height: 60px;
-  width: 100%;
-
-  margin-left: 16.25%;
-  margin-right: 16.25%;
-
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 0 1rem;
   list-style-type: none;
 `
 
 export const StyledNavLogo = styled.div`
-  flex: 1 20%;
-  font-family: 'PT Sans', sans-serif;
-  width: 1085px;
-  font-size: 40px;
-  color: #ffffff;
-  margin-left: 12%;
-
-  a {
-    color: #ffffff;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
+  font-size: 1.75rem;
 `
 
-export const StyledNavButtons = styled.div`
+export const StyledNavItems = styled.ul`
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
   display: flex;
-  justify-content: center;
-  flex: 2 33%;
+  align-items: center;
+`
 
-  height: 40px;
-  width: 100%;
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+export const StyledNavItem = styled.li`
+  padding-left: 2rem;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: #ffffff;
 `
 
 export default StyledNavBar

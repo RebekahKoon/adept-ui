@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { LargeButton } from '../../components/Button'
+import { LargeButtonOutline } from '../../components/Button'
+import MainContentContainer from '../styles/MainContentContainer'
 
 const StyledHero = styled.div`
   background-image: url('/adept-hero.png');
@@ -13,12 +14,11 @@ const StyledHero = styled.div`
 `
 
 const StyledHeroContent = styled.div`
-  width: var(--maxWidth);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 1rem;
+  padding: 0 1rem;
 `
 
 const HeroMessage = styled.h1`
@@ -26,16 +26,15 @@ const HeroMessage = styled.h1`
   text-align: ${(props) => props.textAlign};
   font-size: 96px;
   color: var(--white);
-  margin: 1rem;
+  margin: 1rem 0;
 `
 
-const Break = styled.hr`
+const Divider = styled.hr`
   width: 50%;
   color: var(--white);
   opacity: 75%;
   border: none;
   border-top: solid 1px var(--white);
-  height: 3px double var(--white);
   margin-top: 2rem;
   margin-bottom: 3rem;
 `
@@ -43,12 +42,14 @@ const Break = styled.hr`
 const Hero = () => {
   return (
     <StyledHero>
-      <StyledHeroContent>
-        <HeroMessage textAlign="left">Start your journey to</HeroMessage>
-        <HeroMessage textAlign="right">become an expert</HeroMessage>
-        <Break />
-        <LargeButton href="/">Get Started</LargeButton>
-      </StyledHeroContent>
+      <MainContentContainer>
+        <StyledHeroContent>
+          <HeroMessage textAlign="left">Start your journey to</HeroMessage>
+          <HeroMessage textAlign="right">become an expert</HeroMessage>
+          <Divider />
+          <LargeButtonOutline href="/">Get Started</LargeButtonOutline>
+        </StyledHeroContent>
+      </MainContentContainer>
     </StyledHero>
   )
 }

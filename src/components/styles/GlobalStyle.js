@@ -17,6 +17,11 @@ const GlobalStyle = createGlobalStyle`
   html {
     line-height: 1.15; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
+    box-sizing: border-box;
+  }
+
+  *, *:before, *:after {
+    box-sizing: inherit;
   }
 
   body {
@@ -38,7 +43,7 @@ const GlobalStyle = createGlobalStyle`
 
   hr {
     box-sizing: content-box; /* 1 */
-    /* height: 0; */
+    height: 0;
     overflow: visible; /* 2 */
   }
 
@@ -49,6 +54,11 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     background-color: transparent;
+    text-decoration: none;
+    color: var(--white);
+    :hover {
+      text-decoration: underline;
+    }
   }
 
   abbr[title] {
