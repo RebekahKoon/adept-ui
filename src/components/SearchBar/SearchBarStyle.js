@@ -10,7 +10,6 @@ export const StyledSearchHeader = styled.div`
   left: 0rem;
   top: 0rem;
   background: var(--purple);
-  margin: 0 auto;
 
   h1 {
     color: var(--white);
@@ -59,11 +58,11 @@ export const StyledInput = styled.input`
   background-color: var(--white);
   border: solid 1px var(--lightGray);
   color: var(--darkerPurple);
-  padding: 1.65rem;
+  padding: 1.65rem 1.65rem 1.65rem 1.3rem;
   width: 100%;
   box-sizing: border-box;
   ::placeholder {
-    color: var(--lightGray);
+    color: var(--lightPurple);
   }
   &:focus {
     outline: none;
@@ -94,7 +93,7 @@ export const StyledDropdown = {
   }),
   singleValue: (provided) => ({
     ...provided,
-    color: '#D2D0C9',
+    color: '#AEB7D0',
   }),
   indicatorSeparator: (base) => ({
     ...base,
@@ -102,6 +101,7 @@ export const StyledDropdown = {
   }),
   dropdownIndicator: (base, state) => ({
     ...base,
+    color: '#311C87',
     transition: 'all .25s ease',
     transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : null,
   }),
@@ -121,10 +121,9 @@ export const StyledSearchDivider = styled.div`
   background-color: var(--white);
   width: 0px;
   height: 2rem;
-  left: 2px;
+  left: 4px;
   top: 0.6rem;
-
-  border: 1px solid var(--lightGray);
+  border: 1px solid var(--lightPurple);
 `
 
 export default StyledSearchHeader
