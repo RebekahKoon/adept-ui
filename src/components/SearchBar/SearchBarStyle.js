@@ -7,8 +7,6 @@ export const StyledSearchHeader = styled.div`
   position: relative;
   width: 100%;
   height: 18rem;
-  left: 0rem;
-  top: 0rem;
   background: var(--purple);
 
   h1 {
@@ -33,8 +31,7 @@ export const StyledSearchBar = styled.div`
   background-color: var(--white);
   border: solid 1px var(--lightGray);
   border-radius: 5px;
-  height: 1.75rem;
-  padding-bottom: 25px;
+  height: 3.45rem;
 
   input {
     border: none;
@@ -121,8 +118,7 @@ export const StyledSearchDivider = styled.div`
   background-color: var(--white);
   width: 0px;
   height: 2rem;
-  left: 4px;
-  top: 0.6rem;
+  top: 0.8rem;
   border: 1px solid var(--lightPurple);
 `
 
