@@ -9,7 +9,7 @@ export const StyledSearchHeader = styled.div`
   height: 18rem;
   left: 0rem;
   top: 0rem;
-  background: #570ff1;
+  background: var(--purple);
   margin: 0 auto;
 
   h1 {
@@ -26,7 +26,7 @@ export const StyledSearchContainer = styled.div`
   position: relative;
   justify-content: center;
   text-align: left;
-  padding: 4rem 4.25rem;
+  margin: 0 auto;
 `
 
 export const StyledSearchBar = styled.div`
@@ -34,7 +34,7 @@ export const StyledSearchBar = styled.div`
   background-color: var(--white);
   border: solid 1px var(--lightGray);
   border-radius: 5px;
-  height: 1.7rem;
+  height: 1.75rem;
   padding-bottom: 25px;
 
   input {
