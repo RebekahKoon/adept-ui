@@ -114,16 +114,6 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
-  const onSubmit = (data) => {
-    const input = {
-      name: 'a user',
-      email: 'ausersemail@a.a',
-      password: 'abc',
-      type: UserType.EMPLOYEE,
-    }
-    registerUser({ variables: input })
-  }
-
   const [registerUser, { loading, error }] = useMutation(REGISTER_USER, {
     onCompleted({ registerUser }) {
       if (registerUser) {
@@ -134,6 +124,16 @@ const RegisterForm = () => {
       console.log(e)
     },
   })
+
+  const onSubmit = (data) => {
+    const input = {
+      name: 'a user',
+      email: 'ausersemail@a.a',
+      password: 'abc',
+      type: 'EMPLOYEE',
+    }
+    registerUser({ variables: input })
+  }
 
   // useEffect(() => {
   //   console.log(data)
