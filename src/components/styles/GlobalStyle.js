@@ -18,6 +18,11 @@ const GlobalStyle = createGlobalStyle`
   html {
     line-height: 1.15; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
+    box-sizing: border-box;
+  }
+
+  *, *:before, *:after {
+    box-sizing: inherit;
   }
 
   body {
@@ -26,7 +31,6 @@ const GlobalStyle = createGlobalStyle`
     background: var(--white);
     color: var(--black);
     font-size: 16px;
-    box-sizing: border-box;
   }
 
   main {

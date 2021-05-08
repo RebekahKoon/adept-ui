@@ -2,10 +2,10 @@ import styled from 'styled-components'
 
 const StyledFooter = styled.div`
   display: flex;
-  position: absolute;
-  top: 900px;
-  bottom: 0;
+  position: relative;
+  margin-top: auto;
   float: right;
+  clear: both;
 
   overflow: hidden;
 

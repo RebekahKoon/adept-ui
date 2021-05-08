@@ -4,7 +4,7 @@ export const StyledSearchHeader = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 18rem;
   left: 0rem;
