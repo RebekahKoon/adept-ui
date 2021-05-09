@@ -43,6 +43,7 @@ export const StyledEducation = styled.div`
   line-height: 1.4em;
 
   .fa-graduation-cap {
+    color: #585858;
     display: inline-block;
     vertical-align: top;
   }

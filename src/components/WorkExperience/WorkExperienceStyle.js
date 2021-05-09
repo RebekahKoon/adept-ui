@@ -22,6 +22,7 @@ export const StyledWorkExperience = styled(StyledEducation)`
   }
 
   .fa-briefcase {
+    color: #585858;
     display: inline-block;
     vertical-align: top;
   }
