@@ -10,6 +10,7 @@ export const StyledEducationContainer = styled.div`
   border: 1px solid var(--lightGray);
   box-shadow: 0px 4px 10px rgba(80, 120, 239, 0.1);
   border-radius: 5px;
+  margin-bottom: 2.5rem;
 `
 
 export const StyledEducationContent = styled.div`
@@ -39,11 +40,11 @@ export const StyledEducation = styled.div`
   flex-direction: row;
   align-items: flex-start;
   text-align: left;
+  line-height: 1.4em;
 
   .fa-graduation-cap {
     display: inline-block;
     vertical-align: top;
-    padding-right: 1rem;
   }
 `
 
@@ -51,17 +52,18 @@ export const StyledEducationText = styled.div`
   display: flex;
   flex-direction: column;
   color: #585858;
+  margin-left: 1rem;
 
   b {
     color: #000000;
   }
 
   small {
-    line-height: 1.3em;
+    line-height: 1.4em;
   }
 `
 
-export const StyledAddSchoolButton = styled.button`
+export const StyledAddEducationButton = styled.button`
   width: 100%;
   display: flex;
   margin: 0 auto;

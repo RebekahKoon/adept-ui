@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import SearchBar from '../components/SearchBar'
 import Education from '../components/Education'
+import WorkExperience from '../components/WorkExperience'
 import {
   StyledDashboardBody,
   StyledSideBar,
@@ -24,6 +25,7 @@ const DashboardView = () => {
           </StyledSideBar>
           <StyledResume>
             <Education />
+            <WorkExperience />
           </StyledResume>
         </StyledDashboardBody>
       </MainContentFlexContainer>

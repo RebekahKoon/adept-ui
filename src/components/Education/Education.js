@@ -3,7 +3,7 @@ import {
   StyledEducationContainer,
   StyledEducationContent,
   StyledEducationGrid,
-  StyledAddSchoolButton,
+  StyledAddEducationButton,
   StyledEducation,
   StyledEducationText,
 } from './EducationStyle'
@@ -36,7 +36,7 @@ const Education = () => {
           </StyledEducation>
         </StyledEducationGrid>
       </StyledEducationContent>
-      <StyledAddSchoolButton>Add School</StyledAddSchoolButton>
+      <StyledAddEducationButton>Add Education</StyledAddEducationButton>
     </StyledEducationContainer>
   )
 }
