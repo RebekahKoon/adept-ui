@@ -1,84 +1,50 @@
 import styled from 'styled-components'
 
-const StyledFooter = styled.div`
-  display: flex;
-  position: relative;
-  margin-top: auto;
-  float: right;
-  clear: both;
-
-  overflow: hidden;
-
-  height: 200px;
-  width: 100%;
-
-  background: #191c3c;
+export const FooterStyles = styled.footer`
+  background: var(--darkerPurple);
+  h2 {
+    margin: 1.25rem 0;
+    font-size: 0.75rem;
+    color: #919496;
+  }
 `
 
 export const StyledFooterContainer = styled.div`
   display: flex;
-  bottom: 0;
-  float: right;
-  align-items: center;
-  height: 200px;
+  padding: 50px 16px 30px 16px;
   width: 100%;
-  margin-left: 17%;
-  margin-right: 16.25%;
-  font-family: 'PT Sans', sans-serif;
   font-size: 24px;
-  color: #ffffff;
-  text-transform: uppercase;
+  color: var(--white);
+  justify-content: space-between;
+`
 
-  background: #191c3c;
-
-  cursor: pointer;
-
-  li {
-    margin: 0 10px 10px 0;
-    text-transform: none;
-  }
+export const StyledFooterNav = styled.div`
+  display: flex;
 `
 
 export const StyledLogo = styled.div`
-  flex: 1 10%;
-  font-family: 'PT Sans', sans-serif;
-  font-size: 30px;
-  color: #ffffff;
-  margin-left: 12%;
-  margin-top: 50px;
+  font-size: 1.75rem;
 `
 
 export const StyledColumn = styled.div`
-  font-size: 14px;
-  flex: ${(props) => props.columnNumber} 20%;
-  margin-top: 30px;
+  width: 195px;
+  padding: 0 16px 30px 16px;
 `
 
-export const StyledLink = styled.div`
-  margin-left: 20px;
-  margin-top: 50px;
-`
-
-export const StyledLinkContainer = styled.div`
-  flex: 5 20%;
+export const StyledFooterIconsColumn = styled(StyledColumn)`
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 50px;
-  margin-right: 13%;
-  margin-bottom: 50px;
+  justify-content: space-between;
+  font-size: 2rem;
+  padding-top: 1.25rem;
 `
 
 export const StyledUl = styled.ul`
+  font-size: 0.875rem;
   list-style-type: none;
-  margin-bottom: 10px;
+  padding: 0;
+  margin: 0;
+  li {
+    padding-bottom: 1rem;
+    text-transform: none;
+  }
 `
-
-export const StyledLi = styled.li``
-
-export const StyledLiHeader = styled.li`
-  margin: 0 10px 10px 0;
-  color: #919496;
-`
-
-export default StyledFooter
