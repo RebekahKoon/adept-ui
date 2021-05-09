@@ -2,6 +2,7 @@ import React from 'react'
 import Layout from '../components/Layout'
 import MainContentContainer from '../components/styles/MainContentContainer'
 import SearchBar from '../components/SearchBar'
+import Resume from '../components/Resume'
 import Education from '../components/Education'
 import {
   StyledDashboardBody,
@@ -24,7 +25,7 @@ const DashboardView = () => {
             blandit dapibus. Sed ornare elit viverra nisl aliquet pretium.
           </StyledSideBar>
           <StyledResume>
-            <Education />
+            <Resume />
           </StyledResume>
         </StyledDashboardBody>
       </MainContentContainer>
