@@ -2,6 +2,9 @@ import styled from 'styled-components'
 
 export const StyledDashboardBody = styled.div`
   display: flex;
+  margin: 0 auto;
+  width: 100%;
+  max-width: var(--maxWidth);
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
@@ -10,6 +13,8 @@ export const StyledDashboardBody = styled.div`
 
 export const StyledResume = styled.div`
   display: flex;
+  margin: 0 auto;
+  width: 68%;
   flex-direction: column;
   align-items: flex-start;
   padding: 0;
@@ -17,8 +22,9 @@ export const StyledResume = styled.div`
 `
 
 export const StyledSideBar = styled.div`
-  max-width: 22rem;
   display: flex;
+  margin: 0 auto;
+  width: 32%;
   flex-direction: column;
   justify-content: center;
   text-align: center;

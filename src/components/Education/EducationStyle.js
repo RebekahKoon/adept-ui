@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 
 export const StyledEducationContainer = styled.div`
+  width: 100%;
   display: flex;
+  margin: 0 auto;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
@@ -19,14 +21,13 @@ export const StyledEducation = styled.div`
 `
 
 export const StyledAddSchoolButton = styled.button`
+  width: 100%;
   display: flex;
-  flex-direction: row;
+  margin: 0 auto;
   justify-content: center;
-  align-items: center;
   background: none;
   color: var(--darkPurple);
   font-weight: bold;
-  width: 47rem;
   height: 2.8rem;
   padding: 1rem 0px;
   border: none;
