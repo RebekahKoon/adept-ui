@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
-const MainContentContainer = styled.div`
+const MainContentFlexContainer = styled.div`
   display: flex;
   max-width: var(--maxWidth);
   margin: 0 auto;
 `
 
-export default MainContentContainer
+export default MainContentFlexContainer
