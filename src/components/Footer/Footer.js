@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-free'
 import '@fortawesome/fontawesome-free/js/brands'
 import {
   FooterStyles,
@@ -50,9 +51,9 @@ const Footer = () => (
           </StyledColumn>
         </StyledFooterNav>
         <StyledFooterIconsColumn>
+          <i className="fab fa-github-alt"></i>
           <i className="fab fa-github"></i>
           <i className="fab fa-github-square"></i>
-          <i className="fab fa-github-alt"></i>
         </StyledFooterIconsColumn>
       </StyledFooterContainer>
     </MainContentContainer>

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const FooterStyles = styled.footer`
   background: var(--darkerPurple);
+  display: flex;
   h2 {
     margin: 1.25rem 0;
     font-size: 0.75rem;
@@ -11,7 +12,11 @@ export const FooterStyles = styled.footer`
 
 export const StyledFooterContainer = styled.div`
   display: flex;
-  padding: 50px 16px 30px 16px;
+
+  @media (max-width: 690px) {
+    flex-direction: column;
+  }
+  padding: 50px 0 30px 0;
   width: 100%;
   font-size: 24px;
   color: var(--white);
@@ -23,15 +28,23 @@ export const StyledFooterNav = styled.div`
 `
 
 export const StyledLogo = styled.div`
+  line-height: 1.6;
   font-size: 1.75rem;
 `
 
+// Can't use css variables in media query
 export const StyledColumn = styled.div`
-  width: 195px;
+  @media (max-width: 976px) {
+    min-width: auto;
+  }
+  min-width: 195px;
   padding: 0 16px 30px 16px;
 `
 
 export const StyledFooterIconsColumn = styled(StyledColumn)`
+  @media (max-width: 976px) {
+    width: 195px;
+  }
   display: flex;
   justify-content: space-between;
   font-size: 2rem;
