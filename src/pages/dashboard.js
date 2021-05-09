@@ -1,6 +1,6 @@
-import React from 'react'
+import styled from 'styled-components'
 import Layout from '../components/Layout'
-import MainContentContainer from '../components/styles/MainContentContainer'
+import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import SearchBar from '../components/SearchBar'
 import Education from '../components/Education'
 import {
@@ -10,11 +10,10 @@ import {
 } from '../styles/DashboardStyle'
 
 const DashboardView = () => {
-  const headerText = 'Discover Jobs and Make Connections'
   return (
     <Layout>
-      <SearchBar headerText={headerText} />
-      <MainContentContainer>
+      <SearchBar headerText="Discover Jobs and Make Connections" />
+      <MainContentFlexContainer>
         <StyledDashboardBody>
           <StyledSideBar>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id
@@ -27,7 +26,7 @@ const DashboardView = () => {
             <Education />
           </StyledResume>
         </StyledDashboardBody>
-      </MainContentContainer>
+      </MainContentFlexContainer>
     </Layout>
   )
 }
