@@ -15,7 +15,7 @@ const Education = () => {
         <h1>Education</h1>
         <StyledEducationGrid>
           <StyledEducation>
-            <i class="fas fa-graduation-cap fa-3x"></i>
+            <i className="fas fa-graduation-cap fa-3x"></i>
             <StyledEducationText>
               <b>University of Oregon</b>
               Bachelor of Science
@@ -25,7 +25,7 @@ const Education = () => {
             </StyledEducationText>
           </StyledEducation>
           <StyledEducation>
-            <i class="fas fa-graduation-cap fa-3x"></i>
+            <i className="fas fa-graduation-cap fa-3x"></i>
             <StyledEducationText>
               <b>Oregon State University</b>
               Bachelor of Science
