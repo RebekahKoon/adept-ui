@@ -47,7 +47,6 @@ export const StyledFooterIconsColumn = styled(StyledColumn)`
   }
   display: flex;
   justify-content: space-between;
-  font-size: 2rem;
   padding-top: 1.25rem;
 `
 
