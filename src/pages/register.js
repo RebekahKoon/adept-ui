@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { REGISTER_USER } from '../queries/register'
 import Layout from '../components/Layout'
 import { Input, RadioInput } from '../components/Input'
