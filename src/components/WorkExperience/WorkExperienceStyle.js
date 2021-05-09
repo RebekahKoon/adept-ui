@@ -17,6 +17,10 @@ export const StyledWorkExperience = styled(StyledEducation)`
   line-height: 1.8em;
   margin-bottom: 2.5rem;
 
+  b {
+    line-height: 1.2em;
+  }
+
   .fa-briefcase {
     display: inline-block;
     vertical-align: top;
