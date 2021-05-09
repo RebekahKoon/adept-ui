@@ -12,12 +12,53 @@ export const StyledEducationContainer = styled.div`
   border-radius: 5px;
 `
 
-export const StyledEducation = styled.div`
+export const StyledEducationContent = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
   padding: 40px;
+
+  h1 {
+    line-height: 2rem;
+  }
+`
+
+export const StyledEducationGrid = styled.div`
+  margin: 0 auto;
+  display: inline-grid;
+  text-align: left;
+  grid-template-columns: repeat(2, minmax(50px, 600px));
+  gap: 2.5rem 1.5rem;
+  line-height: 1.25em;
+`
+
+export const StyledEducation = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  text-align: left;
+
+  .fa-graduation-cap {
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 1rem;
+  }
+`
+
+export const StyledEducationText = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: #585858;
+
+  b {
+    color: #000000;
+  }
+
+  small {
+    line-height: 1.3em;
+  }
 `
 
 export const StyledAddSchoolButton = styled.button`
