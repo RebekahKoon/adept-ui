@@ -5,7 +5,7 @@ import StyledSideBar from '../components/SideBar'
 import SearchBar from '../components/SearchBar'
 import Education from '../components/Education'
 import WorkExperience from '../components/WorkExperience'
-import { StyledButtonSolid } from '../Components/Button/ButtonSolid'
+import { StyledButtonSolid } from '../Components/Button'
 
 export const StyledDashboardBody = styled.div`
   display: flex;
