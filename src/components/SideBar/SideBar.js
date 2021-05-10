@@ -1,15 +1,25 @@
-import StyledSideBar from './SideBarStyle'
+import styled from 'styled-components'
 
-const SideBar = () => {
-  return (
-    <StyledSideBar>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id justo
-      felis. Proin tristique ligula ut odio faucibus tincidunt. Sed et lectus
-      sed tortor ultricies hendrerit. In hac habitasse platea dictumst.
-      Pellentesque eget suscipit mi. Cras aliquam nulla vitae blandit dapibus.
-      Sed ornare elit viverra nisl aliquet pretium.
-    </StyledSideBar>
-  )
-}
+export const StyledSideBar = styled.div`
+  display: flex;
+  margin: 0 auto;
+  width: 32%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-right: 2.5rem;
+  padding: 2.5rem;
+  border: 1px solid var(--lightGray);
+  box-shadow: 0px 1px 10px rgba(80, 120, 239, 0.1);
+  border-radius: 5px;
 
-export default SideBar
+  hr {
+    display: flex;
+    width: 100%;
+    margin-top: 2.5rem;
+    margin: 2.5rem 0rem 1rem 0rem;
+    border: 1px solid var(--lightGray);
+  }
+`
+
+export default StyledSideBar

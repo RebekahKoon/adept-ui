@@ -13,7 +13,7 @@ const WorkExperience = () => {
       <StyledWorkExperienceContent>
         <h1>Work Experience</h1>
         <StyledWorkExperience>
-          <i class="fas fa-briefcase fa-3x"></i>
+          <i className="fas fa-briefcase fa-3x"></i>
           <StyledWorkExperienceText>
             <b>Oregon State University</b>
             Teaching Assistant
@@ -29,7 +29,7 @@ const WorkExperience = () => {
           </StyledWorkExperienceText>
         </StyledWorkExperience>
         <StyledWorkExperience>
-          <i class="fas fa-briefcase fa-3x"></i>
+          <i className="fas fa-briefcase fa-3x"></i>
           <StyledWorkExperienceText>
             <b>Oregon State University</b>
             Teaching Assistant
