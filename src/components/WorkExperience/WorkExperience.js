@@ -11,7 +11,7 @@ const WorkExperience = () => {
   return (
     <StyledWorkExperienceContainer>
       <StyledWorkExperienceContent>
-        <h1>Work Experience</h1>
+        <h2>Work Experience</h2>
         <StyledWorkExperience>
           <i className="fas fa-briefcase fa-3x"></i>
           <StyledWorkExperienceText>

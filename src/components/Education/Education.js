@@ -1,4 +1,6 @@
 import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
 import {
   StyledEducationContainer,
   StyledEducationContent,
@@ -12,7 +14,7 @@ const Education = () => {
   return (
     <StyledEducationContainer>
       <StyledEducationContent>
-        <h1>Education</h1>
+        <h2>Education</h2>
         <StyledEducationGrid>
           <StyledEducation>
             <i className="fas fa-graduation-cap fa-3x"></i>
