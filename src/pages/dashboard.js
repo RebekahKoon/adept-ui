@@ -1,11 +1,10 @@
 import styled from 'styled-components'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
-import SideBar from '../components/SideBar'
+import StyledSideBar from '../components/SideBar'
 import SearchBar from '../components/SearchBar'
 import Education from '../components/Education'
 import WorkExperience from '../components/WorkExperience'
-import { StyledSideBar } from '../components/SideBar/SideBar'
 import { StyledButtonSolid } from '../Components/Button/ButtonSolid'
 
 export const StyledDashboardBody = styled.div`

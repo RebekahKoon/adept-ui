@@ -1,2 +1,2 @@
-import SideBar from './SideBar'
-export default SideBar
+import StyledSideBar from './SideBar'
+export default StyledSideBar
