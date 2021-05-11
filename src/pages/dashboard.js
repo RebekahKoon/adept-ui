@@ -52,6 +52,60 @@ const SideBarProfile = styled.div`
   }
 `
 
+const sampleUserData = {
+  getUserById: {
+    resume: {
+      education: [
+        {
+          name: 'University of Oregon',
+          degree: 'Bachelor of Science',
+          startDate: 2012,
+          endDate: 2016,
+          major: 'Educational Foundations',
+          gpa: 4.0,
+        },
+        {
+          name: 'Oregon State University',
+          degree: 'Bachelor of Science',
+          startDate: 2019,
+          endDate: 2021,
+          major: 'Computer Science',
+          gpa: 4.0,
+        },
+      ],
+      workExperience: [
+        {
+          company: 'Oregon State University',
+          position: 'Teaching Assistant',
+          startDate: 2019,
+          endDate: 2021,
+          isCurrentPosition: false,
+          city: 'Corvallis',
+          state: 'OR',
+          description: 'Teaching assistant for computer science courses.',
+        },
+        {
+          company: 'University of Oregon',
+          position: 'IT Assistant',
+          startDate: 2018,
+          isCurrentPosition: true,
+          city: 'Eugene',
+          state: 'OR',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
+            Suspendisse bibendum vel ligula id dapibus. Phasellus sed metus \
+            sed massa ullamcorper lobortis. Phasellus dictum neque justo. \
+            Sed vestibulum tellus vel maximus vehicula. Sed aliquam vitae nisi\
+             non elementum. Interdum et malesuada fames ac ante ipsum primis in\
+             faucibus. Fusce a lacinia urna, ac tincidunt magna. Nulla vel \
+             tellus velit. Mauris eget iaculis ipsum. Pellentesque dapibus \
+             nisi in ligula finibus malesuada.',
+        },
+      ],
+    },
+  },
+}
+
 const DashboardSideBar = () => {
   return (
     <StyledSideBar>
@@ -91,8 +145,14 @@ const DashboardView = () => {
         <StyledDashboardBody>
           <DashboardSideBar />
           <StyledResume>
-            <Education />
-            <WorkExperience />
+            <Education
+              educationData={sampleUserData.getUserById.resume.education}
+            />
+            <WorkExperience
+              workExperienceData={
+                sampleUserData.getUserById.resume.workExperience
+              }
+            />
           </StyledResume>
         </StyledDashboardBody>
       </MainContentFlexContainer>
