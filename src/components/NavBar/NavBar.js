@@ -9,7 +9,7 @@ import {
   StyledNavItem,
 } from './NavBarStyle.js'
 import MainContentContainer from '../styles/MainContentContainer'
-import ButtonOutline from '../Button/ButtonOutline.js'
+import ButtonOutline from '../Button/ButtonOutline'
 
 export default class NavBar extends React.Component {
   constructor(props) {
