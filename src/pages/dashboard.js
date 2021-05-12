@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import styled from 'styled-components'
+import Select from 'react-select'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import StyledSideBar from '../components/SideBar'
@@ -29,11 +31,14 @@ export const StyledResume = styled.div`
   border-radius: 5px;
 `
 
-const ManageContactsButton = styled(StyledButtonSolid)`
+const DashboardButton = styled(StyledButtonSolid)`
   margin-top: 1rem;
-  padding-top: 0.8rem;
-  padding-bottom: 0.8rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
   width: 100%;
+  :hover {
+    background-color: #4510b7;
+  }
 `
 
 const SideBarProfile = styled.div`
@@ -54,16 +59,62 @@ const SideBarProfile = styled.div`
 `
 
 const StyledSkillList = styled.div`
-  /* display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(10px, 100%));
-  grid-auto-columns: none;
-  gap: 0.5rem 0.5rem;
-  line-height: 1.25em; */
   display: block;
   width: 100%;
   align-items: flex-start;
   justify-content: space-between;
 `
+
+const StyledSkillDropdownContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+`
+
+export const StyledSkillDropdown = {
+  option: (provided) => ({
+    ...provided,
+    color: '#191C3C',
+    backgroundColor: '#FFFFFF',
+    '&:hover': {
+      backgroundColor: '#EEF2FF',
+    },
+  }),
+  control: (provided) => ({
+    ...provided,
+    borderRadius: '5px',
+    color: '#191C3C',
+    boxShadow: 'none',
+    border: '1px solid #D2D0C9',
+    width: '12rem',
+    marginTop: '1rem',
+    marginRight: '.5rem',
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#AEB7D0',
+  }),
+  indicatorSeparator: (base) => ({
+    ...base,
+    display: 'none',
+  }),
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    color: '#311C87',
+    transition: 'all .25s ease',
+    transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : null,
+  }),
+  menu: (base) => ({
+    ...base,
+    top: '3rem',
+    width: '12rem',
+  }),
+  container: (base) => ({
+    ...base,
+    flex: 1,
+  }),
+}
 
 const sampleUserData = {
   getUserById: {
@@ -161,6 +212,17 @@ const UserSkills = () => {
 }
 
 const DashboardSideBar = () => {
+  const dropdownSkills = sampleUserData.getUserById.skills.map((skill) => ({
+    name: skill.name,
+    label: skill.name,
+  }))
+
+  const [option, setOption] = useState('All')
+  const handleOptionChange = (e) => {
+    setOption(e.value)
+    console.log(e.value)
+  }
+
   return (
     <StyledSideBar>
       <SideBarProfile>
@@ -177,6 +239,16 @@ const DashboardSideBar = () => {
       <StyledSkillList>
         <UserSkills />
       </StyledSkillList>
+      <StyledSkillDropdownContainer>
+        <Select
+          onChange={handleOptionChange}
+          options={dropdownSkills}
+          styles={StyledSkillDropdown}
+          indicatorSeparator={false}
+          isSearchable={false}
+        />
+        <DashboardButton>Add</DashboardButton>
+      </StyledSkillDropdownContainer>
       <hr></hr>
       <h2>Contacts</h2>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id justo
@@ -184,7 +256,7 @@ const DashboardSideBar = () => {
       sed tortor ultricies hendrerit. In hac habitasse platea dictumst.
       Pellentesque eget suscipit mi. Cras aliquam nulla vitae blandit dapibus.
       Sed ornare elit viverra nisl aliquet pretium.
-      <ManageContactsButton>View All Contacts</ManageContactsButton>
+      <DashboardButton>View All Contacts</DashboardButton>
     </StyledSideBar>
   )
 }
