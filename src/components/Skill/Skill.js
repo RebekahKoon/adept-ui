@@ -7,7 +7,7 @@ const SkillContainer = styled.span`
   display: inline-block;
   margin: 0 auto;
   max-width: 100%;
-  margin: 0.5rem 0.5rem 0rem 0rem;
+  margin: 0rem 0.5rem 0.5rem 0rem;
   font-size: 0.9rem;
   flex-direction: row;
   justify-content: center;
