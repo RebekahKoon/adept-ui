@@ -10,9 +10,11 @@ export const StyledContactContainer = styled(StyledEducationContainer)`
   border: none;
   box-shadow: none;
 `
+
 export const StyledContactContent = styled(StyledEducationContent)`
   padding: 0;
 `
+
 export const StyledContact = styled(StyledEducation)`
   align-items: center;
 
@@ -23,6 +25,7 @@ export const StyledContact = styled(StyledEducation)`
     padding-right: 0.5rem;
   }
 `
+
 export const StyledContactText = styled(StyledEducationText)``
 
 export default StyledContactContent
