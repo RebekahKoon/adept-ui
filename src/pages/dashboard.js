@@ -8,6 +8,7 @@ import SearchBar from '../components/SearchBar'
 import Education from '../components/Education'
 import WorkExperience from '../components/WorkExperience'
 import Skill from '../components/Skill'
+import Contact from '../components/Contact'
 import { StyledButtonSolid } from '../components/Button'
 
 export const StyledDashboardBody = styled.div`
@@ -32,7 +33,7 @@ export const StyledResume = styled.div`
 `
 
 const DashboardButton = styled(StyledButtonSolid)`
-  margin-top: 1rem;
+  /* margin-top: 0.5rem; */
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
   width: 100%;
@@ -63,6 +64,7 @@ const StyledSkillList = styled.div`
   width: 100%;
   align-items: flex-start;
   justify-content: space-between;
+  margin-bottom: 1rem;
 `
 
 const StyledSkillDropdownContainer = styled.div`
@@ -88,7 +90,6 @@ export const StyledSkillDropdown = {
     boxShadow: 'none',
     border: '1px solid #D2D0C9',
     width: '12rem',
-    marginTop: '1rem',
     marginRight: '.5rem',
   }),
   singleValue: (provided) => ({
@@ -107,7 +108,6 @@ export const StyledSkillDropdown = {
   }),
   menu: (base) => ({
     ...base,
-    top: '3rem',
     width: '12rem',
   }),
   container: (base) => ({
@@ -202,12 +202,43 @@ const sampleUserData = {
         name: 'Time management',
       },
     ],
+    contacts: [
+      {
+        name: 'Devin Nguyen',
+        email: 'nguyehu7@oregonstate.edu',
+        city: 'San Antonio',
+        state: 'TX',
+      },
+      {
+        name: 'Nathan Shelby',
+        email: 'shelbyn@oregonstate.edu',
+        city: 'Seattle',
+        state: 'WA',
+      },
+      {
+        name: 'Ridley',
+        email: 'riddles@doggo.com',
+        city: 'Eugene',
+        state: 'OR',
+      },
+    ],
   },
 }
 
 const UserSkills = () => {
   return sampleUserData.getUserById.skills.map((skill) => (
     <Skill name={skill.name} />
+  ))
+}
+
+const UserContacts = () => {
+  return sampleUserData.getUserById.contacts.map((contact) => (
+    <Contact
+      name={contact.name}
+      email={contact.email}
+      city={contact.city}
+      state={contact.state}
+    />
   ))
 }
 
@@ -241,6 +272,7 @@ const DashboardSideBar = () => {
       </StyledSkillList>
       <StyledSkillDropdownContainer>
         <Select
+          placeholder={'Select skill...'}
           onChange={handleOptionChange}
           options={dropdownSkills}
           styles={StyledSkillDropdown}
@@ -251,11 +283,7 @@ const DashboardSideBar = () => {
       </StyledSkillDropdownContainer>
       <hr></hr>
       <h2>Contacts</h2>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id justo
-      felis. Proin tristique ligula ut odio faucibus tincidunt. Sed et lectus
-      sed tortor ultricies hendrerit. In hac habitasse platea dictumst.
-      Pellentesque eget suscipit mi. Cras aliquam nulla vitae blandit dapibus.
-      Sed ornare elit viverra nisl aliquet pretium.
+      <UserContacts />
       <DashboardButton>View All Contacts</DashboardButton>
     </StyledSideBar>
   )
