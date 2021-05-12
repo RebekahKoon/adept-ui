@@ -118,6 +118,9 @@ const RegisterForm = () => {
     onCompleted({ registerUser }) {
       if (registerUser) {
         console.log(registerUser)
+        // call login user
+        // store returned token in local storage
+        // redirect to dashboard now that has been token obtained
       }
     },
     onError(e) {
@@ -127,10 +130,10 @@ const RegisterForm = () => {
 
   const onSubmit = (data) => {
     const input = {
-      name: 'a user',
-      email: 'ausersemail@a.a',
-      password: 'abc',
-      type: 'EMPLOYEE',
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      type: data.type,
     }
     registerUser({ variables: input })
   }
@@ -179,19 +182,19 @@ const RegisterForm = () => {
           <h2>I am:</h2>
           <RadioInputs>
             <RadioInput
-              {...register('userType')}
+              {...register('type')}
               defaultChecked
               type="radio"
               id="employee"
               label="A Job Applicant"
-              value="EMPLOYEE"
+              value={UserType.EMPLOYEE}
             />
             <RadioInput
-              {...register('userType')}
+              {...register('type')}
               type="radio"
               id="employer"
               label="An Employer"
-              value="EMPLOYER"
+              value={UserType.EMPLOYER}
             />
           </RadioInputs>
         </RadioInputsSection>
