@@ -5,6 +5,7 @@ import StyledSideBar from '../components/SideBar'
 import SearchBar from '../components/SearchBar'
 import Education from '../components/Education'
 import WorkExperience from '../components/WorkExperience'
+import Skill from '../components/Skill'
 import { StyledButtonSolid } from '../components/Button'
 
 export const StyledDashboardBody = styled.div`
@@ -50,6 +51,18 @@ const SideBarProfile = styled.div`
   .fa-user-circle {
     color: #585858;
   }
+`
+
+const StyledSkillList = styled.div`
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10px, 100%));
+  grid-auto-columns: none;
+  gap: 0.5rem 0.5rem;
+  line-height: 1.25em; */
+  display: block;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
 `
 
 const sampleUserData = {
@@ -103,7 +116,48 @@ const sampleUserData = {
         },
       ],
     },
+    skills: [
+      {
+        name: 'C',
+      },
+      {
+        name: 'C++',
+      },
+      {
+        name: 'CSS',
+      },
+      {
+        name: 'HTML',
+      },
+      {
+        name: 'JavaScript',
+      },
+      {
+        name: 'Object-oriented programming',
+      },
+      {
+        name: 'Python',
+      },
+      {
+        name: 'React',
+      },
+      {
+        name: 'SQL',
+      },
+      {
+        name: 'Teamwork',
+      },
+      {
+        name: 'Time management',
+      },
+    ],
   },
+}
+
+const UserSkills = () => {
+  return sampleUserData.getUserById.skills.map((skill) => (
+    <Skill name={skill.name} />
+  ))
 }
 
 const DashboardSideBar = () => {
@@ -120,11 +174,9 @@ const DashboardSideBar = () => {
       </SideBarProfile>
       <hr></hr>
       <h2>Skills</h2>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id justo
-      felis. Proin tristique ligula ut odio faucibus tincidunt. Sed et lectus
-      sed tortor ultricies hendrerit. In hac habitasse platea dictumst.
-      Pellentesque eget suscipit mi. Cras aliquam nulla vitae blandit dapibus.
-      Sed ornare elit viverra nisl aliquet pretium.
+      <StyledSkillList>
+        <UserSkills />
+      </StyledSkillList>
       <hr></hr>
       <h2>Contacts</h2>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id justo
