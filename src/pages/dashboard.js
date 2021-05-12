@@ -117,46 +117,47 @@ export const StyledSkillDropdown = {
 }
 
 const sampleUserData = {
-  getUserById: {
-    resume: {
-      education: [
-        {
-          name: 'University of Oregon',
-          degree: 'Bachelor of Science',
-          startDate: 2012,
-          endDate: 2016,
-          major: 'Educational Foundations',
-          gpa: 4.0,
-        },
-        {
-          name: 'Oregon State University',
-          degree: 'Bachelor of Science',
-          startDate: 2019,
-          endDate: 2021,
-          major: 'Computer Science',
-          gpa: 4.0,
-        },
-      ],
-      workExperience: [
-        {
-          company: 'Oregon State University',
-          position: 'Teaching Assistant',
-          startDate: 2019,
-          endDate: 2021,
-          isCurrentPosition: false,
-          city: 'Corvallis',
-          state: 'OR',
-          description: 'Teaching assistant for computer science courses.',
-        },
-        {
-          company: 'University of Oregon',
-          position: 'IT Assistant',
-          startDate: 2018,
-          isCurrentPosition: true,
-          city: 'Eugene',
-          state: 'OR',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
+  data: {
+    getUserById: {
+      resume: {
+        education: [
+          {
+            name: 'University of Oregon',
+            degree: 'Bachelor of Science',
+            startDate: 2012,
+            endDate: 2016,
+            major: 'Educational Foundations',
+            gpa: 4.0,
+          },
+          {
+            name: 'Oregon State University',
+            degree: 'Bachelor of Science',
+            startDate: 2019,
+            endDate: 2021,
+            major: 'Computer Science',
+            gpa: 4.0,
+          },
+        ],
+        workExperience: [
+          {
+            company: 'Oregon State University',
+            position: 'Teaching Assistant',
+            startDate: 2019,
+            endDate: 2021,
+            isCurrentPosition: false,
+            city: 'Corvallis',
+            state: 'OR',
+            description: 'Teaching assistant for computer science courses.',
+          },
+          {
+            company: 'University of Oregon',
+            position: 'IT Assistant',
+            startDate: 2018,
+            isCurrentPosition: true,
+            city: 'Eugene',
+            state: 'OR',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
             Suspendisse bibendum vel ligula id dapibus. Phasellus sed metus \
             sed massa ullamcorper lobortis. Phasellus dictum neque justo. \
             Sed vestibulum tellus vel maximus vehicula. Sed aliquam vitae nisi\
@@ -164,75 +165,76 @@ const sampleUserData = {
              faucibus. Fusce a lacinia urna, ac tincidunt magna. Nulla vel \
              tellus velit. Mauris eget iaculis ipsum. Pellentesque dapibus \
              nisi in ligula finibus malesuada.',
+          },
+        ],
+      },
+      skills: [
+        {
+          name: 'C',
+        },
+        {
+          name: 'C++',
+        },
+        {
+          name: 'CSS',
+        },
+        {
+          name: 'HTML',
+        },
+        {
+          name: 'JavaScript',
+        },
+        {
+          name: 'Object-oriented programming',
+        },
+        {
+          name: 'Python',
+        },
+        {
+          name: 'React',
+        },
+        {
+          name: 'SQL',
+        },
+        {
+          name: 'Teamwork',
+        },
+        {
+          name: 'Time management',
+        },
+      ],
+      contacts: [
+        {
+          name: 'Devin Nguyen',
+          email: 'nguyehu7@oregonstate.edu',
+          city: 'San Antonio',
+          state: 'TX',
+        },
+        {
+          name: 'Nathan Shelby',
+          email: 'shelbyn@oregonstate.edu',
+          city: 'Seattle',
+          state: 'WA',
+        },
+        {
+          name: 'Ridley',
+          email: 'riddles@doggo.com',
+          city: 'Eugene',
+          state: 'OR',
         },
       ],
     },
-    skills: [
-      {
-        name: 'C',
-      },
-      {
-        name: 'C++',
-      },
-      {
-        name: 'CSS',
-      },
-      {
-        name: 'HTML',
-      },
-      {
-        name: 'JavaScript',
-      },
-      {
-        name: 'Object-oriented programming',
-      },
-      {
-        name: 'Python',
-      },
-      {
-        name: 'React',
-      },
-      {
-        name: 'SQL',
-      },
-      {
-        name: 'Teamwork',
-      },
-      {
-        name: 'Time management',
-      },
-    ],
-    contacts: [
-      {
-        name: 'Devin Nguyen',
-        email: 'nguyehu7@oregonstate.edu',
-        city: 'San Antonio',
-        state: 'TX',
-      },
-      {
-        name: 'Nathan Shelby',
-        email: 'shelbyn@oregonstate.edu',
-        city: 'Seattle',
-        state: 'WA',
-      },
-      {
-        name: 'Ridley',
-        email: 'riddles@doggo.com',
-        city: 'Eugene',
-        state: 'OR',
-      },
-    ],
   },
 }
 
 const UserSkills = () => {
-  return sampleUserData.getUserById.skills.map((skill) => (
+  return sampleUserData.data.getUserById.skills.map((skill) => (
     <Skill name={skill.name} />
   ))
 }
 
 const UserContacts = () => {
-  return sampleUserData.getUserById.contacts.map((contact) => (
+  return sampleUserData.data.getUserById.contacts.map((contact) => (
     <Contact
       name={contact.name}
       email={contact.email}
@@ -243,10 +245,12 @@ const UserContacts = () => {
 }
 
 const DashboardSideBar = () => {
-  const dropdownSkills = sampleUserData.getUserById.skills.map((skill) => ({
-    name: skill.name,
-    label: skill.name,
-  }))
+  const dropdownSkills = sampleUserData.data.getUserById.skills.map(
+    (skill) => ({
+      name: skill.name,
+      label: skill.name,
+    })
+  )
 
   const [option, setOption] = useState('All')
   const handleOptionChange = (e) => {
@@ -298,11 +302,11 @@ const DashboardView = () => {
           <DashboardSideBar />
           <StyledResume>
             <Education
-              educationData={sampleUserData.getUserById.resume.education}
+              educationData={sampleUserData.data.getUserById.resume.education}
             />
             <WorkExperience
               workExperienceData={
-                sampleUserData.getUserById.resume.workExperience
+                sampleUserData.data.getUserById.resume.workExperience
               }
             />
           </StyledResume>
