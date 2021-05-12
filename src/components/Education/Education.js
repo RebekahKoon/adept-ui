@@ -10,32 +10,30 @@ import {
   StyledEducationText,
 } from './EducationStyle'
 
-const Education = () => {
+const EducationData = ({ educationData }) => {
+  return educationData.map((education) => (
+    <StyledEducation>
+      <i className="fas fa-graduation-cap fa-3x"></i>
+      <StyledEducationText>
+        <b>{education.name}</b>
+        {education.degree}
+        <small>
+          {education.startDate} - {education.endDate}
+        </small>
+        <small>{education.major}</small>
+        <small>{education.gpa.toFixed(1)}</small>
+      </StyledEducationText>
+    </StyledEducation>
+  ))
+}
+
+const Education = ({ educationData }) => {
   return (
     <StyledEducationContainer>
       <StyledEducationContent>
         <h2>Education</h2>
         <StyledEducationGrid>
-          <StyledEducation>
-            <i className="fas fa-graduation-cap fa-3x"></i>
-            <StyledEducationText>
-              <b>University of Oregon</b>
-              Bachelor of Science
-              <small>2012-2016</small>
-              <small>Educational Foundations</small>
-              <small>4.0</small>
-            </StyledEducationText>
-          </StyledEducation>
-          <StyledEducation>
-            <i className="fas fa-graduation-cap fa-3x"></i>
-            <StyledEducationText>
-              <b>Oregon State University</b>
-              Bachelor of Science
-              <small>2019-2021</small>
-              <small>Computer Science</small>
-              <small>4.0</small>
-            </StyledEducationText>
-          </StyledEducation>
+          <EducationData educationData={educationData} />
         </StyledEducationGrid>
       </StyledEducationContent>
       <StyledAddEducationButton>Add Education</StyledAddEducationButton>
