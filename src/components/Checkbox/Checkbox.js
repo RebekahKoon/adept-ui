@@ -1,15 +1,15 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, useState } from 'react'
 import { render } from 'react-dom'
 
 function Checkbox(props) {
-  const state = {
+  const [state, setState] = useState({
     isChecked: false,
-  }
+  })
 
   const toggleCheckboxChange = () => {
     const { handleCheckboxChange, label } = props
 
-    SVGElementInstanceList(({ isChecked }) => ({
+    setState(({ isChecked }) => ({
       isChecked: !isChecked,
     }))
     handleCheckboxChange(label)
@@ -26,7 +26,7 @@ function Checkbox(props) {
           type="checkbox"
           value={label}
           checked={isChecked}
-          onChange={this.toggleCheckboxChange}
+          onChange={toggleCheckboxChange}
         />
 
         {label}

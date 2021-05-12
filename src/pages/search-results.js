@@ -1,6 +1,6 @@
 // pages/dashboard.js
 import Router from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Select from 'react-select'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
@@ -11,9 +11,9 @@ import '@fortawesome/fontawesome-free/js/brands'
 import SearchBar from '../components/SearchBar'
 import StyledSideBar from '../components/SideBar'
 import StyledSearchResults from '../styles/SearchResultsStyle'
+import Checkbox from '../components/Checkbox'
 import {
   SearchResultsParent,
-  SSRFilterSideBar,
   SSRSearchResults,
   SSRMain,
   SSRMainContentContainer,
@@ -36,25 +36,12 @@ import {
   Icon,
 } from '../styles/SearchResultsStyle'
 
-const Checkbox = ({ className, checked, ...props }) => (
-  <CheckboxContainer className={className}>
-    <SSRCheckBox checked={checked} {...props} />
-    <StyledCheckbox checked={checked}>
-      <Icon viewBox="0 0 24 24">
-        <polyline points="20 6 9 17 4 12" />
-      </Icon>
-    </StyledCheckbox>
-  </CheckboxContainer>
-)
 function SearchResultView(props) {
-  const [checked, setChecked] = useState(false)
   const JobType = ['Full Time', 'Part Time', 'Contract', 'Internship']
   const JobCategory = ['Option', 'Option', 'Option']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
 
-  const componentWillMount = () => {
-    selectedCheckboxes = new Set()
-  }
+  const selectedCheckboxes = new Set()
 
   const toggleCheckbox = (label) => {
     if (selectedCheckboxes.has(label)) {
@@ -75,11 +62,11 @@ function SearchResultView(props) {
     <Checkbox label={label} handleCheckboxChange={toggleCheckbox} key={label} />
   )
 
-  const createCheckboxes = () => JobType.map(createCheckbox)
+  const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
-  const handleCheckboxChange = (event) => {
-    setChecked(event.target.checked)
-  }
+  const createJobCatCheckboxes = () => JobCategory.map(createCheckbox)
+
+  const createExperienceCheckboxes = () => Experience.map(createCheckbox)
 
   const handleClick = (e) => {
     e.preventDefault()
@@ -103,7 +90,7 @@ function SearchResultView(props) {
                     <SSRFilterOptions>
                       <SSRCheckBoxOption>
                         <form onSubmit={handleFormSubmit}>
-                          {createCheckboxes()}
+                          {createJobTypeCheckboxes()}
 
                           <button className="btn btn-default" type="submit">
                             Save
@@ -119,27 +106,13 @@ function SearchResultView(props) {
                     <SSRFilterOptionHeader>Job Category</SSRFilterOptionHeader>
                     <SSRFilterOptions>
                       <SSRCheckBoxOption>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Option</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Option</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Option</span>
-                        </label>
+                        <form onSubmit={handleFormSubmit}>
+                          {createJobCatCheckboxes()}
+
+                          <button className="btn btn-default" type="submit">
+                            Save
+                          </button>
+                        </form>
                       </SSRCheckBoxOption>
                     </SSRFilterOptions>
                   </SSRFilterSection>
@@ -150,34 +123,13 @@ function SearchResultView(props) {
                     <SSRFilterOptionHeader>Experience</SSRFilterOptionHeader>
                     <SSRFilterOptions>
                       <SSRCheckBoxOption>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Entry Level</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Associate</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Senior</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Leadership</span>
-                        </label>
+                        <form onSubmit={handleFormSubmit}>
+                          {createExperienceCheckboxes()}
+
+                          <button className="btn btn-default" type="submit">
+                            Save
+                          </button>
+                        </form>
                       </SSRCheckBoxOption>
                     </SSRFilterOptions>
                   </SSRFilterSection>
