@@ -1,7 +1,7 @@
 // pages/dashboard.js
-import React from 'react'
 import Router from 'next/router'
 import { useState } from 'react'
+import Select from 'react-select'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -9,6 +9,7 @@ import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 import SearchBar from '../components/SearchBar'
+import StyledSideBar from '../components/SideBar'
 import StyledSearchResults from '../styles/SearchResultsStyle'
 import {
   SearchResultsParent,
@@ -17,22 +18,6 @@ import {
   SSRMain,
   SSRMainContentContainer,
   SSRSearchResultsHeader,
-  SSRSearchResultDiv,
-  SSRSearchResultFooter,
-  SSRSkillDiv,
-  SSRSearchResultContainer,
-  SSRSearchResultLinkContainer,
-  SSRSearchResultContent,
-  SSRJobInfoAndLogo,
-  SSRJobButton,
-  SSRMainContent,
-  SSRJobLogoContainer,
-  SSRJobTitleContainer,
-  SSRJobInfoContainer,
-  SSRCompanyContainer,
-  SSRCompanyTextContainer,
-  SSRSkillsContainer,
-  SSRDate,
   SSRSortByDropdown,
   SSRMainContentFooter,
   SSRPagination,
@@ -67,11 +52,9 @@ function SearchResultView(props) {
   const JobCategory = ['Option', 'Option', 'Option']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
 
-  const createCheckboxes = () => items.map(createCheckbox)
-
-  const createCheckbox = (label) => (
-    <Checkbox label={label} handleCheckboxChange={toggleCheckbox} key={label} />
-  )
+  const componentWillMount = () => {
+    selectedCheckboxes = new Set()
+  }
 
   const toggleCheckbox = (label) => {
     if (selectedCheckboxes.has(label)) {
@@ -80,6 +63,19 @@ function SearchResultView(props) {
       selectedCheckboxes.add(label)
     }
   }
+
+  const handleFormSubmit = (formSubmitEvent) => {
+    formSubmitEvent.preventDefault()
+    for (const checkbox of selectedCheckboxes) {
+      console.log(checkbox, 'is selected.')
+    }
+  }
+
+  const createCheckbox = (label) => (
+    <Checkbox label={label} handleCheckboxChange={toggleCheckbox} key={label} />
+  )
+
+  const createCheckboxes = () => JobType.map(createCheckbox)
 
   const handleCheckboxChange = (event) => {
     setChecked(event.target.checked)
@@ -93,7 +89,7 @@ function SearchResultView(props) {
     <Layout>
       {
         <SearchResultsParent>
-          <SearchBar />
+          <SearchBar headerText="Search Jobs" />
           <StyledSearchResults>
             <SSRMain>
               <SSRSearchResultsHeader>
@@ -101,39 +97,18 @@ function SearchResultView(props) {
                 <SSRSortByDropdown>sort by: newest</SSRSortByDropdown>
               </SSRSearchResultsHeader>
               <SSRMainContentContainer>
-                <SSRFilterSideBar>
+                <StyledSideBar>
                   <SSRFilterSection>
                     <SSRFilterOptionHeader>JobType</SSRFilterOptionHeader>
                     <SSRFilterOptions>
                       <SSRCheckBoxOption>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Full Time</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Part Time</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Contract</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Internship</span>
-                        </label>
+                        <form onSubmit={handleFormSubmit}>
+                          {createCheckboxes()}
+
+                          <button className="btn btn-default" type="submit">
+                            Save
+                          </button>
+                        </form>
                       </SSRCheckBoxOption>
                     </SSRFilterOptions>
                   </SSRFilterSection>
@@ -206,7 +181,7 @@ function SearchResultView(props) {
                       </SSRCheckBoxOption>
                     </SSRFilterOptions>
                   </SSRFilterSection>
-                </SSRFilterSideBar>
+                </StyledSideBar>
                 <SSRSearchResults>
                   <SearchResult />
                   <SearchResult />

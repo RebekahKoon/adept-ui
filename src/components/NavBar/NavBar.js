@@ -62,7 +62,7 @@ export default class NavBar extends React.Component {
               </StyledNavItem>
 
               <StyledNavItem>
-                <Link href="/search">Search</Link>
+                <Link href="/search-results">Search</Link>
               </StyledNavItem>
 
               <StyledNavItem>

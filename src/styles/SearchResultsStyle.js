@@ -63,9 +63,7 @@ export const SSRFilterSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
 
-  position: static;
   width: 200px;
   height: 191px;
 `
@@ -74,7 +72,6 @@ export const SSRFilterOptions = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
 
   position: static;
   width: 200px;
@@ -91,7 +88,6 @@ export const SSRCheckBoxOption = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
   position: relative;
   color: black;
   height: 100%;
@@ -131,7 +127,6 @@ export const SSRCheckBox = styled.input.attrs({ type: 'checkbox' })`
   height: 1px;
   margin: -1px;
   overflow: hidden;
-  padding: 0;
   position: absolute;
   white-space: nowrap;
   width: 1px;
