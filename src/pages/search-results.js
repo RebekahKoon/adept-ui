@@ -19,21 +19,12 @@ import {
   SSRMainContentContainer,
   SSRSearchResultsHeader,
   SSRSortByDropdown,
-  SSRMainContentFooter,
-  SSRPagination,
-  SSRPageNext,
-  SSRPagePrev,
-  SSRPageNumber,
   SSRFilterSection,
   SSRFilterOptions,
   SSRFilterOptionHeader,
   SSRDividerContainer,
   SSRDivider,
   SSRCheckBoxOption,
-  SSRCheckBox,
-  CheckboxContainer,
-  StyledCheckbox,
-  Icon,
   StyledDropdown,
 } from '../styles/SearchResultsStyle'
 
@@ -169,21 +160,6 @@ function SearchResultView(props) {
                   <SearchResult />
                 </SSRSearchResults>
               </SSRMainContentContainer>
-              <SSRMainContentFooter>
-                <SSRPagination>
-                  <SSRPagePrev>
-                    {<i className="fas fa-chevron-left"></i>}
-                  </SSRPagePrev>
-                  <SSRPageNumber>{'1'}</SSRPageNumber>
-                  <SSRPageNumber>{'2'}</SSRPageNumber>
-                  <SSRPageNumber>{'3'}</SSRPageNumber>
-                  <SSRPageNumber>{'...'}</SSRPageNumber>
-                  <SSRPageNumber>{'11'}</SSRPageNumber>
-                  <SSRPageNext>
-                    {<i className="fas fa-chevron-right"></i>}
-                  </SSRPageNext>
-                </SSRPagination>
-              </SSRMainContentFooter>
             </SSRMain>
           </StyledSearchResults>
         </SearchResultsParent>
