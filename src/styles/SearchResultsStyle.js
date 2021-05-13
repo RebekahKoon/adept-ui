@@ -178,6 +178,50 @@ export const SSRSearchResults = styled.div`
   left: 390px;
   top: 16.5px;
 `
+
+export const StyledDropdown = {
+  option: (provided) => ({
+    ...provided,
+    color: '#191C3C',
+    backgroundColor: '#FFFFFF',
+    '&:hover': {
+      backgroundColor: '#EEF2FF',
+    },
+  }),
+  control: (provided) => ({
+    ...provided,
+    borderRadius: '5px 0px 0px 5px',
+    color: '#191C3C',
+    boxShadow: 'none',
+    border: '0px',
+    width: '15rem',
+    paddingTop: '.5rem',
+    paddingBottom: '.5rem',
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#AEB7D0',
+  }),
+  indicatorSeparator: (base) => ({
+    ...base,
+    display: 'none',
+  }),
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    color: '#311C87',
+    transition: 'all .25s ease',
+    transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : null,
+  }),
+  menu: (base) => ({
+    ...base,
+    top: '3rem',
+  }),
+  container: (base) => ({
+    ...base,
+    flex: 1,
+  }),
+}
+
 export const SSRSearchResultDiv = styled.div`
   display: flex;
   flex-direction: column;

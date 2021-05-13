@@ -1,6 +1,6 @@
 // pages/dashboard.js
 import Router from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Select from 'react-select'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
@@ -34,11 +34,12 @@ import {
   CheckboxContainer,
   StyledCheckbox,
   Icon,
+  StyledDropdown,
 } from '../styles/SearchResultsStyle'
 
 function SearchResultView(props) {
   const JobType = ['Full Time', 'Part Time', 'Contract', 'Internship']
-  const JobCategory = ['Option', 'Option', 'Option']
+  const JobCategory = ['Option1', 'Option2', 'Option3']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
 
   const selectedCheckboxes = new Set()
@@ -68,6 +69,23 @@ function SearchResultView(props) {
 
   const createExperienceCheckboxes = () => Experience.map(createCheckbox)
 
+  const [sortOption, setOption] = useState('All')
+  const handleOptionChange = (e) => {
+    setOption(e.value)
+    console.log(e.value)
+  }
+
+  const sortOptions = [
+    {
+      label: 'Newest',
+      value: 'newest',
+    },
+    {
+      label: 'Oldest',
+      value: 'oldest',
+    },
+  ]
+
   const handleClick = (e) => {
     e.preventDefault()
     Router.push('/job-posting')
@@ -81,7 +99,17 @@ function SearchResultView(props) {
             <SSRMain>
               <SSRSearchResultsHeader>
                 69,420 results found
-                <SSRSortByDropdown>sort by: newest</SSRSortByDropdown>
+                <SSRSortByDropdown>
+                  Sort by:
+                  <Select
+                    defaultValue={sortOptions[0]}
+                    onChange={handleOptionChange}
+                    options={sortOptions}
+                    styles={StyledDropdown}
+                    indicatorSeparator={false}
+                    isSearchable={false}
+                  />
+                </SSRSortByDropdown>
               </SSRSearchResultsHeader>
               <SSRMainContentContainer>
                 <StyledSideBar>

@@ -36,7 +36,7 @@ function SearchResult(props) {
         <SSRSearchResultContent>
           <SSRJobInfoAndLogo>
             <SSRJobLogoContainer>
-              <i class="fab fa-adn"></i>
+              <i className="fab fa-adn"></i>
             </SSRJobLogoContainer>
             <SSRMainContent>
               <SSRJobTitleContainer>Job Title</SSRJobTitleContainer>
