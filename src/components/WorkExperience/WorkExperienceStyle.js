@@ -32,4 +32,28 @@ export const StyledWorkExperienceText = styled(StyledEducationText)`
   margin-left: 1.3rem;
 `
 
+export const StyledFormTextarea = styled.textarea`
+  width: 41.875rem;
+  max-width: 41.875rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--lightGray);
+  margin-bottom: 2.5rem;
+
+  @media (max-width: 1100px) {
+    max-width: 36rem;
+  }
+
+  @media (max-width: 1000px) {
+    max-width: 22rem;
+  }
+
+  @media (max-width: 690px) {
+    max-width: 100%;
+  }
+`
+
+export const StyledLabel = styled.label`
+  font-size: 0.875rem;
+`
+
 export default StyledEducationContainer

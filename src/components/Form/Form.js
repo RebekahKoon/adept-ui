@@ -6,6 +6,7 @@ import {
   StyledButtonContainer,
   StyledSubmitButton,
   StyledCancelButton,
+  StyledFormTextarea,
 } from './FormStyle'
 
 const Form = ({ inputFields, buttonText }) => {
@@ -14,7 +15,6 @@ const Form = ({ inputFields, buttonText }) => {
     formIsDisplayed === false
       ? setFormIsDisplayed(true)
       : setFormIsDisplayed(false)
-    // setFormIsDisplayed(true)
   }
 
   return (
@@ -27,6 +27,8 @@ const Form = ({ inputFields, buttonText }) => {
       </StyledAddToResumeButton>
       <FormContainer style={{ display: formIsDisplayed ? 'flex' : 'none' }}>
         <FormGrid>{inputFields}</FormGrid>
+        {/* <label for="description">Description</label>
+        <StyledFormTextarea id="description" /> */}
         <StyledButtonContainer>
           <StyledCancelButton onClick={handleButtonClick}>
             Cancel

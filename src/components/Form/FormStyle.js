@@ -19,6 +19,10 @@ export const FormGrid = styled.div`
   line-height: 1.25em;
 `
 
+export const StyledFormTextarea = styled.textarea`
+  width: 100%;
+`
+
 export const StyledAddToResumeButton = styled.button`
   width: 100%;
   display: flex;
