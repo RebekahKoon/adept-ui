@@ -7,43 +7,32 @@ import {
   StyledAddWorkExperienceButton,
 } from './WorkExperienceStyle'
 
-const WorkExperience = () => {
+const WorkExperienceData = ({ workExperienceData }) => {
+  return workExperienceData.map((workExperience) => (
+    <StyledWorkExperience>
+      <i className="fas fa-briefcase fa-3x"></i>
+      <StyledWorkExperienceText>
+        <b>{workExperience.company}</b>
+        {workExperience.position}
+        <small>
+          {workExperience.startDate} -{' '}
+          {workExperience.isCurrentPosition
+            ? 'present'
+            : workExperience.endDate}{' '}
+          | {workExperience.city}, {workExperience.state}
+        </small>
+        {workExperience.description}
+      </StyledWorkExperienceText>
+    </StyledWorkExperience>
+  ))
+}
+
+const WorkExperience = ({ workExperienceData }) => {
   return (
     <StyledWorkExperienceContainer>
       <StyledWorkExperienceContent>
         <h2>Work Experience</h2>
-        <StyledWorkExperience>
-          <i className="fas fa-briefcase fa-3x"></i>
-          <StyledWorkExperienceText>
-            <b>Oregon State University</b>
-            Teaching Assistant
-            <small>2019-2021 | Corvallis, OR</small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            bibendum vel ligula id dapibus. Phasellus sed metus sed massa
-            ullamcorper lobortis. Phasellus dictum neque justo. Sed vestibulum
-            tellus vel maximus vehicula. Sed aliquam vitae nisi non elementum.
-            Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce
-            a lacinia urna, ac tincidunt magna. Nulla vel tellus velit. Mauris
-            eget iaculis ipsum. Pellentesque dapibus nisi in ligula finibus
-            malesuada.
-          </StyledWorkExperienceText>
-        </StyledWorkExperience>
-        <StyledWorkExperience>
-          <i className="fas fa-briefcase fa-3x"></i>
-          <StyledWorkExperienceText>
-            <b>Oregon State University</b>
-            Teaching Assistant
-            <small>2019-2021 | Corvallis, OR</small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            bibendum vel ligula id dapibus. Phasellus sed metus sed massa
-            ullamcorper lobortis. Phasellus dictum neque justo. Sed vestibulum
-            tellus vel maximus vehicula. Sed aliquam vitae nisi non elementum.
-            Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce
-            a lacinia urna, ac tincidunt magna. Nulla vel tellus velit. Mauris
-            eget iaculis ipsum. Pellentesque dapibus nisi in ligula finibus
-            malesuada.
-          </StyledWorkExperienceText>
-        </StyledWorkExperience>
+        <WorkExperienceData workExperienceData={workExperienceData} />
       </StyledWorkExperienceContent>
       <StyledAddWorkExperienceButton>
         Add Work Experience
