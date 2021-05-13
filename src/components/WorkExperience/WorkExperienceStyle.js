@@ -4,7 +4,6 @@ import {
   StyledEducationContent,
   StyledEducation,
   StyledEducationText,
-  StyledAddEducationButton,
 } from '../Education/EducationStyle'
 
 export const StyledWorkExperienceContainer = styled(StyledEducationContainer)``

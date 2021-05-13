@@ -66,32 +66,6 @@ const FormInputFields = () => {
         label="State"
         // isInvalid={errors.name}
       />
-      {/* <div>
-        <StyledLabel for="description">Description</StyledLabel>
-        <br />
-        <StyledFormTextarea
-          id="description"
-          cols="50"
-          rows="4"
-        ></StyledFormTextarea>
-      </div>
-      <div></div> */}
-      {/* <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      >
-        <Input
-          // {...register('name', { required: true })}
-          type="checkbox"
-          // placeholder="2019"
-          id="isCurrentPosition"
-          label="Current Position"
-          // isInvalid={errors.name}
-        />
-      </div>
-      <div></div> */}
       <Input
         // {...register('name', { required: true })}
         type="date"
