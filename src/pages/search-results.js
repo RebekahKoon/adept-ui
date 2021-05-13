@@ -81,6 +81,69 @@ function SearchResultView(props) {
     e.preventDefault()
     Router.push('/job-posting')
   }
+
+  const SearchResultSideBar = () => {
+    return (
+      <StyledSideBar>
+        <SSRFilterSection>
+          <SSRFilterOptionHeader>JobType</SSRFilterOptionHeader>
+          <SSRFilterOptions>
+            <SSRCheckBoxOption>
+              <form onSubmit={handleFormSubmit}>
+                {createJobTypeCheckboxes()}
+              </form>
+            </SSRCheckBoxOption>
+          </SSRFilterOptions>
+        </SSRFilterSection>
+        <SSRFilterSection>
+          <SSRDividerContainer>
+            <SSRDivider />
+          </SSRDividerContainer>
+          <SSRFilterOptionHeader>Job Category</SSRFilterOptionHeader>
+          <SSRFilterOptions>
+            <SSRCheckBoxOption>
+              <form onSubmit={handleFormSubmit}>
+                {createJobCatCheckboxes()}
+              </form>
+            </SSRCheckBoxOption>
+          </SSRFilterOptions>
+        </SSRFilterSection>
+        <SSRFilterSection>
+          <SSRDividerContainer>
+            <SSRDivider />
+          </SSRDividerContainer>
+          <SSRFilterOptionHeader>Experience</SSRFilterOptionHeader>
+          <SSRFilterOptions>
+            <SSRCheckBoxOption>
+              <form onSubmit={handleFormSubmit}>
+                {createExperienceCheckboxes()}
+
+                <button className="btn btn-default" type="submit">
+                  Save
+                </button>
+              </form>
+            </SSRCheckBoxOption>
+          </SSRFilterOptions>
+        </SSRFilterSection>
+      </StyledSideBar>
+    )
+  }
+
+  const SearchResulDropdown = () => {
+    return (
+      <SSRSortByDropdown>
+        Sort by:
+        <Select
+          defaultValue={sortOptions[0]}
+          onChange={handleOptionChange}
+          options={sortOptions}
+          styles={StyledDropdown}
+          indicatorSeparator={false}
+          isSearchable={false}
+        />
+      </SSRSortByDropdown>
+    )
+  }
   return (
     <Layout>
       {
@@ -90,69 +153,10 @@ function SearchResultView(props) {
             <SSRMain>
               <SSRSearchResultsHeader>
                 69,420 results found
-                <SSRSortByDropdown>
-                  Sort by:
-                  <Select
-                    defaultValue={sortOptions[0]}
-                    onChange={handleOptionChange}
-                    options={sortOptions}
-                    styles={StyledDropdown}
-                    indicatorSeparator={false}
-                    isSearchable={false}
-                  />
-                </SSRSortByDropdown>
+                <SearchResulDropdown />
               </SSRSearchResultsHeader>
               <SSRMainContentContainer>
-                <StyledSideBar>
-                  <SSRFilterSection>
-                    <SSRFilterOptionHeader>JobType</SSRFilterOptionHeader>
-                    <SSRFilterOptions>
-                      <SSRCheckBoxOption>
-                        <form onSubmit={handleFormSubmit}>
-                          {createJobTypeCheckboxes()}
-
-                          <button className="btn btn-default" type="submit">
-                            Save
-                          </button>
-                        </form>
-                      </SSRCheckBoxOption>
-                    </SSRFilterOptions>
-                  </SSRFilterSection>
-                  <SSRFilterSection>
-                    <SSRDividerContainer>
-                      <SSRDivider />
-                    </SSRDividerContainer>
-                    <SSRFilterOptionHeader>Job Category</SSRFilterOptionHeader>
-                    <SSRFilterOptions>
-                      <SSRCheckBoxOption>
-                        <form onSubmit={handleFormSubmit}>
-                          {createJobCatCheckboxes()}
-
-                          <button className="btn btn-default" type="submit">
-                            Save
-                          </button>
-                        </form>
-                      </SSRCheckBoxOption>
-                    </SSRFilterOptions>
-                  </SSRFilterSection>
-                  <SSRFilterSection>
-                    <SSRDividerContainer>
-                      <SSRDivider />
-                    </SSRDividerContainer>
-                    <SSRFilterOptionHeader>Experience</SSRFilterOptionHeader>
-                    <SSRFilterOptions>
-                      <SSRCheckBoxOption>
-                        <form onSubmit={handleFormSubmit}>
-                          {createExperienceCheckboxes()}
-
-                          <button className="btn btn-default" type="submit">
-                            Save
-                          </button>
-                        </form>
-                      </SSRCheckBoxOption>
-                    </SSRFilterOptions>
-                  </SSRFilterSection>
-                </StyledSideBar>
+                <SearchResultSideBar />
                 <SSRSearchResults>
                   <SearchResult />
                   <SearchResult />
