@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import { useQuery } from '@apollo/client'
+import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import Select from 'react-select'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
@@ -244,18 +246,37 @@ const UserContacts = () => {
 }
 
 const DashboardSideBar = () => {
-  const dropdownSkills = sampleUserData.data.getUserById.skills.map(
-    (skill) => ({
-      name: skill.name,
-      label: skill.name,
-    })
-  )
+  const { loading, error, data } = useQuery(GET_ALL_SKILLS, {
+    onCompleted: () => {
+      if (data) {
+        console.log(data)
+      }
+    },
+    onError: (e) => {
+      console.log(e)
+    },
+  })
 
-  const [option, setOption] = useState('All')
-  const handleOptionChange = (e) => {
-    setOption(e.value)
-    console.log(e.value)
-  }
+  if (loading) return null
+  if (error) console.log(error)
+
+  const dropdownSkills = data.getAllSkills.map((skill) => ({
+    name: skill.skillId,
+    label: skill.name,
+  }))
+
+  // const dropdownSkills = sampleUserData.data.getUserById.skills.map(
+  //   (skill) => ({
+  //     name: skill.name,
+  //     label: skill.name,
+  //   })
+  // )
+
+  // const [option, setOption] = useState('')
+  // const handleOptionChange = (e) => {
+  //   setOption(e.value)
+  //   console.log(e.value)
+  // }
 
   return (
     <StyledSideBar>
@@ -269,14 +290,14 @@ const DashboardSideBar = () => {
         <div style={{ color: '#585858' }}>Eugene, OR</div>
       </SideBarProfile>
       <hr></hr>
-      <h2>Skills</h2>
+      <h2>User Skills</h2>
       <StyledSkillList>
         <UserSkills />
       </StyledSkillList>
       <StyledSkillDropdownContainer>
         <Select
-          placeholder={'Select skill...'}
-          onChange={handleOptionChange}
+          placeholder={'Add skill...'}
+          // onChange={handleOptionChange}
           options={dropdownSkills}
           styles={StyledSkillDropdown}
           indicatorSeparator={false}
@@ -285,7 +306,7 @@ const DashboardSideBar = () => {
         <DashboardButton>Add</DashboardButton>
       </StyledSkillDropdownContainer>
       <hr></hr>
-      <h2>Contacts</h2>
+      <h2>User Contacts</h2>
       <UserContacts />
       <DashboardButton>View All Contacts</DashboardButton>
     </StyledSideBar>

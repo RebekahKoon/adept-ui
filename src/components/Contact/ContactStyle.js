@@ -1,14 +1,19 @@
 import styled from 'styled-components'
 import {
-  StyledEducationContainer,
   StyledEducationContent,
   StyledEducation,
   StyledEducationText,
 } from '../Education/EducationStyle'
 
-export const StyledContactContainer = styled(StyledEducationContainer)`
-  border: none;
-  box-shadow: none;
+export const StyledContactContainer = styled.div`
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  border-radius: 5px;
+  margin-bottom: 2.5rem;
 `
 
 export const StyledContactContent = styled(StyledEducationContent)`

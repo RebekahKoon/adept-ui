@@ -1,7 +1,6 @@
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import Form from '../Form'
 import { Input } from '../Input'
-import { RadioInput } from '../Input'
 import {
   StyledWorkExperienceContainer,
   StyledWorkExperienceContent,
@@ -83,7 +82,7 @@ const FormInputFields = () => {
         // isInvalid={errors.name}
       />
       <div>
-        <StyledLabel for="description">Description</StyledLabel>
+        <StyledLabel htmlFor="description">Description</StyledLabel>
         <br />
         <StyledFormTextarea
           id="description"
