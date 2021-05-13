@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
+import Loader from 'react-loader-spinner'
 import { LOGIN_USER } from '../queries/login'
 import Layout from '../components/Layout'
 import { Input } from '../components/Input'
@@ -135,7 +136,13 @@ const LoginForm = () => {
           isInvalid={errors.password}
         />
 
-        <RegisterButton type="submit">Sign In</RegisterButton>
+        {loading ? (
+          <CenterContainer>
+            <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+          </CenterContainer>
+        ) : (
+          <RegisterButton type="submit">Sign In</RegisterButton>
+        )}
         <FormFooter />
       </form>
     </FormContainer>
