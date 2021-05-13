@@ -32,6 +32,4 @@ export const StyledWorkExperienceText = styled(StyledEducationText)`
   margin-left: 1.3rem;
 `
 
-export const StyledAddWorkExperienceButton = styled(StyledAddEducationButton)``
-
 export default StyledEducationContainer
