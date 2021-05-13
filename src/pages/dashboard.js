@@ -33,7 +33,6 @@ export const StyledResume = styled.div`
 `
 
 const DashboardButton = styled(StyledButtonSolid)`
-  /* margin-top: 0.5rem; */
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
   width: 100%;

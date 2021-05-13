@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { StyledButtonSolid } from '../Button'
 
 export const FormContainer = styled.div`
   /* display: flex; */
@@ -30,6 +31,26 @@ export const StyledAddToResumeButton = styled.button`
   padding: 1rem 0px;
   border: none;
   border-top: 1px solid var(--lightGray);
+`
+
+export const StyledButtonContainer = styled.div`
+  width: 100%;
+  text-align: right;
+`
+
+export const StyledSubmitButton = styled(StyledButtonSolid)`
+  margin-left: 0.5rem;
+  :hover {
+    background-color: #4510b7;
+  }
+`
+
+export const StyledCancelButton = styled(StyledButtonSolid)`
+  /* color: #575757; */
+  background-color: var(--lightGray);
+  :hover {
+    background-color: #bab7b0;
+  }
 `
 
 export default FormContainer
