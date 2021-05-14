@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import CreatableSelect from 'react-select/creatable'
 import { useQuery } from '@apollo/client'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import Select from 'react-select'
@@ -273,10 +274,15 @@ const DashboardSideBar = () => {
   // )
 
   // const [option, setOption] = useState('')
-  // const handleOptionChange = (e) => {
-  //   setOption(e.value)
-  //   console.log(e.value)
-  // }
+  const handleOptionChange = (e) => {
+    // setOption(e.value)
+    console.log(e.value)
+  }
+
+  const handleInputChange = (inputValue, actionMeta) => {
+    console.log(inputValue)
+    console.log(actionMeta.action)
+  }
 
   return (
     <StyledSideBar>
@@ -295,11 +301,14 @@ const DashboardSideBar = () => {
         <UserSkills />
       </StyledSkillList>
       <StyledSkillDropdownContainer>
-        <Select
+        <CreatableSelect
           placeholder={'Add skill...'}
-          // onChange={handleOptionChange}
+          onChange={handleOptionChange}
+          // onCreateOption=
+          isClearable
           options={dropdownSkills}
           styles={StyledSkillDropdown}
+          onInputChange={handleInputChange}
           indicatorSeparator={false}
           isSearchable={false}
         />
