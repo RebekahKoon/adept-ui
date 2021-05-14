@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
+import Loader from 'react-loader-spinner'
 import { REGISTER_USER } from '../queries/register'
 import Layout from '../components/Layout'
 import { Input, RadioInput } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
+import { CenterContainer } from '../components/styles'
 
 const RegisterButton = styled(StyledButtonSolid)`
   width: 100%;
@@ -198,7 +200,13 @@ const RegisterForm = () => {
             />
           </RadioInputs>
         </RadioInputsSection>
-        <RegisterButton type="submit">Register</RegisterButton>
+        {loading ? (
+          <CenterContainer>
+            <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+          </CenterContainer>
+        ) : (
+          <RegisterButton type="submit">Register</RegisterButton>
+        )}
         <FormFooter />
       </form>
     </FormContainer>
