@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Select from 'react-select'
+import { useQuery } from '@apollo/client'
+import { SEARCH_JOBS } from '../../queries/search'
 import {
   StyledSearchHeader,
   StyledSearchContainer,
@@ -19,6 +21,7 @@ const SearchBar = ({ headerText }) => {
   const [searchItem, setSearchItem] = useState('')
   const handleChange = (e) => {
     setSearchItem(e.target.value)
+    console.log(searchItem)
   }
 
   const options = [
@@ -36,6 +39,13 @@ const SearchBar = ({ headerText }) => {
     },
   ]
 
+  /*
+  const { loading, error, data } = useQuery(SEARCH_JOBS, {
+    variables: { company },
+  })
+  if (loading) return null
+  if (error) return `Error! ${error}`
+*/
   return (
     <StyledSearchHeader>
       <StyledSearchContainer>
@@ -54,9 +64,9 @@ const SearchBar = ({ headerText }) => {
             type="text"
             placeholder="Search"
             value={searchItem}
-            onChange={handleChange}
+            onChange={(e) => setSearchItem(e.target.value)}
           ></StyledInput>
-          <button disabled>
+          <button onClick={handleChange}>
             <i className="fa fa-search"></i>
           </button>
         </StyledSearchBar>
