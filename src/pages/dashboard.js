@@ -274,10 +274,10 @@ const DashboardSideBar = () => {
   // )
 
   // const [option, setOption] = useState('')
-  const handleOptionChange = (e) => {
-    // setOption(e.value)
-    console.log(e.value)
-  }
+  // const handleOptionChange = (e) => {
+  //   // setOption(e.value)
+  //   console.log(e.value)
+  // }
 
   const handleInputChange = (inputValue, actionMeta) => {
     console.log(inputValue)
@@ -303,7 +303,7 @@ const DashboardSideBar = () => {
       <StyledSkillDropdownContainer>
         <CreatableSelect
           placeholder={'Add skill...'}
-          onChange={handleOptionChange}
+          // onChange={handleOptionChange}
           // onCreateOption=
           isClearable
           options={dropdownSkills}

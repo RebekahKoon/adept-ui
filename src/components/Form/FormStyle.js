@@ -31,6 +31,11 @@ export const StyledAddToResumeButton = styled.button`
   padding: 1rem 0px;
   border: none;
   border-top: 1px solid var(--lightGray);
+
+  :hover {
+    background-color: var(--lightBlue);
+    cursor: pointer;
+  }
 `
 
 export const StyledButtonContainer = styled.div`
