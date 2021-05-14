@@ -6,6 +6,7 @@ import { LOGIN_USER } from '../queries/login'
 import Layout from '../components/Layout'
 import { Input } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
+import { CenterContainer } from '../components/styles'
 
 const RegisterButton = styled(StyledButtonSolid)`
   width: 100%;
