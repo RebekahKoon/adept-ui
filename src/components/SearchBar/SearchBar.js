@@ -11,7 +11,7 @@ import {
   StyledSearchDivider,
 } from './SearchBarStyle'
 
-const SearchBar = ({ headerText }) => {
+function SearchBar({ headerText }) {
   const [option, setOption] = useState('All')
   const handleOptionChange = (e) => {
     setOption(e.value)
@@ -21,6 +21,9 @@ const SearchBar = ({ headerText }) => {
   const [searchItem, setSearchItem] = useState('')
   const handleChange = (e) => {
     setSearchItem(e.target.value)
+    //console.log('data: ' + data)
+    //const {data, loading, error} =useQuery(SEARCH_JOBS)
+    //console.log('new data: ' + data)
     console.log(searchItem)
   }
 
@@ -38,14 +41,6 @@ const SearchBar = ({ headerText }) => {
       value: 'users',
     },
   ]
-
-  /*
-  const { loading, error, data } = useQuery(SEARCH_JOBS, {
-    variables: { company },
-  })
-  if (loading) return null
-  if (error) return `Error! ${error}`
-*/
   return (
     <StyledSearchHeader>
       <StyledSearchContainer>

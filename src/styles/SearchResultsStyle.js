@@ -5,7 +5,6 @@ const StyledSearchResults = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  padding: 40px 0px 128px;
 
   position: static;
   width: var(--maxWidth);
@@ -14,16 +13,13 @@ const StyledSearchResults = styled.div`
   top: 298.5px;
 `
 
-export const SearchResultsParent = styled.div``
-
 export const SSRSearchResults = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
 
   position: static;
-  width: 718px;
+  width: 68%;
   height: 964px;
   left: 390px;
   top: 16.5px;
@@ -33,24 +29,21 @@ export const SSRMain = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px 16px;
 
   position: static;
   width: 1140px;
   height: 1189px;
   left: 150px;
   top: 40px;
-  margin-left: 57rem;
 `
 
 export const SSRMainContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 16.5px 0px;
 
   position: static;
-  width: 1108px;
+  width: 1140px;
   height: 997px;
   left: 16px;
   top: 44px;
@@ -61,10 +54,9 @@ export const SSRSearchResultsHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px;
 
   position: static;
-  width: 1095px;
+  //width: 1095px;
   height: 28px;
 `
 
@@ -72,13 +64,9 @@ export const SSRSortByDropdown = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0px;
 
   position: static;
-  width: 131px;
-  height: 22px;
-  max-width: var(--maxWidth);
-  margin-right: 11.25%;
+  height: 1rem;
 `
 
 export const SSRFilterSection = styled.div`
@@ -86,7 +74,7 @@ export const SSRFilterSection = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  width: 200px;
+  //width: 200px;
   height: 191px;
 `
 
@@ -96,7 +84,7 @@ export const SSRFilterOptions = styled.div`
   align-items: flex-start;
 
   position: static;
-  width: 200px;
+  //width: 200px;
   height: 160px;
   left: 0px;
   top: 31px;
@@ -110,10 +98,9 @@ export const SSRDividerContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 20px 0px;
 
   position: static;
-  width: 270px;
+  //width: 270px;
   height: 40px;
   left: 40px;
   top: 462px;
@@ -121,7 +108,7 @@ export const SSRDividerContainer = styled.div`
 
 export const SSRDivider = styled.div`
   position: static;
-  width: 190px;
+  //width: 190px;
   height: 0px;
   left: 0px;
   top: 20px;
@@ -138,7 +125,6 @@ export const SSRCheckBoxOption = styled.div`
   height: 100%;
 
   label {
-    margin-top: 1.5rem;
   }
 `
 
@@ -157,13 +143,13 @@ export const StyledDropdown = {
     color: '#191C3C',
     boxShadow: 'none',
     border: '0px',
-    width: '15rem',
+    width: '6.25rem',
     paddingTop: '.5rem',
     paddingBottom: '.5rem',
   }),
   singleValue: (provided) => ({
     ...provided,
-    color: '#AEB7D0',
+    color: '#000000',
   }),
   indicatorSeparator: (base) => ({
     ...base,

@@ -10,10 +10,10 @@ import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 import SearchBar from '../components/SearchBar'
 import StyledSideBar from '../components/SideBar'
+import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import StyledSearchResults from '../styles/SearchResultsStyle'
 import Checkbox from '../components/Checkbox'
 import {
-  SearchResultsParent,
   SSRSearchResults,
   SSRMain,
   SSRMainContentContainer,
@@ -146,28 +146,24 @@ function SearchResultView(props) {
   }
   return (
     <Layout>
-      {
-        <SearchResultsParent>
-          <SearchBar headerText="Search Jobs" />
-          <StyledSearchResults>
-            <SSRMain>
-              <SSRSearchResultsHeader>
-                69,420 results found
-                <SearchResulDropdown />
-              </SSRSearchResultsHeader>
-              <SSRMainContentContainer>
-                <SearchResultSideBar />
-                <SSRSearchResults>
-                  <SearchResult />
-                  <SearchResult />
-                  <SearchResult />
-                  <SearchResult />
-                </SSRSearchResults>
-              </SSRMainContentContainer>
-            </SSRMain>
-          </StyledSearchResults>
-        </SearchResultsParent>
-      }
+      <SearchBar headerText="Search Jobs" />
+      <MainContentFlexContainer>
+        <SSRMain>
+          <SSRSearchResultsHeader>
+            69,420 results found
+            <SearchResulDropdown />
+          </SSRSearchResultsHeader>
+          <SSRMainContentContainer>
+            <SearchResultSideBar />
+            <SSRSearchResults>
+              <SearchResult />
+              <SearchResult />
+              <SearchResult />
+              <SearchResult />
+            </SSRSearchResults>
+          </SSRMainContentContainer>
+        </SSRMain>
+      </MainContentFlexContainer>
     </Layout>
   )
 }
