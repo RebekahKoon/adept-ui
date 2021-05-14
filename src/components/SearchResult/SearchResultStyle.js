@@ -2,15 +2,15 @@ import styled from 'styled-components'
 
 const SSRSearchResultDiv = styled.div`
   display: flex;
-  margin: 0 auto;
-  width: 100%;
-  max-width: var(--maxWidth);
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   align-items: flex-start;
-  padding: 2.5rem 0px 8rem;
+  padding: 40px;
 
+  position: static;
+  width: 100%;
   height: 211px;
+  left: 0px;
+  top: 753px;
   margin-bottom: 1.5rem;
 
   background: #ffffff;
@@ -18,6 +18,14 @@ const SSRSearchResultDiv = styled.div`
   box-sizing: border-box;
   box-shadow: 0px 4px 10px rgba(80, 120, 239, 0.1);
   border-radius: 5px;
+`
+
+export const SSRCompanyText = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 1rem;
+  width: 25%;
 `
 
 export const SSRSearchResultFooter = styled.div`
@@ -29,7 +37,7 @@ export const SSRSearchResultFooter = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 500px;
+  width: 500px;
   height: 32px;
   left: 40px;
   top: 139px;
@@ -42,7 +50,7 @@ export const SSRSkillDiv = styled.div`
   padding: 8px;
   margin-right: 1rem;
 
-  //width: 104px;
+  width: 104px;
   height: 32px;
   left: 358px;
   top: 1942px;
@@ -58,7 +66,7 @@ export const SSRSearchResultContainer = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 505px;
+  width: 505px;
   height: 59px;
   left: 40px;
   top: 40px;
@@ -71,7 +79,7 @@ export const SSRSearchResultLinkContainer = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 200px;
+  width: 200px;
   height: 20px;
 `
 
@@ -82,7 +90,7 @@ export const SSRSearchResultContent = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 400px;
+  width: 400px;
   height: 59px;
   left: 0px;
   top: 0px;
@@ -95,7 +103,7 @@ export const SSRJobInfoAndLogo = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 483px;
+  width: 483px;
   height: 59px;
   left: 0px;
   top: 0px;
@@ -114,7 +122,7 @@ export const SSRMainContent = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 395px;
+  width: 395px;
   height: 59px;
   left: 88px;
   top: 0px;
@@ -129,7 +137,7 @@ export const SSRJobLogoContainer = styled.div`
   font-size: 2.5rem;
 
   position: static;
-  //width: 100px;
+  width: 100px;
   height: 100px;
   left: 0px;
   top: 0px;
@@ -143,7 +151,7 @@ export const SSRJobTitleContainer = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 67px;
+  width: 67px;
   height: 25px;
   left: 0px;
   top: 0px;
@@ -156,7 +164,7 @@ export const SSRJobInfoContainer = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 395px;
+  width: 395px;
   height: 24px;
   left: 0px;
   top: 35px;
@@ -169,7 +177,7 @@ export const SSRCompanyContainer = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 395px;
+  width: 395px;
   height: 24px;
   left: 0px;
   top: 0px;
@@ -182,7 +190,7 @@ export const SSRCompanyTextContainer = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 395px;
+  width: 100%;
   height: 24px;
   left: 0px;
   top: 0px;
@@ -195,7 +203,7 @@ export const SSRSkillsContainer = styled.div`
   padding: 0px;
 
   position: static;
-  //width: 278px;
+  width: 300px;
   height: 32px;
   left: 0px;
   top: 0px;
@@ -208,8 +216,24 @@ export const SSRDate = styled.div`
   justify-content: flex-end;
   padding: 0px;
 
-  position: static;
-  //width: 100px;
+  position: relative;
+  left: 33%;
+  width: 100px;
   height: 16px;
+`
+
+export const SSRViewJob = styled.div`
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  background: none;
+  color: var(--darkPurple);
+  font-weight: bold;
+  height: 2.8rem;
+  padding: 1rem 0px;
+  margin-top: 1.5rem;
+  border: none;
+  border-top: 1px solid var(--lightGray);
 `
 export default SSRSearchResultDiv

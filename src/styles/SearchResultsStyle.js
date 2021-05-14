@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const StyledSearchResults = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: flex-start;
 
@@ -32,7 +32,7 @@ export const SSRMain = styled.div`
 
   position: static;
   width: 1140px;
-  height: 1189px;
+  //height: 1189px;
   left: 150px;
   top: 40px;
 `
@@ -56,8 +56,8 @@ export const SSRSearchResultsHeader = styled.div`
   align-items: center;
 
   position: static;
-  //width: 1095px;
-  height: 28px;
+  width: 100%;
+  height: 4rem;
 `
 
 export const SSRSortByDropdown = styled.div`
@@ -73,8 +73,6 @@ export const SSRFilterSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
-  //width: 200px;
   height: 191px;
 `
 
@@ -84,7 +82,6 @@ export const SSRFilterOptions = styled.div`
   align-items: flex-start;
 
   position: static;
-  //width: 200px;
   height: 160px;
   left: 0px;
   top: 31px;
@@ -100,7 +97,7 @@ export const SSRDividerContainer = styled.div`
   align-items: flex-start;
 
   position: static;
-  //width: 270px;
+  width: 270px;
   height: 40px;
   left: 40px;
   top: 462px;
@@ -108,7 +105,7 @@ export const SSRDividerContainer = styled.div`
 
 export const SSRDivider = styled.div`
   position: static;
-  //width: 190px;
+  width: 190px;
   height: 0px;
   left: 0px;
   top: 20px;

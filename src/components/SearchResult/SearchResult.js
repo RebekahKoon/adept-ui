@@ -11,7 +11,6 @@ import {
   SSRSkillDiv,
   SSRSearchResultContainer,
   SSRSearchResultLinkContainer,
-  SSRSearchResultContent,
   SSRJobInfoAndLogo,
   SSRJobButton,
   SSRMainContent,
@@ -20,8 +19,10 @@ import {
   SSRJobInfoContainer,
   SSRCompanyContainer,
   SSRCompanyTextContainer,
+  SSRCompanyText,
   SSRSkillsContainer,
   SSRDate,
+  SSRViewJob,
 } from './SearchResultStyle'
 
 function SearchResult(props) {
@@ -33,36 +34,39 @@ function SearchResult(props) {
   return (
     <SSRSearchResultDiv>
       <SSRSearchResultContainer>
-        <SSRSearchResultContent>
-          <SSRJobInfoAndLogo>
-            <SSRJobLogoContainer>
-              <i className="fab fa-adn"></i>
-            </SSRJobLogoContainer>
-            <SSRMainContent>
-              <SSRJobTitleContainer>Job Title</SSRJobTitleContainer>
-              <SSRJobInfoContainer>
-                <SSRCompanyContainer>
-                  <SSRCompanyTextContainer>
+        <SSRJobInfoAndLogo>
+          <SSRJobLogoContainer>
+            <i className="fab fa-adn"></i>
+          </SSRJobLogoContainer>
+          <SSRMainContent>
+            <SSRJobTitleContainer>Job Title</SSRJobTitleContainer>
+            <SSRJobInfoContainer>
+              <SSRCompanyContainer>
+                <SSRCompanyTextContainer>
+                  <SSRCompanyText>
                     <i className="fas fa-suitcase"></i>
                     <p>Text</p>
+                  </SSRCompanyText>
+                  <SSRCompanyText>
                     <i className="fas fa-map-marker-alt"></i>
                     <p>Text</p>
+                  </SSRCompanyText>
+
+                  <SSRCompanyText>
                     <i className="fas fa-clock"></i>
                     <p>Text</p>
+                  </SSRCompanyText>
+
+                  <SSRCompanyText>
                     <i className="fas fa-dollar-sign"></i>
                     <p>Text</p>
-                  </SSRCompanyTextContainer>
-                </SSRCompanyContainer>
-              </SSRJobInfoContainer>
-            </SSRMainContent>
-          </SSRJobInfoAndLogo>
-        </SSRSearchResultContent>
-        <SSRSearchResultLinkContainer>
-          View Job
-          <SSRJobButton value="View Job" label="ViewJob" onClick={handleClick}>
-            <i className="fas fa-arrow-right"></i>
-          </SSRJobButton>
-        </SSRSearchResultLinkContainer>
+                  </SSRCompanyText>
+                </SSRCompanyTextContainer>
+              </SSRCompanyContainer>
+            </SSRJobInfoContainer>
+          </SSRMainContent>
+        </SSRJobInfoAndLogo>
+        <SSRSearchResultLinkContainer></SSRSearchResultLinkContainer>
       </SSRSearchResultContainer>
       <SSRSearchResultFooter>
         <SSRSkillsContainer>
@@ -72,6 +76,11 @@ function SearchResult(props) {
         </SSRSkillsContainer>
         <SSRDate>Apr 20, 2021</SSRDate>
       </SSRSearchResultFooter>
+      <SSRViewJob>
+        <SSRJobButton value="View Job" label="ViewJob" onClick={handleClick}>
+          View Job
+        </SSRJobButton>
+      </SSRViewJob>
     </SSRSearchResultDiv>
   )
 }
