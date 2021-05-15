@@ -64,18 +64,4 @@ export const StyledEducationText = styled.div`
   }
 `
 
-export const StyledAddEducationButton = styled.button`
-  width: 100%;
-  display: flex;
-  margin: 0 auto;
-  justify-content: center;
-  background: none;
-  color: var(--darkPurple);
-  font-weight: bold;
-  height: 2.8rem;
-  padding: 1rem 0px;
-  border: none;
-  border-top: 1px solid var(--lightGray);
-`
-
 export default StyledEducationContainer

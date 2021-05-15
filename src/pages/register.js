@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
+import Loader from 'react-loader-spinner'
 import { REGISTER_USER } from '../queries/register'
 import Layout from '../components/Layout'
 import { Input, RadioInput } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
+import { CenterContainer } from '../components/styles'
 
 const RegisterButton = styled(StyledButtonSolid)`
   width: 100%;
@@ -118,6 +120,9 @@ const RegisterForm = () => {
     onCompleted({ registerUser }) {
       if (registerUser) {
         console.log(registerUser)
+        // call login user
+        // store returned token in local storage
+        // redirect to dashboard now that has been token obtained
       }
     },
     onError(e) {
@@ -127,10 +132,10 @@ const RegisterForm = () => {
 
   const onSubmit = (data) => {
     const input = {
-      name: 'a user',
-      email: 'ausersemail@a.a',
-      password: 'abc',
-      type: 'EMPLOYEE',
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      type: data.type,
     }
     registerUser({ variables: input })
   }
@@ -179,23 +184,29 @@ const RegisterForm = () => {
           <h2>I am:</h2>
           <RadioInputs>
             <RadioInput
-              {...register('userType')}
+              {...register('type')}
               defaultChecked
               type="radio"
               id="employee"
               label="A Job Applicant"
-              value="EMPLOYEE"
+              value={UserType.EMPLOYEE}
             />
             <RadioInput
-              {...register('userType')}
+              {...register('type')}
               type="radio"
               id="employer"
               label="An Employer"
-              value="EMPLOYER"
+              value={UserType.EMPLOYER}
             />
           </RadioInputs>
         </RadioInputsSection>
-        <RegisterButton type="submit">Register</RegisterButton>
+        {loading ? (
+          <CenterContainer>
+            <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+          </CenterContainer>
+        ) : (
+          <RegisterButton type="submit">Register</RegisterButton>
+        )}
         <FormFooter />
       </form>
     </FormContainer>

@@ -5,7 +5,7 @@ export const StyledSideBar = styled.div`
   margin: 0 auto;
   width: 32%;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
   margin-right: 2.5rem;
   padding: 2.5rem;
