@@ -126,7 +126,7 @@ function SearchResultView(props) {
     )
   }
 
-  const SearchResulDropdown = () => {
+  const SearchResultDropdown = () => {
     return (
       <SSRSortByDropdown>
         Sort by:
@@ -148,7 +148,7 @@ function SearchResultView(props) {
         <SSRMain>
           <SSRSearchResultsHeader>
             69,420 results found
-            <SearchResulDropdown />
+            <SearchResultDropdown />
           </SSRSearchResultsHeader>
           <SSRMainContentContainer>
             <SearchResultSideBar />
