@@ -1,5 +1,7 @@
-import React, { Component, useState } from 'react'
-import { render } from 'react-dom'
+import React, { useState } from 'react'
+import HiddenCheckbox from './CheckboxStyle'
+
+import { StyledCheckbox, CheckboxContainer, Icon } from './CheckboxStyle'
 
 function Checkbox(props) {
   const [state, setState] = useState({
@@ -20,18 +22,24 @@ function Checkbox(props) {
   const { isChecked } = state
 
   return (
-    <div className="checkbox">
-      <label>
-        <input
-          type="checkbox"
-          value={label}
-          checked={isChecked}
-          onChange={toggleCheckboxChange}
-        />
+    <CheckboxContainer className="checkbox">
+      <HiddenCheckbox
+        checked={isChecked}
+        onClick={toggleCheckboxChange}
+        {...props}
+      />
+      <StyledCheckbox
+        checked={isChecked}
+        onClick={toggleCheckboxChange}
+        value={label}
+      >
+        <Icon viewBox="0 0 24 24">
+          <polyline points="20 6 9 17 4 12" />
+        </Icon>
+      </StyledCheckbox>
 
-        {label}
-      </label>
-    </div>
+      {label}
+    </CheckboxContainer>
   )
 }
 

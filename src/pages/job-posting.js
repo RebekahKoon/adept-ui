@@ -1,7 +1,10 @@
 // pages/job-posting.js
-import React from 'react'
 import Layout from '../components/Layout'
-
-const JobPostingView = (props) => <Layout>{`JobPosting View`}</Layout>
+import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
+const JobPostingView = (props) => (
+  <Layout>
+    <MainContentFlexContainer>JobPosting</MainContentFlexContainer>
+  </Layout>
+)
 
 export default JobPostingView

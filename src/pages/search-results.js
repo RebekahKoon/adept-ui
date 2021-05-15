@@ -30,7 +30,7 @@ import {
 
 function SearchResultView(props) {
   const JobType = ['Full Time', 'Part Time', 'Contract', 'Internship']
-  const JobCategory = ['Option1', 'Option2', 'Option3']
+  const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
 
   const selectedCheckboxes = new Set()
@@ -56,7 +56,7 @@ function SearchResultView(props) {
 
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
-  const createJobCatCheckboxes = () => JobCategory.map(createCheckbox)
+  const createJobCatCheckboxes = () => JobSkills.map(createCheckbox)
 
   const createExperienceCheckboxes = () => Experience.map(createCheckbox)
 
@@ -117,10 +117,6 @@ function SearchResultView(props) {
             <SSRCheckBoxOption>
               <form onSubmit={handleFormSubmit}>
                 {createExperienceCheckboxes()}
-
-                <button className="btn btn-default" type="submit">
-                  Save
-                </button>
               </form>
             </SSRCheckBoxOption>
           </SSRFilterOptions>

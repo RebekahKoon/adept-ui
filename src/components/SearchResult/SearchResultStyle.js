@@ -8,7 +8,7 @@ const SSRSearchResultDiv = styled.div`
 
   position: static;
   width: 100%;
-  height: 211px;
+  height: 10rem;
   left: 0px;
   top: 753px;
   margin-bottom: 1.5rem;
@@ -66,7 +66,7 @@ export const SSRSearchResultContainer = styled.div`
   padding: 0px;
 
   position: static;
-  width: 505px;
+  width: 100%;
   height: 59px;
   left: 40px;
   top: 40px;
@@ -79,7 +79,8 @@ export const SSRSearchResultLinkContainer = styled.div`
   padding: 0px;
 
   position: static;
-  width: 200px;
+  margin-left: 3%;
+  width: 100%;
   height: 20px;
 `
 
@@ -112,7 +113,7 @@ export const SSRJobInfoAndLogo = styled.div`
 export const SSRJobButton = styled.button`
   background: transparent;
   border: none;
-  font-size: 1.25rem;
+  font-size: 1rem;
 `
 
 export const SSRMainContent = styled.div`
