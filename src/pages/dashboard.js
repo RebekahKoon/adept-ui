@@ -12,6 +12,8 @@ import Education from '../components/Education'
 import WorkExperience from '../components/WorkExperience'
 import Skill from '../components/Skill'
 import Contact from '../components/Contact'
+import ContactsModal from '../components/ContactsModal'
+import ModalContext from '../context/ModalContext'
 import { StyledButtonSolid } from '../components/Button'
 
 export const StyledDashboardBody = styled.div`
@@ -235,9 +237,10 @@ const UserSkills = () => {
   ))
 }
 
-const UserContacts = () => {
+const UserContacts = ({ border }) => {
   return sampleUserData.data.getUserById.contacts.map((contact) => (
     <Contact
+      border={border}
       name={contact.name}
       email={contact.email}
       city={contact.city}
@@ -247,6 +250,20 @@ const UserContacts = () => {
 }
 
 const DashboardSideBar = () => {
+  // const [option, setOption] = useState('')
+  // const handleOptionChange = (e) => {
+  //   // setOption(e.value)
+  //   console.log(e.value)
+  // }
+
+  const [isOpen, setIsOpen] = useState(false)
+  const openModal = () => {
+    setIsOpen(true)
+  }
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
   const { loading, error, data } = useQuery(GET_ALL_SKILLS, {
     onCompleted: () => {
       if (data) {
@@ -272,12 +289,6 @@ const DashboardSideBar = () => {
   //     label: skill.name,
   //   })
   // )
-
-  // const [option, setOption] = useState('')
-  // const handleOptionChange = (e) => {
-  //   // setOption(e.value)
-  //   console.log(e.value)
-  // }
 
   const handleInputChange = (inputValue, actionMeta) => {
     console.log(inputValue)
@@ -316,8 +327,16 @@ const DashboardSideBar = () => {
       </StyledSkillDropdownContainer>
       <hr></hr>
       <h2>User Contacts</h2>
-      <UserContacts />
-      <DashboardButton>View All Contacts</DashboardButton>
+      <UserContacts border={false} />
+      <DashboardButton onClick={openModal}>View All Contacts</DashboardButton>
+      <ModalContext.Provider
+        value={{
+          isOpen,
+          closeModal,
+        }}
+      >
+        <ContactsModal contacts={UserContacts(true)} numberContacts={420} />
+      </ModalContext.Provider>
     </StyledSideBar>
   )
 }
