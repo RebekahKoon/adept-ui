@@ -117,6 +117,7 @@ function SearchResultView(props) {
             <SSRCheckBoxOption>
               <form onSubmit={handleFormSubmit}>
                 {createExperienceCheckboxes()}
+                <button type="submit">Submit</button>
               </form>
             </SSRCheckBoxOption>
           </SSRFilterOptions>
