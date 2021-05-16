@@ -9,9 +9,11 @@ import {
 } from './ContactStyle'
 import StyledEducationContainer from '../Education/EducationStyle'
 
-const Contact = ({ name, email, city, state }) => {
+const Contact = ({ name, email, city, state, border }) => {
   return (
-    <StyledContactContainer>
+    <StyledContactContainer
+    // style={{ border: border === false ? 'none' : '1px solid #F2F2F2' }}
+    >
       <StyledContactContent>
         <StyledContact>
           <i className="fas fa-user-circle fa-3x"></i>

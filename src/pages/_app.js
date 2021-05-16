@@ -1,4 +1,6 @@
 import { Provider } from 'next-auth/client'
+import { ApolloProvider } from '@apollo/client'
+import client from '../apollo/apolloClient'
 
 // Use the <Provider> to improve performance and allow components that call
 // `useSession()` anywhere in your application to access the `session` object.
@@ -24,7 +26,9 @@ export default function App({ Component, pageProps }) {
       }}
       session={pageProps.session}
     >
-      <Component {...pageProps} />
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </Provider>
   )
 }
