@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import CreatableSelect from 'react-select/creatable'
-import { useQuery } from '@apollo/client'
+import { useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
+import { GET_USER_BY_ID } from '../queries/getUserById'
 import Select from 'react-select'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
@@ -250,13 +251,7 @@ const UserContacts = ({ border }) => {
   ))
 }
 
-const DashboardSideBar = () => {
-  // const [option, setOption] = useState('')
-  // const handleOptionChange = (e) => {
-  //   // setOption(e.value)
-  //   console.log(e.value)
-  // }
-
+const DashboardSideBar = ({ currentUser, allSkills }) => {
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => {
     setIsOpen(true)
@@ -265,31 +260,10 @@ const DashboardSideBar = () => {
     setIsOpen(false)
   }
 
-  const { loading, error, data } = useQuery(GET_ALL_SKILLS, {
-    onCompleted: () => {
-      if (data) {
-        console.log(data)
-      }
-    },
-    onError: (e) => {
-      console.log(e)
-    },
-  })
-
-  if (loading) return null
-  if (error) console.log(error)
-
-  const dropdownSkills = data.getAllSkills.map((skill) => ({
+  const dropdownSkills = allSkills.map((skill) => ({
     name: skill.skillId,
     label: skill.name,
   }))
-
-  // const dropdownSkills = sampleUserData.data.getUserById.skills.map(
-  //   (skill) => ({
-  //     name: skill.name,
-  //     label: skill.name,
-  //   })
-  // )
 
   const handleInputChange = (inputValue, actionMeta) => {
     console.log(inputValue)
@@ -302,7 +276,7 @@ const DashboardSideBar = () => {
         <p>
           <i className="fas fa-user-circle fa-5x"></i>
         </p>
-        <h2>Rebekah Koon</h2>
+        <h2>{currentUser.name}</h2>
         <div>Oregon State University</div>
         <div>IT Assistant AKA Dishwasher</div>
         <div style={{ color: '#585858' }}>Eugene, OR</div>
@@ -342,14 +316,19 @@ const DashboardSideBar = () => {
   )
 }
 
-const DashboardView = (props) => {
-  console.log(props)
+const Dashboard = (props) => {
+  console.log(props.allSkills)
+  console.log(props.currentUser)
+
   return (
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
       <MainContentFlexContainer>
         <StyledDashboardBody>
-          <DashboardSideBar />
+          <DashboardSideBar
+            currentUser={props.currentUser}
+            allSkills={props.allSkills}
+          />
           <StyledResume>
             <Education
               educationData={sampleUserData.data.getUserById.resume.education}
@@ -366,32 +345,22 @@ const DashboardView = (props) => {
   )
 }
 
-// DashboardView.getServerSideProps = async () => {
-//   const { data } = await client.query({
-//     query: GET_ALL_SKILLS,
-//   })
-
-//   return {
-//     props: {
-//       allSkills: data.getAllSkills,
-//     },
-//   }
-// }
-
-export default DashboardView
+export default Dashboard
 
 export const getServerSideProps = async () => {
   const { data: skillsData } = await client.query({
     query: GET_ALL_SKILLS,
   })
 
-  // const {data: userData} = await client.query({
-  //   query: GET_USER
-  // })
+  const { data: userData } = await client.query({
+    query: GET_USER_BY_ID,
+    variables: { userId: '10737552-9018-497d-8e7a-064f99e8eeaa' },
+  })
 
   return {
     props: {
-      allSkills: skillsData.getAllSkills.slice(0, 4),
+      allSkills: skillsData.getAllSkills,
+      currentUser: userData.getUserById,
     },
   }
 }
