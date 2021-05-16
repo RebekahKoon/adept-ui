@@ -4,6 +4,7 @@ import CreatableSelect from 'react-select/creatable'
 import { useQuery } from '@apollo/client'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import Select from 'react-select'
+import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import StyledSideBar from '../components/SideBar'
@@ -341,7 +342,8 @@ const DashboardSideBar = () => {
   )
 }
 
-const DashboardView = () => {
+const DashboardView = (props) => {
+  console.log(props)
   return (
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
@@ -364,4 +366,32 @@ const DashboardView = () => {
   )
 }
 
+// DashboardView.getServerSideProps = async () => {
+//   const { data } = await client.query({
+//     query: GET_ALL_SKILLS,
+//   })
+
+//   return {
+//     props: {
+//       allSkills: data.getAllSkills,
+//     },
+//   }
+// }
+
 export default DashboardView
+
+export const getServerSideProps = async () => {
+  const { data: skillsData } = await client.query({
+    query: GET_ALL_SKILLS,
+  })
+
+  // const {data: userData} = await client.query({
+  //   query: GET_USER
+  // })
+
+  return {
+    props: {
+      allSkills: skillsData.getAllSkills.slice(0, 4),
+    },
+  }
+}
