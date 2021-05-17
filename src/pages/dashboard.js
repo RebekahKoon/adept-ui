@@ -233,22 +233,23 @@ const sampleUserData = {
   },
 }
 
-const UserSkills = () => {
-  return sampleUserData.data.getUserById.skills.map((skill) => (
-    <Skill name={skill.name} />
-  ))
+const UserSkills = ({ userSkills }) => {
+  return userSkills.map((skill) => <Skill name={skill.name} />)
 }
 
-const UserContacts = ({ border }) => {
-  return sampleUserData.data.getUserById.contacts.map((contact) => (
-    <Contact
-      border={border}
-      name={contact.name}
-      email={contact.email}
-      city={contact.city}
-      state={contact.state}
-    />
-  ))
+const UserContacts = ({ contacts }) => {
+  return contacts
+    ? contacts
+        .slice(0, 3)
+        .map((contact) => (
+          <Contact
+            name={contact.name}
+            email={contact.email}
+            city={contact.city}
+            state={contact.state}
+          />
+        ))
+    : null
 }
 
 const DashboardSideBar = ({ currentUser, allSkills }) => {
@@ -279,12 +280,17 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
         <h2>{currentUser.name}</h2>
         <div>Oregon State University</div>
         <div>IT Assistant AKA Dishwasher</div>
-        <div style={{ color: '#585858' }}>Eugene, OR</div>
+        <div style={{ color: '#585858' }}>
+          {currentUser.city
+            ? `${currentUser.city}, `
+            : 'Location not specified'}
+          {currentUser.state ? currentUser.state : ''}
+        </div>
       </SideBarProfile>
       <hr></hr>
-      <h2>User Skills</h2>
+      <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
       <StyledSkillList>
-        <UserSkills />
+        <UserSkills userSkills={currentUser.skills} />
       </StyledSkillList>
       <StyledSkillDropdownContainer>
         <CreatableSelect
@@ -301,8 +307,8 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
         <DashboardButton>Add</DashboardButton>
       </StyledSkillDropdownContainer>
       <hr></hr>
-      <h2>User Contacts</h2>
-      <UserContacts border={false} />
+      <h2>{currentUser.name.split(' ')[0]}'s Contacts</h2>
+      <UserContacts contacts={currentUser.contacts} />
       <DashboardButton onClick={openModal}>View All Contacts</DashboardButton>
       <ModalContext.Provider
         value={{
@@ -310,7 +316,7 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
           closeModal,
         }}
       >
-        <ContactsModal contacts={UserContacts(true)} numberContacts={420} />
+        <ContactsModal contacts={currentUser.contacts} numberContacts={420} />
       </ModalContext.Provider>
     </StyledSideBar>
   )
@@ -330,13 +336,9 @@ const Dashboard = (props) => {
             allSkills={props.allSkills}
           />
           <StyledResume>
-            <Education
-              educationData={sampleUserData.data.getUserById.resume.education}
-            />
+            <Education educationData={props.currentUser.resume.education} />
             <WorkExperience
-              workExperienceData={
-                sampleUserData.data.getUserById.resume.workExperience
-              }
+              workExperienceData={props.currentUser.resume.workExperience}
             />
           </StyledResume>
         </StyledDashboardBody>

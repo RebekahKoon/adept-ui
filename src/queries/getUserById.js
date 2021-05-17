@@ -25,6 +25,9 @@ export const GET_USER_BY_ID = gql`
       contacts {
         userId
         name
+        email
+        city
+        state
       }
       jobApplications {
         jobAppId
