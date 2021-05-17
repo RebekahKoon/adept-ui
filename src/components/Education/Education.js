@@ -59,8 +59,8 @@ const FormInputFields = ({ userId }) => {
       degree: data.degree,
       major: data.major,
       gpa: data.gpa,
-      startDate: data.startDate,
-      endDate: data.endDate,
+      startDate: new Date(data.startDate).valueOf(),
+      endDate: new Date(data.endDate).valueOf(),
     }
     console.log(input)
     addEducationToResume({ variables: input })
