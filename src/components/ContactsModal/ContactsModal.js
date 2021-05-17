@@ -10,15 +10,6 @@ import {
 } from './ContactsModalStyle'
 
 const UserContacts = ({ contacts }) => {
-  // return sampleUserData.data.getUserById.contacts.map((contact) => (
-  //   <Contact
-  //     name={contact.name}
-  //     email={contact.email}
-  //     city={contact.city}
-  //     state={contact.state}
-  //   />
-  // ))
-
   return contacts
     ? contacts.map((contact) => (
         <Contact

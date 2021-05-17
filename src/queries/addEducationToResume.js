@@ -8,7 +8,7 @@ export const ADD_EDUCATION_TO_RESUME = gql`
     $startDate: Float!
     $endDate: Float!
     $major: String!
-    $gpa: Float!
+    $gpa: Float
   ) {
     addEducationToResume(
       input: {

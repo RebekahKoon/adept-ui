@@ -1,3 +1,4 @@
+import { useForm } from 'react-hook-form'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import Form from '../Form'
 import { Input } from '../Input'
@@ -31,63 +32,71 @@ const WorkExperienceData = ({ workExperienceData }) => {
 }
 
 const FormInputFields = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'onSubmit' })
+
   return (
     <>
       <Input
-        // {...register('name', { required: true })}
+        {...register('name', { required: true })}
         type="text"
         placeholder="Google"
         id="name"
         label="Company name"
-        // isInvalid={errors.name}
+        isInvalid={errors.name}
       />
       <Input
-        // {...register('name', { required: true })}
+        {...register('position', { required: true })}
         type="text"
         placeholder="Software Developer"
         id="position"
         label="Position"
-        // isInvalid={errors.name}
+        isInvalid={errors.name}
       />
       <Input
-        // {...register('name', { required: true })}
+        {...register('city', { required: false })}
         type="text"
         placeholder="Seattle"
         id="city"
         label="City"
-        // isInvalid={errors.name}
+        isInvalid={errors.name}
       />
       <Input
-        // {...register('name', { required: true })}
+        {...register('state', { required: false })}
         type="text"
         placeholder="WA"
         id="state"
         label="State"
-        // isInvalid={errors.name}
+        isInvalid={errors.name}
       />
       <Input
-        // {...register('name', { required: true })}
+        {...register('startDate', { required: true })}
         type="date"
         // placeholder="2019"
         id="startDate"
         label="Start Date"
-        // isInvalid={errors.name}
+        isInvalid={errors.name}
       />
       <Input
-        // {...register('name', { required: true })}
+        {...register('endDate', { required: false })}
         type="date"
         // placeholder="2021"
         id="endDate"
         label="End Date (If Applicable)"
-        // isInvalid={errors.name}
+        isInvalid={errors.name}
       />
       <div>
         <StyledLabel htmlFor="description">Description</StyledLabel>
         <br />
         <StyledFormTextarea
+          {...register('description', { required: true })}
           id="description"
           cols="50"
           rows="4"
+          isInvalid={errors.name}
         ></StyledFormTextarea>
       </div>
     </>
@@ -101,10 +110,9 @@ const WorkExperience = ({ workExperienceData }) => {
         <h2>Work Experience</h2>
         <WorkExperienceData workExperienceData={workExperienceData} />
       </StyledWorkExperienceContent>
-      <Form
-        inputFields={FormInputFields()}
-        buttonText={'Add Work Experience'}
-      />
+      <Form inputFields={FormInputFields()} buttonText={'Add Work Experience'}>
+        <FormInputFields />
+      </Form>
     </StyledWorkExperienceContainer>
   )
 }

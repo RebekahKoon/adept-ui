@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import CreatableSelect from 'react-select/creatable'
-import { useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
 import Select from 'react-select'
@@ -336,7 +335,10 @@ const Dashboard = (props) => {
             allSkills={props.allSkills}
           />
           <StyledResume>
-            <Education educationData={props.currentUser.resume.education} />
+            <Education
+              educationData={props.currentUser.resume.education}
+              userId={props.currentUser.userId}
+            />
             <WorkExperience
               workExperienceData={props.currentUser.resume.workExperience}
             />

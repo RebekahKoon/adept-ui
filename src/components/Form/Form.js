@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import {
   FormContainer,
   FormGrid,
@@ -8,7 +9,7 @@ import {
   StyledCancelButton,
 } from './FormStyle'
 
-const Form = ({ inputFields, buttonText }) => {
+const Form = ({ children, buttonText }) => {
   const [formIsDisplayed, setFormIsDisplayed] = useState(false)
   const handleButtonClick = () => {
     formIsDisplayed === false
@@ -25,12 +26,12 @@ const Form = ({ inputFields, buttonText }) => {
         {buttonText}
       </StyledAddToResumeButton>
       <FormContainer style={{ display: formIsDisplayed ? 'flex' : 'none' }}>
-        <FormGrid>{inputFields}</FormGrid>
+        <FormGrid>{children}</FormGrid>
         <StyledButtonContainer>
           <StyledCancelButton onClick={handleButtonClick}>
             Cancel
           </StyledCancelButton>
-          <StyledSubmitButton>Submit</StyledSubmitButton>
+          <StyledSubmitButton type="submit">Submit</StyledSubmitButton>
         </StyledButtonContainer>
       </FormContainer>
     </>
