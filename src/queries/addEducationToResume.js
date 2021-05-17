@@ -33,6 +33,9 @@ export const ADD_EDUCATION_TO_RESUME = gql`
           major
           gpa
         }
+        workExperience {
+          position
+        }
       }
     }
   }

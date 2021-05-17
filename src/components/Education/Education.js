@@ -22,10 +22,11 @@ const EducationData = ({ educationData }) => {
         <b>{education.name}</b>
         {education.degree}
         <small>
-          {education.startDate} - {education.endDate}
+          {new Date(education.startDate).getUTCFullYear()} -{' '}
+          {new Date(education.endDate).getUTCFullYear()}
         </small>
         <small>{education.major}</small>
-        <small>{education.gpa.toFixed(1)}</small>
+        <small>{education.gpa ? education.gpa.toFixed(1) : ''}</small>
       </StyledEducationText>
     </StyledEducation>
   ))
@@ -119,6 +120,7 @@ const FormInputFields = ({ userId }) => {
           isInvalid={errors.name}
         />
         <button type="submit">Submit</button>
+        {loading ? 'Loading' : 'Added'}
       </Form>
     </form>
   )
