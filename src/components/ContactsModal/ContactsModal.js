@@ -47,12 +47,6 @@ const ContactsModal = ({ contacts, numberContacts }) => {
       <h1>{numberContacts} Contacts</h1>
       <StyledContactsGrid>
         <UserContacts contacts={contacts} />
-        {/* {contacts}
-        {contacts}
-        {contacts}
-        {contacts}
-        {contacts}
-        {contacts} */}
       </StyledContactsGrid>
       <br />
     </Modal>

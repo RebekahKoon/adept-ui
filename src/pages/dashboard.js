@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useMutation } from '@apollo/client'
 import styled from 'styled-components'
 import CreatableSelect from 'react-select/creatable'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
+import { CREATE_SKILL } from '../queries/createSkill'
 import Select from 'react-select'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
@@ -251,7 +253,13 @@ const UserContacts = ({ contacts }) => {
     : null
 }
 
+const createOption = (label) => ({
+  label,
+  value: label.toLowerCase().replace(/\W/g, ''),
+})
+
 const DashboardSideBar = ({ currentUser, allSkills }) => {
+  // Used to open modal
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => {
     setIsOpen(true)
@@ -260,14 +268,53 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
     setIsOpen(false)
   }
 
+  const [createSkill, { loading, error }] = useMutation(CREATE_SKILL, {
+    onCompleted({ createSkill }) {
+      if (createSkill) {
+        console.log(createSkill)
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+  })
+
+  // Dropdown skill list
   const dropdownSkills = allSkills.map((skill) => ({
     name: skill.skillId,
     label: skill.name,
   }))
 
-  const handleInputChange = (inputValue, actionMeta) => {
-    console.log(inputValue)
-    console.log(actionMeta.action)
+  // Dropdown menu states
+  const [skills, setSkills] = useState(dropdownSkills)
+  const [newSkill, setNewSkill] = useState()
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Used to determine if the dropdown value has changed
+  const handleChange = (newValue, actionMeta) => {
+    console.group('Value Changed')
+    console.log(newValue)
+    console.log(`action: ${actionMeta.action}`)
+    console.groupEnd()
+    setNewSkill(newValue)
+  }
+
+  // Creating a new value for the dropdown and adding it to the database
+  const handleCreate = (newValue) => {
+    setIsLoading(true)
+    console.group('Option created')
+    console.log('Wait a moment...')
+    setTimeout(() => {
+      const newOption = createOption(newValue)
+      console.log(newOption)
+      console.groupEnd()
+
+      setIsLoading(false)
+      setSkills([...skills, newOption])
+      setNewSkill(newValue)
+
+      createSkill({ variables: { name: newValue } })
+    }, 1000)
   }
 
   return (
@@ -293,15 +340,15 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
       </StyledSkillList>
       <StyledSkillDropdownContainer>
         <CreatableSelect
-          placeholder={'Add skill...'}
-          // onChange={handleOptionChange}
-          // onCreateOption=
+          placeholder={'Add skill to user...'}
           isClearable
-          options={dropdownSkills}
+          isDisabled={isLoading}
+          isLoading={isLoading}
+          onChange={handleChange}
+          onCreateOption={handleCreate}
+          options={skills}
+          value={newSkill}
           styles={StyledSkillDropdown}
-          onInputChange={handleInputChange}
-          indicatorSeparator={false}
-          isSearchable={false}
         />
         <DashboardButton>Add</DashboardButton>
       </StyledSkillDropdownContainer>
