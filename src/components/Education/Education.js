@@ -36,6 +36,7 @@ const FormInputFields = ({ userId }) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
@@ -70,7 +71,7 @@ const FormInputFields = ({ userId }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
       <Form
         // inputFields={FormInputFields()}
         buttonText={'Add Education'}
@@ -125,8 +126,10 @@ const FormInputFields = ({ userId }) => {
           pattern="\d{4}-\d{2}-\d{2}"
           isInvalid={errors.name}
         />
-        <button type="submit">Submit</button>
-        {loading ? 'Loading' : 'Added'}
+        {/* <button type="submit" value="Submit">
+          Submit
+        </button>
+        {loading ? 'Loading' : 'Added'} */}
       </Form>
     </form>
   )
