@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const ADD_EDUCATION_TO_RESUME = gql`
   mutation AddEducationToResume(
-    $userId: ID!
+    $userId: String!
     $name: String!
     $degree: String!
     $startDate: String!

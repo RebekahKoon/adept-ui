@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const ADD_WORK_EXPERIENCE_TO_RESUME = gql`
   mutation AddWorkExperienceToResume(
-    $userId: ID!
+    $userId: String!
     $company: String!
     $position: String!
     $startDate: Date!
