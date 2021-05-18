@@ -25,6 +25,12 @@ export const GET_USER_BY_ID = gql`
           workExpId
           position
           company
+          startDate
+          endDate
+          isCurrentPosition
+          city
+          state
+          description
         }
       }
       contacts {

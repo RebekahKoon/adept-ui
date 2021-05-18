@@ -341,6 +341,7 @@ const Dashboard = (props) => {
             />
             <WorkExperience
               workExperienceData={props.currentUser.resume.workExperience}
+              userId={props.currentUser.userId}
             />
           </StyledResume>
         </StyledDashboardBody>
