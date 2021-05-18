@@ -5,8 +5,8 @@ export const ADD_EDUCATION_TO_RESUME = gql`
     $userId: ID!
     $name: String!
     $degree: String!
-    $startDate: Date!
-    $endDate: Date!
+    $startDate: String!
+    $endDate: String!
     $major: String!
     $gpa: Float
   ) {

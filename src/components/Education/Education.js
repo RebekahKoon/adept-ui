@@ -60,8 +60,10 @@ const FormInputFields = ({ userId }) => {
       degree: data.degree,
       major: data.major,
       gpa: data.gpa,
-      startDate: new Date(data.startDate).valueOf(),
-      endDate: new Date(data.endDate).valueOf(),
+      // startDate: new Date(data.startDate).valueOf(),
+      // endDate: new Date(data.endDate).valueOf(),
+      startDate: data.startDate,
+      endDate: data.endDate,
     }
     console.log(input)
     addEducationToResume({ variables: input })
@@ -109,14 +111,18 @@ const FormInputFields = ({ userId }) => {
           {...register('startDate', { required: true })}
           type="date"
           id="startDate"
+          name="startDate"
           label="Start Date"
+          pattern="\d{4}-\d{2}-\d{2}"
           isInvalid={errors.name}
         />
         <Input
           {...register('endDate', { required: true })}
           type="date"
           id="endDate"
+          name="endDate"
           label="End Date"
+          pattern="\d{4}-\d{2}-\d{2}"
           isInvalid={errors.name}
         />
         <button type="submit">Submit</button>
