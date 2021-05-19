@@ -5,6 +5,7 @@ import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import { ADD_EDUCATION_TO_RESUME } from '../../queries/addEducationToResume'
+import { DELETE_EDUCATION } from '../../queries/deleteEducation'
 import Form from '../Form'
 import { Input } from '../Input'
 import {
@@ -13,9 +14,33 @@ import {
   StyledEducationGrid,
   StyledEducation,
   StyledEducationText,
+  StyledRemoveButton,
 } from './EducationStyle'
 
-const EducationData = ({ userEducation }) => {
+const EducationData = ({ userEducation, setUserEducation }) => {
+  const [deleteEducation, { loading, error }] = useMutation(DELETE_EDUCATION, {
+    onCompleted({ deleteEducation }) {
+      if (deleteEducation) {
+        console.log(deleteEducation)
+        setUserEducation(
+          userEducation.filter(
+            (education) => education.educationId !== deleteEducation
+          )
+        )
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+  })
+
+  const handleDeleteEducation = (educationId) => {
+    console.log(educationId)
+    deleteEducation({
+      variables: { educationId: educationId },
+    })
+  }
+
   return userEducation.map((education) => (
     <StyledEducation>
       <i className="fas fa-graduation-cap fa-3x"></i>
@@ -29,6 +54,12 @@ const EducationData = ({ userEducation }) => {
         <small>{education.major}</small>
         <small>{education.gpa ? education.gpa.toFixed(1) : ''}</small>
       </StyledEducationText>
+      <StyledRemoveButton
+        id={education.educationId}
+        onClick={() => handleDeleteEducation(education.educationId)}
+      >
+        <i className="fas fa-times"></i>
+      </StyledRemoveButton>
     </StyledEducation>
   ))
 }
@@ -137,7 +168,10 @@ const Education = ({ educationData, userId }) => {
       <StyledEducationContent>
         <h2>Education</h2>
         <StyledEducationGrid>
-          <EducationData userEducation={userEducation} />
+          <EducationData
+            userEducation={userEducation}
+            setUserEducation={setUserEducation}
+          />
         </StyledEducationGrid>
       </StyledEducationContent>
       <FormInputFields

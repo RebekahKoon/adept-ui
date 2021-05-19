@@ -12,6 +12,7 @@ import {
   StyledWorkExperienceText,
   StyledFormTextarea,
   StyledLabel,
+  StyledRemoveButton,
 } from './WorkExperienceStyle'
 
 const WorkExperienceData = ({ workExperienceData, userWorkExperience }) => {
@@ -30,6 +31,9 @@ const WorkExperienceData = ({ workExperienceData, userWorkExperience }) => {
         </small>
         {workExperience.description}
       </StyledWorkExperienceText>
+      <StyledRemoveButton>
+        <i className="fas fa-times"></i>
+      </StyledRemoveButton>
     </StyledWorkExperience>
   ))
 }
