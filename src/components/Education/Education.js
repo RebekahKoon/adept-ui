@@ -61,13 +61,9 @@ const FormInputFields = ({ userId }) => {
       degree: data.degree,
       major: data.major,
       gpa: parseFloat(data.gpa),
-      // startDate: new Date(data.startDate).valueOf(),
-      // endDate: new Date(data.endDate).valueOf(),
       startDate: data.startDate,
       endDate: data.endDate,
     }
-    console.log(typeof data.startDate)
-
     // const input = {
     //   userId: '10737552-9018-497d-8e7a-064f99e8eeaa',
     //   name: 'test',

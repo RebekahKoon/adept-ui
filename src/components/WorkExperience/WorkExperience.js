@@ -58,14 +58,25 @@ const FormInputFields = ({ userId }) => {
   const onSubmit = (data) => {
     const input = {
       userId: userId,
-      name: data.name,
+      company: data.company,
       position: data.position,
       city: data.city,
       state: data.state,
+      isCurrentPosition: data.endDate ? false : true,
       startDate: data.startDate,
       endDate: data.endDate,
       description: data.description,
     }
+    // const input = {
+    //   userId: '10737552-9018-497d-8e7a-064f99e8eeaa',
+    //   company: 'Google',
+    //   position: 'Software Developer',
+    //   startDate: '2020-02-12',
+    //   isCurrentPosition: true,
+    //   city: 'Seattle',
+    //   state: 'WA',
+    //   description: 'Very cool job',
+    // }
     console.log(input)
     addWorkExperienceToResume({ variables: input })
   }
@@ -78,10 +89,10 @@ const FormInputFields = ({ userId }) => {
           buttonText={'Add Work Experience'}
         >
           <Input
-            {...register('name', { required: true })}
+            {...register('company', { required: true })}
             type="text"
             placeholder="Google"
-            id="name"
+            id="company"
             label="Company name"
             isInvalid={errors.name}
           />
@@ -112,7 +123,6 @@ const FormInputFields = ({ userId }) => {
           <Input
             {...register('startDate', { required: true })}
             type="date"
-            // placeholder="2019"
             id="startDate"
             label="Start Date"
             isInvalid={errors.name}
@@ -120,7 +130,6 @@ const FormInputFields = ({ userId }) => {
           <Input
             {...register('endDate', { required: false })}
             type="date"
-            // placeholder="2021"
             id="endDate"
             label="End Date (If Applicable)"
             isInvalid={errors.name}

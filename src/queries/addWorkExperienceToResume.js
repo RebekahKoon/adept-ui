@@ -5,10 +5,10 @@ export const ADD_WORK_EXPERIENCE_TO_RESUME = gql`
     $userId: String!
     $company: String!
     $position: String!
-    $startDate: Date!
-    $endDate: Date
+    $startDate: String!
+    $endDate: String
     $isCurrentPosition: Boolean!
-    $city: string
+    $city: String
     $state: String
     $description: String!
   ) {

@@ -1,6 +1,4 @@
 import { ApolloClient, createHttpLink } from '@apollo/client'
-import { ApolloLink } from 'apollo-boost'
-import { onError } from 'apollo-link-error'
 import { setContext } from '@apollo/client/link/context'
 import { cache } from './cache'
 
