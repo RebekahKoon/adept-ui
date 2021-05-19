@@ -12,6 +12,7 @@ import SearchBar from '../components/SearchBar'
 import StyledSideBar from '../components/SideBar'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import StyledSearchResults from '../styles/SearchResultsStyle'
+import client from '../apollo/apolloClient'
 import Checkbox from '../components/Checkbox'
 import {
   SSRSearchResults,
@@ -166,3 +167,21 @@ function SearchResultView(props) {
 }
 
 export default SearchResultView
+
+export const getServerSideProps = async () => {
+  const { data: skillsData } = await client.query({
+    query: GET_ALL_SKILLS,
+  })
+
+  const { data: userData } = await client.query({
+    query: GET_USER_BY_ID,
+    variables: { userId: '10737552-9018-497d-8e7a-064f99e8eeaa' },
+  })
+
+  return {
+    props: {
+      allSkills: skillsData.getAllSkills,
+      currentUser: userData.getUserById,
+    },
+  }
+}

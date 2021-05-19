@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Router from 'next/router'
 import Select from 'react-select'
 import { useQuery } from '@apollo/client'
 import { SEARCH_JOBS } from '../../queries/search'
@@ -18,24 +19,10 @@ function SearchBar({ headerText }) {
     console.log(e.value)
   }
 
-  const { loading, error, data } = useQuery(SEARCH_JOBS, {
-    onCompleted: () => {
-      if (data) {
-        console.log(data)
-      }
-    },
-    onError: (e) => {
-      console.log(e)
-    },
-  })
-
-  if (loading) return null
-  if (error) console.log(error)
-
   const [searchItem, setSearchItem] = useState('')
   const handleChange = (e) => {
-    setSearchItem(e.target.value)
-    console.log(searchItem)
+    e.preventDefault()
+    Router.push('/search-results?q=hello')
   }
 
   const options = [
