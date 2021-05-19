@@ -11,9 +11,14 @@ export const StyledContactContainer = styled.div`
   margin: 0 auto;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
+  padding: 1rem;
   border-radius: 5px;
   margin-bottom: 2.5rem;
+
+  :hover {
+    /* background-color: var(--lightBlue); */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
 `
 
 export const StyledContactContent = styled(StyledEducationContent)`
