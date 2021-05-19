@@ -2,6 +2,9 @@
 import Router from 'next/router'
 import { useState } from 'react'
 import Select from 'react-select'
+
+import { useQuery } from '@apollo/client'
+import { SEARCH_JOBS } from '../queries/search'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -11,7 +14,6 @@ import '@fortawesome/fontawesome-free/js/brands'
 import SearchBar from '../components/SearchBar'
 import StyledSideBar from '../components/SideBar'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
-import StyledSearchResults from '../styles/SearchResultsStyle'
 import client from '../apollo/apolloClient'
 import Checkbox from '../components/Checkbox'
 import {
@@ -33,6 +35,7 @@ function SearchResultView(props) {
   const JobType = ['Full Time', 'Part Time', 'Contract', 'Internship']
   const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
+  console.log(props.allSkills)
 
   const selectedCheckboxes = new Set()
 
@@ -169,19 +172,13 @@ function SearchResultView(props) {
 export default SearchResultView
 
 export const getServerSideProps = async () => {
-  const { data: skillsData } = await client.query({
-    query: GET_ALL_SKILLS,
-  })
-
-  const { data: userData } = await client.query({
-    query: GET_USER_BY_ID,
-    variables: { userId: '10737552-9018-497d-8e7a-064f99e8eeaa' },
+  const data = await client.query({
+    query: SEARCH_JOBS,
   })
 
   return {
     props: {
-      allSkills: skillsData.getAllSkills,
-      currentUser: userData.getUserById,
+      allSkills: data,
     },
   }
 }

@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import Router from 'next/router'
 import Select from 'react-select'
-import { useQuery } from '@apollo/client'
-import { SEARCH_JOBS } from '../../queries/search'
 import {
   StyledSearchHeader,
   StyledSearchContainer,
