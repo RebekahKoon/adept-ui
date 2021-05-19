@@ -18,12 +18,23 @@ function SearchBar({ headerText }) {
     console.log(e.value)
   }
 
+  const { loading, error, data } = useQuery(SEARCH_JOBS, {
+    onCompleted: () => {
+      if (data) {
+        console.log(data)
+      }
+    },
+    onError: (e) => {
+      console.log(e)
+    },
+  })
+
+  if (loading) return null
+  if (error) console.log(error)
+
   const [searchItem, setSearchItem] = useState('')
   const handleChange = (e) => {
     setSearchItem(e.target.value)
-    //console.log('data: ' + data)
-    //const {data, loading, error} =useQuery(SEARCH_JOBS)
-    //console.log('new data: ' + data)
     console.log(searchItem)
   }
 
