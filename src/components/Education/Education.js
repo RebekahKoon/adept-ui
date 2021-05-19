@@ -79,10 +79,7 @@ const FormInputFields = ({ userId }) => {
   return (
     <>
       <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <Form
-          // inputFields={FormInputFields()}
-          buttonText={'Add Education'}
-        >
+        <Form buttonText={'Add Education'}>
           <Input
             {...register('name', { required: true })}
             type="text"
@@ -133,11 +130,6 @@ const FormInputFields = ({ userId }) => {
             pattern="\d{4}-\d{2}-\d{2}"
             isInvalid={errors.name}
           />
-          {/* <button onClick={onSubmit}>Click</button> */}
-          {/* <button type="submit" value="Submit">
-          Submit
-        </button>
-        {loading ? 'Loading' : 'Added'} */}
         </Form>
       </form>
     </>
@@ -145,14 +137,6 @@ const FormInputFields = ({ userId }) => {
 }
 
 const Education = ({ educationData, userId }) => {
-  // const [formIsDisplayed, setFormIsDisplayed] = useState(false)
-  // const handleAddSchool = () => {
-  //   console.log('hi')
-  //   setFormIsDisplayed(true)
-  //   console.log(formIsDisplayed)
-  // }
-  console.log(userId)
-
   return (
     <StyledEducationContainer>
       <StyledEducationContent>
@@ -161,9 +145,7 @@ const Education = ({ educationData, userId }) => {
           <EducationData educationData={educationData} />
         </StyledEducationGrid>
       </StyledEducationContent>
-      {/* <Form inputFields={FormInputFields()} buttonText={'Add Education'}> */}
       <FormInputFields userId={userId} />
-      {/* </Form> */}
     </StyledEducationContainer>
   )
 }

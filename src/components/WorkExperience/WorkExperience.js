@@ -84,10 +84,7 @@ const FormInputFields = ({ userId }) => {
   return (
     <>
       <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <Form
-          // inputFields={FormInputFields()}
-          buttonText={'Add Work Experience'}
-        >
+        <Form buttonText={'Add Work Experience'}>
           <Input
             {...register('company', { required: true })}
             type="text"
@@ -158,9 +155,7 @@ const WorkExperience = ({ workExperienceData, userId }) => {
         <h2>Work Experience</h2>
         <WorkExperienceData workExperienceData={workExperienceData} />
       </StyledWorkExperienceContent>
-      {/* <Form inputFields={FormInputFields()} buttonText={'Add Work Experience'}> */}
       <FormInputFields userId={userId} />
-      {/* </Form> */}
     </StyledWorkExperienceContainer>
   )
 }

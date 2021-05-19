@@ -6,7 +6,6 @@ import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
 import { CREATE_SKILL } from '../queries/createSkill'
 import { ADD_SKILL_TO_USER } from '../queries/addSkillToUser'
-import Select from 'react-select'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
@@ -82,6 +81,7 @@ const StyledSkillDropdownContainer = styled.div`
   justify-content: space-between;
 `
 
+// Styling for the skill dropdown menu
 export const StyledSkillDropdown = {
   option: (provided) => ({
     ...provided,
@@ -197,10 +197,7 @@ const AddSkillDropdown = ({ allSkills, userId }) => {
       const newOption = createOption(newValue)
       console.log(newOption)
       console.groupEnd()
-
       setIsLoading(false)
-      // setSkills([...skills, newOption])
-      // setNewSkill(newValue)
 
       createSkill({ variables: { name: newValue } })
     }, 1000)
