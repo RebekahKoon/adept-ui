@@ -2,13 +2,13 @@ import { gql } from '@apollo/client'
 
 export const ADD_EDUCATION_TO_RESUME = gql`
   mutation AddEducationToResume(
-    $userId: ID!
+    $userId: String!
     $name: String!
     $degree: String!
-    $startDate: Float!
-    $endDate: Float!
+    $startDate: String!
+    $endDate: String!
     $major: String!
-    $gpa: Float!
+    $gpa: Float
   ) {
     addEducationToResume(
       input: {
@@ -32,6 +32,9 @@ export const ADD_EDUCATION_TO_RESUME = gql`
           endDate
           major
           gpa
+        }
+        workExperience {
+          position
         }
       }
     }

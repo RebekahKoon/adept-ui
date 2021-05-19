@@ -13,7 +13,7 @@ export const StyledContactContainer = styled.div`
   align-items: flex-start;
   padding: 1rem;
   border-radius: 5px;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1rem;
 
   :hover {
     /* background-color: var(--lightBlue); */

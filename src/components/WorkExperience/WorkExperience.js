@@ -1,4 +1,7 @@
+import { useMutation } from '@apollo/client'
+import { useForm } from 'react-hook-form'
 import '@fortawesome/fontawesome-free/js/fontawesome'
+import { ADD_WORK_EXPERIENCE_TO_RESUME } from '../../queries/addWorkExperienceToResume'
 import Form from '../Form'
 import { Input } from '../Input'
 import {
@@ -18,10 +21,10 @@ const WorkExperienceData = ({ workExperienceData }) => {
         <b>{workExperience.company}</b>
         {workExperience.position}
         <small>
-          {workExperience.startDate} -{' '}
+          {new Date(workExperience.startDate).getUTCFullYear()} -{' '}
           {workExperience.isCurrentPosition
             ? 'present'
-            : workExperience.endDate}{' '}
+            : new Date(workExperience.endDate).getUTCFullYear()}{' '}
           | {workExperience.city}, {workExperience.state}
         </small>
         {workExperience.description}
@@ -30,81 +33,125 @@ const WorkExperienceData = ({ workExperienceData }) => {
   ))
 }
 
-const FormInputFields = () => {
+const FormInputFields = ({ userId }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ mode: 'onSubmit' })
+
+  const [addWorkExperienceToResume, { loading, error }] = useMutation(
+    ADD_WORK_EXPERIENCE_TO_RESUME,
+    {
+      onCompleted({ addWorkExperienceToResume }) {
+        if (addWorkExperienceToResume) {
+          console.log(addWorkExperienceToResume)
+        }
+      },
+      onError(e) {
+        console.log(e)
+      },
+    }
+  )
+
+  const onSubmit = (data) => {
+    const input = {
+      userId: userId,
+      name: data.name,
+      position: data.position,
+      city: data.city,
+      state: data.state,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      description: data.description,
+    }
+    console.log(input)
+    addWorkExperienceToResume({ variables: input })
+  }
+
   return (
     <>
-      <Input
-        // {...register('name', { required: true })}
-        type="text"
-        placeholder="Google"
-        id="name"
-        label="Company name"
-        // isInvalid={errors.name}
-      />
-      <Input
-        // {...register('name', { required: true })}
-        type="text"
-        placeholder="Software Developer"
-        id="position"
-        label="Position"
-        // isInvalid={errors.name}
-      />
-      <Input
-        // {...register('name', { required: true })}
-        type="text"
-        placeholder="Seattle"
-        id="city"
-        label="City"
-        // isInvalid={errors.name}
-      />
-      <Input
-        // {...register('name', { required: true })}
-        type="text"
-        placeholder="WA"
-        id="state"
-        label="State"
-        // isInvalid={errors.name}
-      />
-      <Input
-        // {...register('name', { required: true })}
-        type="date"
-        // placeholder="2019"
-        id="startDate"
-        label="Start Date"
-        // isInvalid={errors.name}
-      />
-      <Input
-        // {...register('name', { required: true })}
-        type="date"
-        // placeholder="2021"
-        id="endDate"
-        label="End Date (If Applicable)"
-        // isInvalid={errors.name}
-      />
-      <div>
-        <StyledLabel htmlFor="description">Description</StyledLabel>
-        <br />
-        <StyledFormTextarea
-          id="description"
-          cols="50"
-          rows="4"
-        ></StyledFormTextarea>
-      </div>
+      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
+        <Form
+          // inputFields={FormInputFields()}
+          buttonText={'Add Work Experience'}
+        >
+          <Input
+            {...register('name', { required: true })}
+            type="text"
+            placeholder="Google"
+            id="name"
+            label="Company name"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('position', { required: true })}
+            type="text"
+            placeholder="Software Developer"
+            id="position"
+            label="Position"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('city', { required: false })}
+            type="text"
+            placeholder="Seattle"
+            id="city"
+            label="City"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('state', { required: false })}
+            type="text"
+            placeholder="WA"
+            id="state"
+            label="State"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('startDate', { required: true })}
+            type="date"
+            // placeholder="2019"
+            id="startDate"
+            label="Start Date"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('endDate', { required: false })}
+            type="date"
+            // placeholder="2021"
+            id="endDate"
+            label="End Date (If Applicable)"
+            isInvalid={errors.name}
+          />
+          <div>
+            <StyledLabel htmlFor="description">Description</StyledLabel>
+            <br />
+            <StyledFormTextarea
+              {...register('description', { required: true })}
+              id="description"
+              cols="50"
+              rows="4"
+              isInvalid={errors.name}
+            ></StyledFormTextarea>
+          </div>
+        </Form>
+      </form>
     </>
   )
 }
 
-const WorkExperience = ({ workExperienceData }) => {
+const WorkExperience = ({ workExperienceData, userId }) => {
   return (
     <StyledWorkExperienceContainer>
       <StyledWorkExperienceContent>
         <h2>Work Experience</h2>
         <WorkExperienceData workExperienceData={workExperienceData} />
       </StyledWorkExperienceContent>
-      <Form
-        inputFields={FormInputFields()}
-        buttonText={'Add Work Experience'}
-      />
+      {/* <Form inputFields={FormInputFields()} buttonText={'Add Work Experience'}> */}
+      <FormInputFields userId={userId} />
+      {/* </Form> */}
     </StyledWorkExperienceContainer>
   )
 }

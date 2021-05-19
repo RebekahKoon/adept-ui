@@ -1,4 +1,6 @@
 import { ApolloClient, createHttpLink } from '@apollo/client'
+import { ApolloLink } from 'apollo-boost'
+import { onError } from 'apollo-link-error'
 import { setContext } from '@apollo/client/link/context'
 import { cache } from './cache'
 
@@ -22,7 +24,6 @@ const authLink = setContext((_, { headers }) => {
 
 // Initialize ApolloClient
 const client = new ApolloClient({
-  // ssrMode: typeof window === 'undefined',
   link: authLink.concat(httpLink),
   cache,
 })
