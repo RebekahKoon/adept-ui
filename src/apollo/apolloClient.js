@@ -8,10 +8,6 @@ const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_SERVER,
 })
 
-const errorLink = onError(({ graphQLErrors }) => {
-  if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message))
-})
-
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   // // if (typeof window !== 'undefined') {
@@ -28,9 +24,7 @@ const authLink = setContext((_, { headers }) => {
 
 // Initialize ApolloClient
 const client = new ApolloClient({
-  // ssrMode: typeof window === 'undefined',
-  // link: authLink.concat(httpLink),
-  link: ApolloLink.from([errorLink, authLink.concat(httpLink)]),
+  link: authLink.concat(httpLink),
   cache,
 })
 

@@ -60,78 +60,91 @@ const FormInputFields = ({ userId }) => {
       name: data.name,
       degree: data.degree,
       major: data.major,
-      gpa: data.gpa,
+      gpa: parseFloat(data.gpa),
       // startDate: new Date(data.startDate).valueOf(),
       // endDate: new Date(data.endDate).valueOf(),
       startDate: data.startDate,
       endDate: data.endDate,
     }
-    console.log(input)
+    console.log(typeof data.startDate)
+
+    // const input = {
+    //   userId: '10737552-9018-497d-8e7a-064f99e8eeaa',
+    //   name: 'test',
+    //   degree: 'test',
+    //   major: 'test',
+    //   gpa: 4.0,
+    //   startDate: '2019-4-20',
+    //   endDate: '2021-6-10',
+    // }
     addEducationToResume({ variables: input })
   }
 
   return (
-    <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-      <Form
-        // inputFields={FormInputFields()}
-        buttonText={'Add Education'}
-      >
-        <Input
-          {...register('name', { required: true })}
-          type="text"
-          placeholder="Oregon State University"
-          id="name"
-          label="School name"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('degree', { required: true })}
-          type="text"
-          placeholder="Bachelor of Science"
-          id="degree"
-          label="Degree"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('major', { required: true })}
-          type="text"
-          placeholder="Computer Science"
-          id="major"
-          label="Major"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('gpa', { required: false })}
-          type="text"
-          placeholder="4.0"
-          id="gpa"
-          label="GPA"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('startDate', { required: true })}
-          type="date"
-          id="startDate"
-          name="startDate"
-          label="Start Date"
-          pattern="\d{4}-\d{2}-\d{2}"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('endDate', { required: true })}
-          type="date"
-          id="endDate"
-          name="endDate"
-          label="End Date"
-          pattern="\d{4}-\d{2}-\d{2}"
-          isInvalid={errors.name}
-        />
-        {/* <button type="submit" value="Submit">
+    <>
+      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
+        <Form
+          // inputFields={FormInputFields()}
+          buttonText={'Add Education'}
+        >
+          <Input
+            {...register('name', { required: true })}
+            type="text"
+            placeholder="Oregon State University"
+            id="name"
+            label="School name"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('degree', { required: true })}
+            type="text"
+            placeholder="Bachelor of Science"
+            id="degree"
+            label="Degree"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('major', { required: true })}
+            type="text"
+            placeholder="Computer Science"
+            id="major"
+            label="Major"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('gpa', { required: false })}
+            type="number"
+            placeholder="4.0"
+            id="gpa"
+            label="GPA"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('startDate', { required: true })}
+            type="date"
+            id="startDate"
+            name="startDate"
+            label="Start Date"
+            pattern="\d{4}-\d{2}-\d{2}"
+            isInvalid={errors.name}
+          />
+          <Input
+            {...register('endDate', { required: true })}
+            type="date"
+            id="endDate"
+            name="endDate"
+            label="End Date"
+            pattern="\d{4}-\d{2}-\d{2}"
+            isInvalid={errors.name}
+          />
+          {/* <button onClick={onSubmit}>Click</button> */}
+          {/* <button type="submit" value="Submit">
           Submit
         </button>
         {loading ? 'Loading' : 'Added'} */}
-      </Form>
-    </form>
+        </Form>
+      </form>
+    </>
   )
 }
 
