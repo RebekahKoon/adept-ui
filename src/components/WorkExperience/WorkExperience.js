@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -13,8 +14,8 @@ import {
   StyledLabel,
 } from './WorkExperienceStyle'
 
-const WorkExperienceData = ({ workExperienceData }) => {
-  return workExperienceData.map((workExperience) => (
+const WorkExperienceData = ({ workExperienceData, userWorkExperience }) => {
+  return userWorkExperience.map((workExperience) => (
     <StyledWorkExperience>
       <i className="fas fa-briefcase fa-3x"></i>
       <StyledWorkExperienceText>
@@ -33,7 +34,7 @@ const WorkExperienceData = ({ workExperienceData }) => {
   ))
 }
 
-const FormInputFields = ({ userId }) => {
+const FormInputFields = ({ userId, setUserWorkExperience }) => {
   const {
     register,
     handleSubmit,
@@ -47,6 +48,7 @@ const FormInputFields = ({ userId }) => {
       onCompleted({ addWorkExperienceToResume }) {
         if (addWorkExperienceToResume) {
           console.log(addWorkExperienceToResume)
+          setUserWorkExperience(addWorkExperienceToResume.resume.workExperience)
         }
       },
       onError(e) {
@@ -67,16 +69,7 @@ const FormInputFields = ({ userId }) => {
       endDate: data.endDate,
       description: data.description,
     }
-    // const input = {
-    //   userId: '10737552-9018-497d-8e7a-064f99e8eeaa',
-    //   company: 'Google',
-    //   position: 'Software Developer',
-    //   startDate: '2020-02-12',
-    //   isCurrentPosition: true,
-    //   city: 'Seattle',
-    //   state: 'WA',
-    //   description: 'Very cool job',
-    // }
+
     console.log(input)
     addWorkExperienceToResume({ variables: input })
   }
@@ -149,13 +142,23 @@ const FormInputFields = ({ userId }) => {
 }
 
 const WorkExperience = ({ workExperienceData, userId }) => {
+  const [userWorkExperience, setUserWorkExperience] = useState(
+    workExperienceData
+  )
+
   return (
     <StyledWorkExperienceContainer>
       <StyledWorkExperienceContent>
         <h2>Work Experience</h2>
-        <WorkExperienceData workExperienceData={workExperienceData} />
+        <WorkExperienceData
+          workExperienceData={workExperienceData}
+          userWorkExperience={userWorkExperience}
+        />
       </StyledWorkExperienceContent>
-      <FormInputFields userId={userId} />
+      <FormInputFields
+        userId={userId}
+        setUserWorkExperience={setUserWorkExperience}
+      />
     </StyledWorkExperienceContainer>
   )
 }

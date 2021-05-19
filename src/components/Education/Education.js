@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -14,8 +15,8 @@ import {
   StyledEducationText,
 } from './EducationStyle'
 
-const EducationData = ({ educationData }) => {
-  return educationData.map((education) => (
+const EducationData = ({ userEducation }) => {
+  return userEducation.map((education) => (
     <StyledEducation>
       <i className="fas fa-graduation-cap fa-3x"></i>
       <StyledEducationText>
@@ -32,7 +33,7 @@ const EducationData = ({ educationData }) => {
   ))
 }
 
-const FormInputFields = ({ userId }) => {
+const FormInputFields = ({ userId, setUserEducation }) => {
   const {
     register,
     handleSubmit,
@@ -46,6 +47,7 @@ const FormInputFields = ({ userId }) => {
       onCompleted({ addEducationToResume }) {
         if (addEducationToResume) {
           console.log(addEducationToResume)
+          setUserEducation(addEducationToResume.resume.education)
         }
       },
       onError(e) {
@@ -64,88 +66,85 @@ const FormInputFields = ({ userId }) => {
       startDate: data.startDate,
       endDate: data.endDate,
     }
-    // const input = {
-    //   userId: '10737552-9018-497d-8e7a-064f99e8eeaa',
-    //   name: 'test',
-    //   degree: 'test',
-    //   major: 'test',
-    //   gpa: 4.0,
-    //   startDate: '2019-4-20',
-    //   endDate: '2021-6-10',
-    // }
+
+    console.log(input)
     addEducationToResume({ variables: input })
   }
 
   return (
-    <>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <Form buttonText={'Add Education'}>
-          <Input
-            {...register('name', { required: true })}
-            type="text"
-            placeholder="Oregon State University"
-            id="name"
-            label="School name"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('degree', { required: true })}
-            type="text"
-            placeholder="Bachelor of Science"
-            id="degree"
-            label="Degree"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('major', { required: true })}
-            type="text"
-            placeholder="Computer Science"
-            id="major"
-            label="Major"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('gpa', { required: false })}
-            type="number"
-            placeholder="4.0"
-            id="gpa"
-            label="GPA"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('startDate', { required: true })}
-            type="date"
-            id="startDate"
-            name="startDate"
-            label="Start Date"
-            pattern="\d{4}-\d{2}-\d{2}"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('endDate', { required: true })}
-            type="date"
-            id="endDate"
-            name="endDate"
-            label="End Date"
-            pattern="\d{4}-\d{2}-\d{2}"
-            isInvalid={errors.name}
-          />
-        </Form>
-      </form>
-    </>
+    <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
+      <Form buttonText={'Add Education'}>
+        <Input
+          {...register('name', { required: true })}
+          type="text"
+          placeholder="Oregon State University"
+          id="name"
+          label="School name"
+          isInvalid={errors.name}
+        />
+        <Input
+          {...register('degree', { required: true })}
+          type="text"
+          placeholder="Bachelor of Science"
+          id="degree"
+          label="Degree"
+          isInvalid={errors.name}
+        />
+        <Input
+          {...register('major', { required: true })}
+          type="text"
+          placeholder="Computer Science"
+          id="major"
+          label="Major"
+          isInvalid={errors.name}
+        />
+        <Input
+          {...register('gpa', { required: false })}
+          type="number"
+          placeholder="4.0"
+          id="gpa"
+          label="GPA"
+          isInvalid={errors.name}
+        />
+        <Input
+          {...register('startDate', { required: true })}
+          type="date"
+          id="startDate"
+          name="startDate"
+          label="Start Date"
+          pattern="\d{4}-\d{2}-\d{2}"
+          isInvalid={errors.name}
+        />
+        <Input
+          {...register('endDate', { required: true })}
+          type="date"
+          id="endDate"
+          name="endDate"
+          label="End Date"
+          pattern="\d{4}-\d{2}-\d{2}"
+          isInvalid={errors.name}
+        />
+      </Form>
+    </form>
   )
 }
 
 const Education = ({ educationData, userId }) => {
+  const [userEducation, setUserEducation] = useState(educationData)
+
   return (
     <StyledEducationContainer>
       <StyledEducationContent>
         <h2>Education</h2>
         <StyledEducationGrid>
-          <EducationData educationData={educationData} />
+          <EducationData userEducation={userEducation} />
         </StyledEducationGrid>
       </StyledEducationContent>
-      <FormInputFields userId={userId} />
+      <FormInputFields
+        userId={userId}
+        userEducation={userEducation}
+        setUserEducation={setUserEducation}
+      />
     </StyledEducationContainer>
   )
 }

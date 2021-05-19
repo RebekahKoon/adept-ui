@@ -128,7 +128,7 @@ const UserSkills = ({ userSkills }) => {
   return userSkills.map((skill) => <Skill name={skill.name} />)
 }
 
-const AddSkillDropdown = ({ allSkills, userId }) => {
+const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   // Dropdown skill list
   let dropdownSkills = allSkills.map((skill) => ({
     name: skill.skillId,
@@ -147,6 +147,7 @@ const AddSkillDropdown = ({ allSkills, userId }) => {
     onCompleted({ addSkillToUser }) {
       if (addSkillToUser) {
         console.log(addSkillToUser)
+        setUserSkills(addSkillToUser.skills)
       }
     },
     onError(e) {
@@ -251,6 +252,8 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
     setIsOpen(false)
   }
 
+  const [userSkills, setUserSkills] = useState(currentUser.skills)
+
   return (
     <StyledSideBar>
       <SideBarProfile>
@@ -270,9 +273,13 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
       <StyledSkillList>
-        <UserSkills userSkills={currentUser.skills} />
+        <UserSkills userSkills={userSkills} />
       </StyledSkillList>
-      <AddSkillDropdown allSkills={allSkills} userId={currentUser.userId} />
+      <AddSkillDropdown
+        allSkills={allSkills}
+        userId={currentUser.userId}
+        setUserSkills={setUserSkills}
+      />
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Contacts</h2>
       <UserContacts contacts={currentUser.contacts} />
