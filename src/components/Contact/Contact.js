@@ -9,7 +9,7 @@ import {
 } from './ContactStyle'
 import StyledEducationContainer from '../Education/EducationStyle'
 
-const Contact = ({ name, email, city, state, border }) => {
+const Contact = ({ name, email, city, state }) => {
   return (
     <StyledContactContainer
     // style={{ border: border === false ? 'none' : '1px solid #F2F2F2' }}
@@ -21,7 +21,7 @@ const Contact = ({ name, email, city, state, border }) => {
             <b>{name}</b>
             {email}
             <br />
-            {city}, {state}
+            {city ? `${city},` : 'Location not specified'} {state ? state : ''}
           </StyledContactText>
         </StyledContact>
       </StyledContactContent>

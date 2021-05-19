@@ -15,16 +15,30 @@ export const GET_USER_BY_ID = gql`
         education {
           educationId
           name
+          degree
+          major
+          startDate
+          endDate
+          gpa
         }
         workExperience {
           workExpId
           position
           company
+          startDate
+          endDate
+          isCurrentPosition
+          city
+          state
+          description
         }
       }
       contacts {
         userId
         name
+        email
+        city
+        state
       }
       jobApplications {
         jobAppId

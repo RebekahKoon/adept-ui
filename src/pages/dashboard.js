@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import { useMutation } from '@apollo/client'
 import styled from 'styled-components'
 import CreatableSelect from 'react-select/creatable'
-import { useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
+import { CREATE_SKILL } from '../queries/createSkill'
 import Select from 'react-select'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
@@ -233,25 +234,32 @@ const sampleUserData = {
   },
 }
 
-const UserSkills = () => {
-  return sampleUserData.data.getUserById.skills.map((skill) => (
-    <Skill name={skill.name} />
-  ))
+const UserSkills = ({ userSkills }) => {
+  return userSkills.map((skill) => <Skill name={skill.name} />)
 }
 
-const UserContacts = ({ border }) => {
-  return sampleUserData.data.getUserById.contacts.map((contact) => (
-    <Contact
-      border={border}
-      name={contact.name}
-      email={contact.email}
-      city={contact.city}
-      state={contact.state}
-    />
-  ))
+const UserContacts = ({ contacts }) => {
+  return contacts
+    ? contacts
+        .slice(0, 3)
+        .map((contact) => (
+          <Contact
+            name={contact.name}
+            email={contact.email}
+            city={contact.city}
+            state={contact.state}
+          />
+        ))
+    : null
 }
+
+const createOption = (label) => ({
+  label,
+  value: label.toLowerCase().replace(/\W/g, ''),
+})
 
 const DashboardSideBar = ({ currentUser, allSkills }) => {
+  // Used to open modal
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => {
     setIsOpen(true)
@@ -260,14 +268,53 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
     setIsOpen(false)
   }
 
+  const [createSkill, { loading, error }] = useMutation(CREATE_SKILL, {
+    onCompleted({ createSkill }) {
+      if (createSkill) {
+        console.log(createSkill)
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+  })
+
+  // Dropdown skill list
   const dropdownSkills = allSkills.map((skill) => ({
     name: skill.skillId,
     label: skill.name,
   }))
 
-  const handleInputChange = (inputValue, actionMeta) => {
-    console.log(inputValue)
-    console.log(actionMeta.action)
+  // Dropdown menu states
+  const [skills, setSkills] = useState(dropdownSkills)
+  const [newSkill, setNewSkill] = useState()
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Used to determine if the dropdown value has changed
+  const handleChange = (newValue, actionMeta) => {
+    console.group('Value Changed')
+    console.log(newValue)
+    console.log(`action: ${actionMeta.action}`)
+    console.groupEnd()
+    setNewSkill(newValue)
+  }
+
+  // Creating a new value for the dropdown and adding it to the database
+  const handleCreate = (newValue) => {
+    setIsLoading(true)
+    console.group('Option created')
+    console.log('Wait a moment...')
+    setTimeout(() => {
+      const newOption = createOption(newValue)
+      console.log(newOption)
+      console.groupEnd()
+
+      setIsLoading(false)
+      setSkills([...skills, newOption])
+      setNewSkill(newValue)
+
+      createSkill({ variables: { name: newValue } })
+    }, 1000)
   }
 
   return (
@@ -279,30 +326,35 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
         <h2>{currentUser.name}</h2>
         <div>Oregon State University</div>
         <div>IT Assistant AKA Dishwasher</div>
-        <div style={{ color: '#585858' }}>Eugene, OR</div>
+        <div style={{ color: '#585858' }}>
+          {currentUser.city
+            ? `${currentUser.city}, `
+            : 'Location not specified'}
+          {currentUser.state ? currentUser.state : ''}
+        </div>
       </SideBarProfile>
       <hr></hr>
-      <h2>User Skills</h2>
+      <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
       <StyledSkillList>
-        <UserSkills />
+        <UserSkills userSkills={currentUser.skills} />
       </StyledSkillList>
       <StyledSkillDropdownContainer>
         <CreatableSelect
-          placeholder={'Add skill...'}
-          // onChange={handleOptionChange}
-          // onCreateOption=
+          placeholder={'Add skill to user...'}
           isClearable
-          options={dropdownSkills}
+          isDisabled={isLoading}
+          isLoading={isLoading}
+          onChange={handleChange}
+          onCreateOption={handleCreate}
+          options={skills}
+          value={newSkill}
           styles={StyledSkillDropdown}
-          onInputChange={handleInputChange}
-          indicatorSeparator={false}
-          isSearchable={false}
         />
         <DashboardButton>Add</DashboardButton>
       </StyledSkillDropdownContainer>
       <hr></hr>
-      <h2>User Contacts</h2>
-      <UserContacts border={false} />
+      <h2>{currentUser.name.split(' ')[0]}'s Contacts</h2>
+      <UserContacts contacts={currentUser.contacts} />
       <DashboardButton onClick={openModal}>View All Contacts</DashboardButton>
       <ModalContext.Provider
         value={{
@@ -310,7 +362,7 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
           closeModal,
         }}
       >
-        <ContactsModal contacts={UserContacts(true)} numberContacts={420} />
+        <ContactsModal contacts={currentUser.contacts} numberContacts={420} />
       </ModalContext.Provider>
     </StyledSideBar>
   )
@@ -331,12 +383,12 @@ const Dashboard = (props) => {
           />
           <StyledResume>
             <Education
-              educationData={sampleUserData.data.getUserById.resume.education}
+              educationData={props.currentUser.resume.education}
+              userId={props.currentUser.userId}
             />
             <WorkExperience
-              workExperienceData={
-                sampleUserData.data.getUserById.resume.workExperience
-              }
+              workExperienceData={props.currentUser.resume.workExperience}
+              userId={props.currentUser.userId}
             />
           </StyledResume>
         </StyledDashboardBody>
