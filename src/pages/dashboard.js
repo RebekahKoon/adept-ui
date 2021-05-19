@@ -5,6 +5,7 @@ import CreatableSelect from 'react-select/creatable'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
 import { CREATE_SKILL } from '../queries/createSkill'
+import { ADD_SKILL_TO_USER } from '../queries/addSkillToUser'
 import Select from 'react-select'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
@@ -123,119 +124,104 @@ export const StyledSkillDropdown = {
   }),
 }
 
-const sampleUserData = {
-  data: {
-    getUserById: {
-      resume: {
-        education: [
-          {
-            name: 'University of Oregon',
-            degree: 'Bachelor of Science',
-            startDate: 2012,
-            endDate: 2016,
-            major: 'Educational Foundations',
-            gpa: 4.0,
-          },
-          {
-            name: 'Oregon State University',
-            degree: 'Bachelor of Science',
-            startDate: 2019,
-            endDate: 2021,
-            major: 'Computer Science',
-            gpa: 4.0,
-          },
-        ],
-        workExperience: [
-          {
-            company: 'Oregon State University',
-            position: 'Teaching Assistant',
-            startDate: 2019,
-            endDate: 2021,
-            isCurrentPosition: false,
-            city: 'Corvallis',
-            state: 'OR',
-            description: 'Teaching assistant for computer science courses.',
-          },
-          {
-            company: 'University of Oregon',
-            position: 'IT Assistant',
-            startDate: 2018,
-            isCurrentPosition: true,
-            city: 'Eugene',
-            state: 'OR',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
-            Suspendisse bibendum vel ligula id dapibus. Phasellus sed metus \
-            sed massa ullamcorper lobortis. Phasellus dictum neque justo. \
-            Sed vestibulum tellus vel maximus vehicula. Sed aliquam vitae nisi\
-             non elementum. Interdum et malesuada fames ac ante ipsum primis in\
-             faucibus. Fusce a lacinia urna, ac tincidunt magna. Nulla vel \
-             tellus velit. Mauris eget iaculis ipsum. Pellentesque dapibus \
-             nisi in ligula finibus malesuada.',
-          },
-        ],
-      },
-      skills: [
-        {
-          name: 'C',
-        },
-        {
-          name: 'C++',
-        },
-        {
-          name: 'CSS',
-        },
-        {
-          name: 'HTML',
-        },
-        {
-          name: 'JavaScript',
-        },
-        {
-          name: 'Object-oriented programming',
-        },
-        {
-          name: 'Python',
-        },
-        {
-          name: 'React',
-        },
-        {
-          name: 'SQL',
-        },
-        {
-          name: 'Teamwork',
-        },
-        {
-          name: 'Time management',
-        },
-      ],
-      contacts: [
-        {
-          name: 'Devin Nguyen',
-          email: 'nguyehu7@oregonstate.edu',
-          city: 'San Antonio',
-          state: 'TX',
-        },
-        {
-          name: 'Nathan Shelby',
-          email: 'shelbyn@oregonstate.edu',
-          city: 'Seattle',
-          state: 'WA',
-        },
-        {
-          name: 'Ridley',
-          email: 'riddles@doggo.com',
-          city: 'Eugene',
-          state: 'OR',
-        },
-      ],
-    },
-  },
-}
-
 const UserSkills = ({ userSkills }) => {
   return userSkills.map((skill) => <Skill name={skill.name} />)
+}
+
+const AddSkillDropdown = ({ allSkills, userId }) => {
+  // Dropdown skill list
+  let dropdownSkills = allSkills.map((skill) => ({
+    name: skill.skillId,
+    label: skill.name,
+  }))
+
+  // Dropdown menu states
+  const [skills, setSkills] = useState(dropdownSkills)
+  const [newSkill, setNewSkill] = useState()
+  const [isLoading, setIsLoading] = useState(false)
+
+  const [
+    addSkillToUser,
+    { loading: addSkillToUserLoading, error: addSkillToUserError },
+  ] = useMutation(ADD_SKILL_TO_USER, {
+    onCompleted({ addSkillToUser }) {
+      if (addSkillToUser) {
+        console.log(addSkillToUser)
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+  })
+
+  const [
+    createSkill,
+    { loading: createSkillLoading, error: createSkillError },
+  ] = useMutation(CREATE_SKILL, {
+    onCompleted({ createSkill }) {
+      if (createSkill) {
+        dropdownSkills = [
+          ...dropdownSkills,
+          { name: createSkill.skillId, label: createSkill.name },
+        ]
+        setSkills(dropdownSkills)
+        setNewSkill({ name: createSkill.skillId, label: createSkill.name })
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+  })
+
+  const handleAddSkillToUser = () => {
+    addSkillToUser({
+      variables: { userId: userId, skillId: newSkill.name },
+    })
+  }
+
+  // Used to determine if the dropdown value has changed
+  const handleChange = (newValue, actionMeta) => {
+    console.group('Value Changed')
+    console.log(newValue)
+    console.log(`action: ${actionMeta.action}`)
+    console.groupEnd()
+    setNewSkill(newValue)
+  }
+
+  // Creating a new value for the dropdown and adding it to the database
+  const handleCreate = (newValue) => {
+    setIsLoading(true)
+    console.group('Option created')
+    console.log('Wait a moment...')
+    setTimeout(() => {
+      const newOption = createOption(newValue)
+      console.log(newOption)
+      console.groupEnd()
+
+      setIsLoading(false)
+      // setSkills([...skills, newOption])
+      // setNewSkill(newValue)
+
+      createSkill({ variables: { name: newValue } })
+    }, 1000)
+  }
+
+  return (
+    <StyledSkillDropdownContainer>
+      <CreatableSelect
+        placeholder={'Add skill to user...'}
+        isClearable
+        isDisabled={isLoading}
+        isLoading={isLoading}
+        onChange={handleChange}
+        onCreateOption={handleCreate}
+        options={skills}
+        value={newSkill}
+        styles={StyledSkillDropdown}
+      />
+      <DashboardButton onClick={handleAddSkillToUser}>Add</DashboardButton>
+    </StyledSkillDropdownContainer>
+  )
 }
 
 const UserContacts = ({ contacts }) => {
@@ -268,55 +254,6 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
     setIsOpen(false)
   }
 
-  const [createSkill, { loading, error }] = useMutation(CREATE_SKILL, {
-    onCompleted({ createSkill }) {
-      if (createSkill) {
-        console.log(createSkill)
-      }
-    },
-    onError(e) {
-      console.log(e)
-    },
-  })
-
-  // Dropdown skill list
-  const dropdownSkills = allSkills.map((skill) => ({
-    name: skill.skillId,
-    label: skill.name,
-  }))
-
-  // Dropdown menu states
-  const [skills, setSkills] = useState(dropdownSkills)
-  const [newSkill, setNewSkill] = useState()
-  const [isLoading, setIsLoading] = useState(false)
-
-  // Used to determine if the dropdown value has changed
-  const handleChange = (newValue, actionMeta) => {
-    console.group('Value Changed')
-    console.log(newValue)
-    console.log(`action: ${actionMeta.action}`)
-    console.groupEnd()
-    setNewSkill(newValue)
-  }
-
-  // Creating a new value for the dropdown and adding it to the database
-  const handleCreate = (newValue) => {
-    setIsLoading(true)
-    console.group('Option created')
-    console.log('Wait a moment...')
-    setTimeout(() => {
-      const newOption = createOption(newValue)
-      console.log(newOption)
-      console.groupEnd()
-
-      setIsLoading(false)
-      setSkills([...skills, newOption])
-      setNewSkill(newValue)
-
-      createSkill({ variables: { name: newValue } })
-    }, 1000)
-  }
-
   return (
     <StyledSideBar>
       <SideBarProfile>
@@ -338,20 +275,7 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
       <StyledSkillList>
         <UserSkills userSkills={currentUser.skills} />
       </StyledSkillList>
-      <StyledSkillDropdownContainer>
-        <CreatableSelect
-          placeholder={'Add skill to user...'}
-          isClearable
-          isDisabled={isLoading}
-          isLoading={isLoading}
-          onChange={handleChange}
-          onCreateOption={handleCreate}
-          options={skills}
-          value={newSkill}
-          styles={StyledSkillDropdown}
-        />
-        <DashboardButton>Add</DashboardButton>
-      </StyledSkillDropdownContainer>
+      <AddSkillDropdown allSkills={allSkills} userId={currentUser.userId} />
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Contacts</h2>
       <UserContacts contacts={currentUser.contacts} />
