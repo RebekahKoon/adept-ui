@@ -137,7 +137,7 @@ const UserSkills = ({ userSkills, setUserSkills, userId }) => {
 
 const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   // Dropdown skill list
-  let dropdownSkills = allSkills.map((skill) => ({
+  const dropdownSkills = allSkills.map((skill) => ({
     name: skill.skillId,
     label: skill.name,
   }))
@@ -168,11 +168,10 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   ] = useMutation(CREATE_SKILL, {
     onCompleted({ createSkill }) {
       if (createSkill) {
-        dropdownSkills = [
-          ...dropdownSkills,
+        setSkills([
+          ...skills,
           { name: createSkill.skillId, label: createSkill.name },
-        ]
-        setSkills(dropdownSkills)
+        ])
         setNewSkill({ name: createSkill.skillId, label: createSkill.name })
       }
     },
@@ -313,7 +312,7 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
           contacts={userContacts}
           setUserContacts={setUserContacts}
           userId={currentUser.userId}
-          numberContacts={currentUser.contacts.length}
+          numberContacts={userContacts.length}
         />
       </ModalContext.Provider>
     </StyledSideBar>

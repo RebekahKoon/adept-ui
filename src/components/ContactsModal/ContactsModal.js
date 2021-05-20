@@ -52,7 +52,9 @@ const ContactsModal = ({
           <i className="fa fa-search"></i>
         </button>
       </StyledContactsSearch>
-      <h1>{numberContacts} Contacts</h1>
+      <h1>
+        {numberContacts} Contact{numberContacts > 1 ? 's' : ''}
+      </h1>
       <StyledContactsGrid>
         <UserContacts
           contacts={contacts}
