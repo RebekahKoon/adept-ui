@@ -35,7 +35,7 @@ function SearchResultView(props) {
   const JobType = ['Full Time', 'Part Time', 'Contract', 'Internship']
   const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
-  console.log(props.allSkills)
+  console.log(props.data)
 
   const selectedCheckboxes = new Set()
 
@@ -171,14 +171,16 @@ function SearchResultView(props) {
 
 export default SearchResultView
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
+  console.log('q = ' + context.query.q)
   const data = await client.query({
     query: SEARCH_JOBS,
+    variables: { searchTerm: context.query.q },
   })
 
   return {
     props: {
-      allSkills: data,
+      data: data,
     },
   }
 }
