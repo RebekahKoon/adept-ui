@@ -358,7 +358,7 @@ export const getServerSideProps = async () => {
 
   const { data: userData } = await client.query({
     query: GET_USER_BY_ID,
-    variables: { userId: '10737552-9018-497d-8e7a-064f99e8eeaa' },
+    variables: { userId: '43bd7639-97e0-4ed1-b3bb-7beea0f6687e' },
   })
 
   return {
