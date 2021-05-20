@@ -16,7 +16,11 @@ import {
   StyledRemoveButton,
 } from './WorkExperienceStyle'
 
-const WorkExperienceData = ({ userWorkExperience, setUserWorkExperience }) => {
+const WorkExperienceData = ({
+  userWorkExperience,
+  setUserWorkExperience,
+  setCurrentUserPosition,
+}) => {
   const [deleteWorkExperience, { loading, error }] = useMutation(
     DELETE_WORK_EXPERIENCE,
     {
@@ -27,6 +31,10 @@ const WorkExperienceData = ({ userWorkExperience, setUserWorkExperience }) => {
             (workExperience) =>
               workExperience.workExpId !== deleteWorkExperience
           )
+        )
+
+        setCurrentUserPosition(
+          userWorkExperience.filter((workExperience) => !workExperience.endDate)
         )
       },
       onError(e) {
@@ -65,7 +73,11 @@ const WorkExperienceData = ({ userWorkExperience, setUserWorkExperience }) => {
   ))
 }
 
-const FormInputFields = ({ userId, setUserWorkExperience }) => {
+const FormInputFields = ({
+  userId,
+  setUserWorkExperience,
+  setCurrentUserPosition,
+}) => {
   const {
     register,
     handleSubmit,
@@ -80,6 +92,12 @@ const FormInputFields = ({ userId, setUserWorkExperience }) => {
         if (addWorkExperienceToResume) {
           console.log(addWorkExperienceToResume)
           setUserWorkExperience(addWorkExperienceToResume.resume.workExperience)
+
+          setCurrentUserPosition(
+            addWorkExperienceToResume.resume.workExperience.filter(
+              (workExperience) => !workExperience.endDate
+            )
+          )
         }
       },
       onError(e) {
@@ -172,7 +190,11 @@ const FormInputFields = ({ userId, setUserWorkExperience }) => {
   )
 }
 
-const WorkExperience = ({ workExperienceData, userId }) => {
+const WorkExperience = ({
+  workExperienceData,
+  userId,
+  setCurrentUserPosition,
+}) => {
   const [userWorkExperience, setUserWorkExperience] = useState(
     workExperienceData
   )
@@ -184,11 +206,13 @@ const WorkExperience = ({ workExperienceData, userId }) => {
         <WorkExperienceData
           userWorkExperience={userWorkExperience}
           setUserWorkExperience={setUserWorkExperience}
+          setCurrentUserPosition={setCurrentUserPosition}
         />
       </StyledWorkExperienceContent>
       <FormInputFields
         userId={userId}
         setUserWorkExperience={setUserWorkExperience}
+        setCurrentUserPosition={setCurrentUserPosition}
       />
     </StyledWorkExperienceContainer>
   )

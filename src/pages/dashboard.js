@@ -6,6 +6,7 @@ import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
 import { CREATE_SKILL } from '../queries/createSkill'
 import { ADD_SKILL_TO_USER } from '../queries/addSkillToUser'
+import { UPDATE_USER_LOCATION } from '../queries/updateUserLocation'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
@@ -251,7 +252,7 @@ const createOption = (label) => ({
   value: label.toLowerCase().replace(/\W/g, ''),
 })
 
-const DashboardSideBar = ({ currentUser, allSkills }) => {
+const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
   // Used to open modal
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => {
@@ -271,8 +272,12 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
           <i className="fas fa-user-circle fa-5x"></i>
         </p>
         <h2>{currentUser.name}</h2>
-        <div>Oregon State University</div>
-        <div>IT Assistant AKA Dishwasher</div>
+        <div>{currentUser.email}</div>
+        <div>
+          {currentUserPosition[0]
+            ? currentUserPosition[0].position
+            : 'Job seeker'}
+        </div>
         <div style={{ color: '#585858' }}>
           {currentUser.city
             ? `${currentUser.city}, `
@@ -323,6 +328,12 @@ const Dashboard = (props) => {
   console.log(props.allSkills)
   console.log(props.currentUser)
 
+  const [currentUserPosition, setCurrentUserPosition] = useState(
+    props.currentUser.resume.workExperience.filter(
+      (workExperience) => !workExperience.endDate
+    )
+  )
+
   return (
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
@@ -330,6 +341,7 @@ const Dashboard = (props) => {
         <StyledDashboardBody>
           <DashboardSideBar
             currentUser={props.currentUser}
+            currentUserPosition={currentUserPosition}
             allSkills={props.allSkills}
           />
           <StyledResume>
@@ -339,6 +351,7 @@ const Dashboard = (props) => {
             />
             <WorkExperience
               workExperienceData={props.currentUser.resume.workExperience}
+              setCurrentUserPosition={setCurrentUserPosition}
               userId={props.currentUser.userId}
             />
           </StyledResume>
@@ -357,7 +370,7 @@ export const getServerSideProps = async () => {
 
   const { data: userData } = await client.query({
     query: GET_USER_BY_ID,
-    variables: { userId: '43bd7639-97e0-4ed1-b3bb-7beea0f6687e' },
+    variables: { userId: '447aa69e-7a45-4b87-a83f-35054392e630' },
   })
 
   return {

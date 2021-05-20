@@ -53,7 +53,7 @@ const ContactsModal = ({
         </button>
       </StyledContactsSearch>
       <h1>
-        {numberContacts} Contact{numberContacts > 1 ? 's' : ''}
+        {numberContacts} Contact{numberContacts === 1 ? 's' : ''}
       </h1>
       <StyledContactsGrid>
         <UserContacts
