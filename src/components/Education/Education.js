@@ -65,6 +65,11 @@ const EducationData = ({ userEducation, setUserEducation }) => {
 }
 
 const FormInputFields = ({ userId, setUserEducation }) => {
+  const [buttonPressed, setButtonIsPressed] = useState(false)
+  const handleButtonPress = () => {
+    buttonPressed === false ? true : false
+  }
+
   const {
     register,
     handleSubmit,
@@ -88,6 +93,7 @@ const FormInputFields = ({ userId, setUserEducation }) => {
   )
 
   const onSubmit = (data) => {
+    setButtonIsPressed(true)
     const input = {
       userId: userId,
       name: data.name,
@@ -105,56 +111,74 @@ const FormInputFields = ({ userId, setUserEducation }) => {
   return (
     <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
       <Form buttonText={'Add Education'}>
-        <Input
-          {...register('name', { required: true })}
-          type="text"
-          placeholder="Oregon State University"
-          id="name"
-          label="School name"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('degree', { required: true })}
-          type="text"
-          placeholder="Bachelor of Science"
-          id="degree"
-          label="Degree"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('major', { required: true })}
-          type="text"
-          placeholder="Computer Science"
-          id="major"
-          label="Major"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('gpa', { required: false })}
-          type="number"
-          placeholder="4.0"
-          id="gpa"
-          label="GPA"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('startDate', { required: true })}
-          type="date"
-          id="startDate"
-          name="startDate"
-          label="Start Date"
-          pattern="\d{4}-\d{2}-\d{2}"
-          isInvalid={errors.name}
-        />
-        <Input
-          {...register('endDate', { required: true })}
-          type="date"
-          id="endDate"
-          name="endDate"
-          label="End Date"
-          pattern="\d{4}-\d{2}-\d{2}"
-          isInvalid={errors.name}
-        />
+        <div>
+          <Input
+            {...register('name', { required: 'School name is required' })}
+            type="text"
+            placeholder="Enter school name"
+            id="name"
+            label={'School name'}
+            isInvalid={errors.name}
+          />
+          {errors.name && errors.name.message}
+        </div>
+        <div>
+          <Input
+            {...register('degree', { required: 'Degree type is required' })}
+            type="text"
+            placeholder="Enter your degree type"
+            id="degree"
+            label="Degree"
+            isInvalid={errors.degree}
+          />
+          {errors.degree && <span>{errors.degree.message}</span>}
+        </div>
+        <div>
+          <Input
+            {...register('major', { required: 'Major is required' })}
+            type="text"
+            placeholder="Computer Science"
+            id="major"
+            label="Major"
+            isInvalid={errors.major}
+          />
+          {errors.major && <span>{errors.major.message}</span>}
+        </div>
+        <div>
+          <Input
+            {...register('gpa', { required: false, max: 4.0, min: 0.0 })}
+            type="number"
+            placeholder="4.0"
+            id="gpa"
+            label="GPA"
+            // isInvalid={errors.gpa.message}
+          />
+          {/* {errors.gpa && <span>{errors.gpa.message}</span>} */}
+        </div>
+        <div>
+          <Input
+            {...register('startDate', { required: 'Start date is required' })}
+            type="date"
+            id="startDate"
+            name="startDate"
+            label="Start Date"
+            pattern="\d{4}-\d{2}-\d{2}"
+            isInvalid={errors.startDate}
+          />
+          {errors.startDate && <span>{errors.startDate.message}</span>}
+        </div>
+        <div>
+          <Input
+            {...register('endDate', { required: 'End date is required' })}
+            type="date"
+            id="endDate"
+            name="endDate"
+            label="End Date"
+            pattern="\d{4}-\d{2}-\d{2}"
+            isInvalid={errors.endDate}
+          />
+          {errors.endDate && <span>{errors.endDate.message}</span>}
+        </div>
       </Form>
     </form>
   )

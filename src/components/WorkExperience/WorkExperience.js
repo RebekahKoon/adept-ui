@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import { ADD_WORK_EXPERIENCE_TO_RESUME } from '../../queries/addWorkExperienceToResume'
+import { DELETE_WORK_EXPERIENCE } from '../../queries/deleteWorkExperience'
 import Form from '../Form'
 import { Input } from '../Input'
 import {
@@ -15,7 +16,30 @@ import {
   StyledRemoveButton,
 } from './WorkExperienceStyle'
 
-const WorkExperienceData = ({ workExperienceData, userWorkExperience }) => {
+const WorkExperienceData = ({ userWorkExperience, setUserWorkExperience }) => {
+  const [deleteWorkExperience, { loading, error }] = useMutation(
+    DELETE_WORK_EXPERIENCE,
+    {
+      onCompleted({ deleteWorkExperience }) {
+        console.log(deleteWorkExperience)
+        setUserWorkExperience(
+          userWorkExperience.filter(
+            (workExperience) =>
+              workExperience.workExpId !== deleteWorkExperience
+          )
+        )
+      },
+      onError(e) {
+        console.log(e)
+      },
+    }
+  )
+
+  const handleDeleteWorkExperience = (workExpId) => {
+    console.log(workExpId)
+    deleteWorkExperience({ variables: { workExpId: workExpId } })
+  }
+
   return userWorkExperience.map((workExperience) => (
     <StyledWorkExperience>
       <i className="fas fa-briefcase fa-3x"></i>
@@ -31,7 +55,10 @@ const WorkExperienceData = ({ workExperienceData, userWorkExperience }) => {
         </small>
         {workExperience.description}
       </StyledWorkExperienceText>
-      <StyledRemoveButton>
+      <StyledRemoveButton
+        id={workExperience.workExpId}
+        onClick={() => handleDeleteWorkExperience(workExperience.workExpId)}
+      >
         <i className="fas fa-times"></i>
       </StyledRemoveButton>
     </StyledWorkExperience>
@@ -155,8 +182,8 @@ const WorkExperience = ({ workExperienceData, userId }) => {
       <StyledWorkExperienceContent>
         <h2>Work Experience</h2>
         <WorkExperienceData
-          workExperienceData={workExperienceData}
           userWorkExperience={userWorkExperience}
+          setUserWorkExperience={setUserWorkExperience}
         />
       </StyledWorkExperienceContent>
       <FormInputFields
