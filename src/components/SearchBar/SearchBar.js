@@ -20,7 +20,9 @@ function SearchBar({ headerText }) {
   const [searchItem, setSearchItem] = useState('')
   const handleChange = (e) => {
     e.preventDefault()
-    Router.push('/search-results?q=hello')
+    setSearchItem(e.target.value)
+    var url = '/search-results?q=' + searchItem
+    Router.push(url)
   }
 
   const options = [
