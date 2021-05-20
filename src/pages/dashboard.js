@@ -229,7 +229,7 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   )
 }
 
-const UserContacts = ({ contacts }) => {
+const UserContacts = ({ contacts, userId, setUserContacts }) => {
   return contacts
     ? contacts
         .slice(0, 3)
@@ -239,6 +239,9 @@ const UserContacts = ({ contacts }) => {
             email={contact.email}
             city={contact.city}
             state={contact.state}
+            contactId={contact.userId}
+            userId={userId}
+            setUserContacts={setUserContacts}
           />
         ))
     : null
@@ -260,6 +263,7 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
   }
 
   const [userSkills, setUserSkills] = useState(currentUser.skills)
+  const [userContacts, setUserContacts] = useState(currentUser.contacts)
 
   return (
     <StyledSideBar>
@@ -293,7 +297,11 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
       />
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Contacts</h2>
-      <UserContacts contacts={currentUser.contacts} />
+      <UserContacts
+        contacts={userContacts}
+        setUserContacts={setUserContacts}
+        userId={currentUser.userId}
+      />
       <DashboardButton onClick={openModal}>View All Contacts</DashboardButton>
       <ModalContext.Provider
         value={{
@@ -301,7 +309,12 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
           closeModal,
         }}
       >
-        <ContactsModal contacts={currentUser.contacts} numberContacts={420} />
+        <ContactsModal
+          contacts={userContacts}
+          setUserContacts={setUserContacts}
+          userId={currentUser.userId}
+          numberContacts={currentUser.contacts.length}
+        />
       </ModalContext.Provider>
     </StyledSideBar>
   )

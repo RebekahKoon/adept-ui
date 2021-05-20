@@ -9,7 +9,7 @@ import {
   StyledContactsGrid,
 } from './ContactsModalStyle'
 
-const UserContacts = ({ contacts }) => {
+const UserContacts = ({ contacts, userId, setUserContacts }) => {
   return contacts
     ? contacts.map((contact) => (
         <Contact
@@ -17,12 +17,20 @@ const UserContacts = ({ contacts }) => {
           email={contact.email}
           city={contact.city}
           state={contact.state}
+          contactId={contact.userId}
+          userId={userId}
+          setUserContacts={setUserContacts}
         />
       ))
     : null
 }
 
-const ContactsModal = ({ contacts, numberContacts }) => {
+const ContactsModal = ({
+  contacts,
+  setUserContacts,
+  userId,
+  numberContacts,
+}) => {
   const { isOpen, closeModal } = useContext(ModalContext)
 
   return (
@@ -46,7 +54,11 @@ const ContactsModal = ({ contacts, numberContacts }) => {
       </StyledContactsSearch>
       <h1>{numberContacts} Contacts</h1>
       <StyledContactsGrid>
-        <UserContacts contacts={contacts} />
+        <UserContacts
+          contacts={contacts}
+          userId={userId}
+          setUserContacts={setUserContacts}
+        />
       </StyledContactsGrid>
       <br />
     </Modal>
