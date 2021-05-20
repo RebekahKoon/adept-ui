@@ -328,6 +328,9 @@ const Dashboard = (props) => {
   console.log(props.allSkills)
   console.log(props.currentUser)
 
+  const [userWorkExperience, setUserWorkExperience] = useState(
+    props.currentUser.resume.workExperience
+  )
   const [currentUserPosition, setCurrentUserPosition] = useState(
     props.currentUser.resume.workExperience.filter(
       (workExperience) => !workExperience.endDate
@@ -350,7 +353,8 @@ const Dashboard = (props) => {
               userId={props.currentUser.userId}
             />
             <WorkExperience
-              workExperienceData={props.currentUser.resume.workExperience}
+              userWorkExperience={userWorkExperience}
+              setUserWorkExperience={setUserWorkExperience}
               setCurrentUserPosition={setCurrentUserPosition}
               userId={props.currentUser.userId}
             />

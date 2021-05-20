@@ -34,7 +34,11 @@ const WorkExperienceData = ({
         )
 
         setCurrentUserPosition(
-          userWorkExperience.filter((workExperience) => !workExperience.endDate)
+          userWorkExperience.filter(
+            (workExperience) =>
+              !workExperience.endDate &&
+              workExperience.workExpId !== deleteWorkExperience
+          )
         )
       },
       onError(e) {
@@ -191,14 +195,11 @@ const FormInputFields = ({
 }
 
 const WorkExperience = ({
-  workExperienceData,
+  userWorkExperience,
+  setUserWorkExperience,
   userId,
   setCurrentUserPosition,
 }) => {
-  const [userWorkExperience, setUserWorkExperience] = useState(
-    workExperienceData
-  )
-
   return (
     <StyledWorkExperienceContainer>
       <StyledWorkExperienceContent>
