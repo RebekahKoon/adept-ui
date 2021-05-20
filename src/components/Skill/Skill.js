@@ -1,7 +1,9 @@
 import styled from 'styled-components'
+import { useMutation } from '@apollo/client'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
+import { DELETE_SKILL_FROM_USER } from '../../queries/deleteSkillFromUser'
 
 const SkillContainer = styled.span`
   display: inline-block;
@@ -34,11 +36,28 @@ const SkillButton = styled.button`
   }
 `
 
-const Skill = ({ name }) => {
+const Skill = ({ name, skillId, setUserSkills, userId }) => {
+  const [deleteSkillFromUser, { loading, error }] = useMutation(
+    DELETE_SKILL_FROM_USER,
+    {
+      onCompleted({ deleteSkillFromUser }) {
+        console.log(deleteSkillFromUser)
+        setUserSkills(deleteSkillFromUser.skills)
+      },
+      onError(e) {
+        console.log(e)
+      },
+    }
+  )
+
+  const handleDeleteSkillFromUser = (userId, skillId) => {
+    deleteSkillFromUser({ variables: { userId: userId, skillId: skillId } })
+  }
+
   return (
     <SkillContainer>
       {name}{' '}
-      <SkillButton>
+      <SkillButton onClick={() => handleDeleteSkillFromUser(userId, skillId)}>
         <i className="fas fa-times"></i>
       </SkillButton>
     </SkillContainer>

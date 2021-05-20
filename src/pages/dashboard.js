@@ -124,8 +124,15 @@ export const StyledSkillDropdown = {
   }),
 }
 
-const UserSkills = ({ userSkills }) => {
-  return userSkills.map((skill) => <Skill name={skill.name} />)
+const UserSkills = ({ userSkills, setUserSkills, userId }) => {
+  return userSkills.map((skill) => (
+    <Skill
+      name={skill.name}
+      skillId={skill.skillId}
+      setUserSkills={setUserSkills}
+      userId={userId}
+    />
+  ))
 }
 
 const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
@@ -273,7 +280,11 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
       <StyledSkillList>
-        <UserSkills userSkills={userSkills} />
+        <UserSkills
+          userSkills={userSkills}
+          setUserSkills={setUserSkills}
+          userId={currentUser.userId}
+        />
       </StyledSkillList>
       <AddSkillDropdown
         allSkills={allSkills}
