@@ -25,7 +25,7 @@ function Checkbox(props) {
     <CheckboxContainer className="checkbox">
       <HiddenCheckbox
         checked={isChecked}
-        onClick={toggleCheckboxChange}
+        onChange={toggleCheckboxChange}
         {...props}
       />
       <StyledCheckbox
