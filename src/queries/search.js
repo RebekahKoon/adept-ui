@@ -8,6 +8,9 @@ export const SEARCH_JOBS = gql`
       company
       city
       state
+      salary
+      type
+      description
     }
   }
 `

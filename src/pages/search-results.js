@@ -157,10 +157,7 @@ function SearchResultView(props) {
           <SSRMainContentContainer>
             <SearchResultSideBar />
             <SSRSearchResults>
-              <SearchResult />
-              <SearchResult />
-              <SearchResult />
-              <SearchResult />
+              <SearchResult data={props.data[0]} />
             </SSRSearchResults>
           </SSRMainContentContainer>
         </SSRMain>
@@ -180,7 +177,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      data: data,
+      data: data.data.searchJobPostings,
     },
   }
 }

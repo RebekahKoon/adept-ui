@@ -26,6 +26,7 @@ import {
 } from './SearchResultStyle'
 
 function SearchResult(props) {
+  console.log(props.data)
   const handleClick = (e) => {
     e.preventDefault()
     Router.push('/job-posting')
@@ -40,27 +41,29 @@ function SearchResult(props) {
               <i className="fab fa-adn"></i>
             </SSRJobLogoContainer>
             <SSRMainContent>
-              <SSRJobTitleContainer>Job Title</SSRJobTitleContainer>
+              <SSRJobTitleContainer>
+                {props.data.positionTitle}
+              </SSRJobTitleContainer>
               <SSRJobInfoContainer>
                 <SSRCompanyContainer>
                   <SSRCompanyTextContainer>
                     <SSRCompanyText>
                       <i className="fas fa-suitcase"></i>
-                      <p>Text</p>
+                      <p>{props.data.company}</p>
                     </SSRCompanyText>
                     <SSRCompanyText>
                       <i className="fas fa-map-marker-alt"></i>
-                      <p>Text</p>
+                      <p>{props.data.city}</p>
                     </SSRCompanyText>
 
                     <SSRCompanyText>
                       <i className="fas fa-clock"></i>
-                      <p>Text</p>
+                      <p>{props.data.type}</p>
                     </SSRCompanyText>
 
                     <SSRCompanyText>
                       <i className="fas fa-dollar-sign"></i>
-                      <p>Text</p>
+                      <p>{props.data.salary}</p>
                     </SSRCompanyText>
                   </SSRCompanyTextContainer>
                 </SSRCompanyContainer>

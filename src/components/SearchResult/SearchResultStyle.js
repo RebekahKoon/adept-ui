@@ -26,6 +26,10 @@ export const SSRCompanyText = styled.div`
   align-items: center;
   margin-right: 1rem;
   width: 25%;
+
+  p {
+    margin-left: 0.25rem;
+  }
 `
 
 export const SSRSearchResultFooter = styled.div`
@@ -152,7 +156,7 @@ export const SSRJobTitleContainer = styled.div`
   padding: 0px;
 
   position: static;
-  width: 67px;
+  width: 200px;
   height: 25px;
   left: 0px;
   top: 0px;
