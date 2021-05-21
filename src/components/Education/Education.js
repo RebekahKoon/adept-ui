@@ -74,6 +74,7 @@ const FormInputFields = ({ userId, setUserEducation }) => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
@@ -106,11 +107,12 @@ const FormInputFields = ({ userId, setUserEducation }) => {
 
     console.log(input)
     addEducationToResume({ variables: input })
+    reset()
   }
 
   return (
     <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-      <Form buttonText={'Add Education'}>
+      <Form buttonText={'Add Education'} loading={loading}>
         <div>
           <Input
             {...register('name', { required: 'School name is required' })}

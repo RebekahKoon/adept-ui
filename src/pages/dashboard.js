@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
+import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import CreatableSelect from 'react-select/creatable'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
@@ -182,9 +183,11 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   })
 
   const handleAddSkillToUser = () => {
-    addSkillToUser({
-      variables: { userId: userId, skillId: newSkill.name },
-    })
+    if (newSkill) {
+      addSkillToUser({
+        variables: { userId: userId, skillId: newSkill.name },
+      })
+    }
   }
 
   // Used to determine if the dropdown value has changed
@@ -224,7 +227,11 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
         value={newSkill}
         styles={StyledSkillDropdown}
       />
-      <DashboardButton onClick={handleAddSkillToUser}>Add</DashboardButton>
+      {addSkillToUserLoading ? (
+        <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+      ) : (
+        <DashboardButton onClick={handleAddSkillToUser}>Add</DashboardButton>
+      )}
     </StyledSkillDropdownContainer>
   )
 }

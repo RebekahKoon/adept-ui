@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -86,6 +85,7 @@ const FormInputFields = ({
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
@@ -125,12 +125,13 @@ const FormInputFields = ({
 
     console.log(input)
     addWorkExperienceToResume({ variables: input })
+    reset()
   }
 
   return (
     <>
       <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <Form buttonText={'Add Work Experience'}>
+        <Form buttonText={'Add Work Experience'} loading={loading}>
           <Input
             {...register('company', { required: true })}
             type="text"

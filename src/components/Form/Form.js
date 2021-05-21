@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import Loader from 'react-loader-spinner'
 import {
   FormContainer,
   FormGrid,
@@ -9,7 +9,7 @@ import {
   StyledCancelButton,
 } from './FormStyle'
 
-const Form = ({ children, buttonText }) => {
+const Form = ({ children, buttonText, loading }) => {
   const [formIsDisplayed, setFormIsDisplayed] = useState(false)
   const handleButtonClick = () => {
     formIsDisplayed === false
@@ -28,10 +28,19 @@ const Form = ({ children, buttonText }) => {
       <FormContainer style={{ display: formIsDisplayed ? 'flex' : 'none' }}>
         <FormGrid>{children}</FormGrid>
         <StyledButtonContainer>
-          <StyledCancelButton onClick={handleButtonClick}>
+          {/* <StyledCancelButton onClick={handleButtonClick}>
             Cancel
-          </StyledCancelButton>
-          <StyledSubmitButton type="submit">Submit</StyledSubmitButton>
+          </StyledCancelButton> */}
+          {loading ? (
+            <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+          ) : (
+            <>
+              <StyledCancelButton onClick={handleButtonClick}>
+                Cancel
+              </StyledCancelButton>
+              <StyledSubmitButton type="submit">Submit</StyledSubmitButton>
+            </>
+          )}
         </StyledButtonContainer>
       </FormContainer>
     </>

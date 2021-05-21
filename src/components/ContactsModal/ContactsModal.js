@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Modal from 'react-modal'
 import ModalContext from '../../context/ModalContext'
 import ContactsModalStyle from './ContactsModalStyle'
@@ -32,6 +32,19 @@ const ContactsModal = ({
   numberContacts,
 }) => {
   const { isOpen, closeModal } = useContext(ModalContext)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+
+  useEffect(() => {
+    const results = contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    setSearchResults(results)
+  }, [searchTerm])
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value)
+  }
 
   return (
     <Modal
@@ -45,8 +58,8 @@ const ContactsModal = ({
         <StyledContactsInput
           type="text"
           placeholder="Search Contacts"
-          // value={searchItem}
-          // onChange={handleChange}
+          value={searchTerm}
+          onChange={handleChange}
         />
         <button disabled>
           <i className="fa fa-search"></i>
@@ -57,7 +70,7 @@ const ContactsModal = ({
       </h1>
       <StyledContactsGrid>
         <UserContacts
-          contacts={contacts}
+          contacts={searchResults}
           userId={userId}
           setUserContacts={setUserContacts}
         />
