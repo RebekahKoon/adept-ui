@@ -223,7 +223,7 @@ export const JobPostingBodyResult = styled.div`
   width: 600px;
   height: 551px;
   left: 40px;
-  top: 325.5px;
+  top: 5rem;
 
   border-radius: 5px;
 `
@@ -294,6 +294,23 @@ export const JobPostingBodyResultSkillDiv = styled.div`
   top: 1942px;
   background: rgba(80, 120, 239, 0.1);
   border-radius: 15px;
+`
+
+export const JobPostingApply = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 32px;
+
+  position: static;
+  width: 123px;
+  height: 55px;
+  left: 0px;
+  top: 496px;
+
+  background: #570ff1;
+  border-radius: 8px;
 `
 
 export default JobPostingNavContainer

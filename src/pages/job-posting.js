@@ -33,6 +33,7 @@ import {
   JobPostingBodyResultSkillsHeader,
   JobPostingBodyResultSkillsContainer,
   JobPostingBodyResultSkillDiv,
+  JobPostingApply,
 } from '../styles/JobPostingStyle'
 
 function JobPostingView(props) {
@@ -42,11 +43,16 @@ function JobPostingView(props) {
   }
   const data = props.data[props.id]
 
+  const userId = 'f0e24414-6df7-45e8-b245-691e65dec14b'
+
   const dataArr = data.skillsRequired
 
   const date = new Date(data.datePosted)
 
-  console.log(dataArr)
+  const applyJob = (e) => {
+    e.preventDefault()
+    console.log('Applied!')
+  }
 
   const createSkillDivs = () =>
     dataArr.map((data, index) => (
@@ -55,7 +61,7 @@ function JobPostingView(props) {
       </JobPostingBodyResultSkillDiv>
     ))
 
-  console.log(props.data[props.id])
+  console.log(data)
   const months = [
     'Jan',
     'Feb',
@@ -138,6 +144,7 @@ function JobPostingView(props) {
                       {createSkillDivs()}
                     </JobPostingBodyResultSkillsContainer>
                   </JobPostingBodyResultSkillsSection>
+                  <JobPostingApply onClick={applyJob}>Apply</JobPostingApply>
                 </JobPostingBodyResult>
               </JobPostingBodyMainContentContainer>
             </JobPostingBodyMain>
