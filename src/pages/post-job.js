@@ -1,17 +1,17 @@
 import styled from 'styled-components'
-
 import { MainContentFlexContainer } from '../components/styles'
 import SearchBar from '../components/SearchBar'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
 import Loader from 'react-loader-spinner'
-import { REGISTER_USER } from '../queries/register'
+import { CREATE_JOB_POSTING } from '../queries/postJob'
 import Layout from '../components/Layout'
 import { Input, RadioInput } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
 import { CenterContainer } from '../components/styles'
-
 import { StyledFormTextarea } from '../components/WorkExperience'
+import withSession from '../lib/session'
+import useUser from '../lib/useUser'
 
 const Container = styled(MainContentFlexContainer)`
   padding: 3.75rem 1rem;
@@ -36,7 +36,7 @@ const FormContainer = styled.div`
 `
 
 const FormImage = styled.div`
-  background-image: url('/feature01.png');
+  background-image: url('/feature03.jpeg');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -96,7 +96,7 @@ const JobType = {
   INTERNSHIP: 'INTERNSHIP',
 }
 
-const RegisterForm = () => {
+const PostJobForm = () => {
   const {
     register,
     handleSubmit,
@@ -105,28 +105,44 @@ const RegisterForm = () => {
   } = useForm({ mode: 'onSubmit' })
 
   // TODO: Make this the right query
-  const [registerUser, { loading, error }] = useMutation(REGISTER_USER, {
-    onCompleted({ registerUser }) {
-      if (registerUser) {
-        console.log(registerUser)
-        // call login user
-        // store returned token in local storage
-        // redirect to dashboard now that has been token obtained
-      }
-    },
-    onError(e) {
-      console.log(e)
-    },
-  })
+  const [createJobPosting, { loading, error }] = useMutation(
+    CREATE_JOB_POSTING,
+    {
+      onCompleted({ createJobPosting }) {
+        if (createJobPosting) {
+          console.log(createJobPosting)
+          // call login user
+          // store returned token in local storage
+          // redirect to dashboard now that has been token obtained
+        }
+      },
+      onError(e) {
+        console.log(e)
+      },
+    }
+  )
+
+  const { user } = useUser()
 
   const onSubmit = (data) => {
     const input = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
+      positionTitle: data.positionTitle,
+      company: data.company,
+      datePosted: new Date(Date.now()).toISOString(),
+      city: data.location,
+      // state: data.state,
+      salary: Number(data.salary),
       type: data.type,
+      description: data.description,
+      // TODO: change this to form data
+      skillsRequired: [
+        '1df44942-5ea1-4d96-a1a1-4f4d5ac89330',
+        '7e9921db-3d7d-4ad2-a6c7-b9a429c1bdac',
+      ],
+      postedBy: user.userId,
     }
-    registerUser({ variables: input })
+    console.log(input)
+    createJobPosting({ variables: input })
   }
 
   // useEffect(() => {
@@ -140,12 +156,12 @@ const RegisterForm = () => {
         <FormRow>
           <InputWrapper>
             <Input
-              {...register('jobTitle', { required: true })}
+              {...register('positionTitle', { required: true })}
               type="text"
               placeholder="job title"
-              id="jobTitle"
+              id="positionTitle"
               label="Job Title"
-              isInvalid={errors.jobTitle}
+              isInvalid={errors.positionTitle}
             />
           </InputWrapper>
           <InputWrapper>
@@ -189,14 +205,14 @@ const RegisterForm = () => {
               defaultChecked
               type="radio"
               id="employee"
-              label="A Job Applicant"
+              label="Full Time"
               value={JobType.FULL_TIME}
             />
             <RadioInput
               {...register('type')}
               type="radio"
               id="employer"
-              label="An Employer"
+              label="Part Time"
               value={JobType.PART_TIME}
             />
             <RadioInput
@@ -209,10 +225,11 @@ const RegisterForm = () => {
           </RadioInputs>
         </RadioInputsSection>
         <StyledFormTextarea
+          {...register('description', { required: true })}
           id="description"
           cols="50"
           rows="4"
-          defaultValue="yo what up"
+          placeholder="yo what up"
         ></StyledFormTextarea>
         {/* <Input
           {...register('description', { required: true })}
@@ -228,6 +245,7 @@ const RegisterForm = () => {
         ) : (
           <PostJobButton type="submit">Post Job</PostJobButton>
         )}
+        <p>{error && error.message}</p>
       </form>
     </FormContainer>
   )
@@ -240,7 +258,7 @@ const PostJobPage = (props) => {
       <Container>
         {/* <Container> */}
         <FormImage />
-        <RegisterForm />
+        <PostJobForm />
         {/* </Container> */}
       </Container>
     </Layout>
@@ -248,3 +266,15 @@ const PostJobPage = (props) => {
 }
 
 export default PostJobPage
+
+// Redirect if user is not logged in
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = req.session.get('user')
+
+  if (user === undefined) {
+    res.setHeader('location', '/login')
+    res.statusCode = 302
+    return res.end()
+  }
+  return { props: {} }
+})
