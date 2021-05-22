@@ -18,6 +18,7 @@ import Contact from '../components/Contact'
 import ContactsModal from '../components/ContactsModal'
 import ModalContext from '../context/ModalContext'
 import { StyledButtonSolid } from '../components/Button'
+import withSession from '../lib/session'
 
 export const StyledDashboardBody = styled.div`
   display: flex;
@@ -399,14 +400,22 @@ const Dashboard = (props) => {
 
 export default Dashboard
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = req.session.get('user')
+
+  if (user === undefined) {
+    res.setHeader('location', '/login')
+    res.statusCode = 302
+    res.end()
+    return { props: {} }
+  }
   const { data: skillsData } = await client.query({
     query: GET_ALL_SKILLS,
   })
 
   const { data: userData } = await client.query({
     query: GET_USER_BY_ID,
-    variables: { userId: '10737552-9018-497d-8e7a-064f99e8eeaa' },
+    variables: { userId: user.userId },
   })
 
   return {
@@ -415,4 +424,4 @@ export const getServerSideProps = async () => {
       currentUser: userData.getUserById,
     },
   }
-}
+})
