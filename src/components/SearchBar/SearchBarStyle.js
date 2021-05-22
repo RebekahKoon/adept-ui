@@ -47,6 +47,10 @@ export const StyledSearchBar = styled.div`
     border-radius: 0px 5px 5px 0px;
     line-height: 3.5rem;
     padding: 0 1rem;
+    :hover {
+      cursor: pointer;
+      color: var(--darkPurple);
+    }
   }
 `
 

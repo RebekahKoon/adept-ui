@@ -1,7 +1,9 @@
 // pages/dashboard.js
-import React from 'react'
 import Router from 'next/router'
 import { useState } from 'react'
+import Select from 'react-select'
+
+import { SEARCH_JOBS } from '../queries/search'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -9,69 +11,32 @@ import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 import SearchBar from '../components/SearchBar'
-import StyledSearchResults from '../styles/SearchResultsStyle'
+import StyledSideBar from '../components/SideBar'
+import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
+import client from '../apollo/apolloClient'
+import Checkbox from '../components/Checkbox'
 import {
-  SearchResultsParent,
-  SSRFilterSideBar,
   SSRSearchResults,
   SSRMain,
   SSRMainContentContainer,
   SSRSearchResultsHeader,
-  SSRSearchResultDiv,
-  SSRSearchResultFooter,
-  SSRSkillDiv,
-  SSRSearchResultContainer,
-  SSRSearchResultLinkContainer,
-  SSRSearchResultContent,
-  SSRJobInfoAndLogo,
-  SSRJobButton,
-  SSRMainContent,
-  SSRJobLogoContainer,
-  SSRJobTitleContainer,
-  SSRJobInfoContainer,
-  SSRCompanyContainer,
-  SSRCompanyTextContainer,
-  SSRSkillsContainer,
-  SSRDate,
   SSRSortByDropdown,
-  SSRMainContentFooter,
-  SSRPagination,
-  SSRPageNext,
-  SSRPagePrev,
-  SSRPageNumber,
   SSRFilterSection,
   SSRFilterOptions,
   SSRFilterOptionHeader,
   SSRDividerContainer,
   SSRDivider,
   SSRCheckBoxOption,
-  SSRCheckBox,
-  CheckboxContainer,
-  StyledCheckbox,
-  Icon,
+  StyledDropdown,
 } from '../styles/SearchResultsStyle'
 
-const Checkbox = ({ className, checked, ...props }) => (
-  <CheckboxContainer className={className}>
-    <SSRCheckBox checked={checked} {...props} />
-    <StyledCheckbox checked={checked}>
-      <Icon viewBox="0 0 24 24">
-        <polyline points="20 6 9 17 4 12" />
-      </Icon>
-    </StyledCheckbox>
-  </CheckboxContainer>
-)
 function SearchResultView(props) {
-  const [checked, setChecked] = useState(false)
   const JobType = ['Full Time', 'Part Time', 'Contract', 'Internship']
-  const JobCategory = ['Option', 'Option', 'Option']
+  const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
+  const dataArr = props.data
 
-  const createCheckboxes = () => items.map(createCheckbox)
-
-  const createCheckbox = (label) => (
-    <Checkbox label={label} handleCheckboxChange={toggleCheckbox} key={label} />
-  )
+  const selectedCheckboxes = new Set()
 
   const toggleCheckbox = (label) => {
     if (selectedCheckboxes.has(label)) {
@@ -81,160 +46,139 @@ function SearchResultView(props) {
     }
   }
 
-  const handleCheckboxChange = (event) => {
-    setChecked(event.target.checked)
+  const handleFormSubmit = (formSubmitEvent) => {
+    formSubmitEvent.preventDefault()
+    for (const checkbox of selectedCheckboxes) {
+      console.log(checkbox, 'is selected.')
+    }
   }
+
+  const createCheckbox = (label) => (
+    <Checkbox label={label} handleCheckboxChange={toggleCheckbox} key={label} />
+  )
+
+  const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
+
+  const createDataDivs = () =>
+    dataArr.map((data, index) => (
+      <SearchResult data={dataArr[index]} id={index} />
+    ))
+
+  const createJobCatCheckboxes = () => JobSkills.map(createCheckbox)
+
+  const createExperienceCheckboxes = () => Experience.map(createCheckbox)
+
+  const [sortOption, setOption] = useState('All')
+  const handleOptionChange = (e) => {
+    setOption(e.value)
+    console.log(e.value)
+  }
+
+  const sortOptions = [
+    {
+      label: 'Newest',
+      value: 'newest',
+    },
+    {
+      label: 'Oldest',
+      value: 'oldest',
+    },
+  ]
 
   const handleClick = (e) => {
     e.preventDefault()
     Router.push('/job-posting')
   }
+
+  const SearchResultSideBar = () => {
+    return (
+      <StyledSideBar>
+        <SSRFilterSection>
+          <SSRFilterOptionHeader>JobType</SSRFilterOptionHeader>
+          <SSRFilterOptions>
+            <SSRCheckBoxOption>
+              <form onSubmit={handleFormSubmit}>
+                {createJobTypeCheckboxes()}
+              </form>
+            </SSRCheckBoxOption>
+          </SSRFilterOptions>
+        </SSRFilterSection>
+        <SSRFilterSection>
+          <SSRDividerContainer>
+            <SSRDivider />
+          </SSRDividerContainer>
+          <SSRFilterOptionHeader>Job Category</SSRFilterOptionHeader>
+          <SSRFilterOptions>
+            <SSRCheckBoxOption>
+              <form onSubmit={handleFormSubmit}>
+                {createJobCatCheckboxes()}
+              </form>
+            </SSRCheckBoxOption>
+          </SSRFilterOptions>
+        </SSRFilterSection>
+        <SSRFilterSection>
+          <SSRDividerContainer>
+            <SSRDivider />
+          </SSRDividerContainer>
+          <SSRFilterOptionHeader>Experience</SSRFilterOptionHeader>
+          <SSRFilterOptions>
+            <SSRCheckBoxOption>
+              <form onSubmit={handleFormSubmit}>
+                {createExperienceCheckboxes()}
+                <button type="submit">Submit</button>
+              </form>
+            </SSRCheckBoxOption>
+          </SSRFilterOptions>
+        </SSRFilterSection>
+      </StyledSideBar>
+    )
+  }
+
+  const SearchResultDropdown = () => {
+    return (
+      <SSRSortByDropdown>
+        Sort by:
+        <Select
+          defaultValue={sortOptions[0]}
+          onChange={handleOptionChange}
+          options={sortOptions}
+          styles={StyledDropdown}
+          indicatorSeparator={false}
+          isSearchable={false}
+        />
+      </SSRSortByDropdown>
+    )
+  }
   return (
     <Layout>
-      {
-        <SearchResultsParent>
-          <SearchBar />
-          <StyledSearchResults>
-            <SSRMain>
-              <SSRSearchResultsHeader>
-                69,420 results found
-                <SSRSortByDropdown>sort by: newest</SSRSortByDropdown>
-              </SSRSearchResultsHeader>
-              <SSRMainContentContainer>
-                <SSRFilterSideBar>
-                  <SSRFilterSection>
-                    <SSRFilterOptionHeader>JobType</SSRFilterOptionHeader>
-                    <SSRFilterOptions>
-                      <SSRCheckBoxOption>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Full Time</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Part Time</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Contract</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Internship</span>
-                        </label>
-                      </SSRCheckBoxOption>
-                    </SSRFilterOptions>
-                  </SSRFilterSection>
-                  <SSRFilterSection>
-                    <SSRDividerContainer>
-                      <SSRDivider />
-                    </SSRDividerContainer>
-                    <SSRFilterOptionHeader>Job Category</SSRFilterOptionHeader>
-                    <SSRFilterOptions>
-                      <SSRCheckBoxOption>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Option</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Option</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Option</span>
-                        </label>
-                      </SSRCheckBoxOption>
-                    </SSRFilterOptions>
-                  </SSRFilterSection>
-                  <SSRFilterSection>
-                    <SSRDividerContainer>
-                      <SSRDivider />
-                    </SSRDividerContainer>
-                    <SSRFilterOptionHeader>Experience</SSRFilterOptionHeader>
-                    <SSRFilterOptions>
-                      <SSRCheckBoxOption>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Entry Level</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Associate</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Senior</span>
-                        </label>
-                        <label>
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleCheckboxChange}
-                          />
-                          <span>Leadership</span>
-                        </label>
-                      </SSRCheckBoxOption>
-                    </SSRFilterOptions>
-                  </SSRFilterSection>
-                </SSRFilterSideBar>
-                <SSRSearchResults>
-                  <SearchResult />
-                  <SearchResult />
-                  <SearchResult />
-                  <SearchResult />
-                </SSRSearchResults>
-              </SSRMainContentContainer>
-              <SSRMainContentFooter>
-                <SSRPagination>
-                  <SSRPagePrev>
-                    {<i className="fas fa-chevron-left"></i>}
-                  </SSRPagePrev>
-                  <SSRPageNumber>{'1'}</SSRPageNumber>
-                  <SSRPageNumber>{'2'}</SSRPageNumber>
-                  <SSRPageNumber>{'3'}</SSRPageNumber>
-                  <SSRPageNumber>{'...'}</SSRPageNumber>
-                  <SSRPageNumber>{'11'}</SSRPageNumber>
-                  <SSRPageNext>
-                    {<i className="fas fa-chevron-right"></i>}
-                  </SSRPageNext>
-                </SSRPagination>
-              </SSRMainContentFooter>
-            </SSRMain>
-          </StyledSearchResults>
-        </SearchResultsParent>
-      }
+      <SearchBar headerText="Search Jobs" />
+      <MainContentFlexContainer>
+        <SSRMain>
+          <SSRSearchResultsHeader>
+            {props.data.length} results found
+            <SearchResultDropdown />
+          </SSRSearchResultsHeader>
+          <SSRMainContentContainer>
+            <SearchResultSideBar />
+            <SSRSearchResults>{createDataDivs()}</SSRSearchResults>
+          </SSRMainContentContainer>
+        </SSRMain>
+      </MainContentFlexContainer>
     </Layout>
   )
 }
 
 export default SearchResultView
+
+export const getServerSideProps = async (context) => {
+  const data = await client.query({
+    query: SEARCH_JOBS,
+    variables: { searchTerm: context.query.q },
+  })
+
+  return {
+    props: {
+      data: data.data.searchJobPostings,
+    },
+  }
+}
