@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Loader from 'react-loader-spinner'
 import { useMutation } from '@apollo/client'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
@@ -65,9 +66,13 @@ const Skill = ({ name, skillId, setUserSkills, userId }) => {
   return (
     <SkillContainer>
       {name}{' '}
-      <SkillButton onClick={() => handleDeleteSkillFromUser(userId, skillId)}>
-        <i className="fas fa-times"></i>
-      </SkillButton>
+      {loading ? (
+        <Loader type="TailSpin" color="#570EF1" height={10} width={10} />
+      ) : (
+        <SkillButton onClick={() => handleDeleteSkillFromUser(userId, skillId)}>
+          <i className="fas fa-times"></i>
+        </SkillButton>
+      )}
     </SkillContainer>
   )
 }

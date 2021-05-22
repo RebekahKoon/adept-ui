@@ -9,28 +9,12 @@ import {
   StyledCancelButton,
 } from './FormStyle'
 
-const Form = ({ children, buttonText, loading }) => {
-  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
-  const handleButtonClick = () => {
-    formIsDisplayed === false
-      ? setFormIsDisplayed(true)
-      : setFormIsDisplayed(false)
-  }
-
+const Form = ({ children, loading, handleButtonClick }) => {
   return (
     <>
-      <StyledAddToResumeButton
-        onClick={handleButtonClick}
-        style={{ display: formIsDisplayed ? 'none' : 'flex' }}
-      >
-        {buttonText}
-      </StyledAddToResumeButton>
-      <FormContainer style={{ display: formIsDisplayed ? 'flex' : 'none' }}>
+      <FormContainer>
         <FormGrid>{children}</FormGrid>
         <StyledButtonContainer>
-          {/* <StyledCancelButton onClick={handleButtonClick}>
-            Cancel
-          </StyledCancelButton> */}
           {loading ? (
             <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
           ) : (

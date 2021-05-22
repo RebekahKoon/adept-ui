@@ -4,6 +4,7 @@ import {
   StyledEducationContent,
   StyledEducation,
   StyledEducationText,
+  StyledAddEducationButton,
 } from '../Education/EducationStyle'
 
 export const StyledWorkExperienceContainer = styled(StyledEducationContainer)``
@@ -73,5 +74,7 @@ export const StyledRemoveButton = styled.button`
   justify-content: right;
   background-color: var(--white);
 `
+
+export const StyledAddWorkExperienceButton = styled(StyledAddEducationButton)``
 
 export default StyledEducationContainer

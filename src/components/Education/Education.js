@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
+import styled from 'styled-components'
+import Loader from 'react-loader-spinner'
+import { StyledButtonSolid } from '../Button'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -16,6 +19,7 @@ import {
   StyledEducation,
   StyledEducationText,
   StyledRemoveButton,
+  StyledAddEducationButton,
 } from './EducationStyle'
 
 const EducationData = ({ userEducation, setUserEducation, userId }) => {
@@ -49,30 +53,36 @@ const EducationData = ({ userEducation, setUserEducation, userId }) => {
     })
   }
 
-  return userEducation.map((education) => (
-    <StyledEducation>
-      <i className="fas fa-graduation-cap fa-3x"></i>
-      <StyledEducationText>
-        <b>{education.name}</b>
-        {education.degree}
-        <small>
-          {new Date(education.startDate).getUTCFullYear()} -{' '}
-          {new Date(education.endDate).getUTCFullYear()}
-        </small>
-        <small>{education.major}</small>
-        <small>{education.gpa ? education.gpa.toFixed(1) : ''}</small>
-      </StyledEducationText>
-      <StyledRemoveButton
-        id={education.educationId}
-        onClick={() => handleDeleteEducation(education.educationId)}
-      >
-        <i className="fas fa-times"></i>
-      </StyledRemoveButton>
-    </StyledEducation>
-  ))
+  return userEducation.map((education) => {
+    return (
+      <StyledEducation>
+        <i className="fas fa-graduation-cap fa-3x"></i>
+        <StyledEducationText>
+          <b>{education.name}</b>
+          {education.degree}
+          <small>
+            {new Date(education.startDate).getUTCFullYear()} -{' '}
+            {new Date(education.endDate).getUTCFullYear()}
+          </small>
+          <small>{education.major}</small>
+          <small>{education.gpa ? education.gpa.toFixed(1) : ''}</small>
+        </StyledEducationText>
+        {loading ? (
+          <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+        ) : (
+          <StyledRemoveButton
+            id={education.educationId}
+            onClick={() => handleDeleteEducation(education.educationId)}
+          >
+            <i className="fas fa-times"></i>
+          </StyledRemoveButton>
+        )}
+      </StyledEducation>
+    )
+  })
 }
 
-const FormInputFields = ({ userId, setUserEducation }) => {
+const EducationForm = ({ userId, setUserEducation }) => {
   const [buttonPressed, setButtonIsPressed] = useState(false)
   const handleButtonPress = () => {
     buttonPressed === false ? true : false
@@ -125,79 +135,91 @@ const FormInputFields = ({ userId, setUserEducation }) => {
     reset()
   }
 
+  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
+  const handleButtonClick = () => {
+    formIsDisplayed === false
+      ? setFormIsDisplayed(true)
+      : setFormIsDisplayed(false)
+  }
+
   return (
-    <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-      <Form buttonText={'Add Education'} loading={loading}>
-        <div>
-          <Input
-            {...register('name', { required: 'School name is required' })}
-            type="text"
-            placeholder="Enter school name"
-            id="name"
-            label={'School name'}
-            isInvalid={errors.name}
-          />
-          {errors.name && errors.name.message}
-        </div>
-        <div>
-          <Input
-            {...register('degree', { required: 'Degree type is required' })}
-            type="text"
-            placeholder="Enter your degree type"
-            id="degree"
-            label="Degree"
-            isInvalid={errors.degree}
-          />
-          {errors.degree && <span>{errors.degree.message}</span>}
-        </div>
-        <div>
-          <Input
-            {...register('major', { required: 'Major is required' })}
-            type="text"
-            placeholder="Computer Science"
-            id="major"
-            label="Major"
-            isInvalid={errors.major}
-          />
-          {errors.major && <span>{errors.major.message}</span>}
-        </div>
-        <div>
-          <Input
-            {...register('gpa', { required: false, max: 4.0, min: 0.0 })}
-            type="number"
-            placeholder="4.0"
-            id="gpa"
-            label="GPA"
-            // isInvalid={errors.gpa.message}
-          />
-          {/* {errors.gpa && <span>{errors.gpa.message}</span>} */}
-        </div>
-        <div>
-          <Input
-            {...register('startDate', { required: 'Start date is required' })}
-            type="date"
-            id="startDate"
-            name="startDate"
-            label="Start Date"
-            pattern="\d{4}-\d{2}-\d{2}"
-            isInvalid={errors.startDate}
-          />
-          {errors.startDate && <span>{errors.startDate.message}</span>}
-        </div>
-        <div>
-          <Input
-            {...register('endDate', { required: 'End date is required' })}
-            type="date"
-            id="endDate"
-            name="endDate"
-            label="End Date"
-            pattern="\d{4}-\d{2}-\d{2}"
-            isInvalid={errors.endDate}
-          />
-          {errors.endDate && <span>{errors.endDate.message}</span>}
-        </div>
-      </Form>
-    </form>
+    <>
+      <StyledAddEducationButton
+        onClick={handleButtonClick}
+        style={{ display: formIsDisplayed ? 'none' : 'flex' }}
+      >
+        Add Education
+      </StyledAddEducationButton>
+      <form
+        style={{ width: '100%', display: formIsDisplayed ? 'flex' : 'none' }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Form loading={loading} handleButtonClick={handleButtonClick}>
+          <div>
+            <Input
+              {...register('name', { required: 'School name is required' })}
+              type="text"
+              placeholder="Enter school name"
+              id="name"
+              label={'School name'}
+              isInvalid={errors.name}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('degree', { required: 'Degree type is required' })}
+              type="text"
+              placeholder="Enter your degree type"
+              id="degree"
+              label="Degree"
+              isInvalid={errors.degree}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('major', { required: 'Major is required' })}
+              type="text"
+              placeholder="Computer Science"
+              id="major"
+              label="Major"
+              isInvalid={errors.major}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('gpa', { required: false, max: 4.0, min: 0.0 })}
+              type="number"
+              placeholder="4.0"
+              id="gpa"
+              label="GPA"
+              // isInvalid={errors.gpa.message}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('startDate', { required: 'Start date is required' })}
+              type="date"
+              id="startDate"
+              name="startDate"
+              label="Start Date"
+              pattern="\d{4}-\d{2}-\d{2}"
+              isInvalid={errors.startDate}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('endDate', { required: 'End date is required' })}
+              type="date"
+              id="endDate"
+              name="endDate"
+              label="End Date"
+              pattern="\d{4}-\d{2}-\d{2}"
+              isInvalid={errors.endDate}
+            />
+          </div>
+        </Form>
+      </form>
+    </>
   )
 }
 
@@ -216,7 +238,7 @@ const Education = ({ educationData, userId }) => {
           />
         </StyledEducationGrid>
       </StyledEducationContent>
-      <FormInputFields
+      <EducationForm
         userId={userId}
         userEducation={userEducation}
         setUserEducation={setUserEducation}

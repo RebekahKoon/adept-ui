@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -14,6 +15,7 @@ import {
   StyledFormTextarea,
   StyledLabel,
   StyledRemoveButton,
+  StyledAddWorkExperienceButton,
 } from './WorkExperienceStyle'
 
 const WorkExperienceData = ({
@@ -144,25 +146,43 @@ const FormInputFields = ({
     reset()
   }
 
+  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
+  const handleButtonClick = () => {
+    formIsDisplayed === false
+      ? setFormIsDisplayed(true)
+      : setFormIsDisplayed(false)
+  }
+
   return (
     <>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <Form buttonText={'Add Work Experience'} loading={loading}>
+      <StyledAddWorkExperienceButton
+        onClick={handleButtonClick}
+        style={{ display: formIsDisplayed ? 'none' : 'flex' }}
+      >
+        Add Work Experience
+      </StyledAddWorkExperienceButton>
+      <form
+        style={{ width: '100%', display: formIsDisplayed ? 'flex' : 'none' }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Form loading={loading} handleButtonClick={handleButtonClick}>
           <Input
-            {...register('company', { required: true })}
+            {...register('company', { required: 'Company name is required' })}
             type="text"
             placeholder="Google"
             id="company"
             label="Company name"
-            isInvalid={errors.name}
+            isInvalid={errors.company}
           />
           <Input
-            {...register('position', { required: true })}
+            {...register('position', {
+              required: 'Position title is required',
+            })}
             type="text"
             placeholder="Software Developer"
             id="position"
-            label="Position"
-            isInvalid={errors.name}
+            label="Position title"
+            isInvalid={errors.position}
           />
           <Input
             {...register('city', { required: false })}
@@ -170,7 +190,7 @@ const FormInputFields = ({
             placeholder="Seattle"
             id="city"
             label="City"
-            isInvalid={errors.name}
+            isInvalid={errors.city}
           />
           <Input
             {...register('state', { required: false })}
@@ -178,31 +198,33 @@ const FormInputFields = ({
             placeholder="WA"
             id="state"
             label="State"
-            isInvalid={errors.name}
+            isInvalid={errors.state}
           />
           <Input
-            {...register('startDate', { required: true })}
+            {...register('startDate', { required: 'Start date is required' })}
             type="date"
             id="startDate"
             label="Start Date"
-            isInvalid={errors.name}
+            isInvalid={errors.date}
           />
           <Input
             {...register('endDate', { required: false })}
             type="date"
             id="endDate"
             label="End Date (If Applicable)"
-            isInvalid={errors.name}
+            isInvalid={errors.date}
           />
           <div>
             <StyledLabel htmlFor="description">Description</StyledLabel>
             <br />
             <StyledFormTextarea
-              {...register('description', { required: true })}
+              {...register('description', {
+                required: 'Description is required',
+              })}
               id="description"
               cols="50"
               rows="4"
-              isInvalid={errors.name}
+              isInvalid={errors.description}
             ></StyledFormTextarea>
           </div>
         </Form>
