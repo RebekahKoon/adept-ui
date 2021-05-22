@@ -1,28 +1,31 @@
-import { ApolloClient, createHttpLink } from '@apollo/client'
+import { ApolloClient, HttpLink, from } from '@apollo/client'
+import { onError } from '@apollo/client/link/error'
+import { ApolloLink } from 'apollo-boost'
 import { setContext } from '@apollo/client/link/context'
 import { cache } from './cache'
 
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_SERVER,
 })
 
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  // // if (typeof window !== 'undefined') {
-  // const token = localStorage.getItem('token')
-  // // }
-  // // return the headers to the context so httpLink can read them
-  // return {
-  //   headers: {
-  //     ...headers,
-  //     authorization: token ? `Bearer ${token}` : '',
-  //   },
-  // }
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
+          locations
+        )}, Path: ${path}`
+      )
+    )
+  if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
-// Initialize ApolloClient
+// If you provide a link chain to ApolloClient, you
+// don't provide the `uri` option.
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  // The `from` function combines an array of individual links
+  // into a link chain
+  link: from([errorLink, httpLink]),
   cache,
 })
 
