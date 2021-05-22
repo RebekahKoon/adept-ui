@@ -22,13 +22,15 @@
     "graphql": "^15.5.0",
     "next": "^10.2.0",
     "next-auth": "^3.21.1",
+    "next-iron-session": "^4.1.13",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.6.0",
     "react-loader-spinner": "^4.0.0",
     "react-modal": "^3.13.1",
     "react-select": "^4.3.0",
-    "styled-components": "^5.2.3"
+    "styled-components": "^5.2.3",
+    "swr": "^0.5.6"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.12.0",
