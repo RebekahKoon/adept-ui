@@ -98,9 +98,9 @@ const LoginForm = () => {
   })
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    console.log('user:', user?.userId)
-  }, [user])
+  // useEffect(() => {
+  //   console.log('user:', user?.userId)
+  // }, [user])
 
   const {
     register,
@@ -109,7 +109,7 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
-  // Delegate login to /api/login
+  // Delegate login to /api/login to set session cookies
   const onSubmit = async (data) => {
     const body = {
       email: data.email,
@@ -151,7 +151,7 @@ const LoginForm = () => {
           isInvalid={errors.password}
         />
 
-        {isLoading ? (
+        {isLoading || user?.isLoggedIn ? (
           <CenterContainer>
             <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
           </CenterContainer>
@@ -179,13 +179,14 @@ const Login = (props) => {
 
 export default Login
 
+// Redirect if the user is already logged in
 export const getServerSideProps = withSession(async ({ req, res }) => {
   const user = req.session.get('user')
 
   if (user) {
     res.setHeader('location', '/dashboard')
     res.statusCode = 302
-    res.end()
+    return res.end()
   }
   return { props: {} }
 })
