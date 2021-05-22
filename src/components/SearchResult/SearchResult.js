@@ -29,8 +29,23 @@ function SearchResult(props) {
   console.log(props.data)
   const handleClick = (e) => {
     e.preventDefault()
-    Router.push('/job-posting')
+    Router.push('/job-posting?q=' + props.data.company + '&id=' + props.id)
   }
+  const date = new Date(props.data.datePosted)
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
 
   return (
     <SSRSearchResultDiv>
@@ -80,11 +95,15 @@ function SearchResult(props) {
       </SSRSearchResultContainer>
       <SSRSearchResultFooter>
         <SSRSkillsContainer>
-          <SSRSkillDiv>Skill</SSRSkillDiv>
-          <SSRSkillDiv>Skill</SSRSkillDiv>
-          <SSRSkillDiv>Skill</SSRSkillDiv>
+          <SSRSkillDiv>{props.data.skillsRequired[0].name}</SSRSkillDiv>
         </SSRSkillsContainer>
-        <SSRDate>Apr 20, 2021</SSRDate>
+        <SSRDate>
+          {months[date.getMonth() + 1] +
+            ' ' +
+            date.getDate() +
+            ', ' +
+            date.getFullYear()}
+        </SSRDate>
       </SSRSearchResultFooter>
     </SSRSearchResultDiv>
   )

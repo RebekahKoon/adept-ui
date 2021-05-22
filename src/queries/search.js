@@ -11,6 +11,10 @@ export const SEARCH_JOBS = gql`
       salary
       type
       description
+      skillsRequired {
+        name
+      }
+      datePosted
     }
   }
 `

@@ -3,7 +3,6 @@ import Router from 'next/router'
 import { useState } from 'react'
 import Select from 'react-select'
 
-import { useQuery } from '@apollo/client'
 import { SEARCH_JOBS } from '../queries/search'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
@@ -59,6 +58,7 @@ function SearchResultView(props) {
   )
 
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
+  var id = 0
 
   const createJobCatCheckboxes = () => JobSkills.map(createCheckbox)
 
@@ -151,13 +151,14 @@ function SearchResultView(props) {
       <MainContentFlexContainer>
         <SSRMain>
           <SSRSearchResultsHeader>
-            69,420 results found
+            {props.data.length} results found
             <SearchResultDropdown />
           </SSRSearchResultsHeader>
           <SSRMainContentContainer>
             <SearchResultSideBar />
             <SSRSearchResults>
-              <SearchResult data={props.data[0]} />
+              <SearchResult data={props.data[0]} id={0} />
+              <SearchResult data={props.data[1]} id={1} />
             </SSRSearchResults>
           </SSRMainContentContainer>
         </SSRMain>
@@ -169,7 +170,6 @@ function SearchResultView(props) {
 export default SearchResultView
 
 export const getServerSideProps = async (context) => {
-  console.log('q = ' + context.query.q)
   const data = await client.query({
     query: SEARCH_JOBS,
     variables: { searchTerm: context.query.q },
