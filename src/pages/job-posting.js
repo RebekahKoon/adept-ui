@@ -9,6 +9,7 @@ import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import JobPostingNavContainer from '../styles/JobPostingStyle'
+import useUser from '../lib/useUser'
 import client from '../apollo/apolloClient'
 import { SEARCH_JOBS } from '../queries/search'
 import {
@@ -45,9 +46,14 @@ function JobPostingView(props) {
 
   const userId = 'f0e24414-6df7-45e8-b245-691e65dec14b'
 
+  // Redirect to dashboard after user logs in
+  const { user, mutateUser } = useUser({})
+
   const dataArr = data.skillsRequired
 
   const date = new Date(data.datePosted)
+
+  console.log('user:', user?.userId)
 
   const applyJob = (e) => {
     e.preventDefault()

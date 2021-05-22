@@ -11,7 +11,7 @@ import {
 } from './SearchBarStyle'
 
 function SearchBar({ headerText }) {
-  const [option, setOption] = useState('All')
+  const [option, setOption] = useState('Job Postings')
   const handleOptionChange = (e) => {
     setOption(e.value)
     console.log(e.value)
@@ -26,10 +26,6 @@ function SearchBar({ headerText }) {
   }
 
   const options = [
-    {
-      label: 'All',
-      value: 'all',
-    },
     {
       label: 'Job Postings',
       value: 'jobPostings',

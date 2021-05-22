@@ -24,8 +24,8 @@ export const SSRCompanyText = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-right: 1rem;
-  width: 25%;
+  margin-right: 4rem;
+  width: 10rem;
 
   p {
     margin-left: 0.25rem;
@@ -95,7 +95,7 @@ export const SSRSearchResultContent = styled.div`
   padding: 0px;
 
   position: static;
-  width: 400px;
+  width: 600px;
   height: 59px;
   left: 0px;
   top: 0px;
