@@ -185,7 +185,7 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
   if (user) {
     res.setHeader('location', '/dashboard')
     res.statusCode = 302
-    res.end()
+    return res.end()
   }
   return { props: {} }
 })
