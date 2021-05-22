@@ -104,6 +104,7 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
+  // TODO: Make this the right query
   const [registerUser, { loading, error }] = useMutation(REGISTER_USER, {
     onCompleted({ registerUser }) {
       if (registerUser) {
