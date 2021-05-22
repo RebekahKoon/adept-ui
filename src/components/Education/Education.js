@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
-import styled from 'styled-components'
 import Loader from 'react-loader-spinner'
-import { StyledButtonSolid } from '../Button'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -20,9 +18,15 @@ import {
   StyledEducationText,
   StyledRemoveButton,
   StyledAddEducationButton,
+  StyledRemoveButtonContainer,
 } from './EducationStyle'
 
-const EducationData = ({ userEducation, setUserEducation, userId }) => {
+const EducationData = ({
+  userEducation,
+  setUserEducation,
+  userId,
+  education,
+}) => {
   const [deleteEducation, { loading, error }] = useMutation(DELETE_EDUCATION, {
     onCompleted({ deleteEducation }) {
       if (deleteEducation) {
@@ -53,22 +57,22 @@ const EducationData = ({ userEducation, setUserEducation, userId }) => {
     })
   }
 
-  return userEducation.map((education) => {
-    return (
-      <StyledEducation>
-        <i className="fas fa-graduation-cap fa-3x"></i>
-        <StyledEducationText>
-          <b>{education.name}</b>
-          {education.degree}
-          <small>
-            {new Date(education.startDate).getUTCFullYear()} -{' '}
-            {new Date(education.endDate).getUTCFullYear()}
-          </small>
-          <small>{education.major}</small>
-          <small>{education.gpa ? education.gpa.toFixed(1) : ''}</small>
-        </StyledEducationText>
+  return (
+    <StyledEducation>
+      <i className="fas fa-graduation-cap fa-3x"></i>
+      <StyledEducationText>
+        <b>{education.name}</b>
+        {education.degree}
+        <small>
+          {new Date(education.startDate).getUTCFullYear()} -{' '}
+          {new Date(education.endDate).getUTCFullYear()}
+        </small>
+        <small>{education.major}</small>
+        <small>{education.gpa ? education.gpa.toFixed(1) : ''}</small>
+      </StyledEducationText>
+      <StyledRemoveButtonContainer>
         {loading ? (
-          <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+          <Loader type="TailSpin" color="#570EF1" height={20} width={20} />
         ) : (
           <StyledRemoveButton
             id={education.educationId}
@@ -77,16 +81,13 @@ const EducationData = ({ userEducation, setUserEducation, userId }) => {
             <i className="fas fa-times"></i>
           </StyledRemoveButton>
         )}
-      </StyledEducation>
-    )
-  })
+      </StyledRemoveButtonContainer>
+    </StyledEducation>
+  )
 }
 
 const EducationForm = ({ userId, setUserEducation }) => {
   const [buttonPressed, setButtonIsPressed] = useState(false)
-  const handleButtonPress = () => {
-    buttonPressed === false ? true : false
-  }
 
   const {
     register,
@@ -231,11 +232,14 @@ const Education = ({ educationData, userId }) => {
       <StyledEducationContent>
         <h2>Education</h2>
         <StyledEducationGrid>
-          <EducationData
-            userEducation={userEducation}
-            setUserEducation={setUserEducation}
-            userId={userId}
-          />
+          {userEducation.map((education) => (
+            <EducationData
+              userEducation={userEducation}
+              setUserEducation={setUserEducation}
+              userId={userId}
+              education={education}
+            />
+          ))}
         </StyledEducationGrid>
       </StyledEducationContent>
       <EducationForm

@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client'
+import Loader from 'react-loader-spinner'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -59,11 +60,15 @@ const Contact = ({
             <br />
             {city ? `${city},` : 'Location not specified'} {state ? state : ''}
           </StyledContactText>
-          <StyledRemoveContactButton
-            onClick={() => handleRemoveContactFromUser(userId, contactId)}
-          >
-            <i className="fas fa-times"></i>
-          </StyledRemoveContactButton>
+          {loading ? (
+            <Loader type="TailSpin" color="#570EF1" height={15} width={15} />
+          ) : (
+            <StyledRemoveContactButton
+              onClick={() => handleRemoveContactFromUser(userId, contactId)}
+            >
+              <i className="fas fa-times"></i>
+            </StyledRemoveContactButton>
+          )}
         </StyledContact>
       </StyledContactContent>
     </StyledContactContainer>

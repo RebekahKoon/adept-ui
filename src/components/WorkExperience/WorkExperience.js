@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
+import Loader from 'react-loader-spinner'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import { ADD_WORK_EXPERIENCE_TO_RESUME } from '../../queries/addWorkExperienceToResume'
 import { DELETE_WORK_EXPERIENCE } from '../../queries/deleteWorkExperience'
@@ -16,12 +17,14 @@ import {
   StyledLabel,
   StyledRemoveButton,
   StyledAddWorkExperienceButton,
+  StyledRemoveButtonContainer,
 } from './WorkExperienceStyle'
 
 const WorkExperienceData = ({
   userWorkExperience,
   setUserWorkExperience,
   setCurrentUserPosition,
+  workExperience,
   userId,
 }) => {
   const [deleteWorkExperience, { loading, error }] = useMutation(
@@ -62,7 +65,7 @@ const WorkExperienceData = ({
     deleteWorkExperience({ variables: { workExpId: workExpId } })
   }
 
-  return userWorkExperience.map((workExperience) => (
+  return (
     <StyledWorkExperience>
       <i className="fas fa-briefcase fa-3x"></i>
       <StyledWorkExperienceText>
@@ -77,14 +80,20 @@ const WorkExperienceData = ({
         </small>
         {workExperience.description}
       </StyledWorkExperienceText>
-      <StyledRemoveButton
-        id={workExperience.workExpId}
-        onClick={() => handleDeleteWorkExperience(workExperience.workExpId)}
-      >
-        <i className="fas fa-times"></i>
-      </StyledRemoveButton>
+      <StyledRemoveButtonContainer>
+        {loading ? (
+          <Loader type="TailSpin" color="#570EF1" height={20} width={20} />
+        ) : (
+          <StyledRemoveButton
+            id={workExperience.workExpId}
+            onClick={() => handleDeleteWorkExperience(workExperience.workExpId)}
+          >
+            <i className="fas fa-times"></i>
+          </StyledRemoveButton>
+        )}
+      </StyledRemoveButtonContainer>
     </StyledWorkExperience>
-  ))
+  )
 }
 
 const FormInputFields = ({
@@ -250,12 +259,15 @@ const WorkExperience = ({
     <StyledWorkExperienceContainer>
       <StyledWorkExperienceContent>
         <h2>Work Experience</h2>
-        <WorkExperienceData
-          userWorkExperience={userWorkExperience}
-          setUserWorkExperience={setUserWorkExperience}
-          setCurrentUserPosition={setCurrentUserPosition}
-          userId={userId}
-        />
+        {userWorkExperience.map((workExperience) => (
+          <WorkExperienceData
+            userWorkExperience={userWorkExperience}
+            setUserWorkExperience={setUserWorkExperience}
+            setCurrentUserPosition={setCurrentUserPosition}
+            workExperience={workExperience}
+            userId={userId}
+          />
+        ))}
       </StyledWorkExperienceContent>
       <FormInputFields
         userId={userId}

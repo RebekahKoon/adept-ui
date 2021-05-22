@@ -72,11 +72,14 @@ export const StyledEducationText = styled.div`
   }
 `
 
-export const StyledRemoveButton = styled.button`
-  border: none;
+export const StyledRemoveButtonContainer = styled.div`
   left: 100%;
   transform: translate(-100%, 0);
   justify-content: right;
+`
+
+export const StyledRemoveButton = styled.button`
+  border: none;
   background-color: var(--white);
 `
 
