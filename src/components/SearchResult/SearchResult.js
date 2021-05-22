@@ -38,6 +38,33 @@ function SearchResult(props) {
       <SSRSkillDiv> {dataArr[index].name} </SSRSkillDiv>
     ))
 
+  const handleType = () => {
+    if (props.data.type == 'PART_TIME') {
+      return (
+        <SSRCompanyText>
+          <i className="fas fa-clock"></i>
+          <p>Part Time</p>
+        </SSRCompanyText>
+      )
+    } else if (props.data.type == 'INTERNSHIP') {
+      return (
+        <SSRCompanyText>
+          <i className="fas fa-clock"></i>
+          <p>Internship</p>
+        </SSRCompanyText>
+      )
+    } else if (props.data.type == 'FULL_TIME') {
+      return (
+        <SSRCompanyText>
+          <i className="fas fa-clock"></i>
+          <p>Full Time</p>
+        </SSRCompanyText>
+      )
+    } else {
+      console.log('Oopsie')
+    }
+  }
+
   const date = new Date(props.data.datePosted)
   const months = [
     'Jan',
@@ -75,14 +102,9 @@ function SearchResult(props) {
                     </SSRCompanyText>
                     <SSRCompanyText>
                       <i className="fas fa-map-marker-alt"></i>
-                      <p>{props.data.city}</p>
+                      <p>{props.data.city + ', ' + props.data.state}</p>
                     </SSRCompanyText>
-
-                    <SSRCompanyText>
-                      <i className="fas fa-clock"></i>
-                      <p>{props.data.type}</p>
-                    </SSRCompanyText>
-
+                    {handleType()}
                     <SSRCompanyText>
                       <i className="fas fa-dollar-sign"></i>
                       <p>{props.data.salary}</p>

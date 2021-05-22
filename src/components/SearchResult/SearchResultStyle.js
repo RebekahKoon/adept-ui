@@ -25,7 +25,7 @@ export const SSRCompanyText = styled.div`
   flex-direction: row;
   align-items: center;
   margin-right: 4rem;
-  width: 10rem;
+  width: 7rem;
 
   p {
     margin-left: 0.25rem;
@@ -118,6 +118,12 @@ export const SSRJobButton = styled.button`
   background: transparent;
   border: none;
   font-size: 1rem;
+
+  :hover {
+    cursor: pointer;
+    border: solid 1px var(--darkPurple);
+    color: var(--darkPurple);
+  }
 `
 
 export const SSRMainContent = styled.div`
