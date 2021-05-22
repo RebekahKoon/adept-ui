@@ -20,15 +20,66 @@ import {
   SSRJobInfoContainer,
   SSRCompanyContainer,
   SSRCompanyTextContainer,
+  SSRCompanyText,
   SSRSkillsContainer,
   SSRDate,
 } from './SearchResultStyle'
 
 function SearchResult(props) {
+  console.log(props.data)
+  const dataArr = props.data.skillsRequired
   const handleClick = (e) => {
     e.preventDefault()
-    Router.push('/job-posting')
+    Router.push('/job-posting?q=' + props.data.company + '&id=' + props.id)
   }
+
+  const createSkillDivs = () =>
+    dataArr.map((data, index) => (
+      <SSRSkillDiv> {dataArr[index].name} </SSRSkillDiv>
+    ))
+
+  const handleType = () => {
+    if (props.data.type == 'PART_TIME') {
+      return (
+        <SSRCompanyText>
+          <i className="fas fa-clock"></i>
+          <p>Part Time</p>
+        </SSRCompanyText>
+      )
+    } else if (props.data.type == 'INTERNSHIP') {
+      return (
+        <SSRCompanyText>
+          <i className="fas fa-clock"></i>
+          <p>Internship</p>
+        </SSRCompanyText>
+      )
+    } else if (props.data.type == 'FULL_TIME') {
+      return (
+        <SSRCompanyText>
+          <i className="fas fa-clock"></i>
+          <p>Full Time</p>
+        </SSRCompanyText>
+      )
+    } else {
+      console.log('Oopsie')
+    }
+  }
+
+  const date = new Date(props.data.datePosted)
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
 
   return (
     <SSRSearchResultDiv>
@@ -36,21 +87,28 @@ function SearchResult(props) {
         <SSRSearchResultContent>
           <SSRJobInfoAndLogo>
             <SSRJobLogoContainer>
-              <i class="fab fa-adn"></i>
+              <i className="fab fa-adn"></i>
             </SSRJobLogoContainer>
             <SSRMainContent>
-              <SSRJobTitleContainer>Job Title</SSRJobTitleContainer>
+              <SSRJobTitleContainer>
+                {props.data.positionTitle}
+              </SSRJobTitleContainer>
               <SSRJobInfoContainer>
                 <SSRCompanyContainer>
                   <SSRCompanyTextContainer>
-                    <i className="fas fa-suitcase"></i>
-                    <p>Text</p>
-                    <i className="fas fa-map-marker-alt"></i>
-                    <p>Text</p>
-                    <i className="fas fa-clock"></i>
-                    <p>Text</p>
-                    <i className="fas fa-dollar-sign"></i>
-                    <p>Text</p>
+                    <SSRCompanyText>
+                      <i className="fas fa-suitcase"></i>
+                      <p>{props.data.company}</p>
+                    </SSRCompanyText>
+                    <SSRCompanyText>
+                      <i className="fas fa-map-marker-alt"></i>
+                      <p>{props.data.city + ', ' + props.data.state}</p>
+                    </SSRCompanyText>
+                    {handleType()}
+                    <SSRCompanyText>
+                      <i className="fas fa-dollar-sign"></i>
+                      <p>{props.data.salary}</p>
+                    </SSRCompanyText>
                   </SSRCompanyTextContainer>
                 </SSRCompanyContainer>
               </SSRJobInfoContainer>
@@ -58,19 +116,21 @@ function SearchResult(props) {
           </SSRJobInfoAndLogo>
         </SSRSearchResultContent>
         <SSRSearchResultLinkContainer>
-          View Job
           <SSRJobButton value="View Job" label="ViewJob" onClick={handleClick}>
+            View Job
             <i className="fas fa-arrow-right"></i>
           </SSRJobButton>
         </SSRSearchResultLinkContainer>
       </SSRSearchResultContainer>
       <SSRSearchResultFooter>
-        <SSRSkillsContainer>
-          <SSRSkillDiv>Skill</SSRSkillDiv>
-          <SSRSkillDiv>Skill</SSRSkillDiv>
-          <SSRSkillDiv>Skill</SSRSkillDiv>
-        </SSRSkillsContainer>
-        <SSRDate>Apr 20, 2021</SSRDate>
+        <SSRSkillsContainer>{createSkillDivs()}</SSRSkillsContainer>
+        <SSRDate>
+          {months[date.getMonth() + 1] +
+            ' ' +
+            date.getDate() +
+            ', ' +
+            date.getFullYear()}
+        </SSRDate>
       </SSRSearchResultFooter>
     </SSRSearchResultDiv>
   )
