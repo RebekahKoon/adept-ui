@@ -27,10 +27,17 @@ import {
 
 function SearchResult(props) {
   console.log(props.data)
+  const dataArr = props.data.skillsRequired
   const handleClick = (e) => {
     e.preventDefault()
     Router.push('/job-posting?q=' + props.data.company + '&id=' + props.id)
   }
+
+  const createSkillDivs = () =>
+    dataArr.map((data, index) => (
+      <SSRSkillDiv> {dataArr[index].name} </SSRSkillDiv>
+    ))
+
   const date = new Date(props.data.datePosted)
   const months = [
     'Jan',
@@ -94,9 +101,7 @@ function SearchResult(props) {
         </SSRSearchResultLinkContainer>
       </SSRSearchResultContainer>
       <SSRSearchResultFooter>
-        <SSRSkillsContainer>
-          <SSRSkillDiv>{props.data.skillsRequired[0].name}</SSRSkillDiv>
-        </SSRSkillsContainer>
+        <SSRSkillsContainer>{createSkillDivs()}</SSRSkillsContainer>
         <SSRDate>
           {months[date.getMonth() + 1] +
             ' ' +

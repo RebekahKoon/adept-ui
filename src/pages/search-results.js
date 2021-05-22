@@ -34,7 +34,6 @@ function SearchResultView(props) {
   const JobType = ['Full Time', 'Part Time', 'Contract', 'Internship']
   const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
-  console.log(props.data)
   const dataArr = props.data
 
   const selectedCheckboxes = new Set()
@@ -57,8 +56,6 @@ function SearchResultView(props) {
   const createCheckbox = (label) => (
     <Checkbox label={label} handleCheckboxChange={toggleCheckbox} key={label} />
   )
-
-  //const createData = () => <SearchResult data={props.data[count]} id={count} />
 
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
