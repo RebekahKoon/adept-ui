@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 import { MainContentFlexContainer } from '../components/styles'
 import SearchBar from '../components/SearchBar'
@@ -21,18 +22,17 @@ const PostJobButton = styled(StyledButtonSolid)`
   /* width: 100%; */
 `
 
-// const Container = styled.div`
-//   margin: 0 auto;
-//   display: flex;
-//   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2);
-// `
-
 const FormContainer = styled.div`
   flex: 2;
   padding: 5rem;
   background-color: var(--white);
   border-radius: 0 5px 5px 0;
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2);
+  h2 {
+    font-size: 1rem;
+    margin: 0;
+    padding-bottom: 1rem;
+  }
 `
 
 const FormImage = styled.div`
@@ -57,11 +57,10 @@ const FormHeaderStyles = styled.header`
 `
 
 const RadioInputsSection = styled.section`
-  h2 {
-    font-size: 1rem;
-    margin: 0;
-  }
   padding-bottom: 2.5rem;
+  h2 {
+    padding-bottom: 0;
+  }
 `
 
 const RadioInputs = styled.div`
@@ -100,24 +99,23 @@ const PostJobForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
-  // TODO: Make this the right query
+  const [status, setStatus] = useState({ error: false, message: null })
+
   const [createJobPosting, { loading, error }] = useMutation(
     CREATE_JOB_POSTING,
     {
       onCompleted({ createJobPosting }) {
         if (createJobPosting) {
           console.log(createJobPosting)
-          // call login user
-          // store returned token in local storage
-          // redirect to dashboard now that has been token obtained
+          setStatus({ ...status, message: 'Job posted successfully' })
         }
       },
       onError(e) {
         console.log(e)
+        setStatus({ error: true, message: 'Error posting job' })
       },
     }
   )
@@ -125,6 +123,7 @@ const PostJobForm = () => {
   const { user } = useUser()
 
   const onSubmit = (data) => {
+    setStatus({ error: false, message: '' })
     const input = {
       positionTitle: data.positionTitle,
       company: data.company,
@@ -144,10 +143,6 @@ const PostJobForm = () => {
     console.log(input)
     createJobPosting({ variables: input })
   }
-
-  // useEffect(() => {
-  //   console.log(data)
-  // }, [data])
 
   return (
     <FormContainer>
@@ -224,20 +219,14 @@ const PostJobForm = () => {
             />
           </RadioInputs>
         </RadioInputsSection>
+        <h2>Description</h2>
         <StyledFormTextarea
           {...register('description', { required: true })}
           id="description"
           cols="50"
           rows="4"
           placeholder="yo what up"
-        ></StyledFormTextarea>
-        {/* <Input
-          {...register('description', { required: true })}
-          type="textarea"
-          id="description"
-          label="Description"
-          isInvalid={errors.description}
-        /> */}
+        />
         {loading ? (
           <CenterContainer>
             <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
@@ -245,7 +234,11 @@ const PostJobForm = () => {
         ) : (
           <PostJobButton type="submit">Post Job</PostJobButton>
         )}
-        <p>{error && error.message}</p>
+        {status.message && (
+          <p style={{ color: status.error ? 'red' : 'green' }}>
+            {status.message}
+          </p>
+        )}
       </form>
     </FormContainer>
   )
@@ -256,10 +249,8 @@ const PostJobPage = (props) => {
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
       <Container>
-        {/* <Container> */}
         <FormImage />
         <PostJobForm />
-        {/* </Container> */}
       </Container>
     </Layout>
   )
