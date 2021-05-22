@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
 import Loader from 'react-loader-spinner'
@@ -7,6 +8,9 @@ import Layout from '../components/Layout'
 import { Input, RadioInput } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
 import { CenterContainer } from '../components/styles'
+import useUser from '../lib/useUser'
+import withSession from '../lib/session'
+import fetchJson from '../lib/fetchJson'
 
 const RegisterButton = styled(StyledButtonSolid)`
   width: 100%;
@@ -116,13 +120,17 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
+  // Redirect to dashboard after user logs in
+  const { user, mutateUser } = useUser({
+    redirectTo: '/dashboard',
+    redirectIfFound: true,
+  })
+  const [isLoginLoading, setIsLoginLoading] = useState(false)
+
   const [registerUser, { loading, error }] = useMutation(REGISTER_USER, {
     onCompleted({ registerUser }) {
       if (registerUser) {
-        console.log(registerUser)
-        // call login user
-        // store returned token in local storage
-        // redirect to dashboard now that has been token obtained
+        // console.log(registerUser)
       }
     },
     onError(e) {
@@ -130,19 +138,32 @@ const RegisterForm = () => {
     },
   })
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const input = {
       name: data.name,
       email: data.email,
       password: data.password,
       type: data.type,
     }
-    registerUser({ variables: input })
+    await registerUser({ variables: input })
+    const body = {
+      email: data.email,
+      password: data.password,
+    }
+    setIsLoginLoading(true)
+    try {
+      await mutateUser(
+        fetchJson('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        })
+      )
+    } catch (err) {
+      console.log(err)
+    }
+    setIsLoginLoading(false)
   }
-
-  // useEffect(() => {
-  //   console.log(data)
-  // }, [data])
 
   return (
     <FormContainer>
@@ -200,7 +221,7 @@ const RegisterForm = () => {
             />
           </RadioInputs>
         </RadioInputsSection>
-        {loading ? (
+        {loading || isLoginLoading || user?.isLoggedIn ? (
           <CenterContainer>
             <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
           </CenterContainer>
@@ -227,3 +248,15 @@ const Register = (props) => {
 }
 
 export default Register
+
+// Redirect if the user is already logged in
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = req.session.get('user')
+
+  if (user) {
+    res.setHeader('location', '/dashboard')
+    res.statusCode = 302
+    return res.end()
+  }
+  return { props: {} }
+})
