@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Router from 'next/router'
 import Select from 'react-select'
 import {
   StyledSearchHeader,
@@ -9,8 +10,8 @@ import {
   StyledSearchDivider,
 } from './SearchBarStyle'
 
-const SearchBar = ({ headerText }) => {
-  const [option, setOption] = useState('All')
+function SearchBar({ headerText }) {
+  const [option, setOption] = useState('Job Postings')
   const handleOptionChange = (e) => {
     setOption(e.value)
     console.log(e.value)
@@ -18,14 +19,13 @@ const SearchBar = ({ headerText }) => {
 
   const [searchItem, setSearchItem] = useState('')
   const handleChange = (e) => {
+    e.preventDefault()
     setSearchItem(e.target.value)
+    var url = '/search-results?q=' + searchItem
+    Router.push(url)
   }
 
   const options = [
-    {
-      label: 'All',
-      value: 'all',
-    },
     {
       label: 'Job Postings',
       value: 'jobPostings',
@@ -35,7 +35,6 @@ const SearchBar = ({ headerText }) => {
       value: 'users',
     },
   ]
-
   return (
     <StyledSearchHeader>
       <StyledSearchContainer>
@@ -54,9 +53,9 @@ const SearchBar = ({ headerText }) => {
             type="text"
             placeholder="Search"
             value={searchItem}
-            onChange={handleChange}
+            onChange={(e) => setSearchItem(e.target.value)}
           ></StyledInput>
-          <button disabled>
+          <button onClick={handleChange}>
             <i className="fa fa-search"></i>
           </button>
         </StyledSearchBar>
