@@ -215,7 +215,14 @@ const FormInputFields = ({
             isInvalid={errors.date}
           />
           <div>
-            <StyledLabel htmlFor="description">Description</StyledLabel>
+            <StyledLabel
+              htmlFor="description"
+              style={{ color: errors.description?.message && 'red' }}
+            >
+              {errors.description?.message
+                ? errors.description.message
+                : 'Description'}
+            </StyledLabel>
             <br />
             <StyledFormTextarea
               {...register('description', {
