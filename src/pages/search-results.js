@@ -35,6 +35,7 @@ function SearchResultView(props) {
   const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
   console.log(props.data)
+  const dataArr = props.data
 
   const selectedCheckboxes = new Set()
 
@@ -57,8 +58,14 @@ function SearchResultView(props) {
     <Checkbox label={label} handleCheckboxChange={toggleCheckbox} key={label} />
   )
 
+  //const createData = () => <SearchResult data={props.data[count]} id={count} />
+
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
-  var id = 0
+
+  const createDataDivs = () =>
+    dataArr.map((data, index) => (
+      <SearchResult data={dataArr[index]} id={index} />
+    ))
 
   const createJobCatCheckboxes = () => JobSkills.map(createCheckbox)
 
@@ -156,10 +163,7 @@ function SearchResultView(props) {
           </SSRSearchResultsHeader>
           <SSRMainContentContainer>
             <SearchResultSideBar />
-            <SSRSearchResults>
-              <SearchResult data={props.data[0]} id={0} />
-              <SearchResult data={props.data[1]} id={1} />
-            </SSRSearchResults>
+            <SSRSearchResults>{createDataDivs()}</SSRSearchResults>
           </SSRMainContentContainer>
         </SSRMain>
       </MainContentFlexContainer>
