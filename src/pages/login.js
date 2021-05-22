@@ -1,12 +1,14 @@
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
-import { useMutation } from '@apollo/client'
+import { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner'
-import { LOGIN_USER } from '../queries/login'
 import Layout from '../components/Layout'
 import { Input } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
 import { CenterContainer } from '../components/styles'
+import fetchJson from '../lib/fetchJson'
+import useUser from '../lib/useUser'
+import withSession from '../lib/session'
 
 const RegisterButton = styled(StyledButtonSolid)`
   width: 100%;
@@ -89,6 +91,17 @@ const FormFooter = () => {
 }
 
 const LoginForm = () => {
+  // Redirect to dashboard after user logs in
+  const { user, mutateUser } = useUser({
+    redirectTo: '/dashboard',
+    redirectIfFound: true,
+  })
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    console.log('user:', user?.userId)
+  }, [user])
+
   const {
     register,
     handleSubmit,
@@ -96,25 +109,26 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
-  const [loginUser, { loading, error }] = useMutation(LOGIN_USER, {
-    onCompleted({ loginUser }) {
-      if (loginUser) {
-        console.log(loginUser)
-      }
-    },
-    onError(e) {
-      console.log(e)
-    },
-  })
-
-  const onSubmit = (data) => {
-    // console.log(data)
-    loginUser({ variables: data })
+  // Delegate login to /api/login
+  const onSubmit = async (data) => {
+    const body = {
+      email: data.email,
+      password: data.password,
+    }
+    setIsLoading(true)
+    try {
+      await mutateUser(
+        fetchJson('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        })
+      )
+    } catch (err) {
+      console.log(err)
+    }
+    setIsLoading(false)
   }
-
-  // useEffect(() => {
-  //   console.log(data)
-  // }, [data])
 
   return (
     <FormContainer>
@@ -137,7 +151,7 @@ const LoginForm = () => {
           isInvalid={errors.password}
         />
 
-        {loading ? (
+        {isLoading ? (
           <CenterContainer>
             <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
           </CenterContainer>
@@ -164,3 +178,14 @@ const Login = (props) => {
 }
 
 export default Login
+
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = req.session.get('user')
+
+  if (user) {
+    res.setHeader('location', '/dashboard')
+    res.statusCode = 302
+    return res.end()
+  }
+  return { props: {} }
+})
