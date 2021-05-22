@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import { ADD_WORK_EXPERIENCE_TO_RESUME } from '../../queries/addWorkExperienceToResume'
 import { DELETE_WORK_EXPERIENCE } from '../../queries/deleteWorkExperience'
+import { GET_USER_BY_ID } from '../../queries/getUserById'
 import Form from '../Form'
 import { Input } from '../Input'
 import {
@@ -19,6 +20,7 @@ const WorkExperienceData = ({
   userWorkExperience,
   setUserWorkExperience,
   setCurrentUserPosition,
+  userId,
 }) => {
   const [deleteWorkExperience, { loading, error }] = useMutation(
     DELETE_WORK_EXPERIENCE,
@@ -43,6 +45,13 @@ const WorkExperienceData = ({
       onError(e) {
         console.log(e)
       },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: { userId: userId },
+        },
+      ],
+      awaitRefetchQueries: true,
     }
   )
 
@@ -107,6 +116,13 @@ const FormInputFields = ({
       onError(e) {
         console.log(e)
       },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: { userId: userId },
+        },
+      ],
+      awaitRefetchQueries: true,
     }
   )
 
@@ -209,6 +225,7 @@ const WorkExperience = ({
           userWorkExperience={userWorkExperience}
           setUserWorkExperience={setUserWorkExperience}
           setCurrentUserPosition={setCurrentUserPosition}
+          userId={userId}
         />
       </StyledWorkExperienceContent>
       <FormInputFields

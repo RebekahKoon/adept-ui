@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import { DELETE_SKILL_FROM_USER } from '../../queries/deleteSkillFromUser'
+import { GET_USER_BY_ID } from '../../queries/getUserById'
 
 const SkillContainer = styled.span`
   display: inline-block;
@@ -47,6 +48,13 @@ const Skill = ({ name, skillId, setUserSkills, userId }) => {
       onError(e) {
         console.log(e)
       },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: { userId: userId },
+        },
+      ],
+      awaitRefetchQueries: true,
     }
   )
 

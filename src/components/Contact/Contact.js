@@ -3,6 +3,7 @@ import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import { REMOVE_CONTACT_FROM_USER } from '../../queries/removeContactFromUser'
+import { GET_USER_BY_ID } from '../../queries/getUserById'
 import {
   StyledContactContainer,
   StyledContactContent,
@@ -30,6 +31,13 @@ const Contact = ({
       onError(e) {
         console.log(e)
       },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: { userId: userId },
+        },
+      ],
+      awaitRefetchQueries: true,
     }
   )
 

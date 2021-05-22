@@ -6,6 +6,7 @@ import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import { ADD_EDUCATION_TO_RESUME } from '../../queries/addEducationToResume'
 import { DELETE_EDUCATION } from '../../queries/deleteEducation'
+import { GET_USER_BY_ID } from '../../queries/getUserById'
 import Form from '../Form'
 import { Input } from '../Input'
 import {
@@ -17,7 +18,7 @@ import {
   StyledRemoveButton,
 } from './EducationStyle'
 
-const EducationData = ({ userEducation, setUserEducation }) => {
+const EducationData = ({ userEducation, setUserEducation, userId }) => {
   const [deleteEducation, { loading, error }] = useMutation(DELETE_EDUCATION, {
     onCompleted({ deleteEducation }) {
       if (deleteEducation) {
@@ -32,6 +33,13 @@ const EducationData = ({ userEducation, setUserEducation }) => {
     onError(e) {
       console.log(e)
     },
+    refetchQueries: [
+      {
+        query: GET_USER_BY_ID,
+        variables: { userId: userId },
+      },
+    ],
+    awaitRefetchQueries: true,
   })
 
   const handleDeleteEducation = (educationId) => {
@@ -90,6 +98,13 @@ const FormInputFields = ({ userId, setUserEducation }) => {
       onError(e) {
         console.log(e)
       },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: { userId: userId },
+        },
+      ],
+      awaitRefetchQueries: true,
     }
   )
 
@@ -197,6 +212,7 @@ const Education = ({ educationData, userId }) => {
           <EducationData
             userEducation={userEducation}
             setUserEducation={setUserEducation}
+            userId={userId}
           />
         </StyledEducationGrid>
       </StyledEducationContent>

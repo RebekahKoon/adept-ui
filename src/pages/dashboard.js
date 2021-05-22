@@ -162,6 +162,13 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
     onError(e) {
       console.log(e)
     },
+    refetchQueries: [
+      {
+        query: GET_USER_BY_ID,
+        variables: { userId: userId },
+      },
+    ],
+    awaitRefetchQueries: true,
   })
 
   const [
@@ -180,6 +187,13 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
     onError(e) {
       console.log(e)
     },
+    refetchQueries: [
+      {
+        query: GET_ALL_SKILLS,
+        variables: { userId: userId },
+      },
+    ],
+    awaitRefetchQueries: true,
   })
 
   const handleAddSkillToUser = () => {
