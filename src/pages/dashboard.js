@@ -191,7 +191,6 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
     refetchQueries: [
       {
         query: GET_ALL_SKILLS,
-        variables: { userId: userId },
       },
     ],
     awaitRefetchQueries: true,
