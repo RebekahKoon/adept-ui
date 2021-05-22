@@ -29,6 +29,10 @@ import {
   JobPostingBodyHeaderCompany,
   JobPostingBodyResult,
   JobPostingBodyResultDescription,
+  JobPostingBodyResultSkillsSection,
+  JobPostingBodyResultSkillsHeader,
+  JobPostingBodyResultSkillsContainer,
+  JobPostingBodyResultSkillDiv,
 } from '../styles/JobPostingStyle'
 
 function JobPostingView(props) {
@@ -38,7 +42,18 @@ function JobPostingView(props) {
   }
   const data = props.data[props.id]
 
+  const dataArr = data.skillsRequired
+
   const date = new Date(data.datePosted)
+
+  console.log(dataArr)
+
+  const createSkillDivs = () =>
+    dataArr.map((data, index) => (
+      <JobPostingBodyResultSkillDiv>
+        {dataArr[index].name}
+      </JobPostingBodyResultSkillDiv>
+    ))
 
   console.log(props.data[props.id])
   const months = [
@@ -60,71 +75,74 @@ function JobPostingView(props) {
     <Layout>
       <SearchBar />
       <MainContentFlexContainer>
-        <JobPostingNavContainer>
-          <JobPostingNavContent>
-            <JobPostingReturn onClick={handleClick}>
-              <JobPostingReturnArrow>
-                <i className="fas fa-arrow-left"></i>
-              </JobPostingReturnArrow>
-              <JobPostingReturnText>Search Results</JobPostingReturnText>
-            </JobPostingReturn>
-          </JobPostingNavContent>
-        </JobPostingNavContainer>
-        <JobPostingBody>
-          <JobPostingBodyMain>
-            <JobPostingBodyMainContentContainer>
-              <JobPostingBodyHeader>
-                <JobPostingBodyHeaderLogo>
-                  <i className="fab fa-adn"></i>
-                </JobPostingBodyHeaderLogo>
-                <JobPostingBodyHeaderInfoContainer>
-                  <JobPostingBodyHeaderCompany>
-                    {data.company}
-                  </JobPostingBodyHeaderCompany>
-                  <JobPostingBodyHeaderPosition>
-                    {data.positionTitle}
-                  </JobPostingBodyHeaderPosition>
-                  <JobPostingBodyHeaderInfo>
-                    <JobPostingInfoText>
-                      <i className="fas fa-map-marker-alt"></i>
-                      <p>{data.city + ', ' + data.state}</p>
-                    </JobPostingInfoText>
+        <div>
+          <JobPostingNavContainer>
+            <JobPostingNavContent>
+              <JobPostingReturn onClick={handleClick}>
+                <JobPostingReturnArrow>
+                  <i className="fas fa-arrow-left"></i>
+                </JobPostingReturnArrow>
+                <JobPostingReturnText>Search Results</JobPostingReturnText>
+              </JobPostingReturn>
+            </JobPostingNavContent>
+          </JobPostingNavContainer>
+          <JobPostingBody>
+            <JobPostingBodyMain>
+              <JobPostingBodyMainContentContainer>
+                <JobPostingBodyHeader>
+                  <JobPostingBodyHeaderLogo>
+                    <i className="fab fa-adn"></i>
+                  </JobPostingBodyHeaderLogo>
+                  <JobPostingBodyHeaderInfoContainer>
+                    <JobPostingBodyHeaderCompany>
+                      {data.company}
+                    </JobPostingBodyHeaderCompany>
+                    <JobPostingBodyHeaderPosition>
+                      {data.positionTitle}
+                    </JobPostingBodyHeaderPosition>
+                    <JobPostingBodyHeaderInfo>
+                      <JobPostingInfoText>
+                        <i className="fas fa-map-marker-alt"></i>
+                        <p>{data.city + ', ' + data.state}</p>
+                      </JobPostingInfoText>
 
-                    <JobPostingInfoText>
-                      <i className="fas fa-clock"></i>
-                      <p>{data.type}</p>
-                    </JobPostingInfoText>
+                      <JobPostingInfoText>
+                        <i className="fas fa-clock"></i>
+                        <p>{data.type}</p>
+                      </JobPostingInfoText>
 
-                    <JobPostingInfoText>
-                      <i className="fas fa-dollar-sign"></i>
-                      <p>{data.salary}</p>
-                    </JobPostingInfoText>
-                  </JobPostingBodyHeaderInfo>
-                  <JobPostingBodyHeaderDate>
-                    {'Posted on ' +
-                      months[date.getMonth() + 1] +
-                      ' ' +
-                      date.getDate() +
-                      ', ' +
-                      date.getFullYear()}
-                  </JobPostingBodyHeaderDate>
-                </JobPostingBodyHeaderInfoContainer>
-              </JobPostingBodyHeader>
-              <JobPostingBodyResult>
-                <JobPostingBodyResultDescription>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum
-                </JobPostingBodyResultDescription>
-              </JobPostingBodyResult>
-            </JobPostingBodyMainContentContainer>
-          </JobPostingBodyMain>
-        </JobPostingBody>
+                      <JobPostingInfoText>
+                        <i className="fas fa-dollar-sign"></i>
+                        <p>{data.salary}</p>
+                      </JobPostingInfoText>
+                    </JobPostingBodyHeaderInfo>
+                    <JobPostingBodyHeaderDate>
+                      {'Posted on ' +
+                        months[date.getMonth() + 1] +
+                        ' ' +
+                        date.getDate() +
+                        ', ' +
+                        date.getFullYear()}
+                    </JobPostingBodyHeaderDate>
+                  </JobPostingBodyHeaderInfoContainer>
+                </JobPostingBodyHeader>
+                <JobPostingBodyResult>
+                  <JobPostingBodyResultDescription>
+                    {data.description}
+                  </JobPostingBodyResultDescription>
+                  <JobPostingBodyResultSkillsSection>
+                    <JobPostingBodyResultSkillsHeader>
+                      Desired Skills
+                    </JobPostingBodyResultSkillsHeader>
+                    <JobPostingBodyResultSkillsContainer>
+                      {createSkillDivs()}
+                    </JobPostingBodyResultSkillsContainer>
+                  </JobPostingBodyResultSkillsSection>
+                </JobPostingBodyResult>
+              </JobPostingBodyMainContentContainer>
+            </JobPostingBodyMain>
+          </JobPostingBody>
+        </div>
       </MainContentFlexContainer>
     </Layout>
   )
