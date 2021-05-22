@@ -72,12 +72,34 @@ export const StyledEducationText = styled.div`
   }
 `
 
-export const StyledRemoveButton = styled.button`
-  border: none;
+export const StyledRemoveButtonContainer = styled.div`
   left: 100%;
   transform: translate(-100%, 0);
   justify-content: right;
+`
+
+export const StyledRemoveButton = styled.button`
+  border: none;
   background-color: var(--white);
+`
+
+export const StyledAddEducationButton = styled.button`
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  background: none;
+  color: var(--darkPurple);
+  font-weight: bold;
+  height: 2.8rem;
+  padding: 1rem 0px;
+  border: none;
+  border-top: 1px solid var(--lightGray);
+
+  :hover {
+    background-color: var(--lightBlue);
+    cursor: pointer;
+  }
 `
 
 export default StyledEducationContainer

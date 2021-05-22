@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
+import Loader from 'react-loader-spinner'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import { ADD_WORK_EXPERIENCE_TO_RESUME } from '../../queries/addWorkExperienceToResume'
 import { DELETE_WORK_EXPERIENCE } from '../../queries/deleteWorkExperience'
+import { GET_USER_BY_ID } from '../../queries/getUserById'
 import Form from '../Form'
 import { Input } from '../Input'
 import {
@@ -13,12 +16,16 @@ import {
   StyledFormTextarea,
   StyledLabel,
   StyledRemoveButton,
+  StyledAddWorkExperienceButton,
+  StyledRemoveButtonContainer,
 } from './WorkExperienceStyle'
 
 const WorkExperienceData = ({
   userWorkExperience,
   setUserWorkExperience,
   setCurrentUserPosition,
+  workExperience,
+  userId,
 }) => {
   const [deleteWorkExperience, { loading, error }] = useMutation(
     DELETE_WORK_EXPERIENCE,
@@ -43,6 +50,13 @@ const WorkExperienceData = ({
       onError(e) {
         console.log(e)
       },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: { userId: userId },
+        },
+      ],
+      awaitRefetchQueries: true,
     }
   )
 
@@ -51,7 +65,7 @@ const WorkExperienceData = ({
     deleteWorkExperience({ variables: { workExpId: workExpId } })
   }
 
-  return userWorkExperience.map((workExperience) => (
+  return (
     <StyledWorkExperience>
       <i className="fas fa-briefcase fa-3x"></i>
       <StyledWorkExperienceText>
@@ -66,14 +80,20 @@ const WorkExperienceData = ({
         </small>
         {workExperience.description}
       </StyledWorkExperienceText>
-      <StyledRemoveButton
-        id={workExperience.workExpId}
-        onClick={() => handleDeleteWorkExperience(workExperience.workExpId)}
-      >
-        <i className="fas fa-times"></i>
-      </StyledRemoveButton>
+      <StyledRemoveButtonContainer>
+        {loading ? (
+          <Loader type="TailSpin" color="#570EF1" height={20} width={20} />
+        ) : (
+          <StyledRemoveButton
+            id={workExperience.workExpId}
+            onClick={() => handleDeleteWorkExperience(workExperience.workExpId)}
+          >
+            <i className="fas fa-times"></i>
+          </StyledRemoveButton>
+        )}
+      </StyledRemoveButtonContainer>
     </StyledWorkExperience>
-  ))
+  )
 }
 
 const FormInputFields = ({
@@ -107,6 +127,13 @@ const FormInputFields = ({
       onError(e) {
         console.log(e)
       },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: { userId: userId },
+        },
+      ],
+      awaitRefetchQueries: true,
     }
   )
 
@@ -128,25 +155,43 @@ const FormInputFields = ({
     reset()
   }
 
+  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
+  const handleButtonClick = () => {
+    formIsDisplayed === false
+      ? setFormIsDisplayed(true)
+      : setFormIsDisplayed(false)
+  }
+
   return (
     <>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <Form buttonText={'Add Work Experience'} loading={loading}>
+      <StyledAddWorkExperienceButton
+        onClick={handleButtonClick}
+        style={{ display: formIsDisplayed ? 'none' : 'flex' }}
+      >
+        Add Work Experience
+      </StyledAddWorkExperienceButton>
+      <form
+        style={{ width: '100%', display: formIsDisplayed ? 'flex' : 'none' }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Form loading={loading} handleButtonClick={handleButtonClick}>
           <Input
-            {...register('company', { required: true })}
+            {...register('company', { required: 'Company name is required' })}
             type="text"
             placeholder="Google"
             id="company"
             label="Company name"
-            isInvalid={errors.name}
+            isInvalid={errors.company}
           />
           <Input
-            {...register('position', { required: true })}
+            {...register('position', {
+              required: 'Position title is required',
+            })}
             type="text"
             placeholder="Software Developer"
             id="position"
-            label="Position"
-            isInvalid={errors.name}
+            label="Position title"
+            isInvalid={errors.position}
           />
           <Input
             {...register('city', { required: false })}
@@ -154,7 +199,7 @@ const FormInputFields = ({
             placeholder="Seattle"
             id="city"
             label="City"
-            isInvalid={errors.name}
+            isInvalid={errors.city}
           />
           <Input
             {...register('state', { required: false })}
@@ -162,31 +207,40 @@ const FormInputFields = ({
             placeholder="WA"
             id="state"
             label="State"
-            isInvalid={errors.name}
+            isInvalid={errors.state}
           />
           <Input
-            {...register('startDate', { required: true })}
+            {...register('startDate', { required: 'Start date is required' })}
             type="date"
             id="startDate"
             label="Start Date"
-            isInvalid={errors.name}
+            isInvalid={errors.date}
           />
           <Input
             {...register('endDate', { required: false })}
             type="date"
             id="endDate"
             label="End Date (If Applicable)"
-            isInvalid={errors.name}
+            isInvalid={errors.date}
           />
           <div>
-            <StyledLabel htmlFor="description">Description</StyledLabel>
+            <StyledLabel
+              htmlFor="description"
+              style={{ color: errors.description?.message && 'red' }}
+            >
+              {errors.description?.message
+                ? errors.description.message
+                : 'Description'}
+            </StyledLabel>
             <br />
             <StyledFormTextarea
-              {...register('description', { required: true })}
+              {...register('description', {
+                required: 'Description is required',
+              })}
               id="description"
               cols="50"
               rows="4"
-              isInvalid={errors.name}
+              isInvalid={errors.description}
             ></StyledFormTextarea>
           </div>
         </Form>
@@ -205,11 +259,15 @@ const WorkExperience = ({
     <StyledWorkExperienceContainer>
       <StyledWorkExperienceContent>
         <h2>Work Experience</h2>
-        <WorkExperienceData
-          userWorkExperience={userWorkExperience}
-          setUserWorkExperience={setUserWorkExperience}
-          setCurrentUserPosition={setCurrentUserPosition}
-        />
+        {userWorkExperience.map((workExperience) => (
+          <WorkExperienceData
+            userWorkExperience={userWorkExperience}
+            setUserWorkExperience={setUserWorkExperience}
+            setCurrentUserPosition={setCurrentUserPosition}
+            workExperience={workExperience}
+            userId={userId}
+          />
+        ))}
       </StyledWorkExperienceContent>
       <FormInputFields
         userId={userId}
