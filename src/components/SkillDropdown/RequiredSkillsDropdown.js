@@ -13,12 +13,15 @@ const StyledSkillDropdownContainer = styled.div`
   width: 100%;
   align-items: flex-start;
   justify-content: space-between;
+  span {
+    padding-left: 1rem;
+  }
 `
 
-const DashboardButton = styled(StyledButtonSolid)`
-  padding-top: 0.6rem;
-  padding-bottom: 0.6rem;
-  width: auto;
+const AddButton = styled(StyledButtonSolid)`
+  /* padding-top: 0.6rem;
+  padding-bottom: 0.6rem; */
+  /* width: auto; */
 `
 
 const createOption = (label) => ({
@@ -39,6 +42,12 @@ const SkillsSelect = ({ requiredSkills, setRequiredSkills }) => {
     onError(e) {
       console.log(e)
     },
+    refetchQueries: [
+      {
+        query: GET_ALL_SKILLS,
+      },
+    ],
+    awaitRefetchQueries: true,
   })
 
   const { loading, error, data: skillsData } = useQuery(GET_ALL_SKILLS)
@@ -55,14 +64,23 @@ const SkillsSelect = ({ requiredSkills, setRequiredSkills }) => {
   const [skills, setSkills] = useState([])
   const [newSkill, setNewSkill] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const [status, setStatus] = useState({ error: false, message: null })
 
   useEffect(() => {
     skillsData ? setSkills(mapSkills(skillsData.getAllSkills)) : setSkills([])
-  }, [skillsData])
+    if (requiredSkills?.length === 0) {
+      setStatus({ error: false, message: null })
+    }
+  }, [skillsData, requiredSkills])
 
-  const handleAddRequiredSkill = () => {
+  const handleAddRequiredSkill = (e) => {
+    e.preventDefault()
     if (newSkill && !requiredSkills.includes(newSkill)) {
+      console.log(newSkill)
       setRequiredSkills([...requiredSkills, newSkill])
+      setStatus({ error: false, message: 'Skill added' })
+    } else {
+      setStatus({ error: true, message: 'Duplicate skill' })
     }
   }
 
@@ -76,9 +94,10 @@ const SkillsSelect = ({ requiredSkills, setRequiredSkills }) => {
     setIsLoading(true)
     const newOption = createOption(newValue)
     setSkills([...skills, newOption])
-    // setNewSkill(newValue)
     await createSkill({ variables: { name: newValue } })
+    setNewSkill(newValue)
     setIsLoading(false)
+    setStatus({ error: false, message: 'Skill created' })
   }
 
   return (
@@ -97,7 +116,31 @@ const SkillsSelect = ({ requiredSkills, setRequiredSkills }) => {
         />
       </InputWrapper>
       <InputWrapper>
-        <DashboardButton onClick={handleAddRequiredSkill}>Add</DashboardButton>
+        <AddButton
+          onClick={(e) => {
+            handleAddRequiredSkill(e)
+          }}
+        >
+          Add
+        </AddButton>
+        <StyledButtonSolid
+          onClick={() => {
+            setRequiredSkills([])
+          }}
+        >
+          Clear all
+        </StyledButtonSolid>
+
+        {status.message && (
+          <span
+            style={{
+              color: status.error ? 'red' : 'green',
+              transition: 'all 0.3s ease',
+            }}
+          >
+            {status.message}
+          </span>
+        )}
       </InputWrapper>
     </StyledSkillDropdownContainer>
   )

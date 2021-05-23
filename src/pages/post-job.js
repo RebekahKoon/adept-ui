@@ -18,7 +18,7 @@ import { RequiredSkillsDropdown } from '../components/SkillDropdown'
 import { RequiredSkill } from '../components/Skill'
 import { StyledSkillList } from '../components/SkillList'
 
-const Container = styled(MainContentFlexContainer)`
+const Container = styled.div`
   padding: 3.75rem 1rem;
 `
 
@@ -26,12 +26,15 @@ const PostJobButton = styled(StyledButtonSolid)`
   /* width: 100%; */
 `
 
+const BoxShadowContainer = styled(MainContentFlexContainer)`
+  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2);
+`
+
 const FormContainer = styled.div`
   flex: 2;
   padding: 5rem;
   background-color: var(--white);
   border-radius: 0 5px 5px 0;
-  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2);
   h2 {
     font-size: 1rem;
     margin: 0;
@@ -103,6 +106,7 @@ const PostJobForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ mode: 'onSubmit' })
 
   const [status, setStatus] = useState({ error: false, message: null })
@@ -119,6 +123,8 @@ const PostJobForm = () => {
         if (createJobPosting) {
           console.log(createJobPosting)
           setStatus({ ...status, message: 'Job posted successfully' })
+          setRequiredSkills([])
+          reset()
         }
       },
       onError(e) {
@@ -158,7 +164,7 @@ const PostJobForm = () => {
             <Input
               {...register('positionTitle', { required: true })}
               type="text"
-              placeholder="job title"
+              placeholder="Position"
               id="positionTitle"
               label="Job Title"
               isInvalid={errors.positionTitle}
@@ -168,7 +174,7 @@ const PostJobForm = () => {
             <Input
               {...register('company', { required: true })}
               type="text"
-              placeholder="facegoogazon"
+              placeholder="Your Company"
               id="company"
               label="Company"
               isInvalid={errors.company}
@@ -179,7 +185,7 @@ const PostJobForm = () => {
           <InputWrapper>
             <Input
               {...register('location', { required: true })}
-              placeholder="a place"
+              placeholder="City"
               type="text"
               id="location"
               label="Location"
@@ -189,7 +195,7 @@ const PostJobForm = () => {
           <InputWrapper>
             <Input
               {...register('salary', { required: true })}
-              placeholder="100"
+              placeholder="Annual Salary"
               type="number"
               id="salary"
               label="Salary"
@@ -252,7 +258,7 @@ const PostJobForm = () => {
           id="description"
           cols="50"
           rows="4"
-          placeholder="yo what up"
+          placeholder="Job description"
         />
         {loading ? (
           <CenterContainer>
@@ -276,8 +282,10 @@ const PostJobPage = (props) => {
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
       <Container>
-        <FormImage />
-        <PostJobForm />
+        <BoxShadowContainer>
+          <FormImage />
+          <PostJobForm />
+        </BoxShadowContainer>
       </Container>
     </Layout>
   )
