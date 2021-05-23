@@ -51,7 +51,6 @@ export const StyledSubmitButton = styled(StyledButtonSolid)`
 `
 
 export const StyledCancelButton = styled(StyledButtonSolid)`
-  /* color: #575757; */
   background-color: var(--lightGray);
   :hover {
     background-color: #bab7b0;

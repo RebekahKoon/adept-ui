@@ -37,7 +37,7 @@ const StyledDashboardBody = styled.div`
   padding: 2.5rem 0px 8rem;
 `
 
-export const StyledResume = styled.div`
+const StyledResume = styled.div`
   display: flex;
   margin: 0 auto;
   width: 68%;
@@ -101,11 +101,21 @@ const FormGrid = styled.div`
 
 const StyledUpdateButton = styled(StyledButtonSolid)`
   padding: 0.5rem;
-  width: 100%;
+  width: 48%;
+  margin-left: 5px;
   margin-top: 1rem;
 
   :hover {
     background-color: #4510b7;
+  }
+`
+
+const StyledCancelAddSkillButton = styled(StyledButtonSolid)`
+  width: 48%;
+  background-color: var(--lightGray);
+  margin-right: 5px;
+  :hover {
+    background-color: #bab7b0;
   }
 `
 
@@ -218,9 +228,12 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
               <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
             </div>
           ) : (
-            <StyledUpdateButton type="submit">
-              Update Location
-            </StyledUpdateButton>
+            <>
+              <StyledCancelAddSkillButton onClick={handleButtonClick}>
+                Cancel
+              </StyledCancelAddSkillButton>
+              <StyledUpdateButton type="submit">Update</StyledUpdateButton>
+            </>
           )}
         </form>
       ) : (
