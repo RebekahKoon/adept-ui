@@ -61,7 +61,7 @@ const SkillDropdown = ({
       setIsLoading(false)
 
       createSkill({ variables: { name: newValue } })
-    }, 1000)
+    }, 500)
   }
 
   return (
