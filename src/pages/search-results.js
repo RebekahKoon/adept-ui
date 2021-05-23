@@ -42,9 +42,6 @@ function SearchResultView(props) {
   const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
   const dataArr = props.data
-  console.log(dataArr)
-  console.log('Page Counnt: ' + props.pageCount)
-
   const selectedCheckboxes = new Set()
 
   const toggleCheckbox = (label) => {
@@ -71,7 +68,12 @@ function SearchResultView(props) {
 
   const createDataDivs = () =>
     dataArr.map((data, index) => (
-      <SearchResult data={dataArr[index]} id={index} />
+      <SearchResult
+        data={dataArr[index]}
+        id={index}
+        q={props.q}
+        currPage={props.currPage}
+      />
     ))
 
   const createJobCatCheckboxes = () => JobSkills.map(createCheckbox)
@@ -95,19 +97,13 @@ function SearchResultView(props) {
     },
   ]
 
-  const handleClick = (e) => {
-    e.preventDefault()
-
-    Router.push('/job-posting')
-  }
-
   function createPageCount() {
     var pageList = []
     for (var i = 1; i < props.pageCount + 1; i++) {
       pageList.push(i)
     }
     return pageList.map((pageList, index) => {
-      if (index == props.currPage) {
+      if (index == props.currPage - 1) {
         return <SSRFooterCurPage>{index + 1}</SSRFooterCurPage>
       } else {
         return <SSRFooterPageNumber>{index + 1}</SSRFooterPageNumber>
@@ -116,7 +112,7 @@ function SearchResultView(props) {
   }
 
   function createFooter() {
-    if (props.currPage == 0) {
+    if (props.currPage - 1 == 0 && props.pageCount > 1) {
       return (
         <SSRFooterPagination>
           {createPageCount()}
@@ -126,7 +122,10 @@ function SearchResultView(props) {
           </SSRFooterNext>
         </SSRFooterPagination>
       )
-    } else if (props.currPage > 0 && props.currPage < props.pageCount - 1) {
+    } else if (
+      props.currPage - 1 > 0 &&
+      props.currPage - 1 < props.pageCount - 1
+    ) {
       return (
         <SSRFooterPagination>
           <SSRFooterPrev onClick={handleClickPrev}>
@@ -140,7 +139,7 @@ function SearchResultView(props) {
           </SSRFooterNext>
         </SSRFooterPagination>
       )
-    } else if (props.currPage == props.pageCount - 1) {
+    } else if (props.currPage - 1 == props.pageCount - 1) {
       return (
         <SSRFooterPagination>
           <SSRFooterPrev onClick={handleClickPrev}>
@@ -251,9 +250,13 @@ export const getServerSideProps = async (context) => {
       query: SEARCH_JOBS,
       variables: { searchTerm: context.query.q },
     })
+    var pageCount = Math.ceil(jobData.searchJobPostings.length / 5)
     return {
       props: {
         data: jobData.searchJobPostings,
+        q: context.query.q,
+        currPage: context.query.page,
+        pageCount: pageCount,
       },
     }
   } else {
@@ -262,7 +265,7 @@ export const getServerSideProps = async (context) => {
     })
 
     if (allJobData.getAllJobPostings.length > 5) {
-      var pageStart = context.query.page * 5
+      var pageStart = (context.query.page - 1) * 5
       var pageEnd = pageStart + 5
       var length = allJobData.getAllJobPostings.length
       var pageCount = Math.ceil(allJobData.getAllJobPostings.length / 5)

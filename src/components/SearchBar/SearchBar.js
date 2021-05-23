@@ -14,14 +14,13 @@ function SearchBar({ headerText }) {
   const [option, setOption] = useState('Job Postings')
   const handleOptionChange = (e) => {
     setOption(e.value)
-    console.log(e.value)
   }
 
   const [searchItem, setSearchItem] = useState('')
   const handleChange = (e) => {
     e.preventDefault()
     setSearchItem(e.target.value)
-    var url = '/search-results?q=' + searchItem
+    var url = '/search-results?page=1&q=' + searchItem
     Router.push(url)
   }
 
