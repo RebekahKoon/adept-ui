@@ -216,6 +216,37 @@ export const SSRFooterPrev = styled.div`
   }
 `
 
+export const SSRFooterPageNumber = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 19px;
+
+  position: static;
+  width: 48px;
+  height: 49px;
+  left: 152px;
+  top: 41.5px;
+`
+
+export const SSRFooterCurPage = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 19px;
+
+  position: static;
+  width: 48px;
+  height: 49px;
+  left: 103px;
+  top: 41.5px;
+
+  background: #570ff1;
+  border-radius: 50px;
+`
+
 export const SSRFooterNext = styled.div`
   display: flex;
   flex-direction: row;
@@ -228,8 +259,6 @@ export const SSRFooterNext = styled.div`
   height: 52px;
   left: 360px;
   top: 40px;
-
-  margin-left: 1rem;
 
   font-size: 1rem;
 

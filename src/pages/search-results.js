@@ -32,6 +32,8 @@ import {
   SSRMainContentFooter,
   SSRFooterPagination,
   SSRFooterPrev,
+  SSRFooterPageNumber,
+  SSRFooterCurPage,
   SSRFooterNext,
 } from '../styles/SearchResultsStyle'
 
@@ -99,6 +101,20 @@ function SearchResultView(props) {
     Router.push('/job-posting')
   }
 
+  function createPageCount() {
+    var pageList = []
+    for (var i = 1; i < props.pageCount + 1; i++) {
+      pageList.push(i)
+    }
+    return pageList.map((pageList, index) => {
+      if (index + 1 == props.currPage) {
+        return <SSRFooterCurPage>{index + 1}</SSRFooterCurPage>
+      } else {
+        return <SSRFooterPageNumber>{index + 1}</SSRFooterPageNumber>
+      }
+    })
+  }
+
   function createFooter() {
     if (props.currPage == 0) {
       return (
@@ -116,6 +132,7 @@ function SearchResultView(props) {
             <i class="fas fa-chevron-left"></i>
             <p>Previous</p>
           </SSRFooterPrev>
+          {createPageCount()}
           <SSRFooterNext onClick={handleClickNext}>
             <p>Next</p>
             <i class="fas fa-chevron-right"></i>
