@@ -4,17 +4,8 @@ import { useMutation, useQuery } from '@apollo/client'
 import CreatableSelect from 'react-select/creatable'
 import { CREATE_SKILL } from '../../queries/createSkill'
 import { GET_ALL_SKILLS } from '../../queries/getAllSkills'
-import Skill from '../Skill'
 import { StyledButtonSolid } from '../Button'
 import { StyledSkillDropdown } from '../../pages/dashboard'
-
-const StyledSkillList = styled.div`
-  display: block;
-  width: 100%;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`
 
 const StyledSkillDropdownContainer = styled.div`
   display: flex;
@@ -32,20 +23,12 @@ const DashboardButton = styled(StyledButtonSolid)`
   }
 `
 
-const Skills = ({ skills }) => {
-  return skills ? (
-    skills?.map((skill) => <Skill key={skill.skillId} name={skill.name} />)
-  ) : (
-    <p>{'loading'}</p>
-  )
-}
-
 const createOption = (label) => ({
   label,
   value: label.toLowerCase().replace(/\W/g, ''),
 })
 
-const SkillsSelect = (params) => {
+const SkillsSelect = ({ requiredSkills, setRequiredSkills }) => {
   const [
     createSkill,
     { loading: createLoading, error: createError },
@@ -75,43 +58,36 @@ const SkillsSelect = (params) => {
   const [newSkill, setNewSkill] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
+  useEffect(() => {
+    skillsData ? setSkills(mapSkills(skillsData.getAllSkills)) : setSkills([])
+  }, [skillsData])
+
+  const handleAddRequiredSkill = () => {
+    if (newSkill && !requiredSkills.includes(newSkill)) {
+      setRequiredSkills([...requiredSkills, newSkill])
+    }
+  }
+
   // Used to determine if the dropdown value has changed
   const handleChange = (newValue, actionMeta) => {
-    console.group('Value Changed')
-    console.log(newValue)
-    console.log(`action: ${actionMeta.action}`)
-    console.groupEnd()
     setNewSkill(newValue)
   }
 
   // Creating a new value for the dropdown and adding it to the database
   const handleCreate = async (newValue) => {
     setIsLoading(true)
-    // console.group('Option created')
-    // console.log('Wait a moment...')
     const newOption = createOption(newValue)
-    // console.log(newOption)
-    // console.groupEnd()
-
     setSkills([...skills, newOption])
     setNewSkill(newValue)
-
     await createSkill({ variables: { name: newValue } })
     setIsLoading(false)
   }
-  useEffect(() => {
-    console.log(skillsData)
-    skillsData ? setSkills(mapSkills(skillsData.getAllSkills)) : setSkills([])
-  }, [skillsData])
 
   return (
     <>
-      <StyledSkillList>
-        {!skillsData ? 'loading' : <Skills skills={skillsData?.getAllSkills} />}
-      </StyledSkillList>
       <StyledSkillDropdownContainer>
         <CreatableSelect
-          placeholder={'Add skill to user...'}
+          placeholder={'Add required skill'}
           isClearable
           isDisabled={isLoading}
           isLoading={isLoading}
@@ -121,7 +97,7 @@ const SkillsSelect = (params) => {
           value={newSkill}
           styles={StyledSkillDropdown}
         />
-        <DashboardButton>Add</DashboardButton>
+        <DashboardButton onClick={handleAddRequiredSkill}>Add</DashboardButton>
       </StyledSkillDropdownContainer>
     </>
   )

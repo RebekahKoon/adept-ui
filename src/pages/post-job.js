@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { MainContentFlexContainer } from '../components/styles'
 import SearchBar from '../components/SearchBar'
@@ -14,6 +14,7 @@ import { StyledFormTextarea } from '../components/WorkExperience'
 import withSession from '../lib/session'
 import useUser from '../lib/useUser'
 import SkillsSelect from '../components/SkillsSelect/SkillsSelect'
+import { RequiredSkill } from '../components/Skill'
 
 const Container = styled(MainContentFlexContainer)`
   padding: 3.75rem 1rem;
@@ -82,6 +83,14 @@ const InputWrapper = styled.div`
   padding-right: 35px;
 `
 
+const StyledSkillList = styled.div`
+  display: block;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+`
+
 const FormHeader = () => {
   return (
     <FormHeaderStyles>
@@ -104,6 +113,15 @@ const PostJobForm = () => {
   } = useForm({ mode: 'onSubmit' })
 
   const [status, setStatus] = useState({ error: false, message: null })
+  const [requiredSkills, setRequiredSkills] = useState([])
+
+  useEffect(() => {
+    console.log(requiredSkills)
+  }, [requiredSkills])
+
+  const handleRemoveSkill = (skill) => {
+    setRequiredSkills(requiredSkills.filter((s) => s.label !== skill))
+  }
 
   const [createJobPosting, { loading, error }] = useMutation(
     CREATE_JOB_POSTING,
@@ -135,10 +153,7 @@ const PostJobForm = () => {
       type: data.type,
       description: data.description,
       // TODO: change this to form data
-      skillsRequired: [
-        '1df44942-5ea1-4d96-a1a1-4f4d5ac89330',
-        '7e9921db-3d7d-4ad2-a6c7-b9a429c1bdac',
-      ],
+      skillsRequired: requiredSkills.map((s) => s.name),
       postedBy: user.userId,
     }
     console.log(input)
@@ -220,7 +235,20 @@ const PostJobForm = () => {
             />
           </RadioInputs>
         </RadioInputsSection>
-        <SkillsSelect />
+        <StyledSkillList>
+          {requiredSkills.map((requiredSkill) => (
+            <RequiredSkill
+              name={requiredSkill.label}
+              handleRemove={handleRemoveSkill}
+              key={requiredSkill.name}
+            />
+          ))}
+        </StyledSkillList>
+        {/* Allow SkillsSelect to set this component's state */}
+        <SkillsSelect
+          requiredSkills={requiredSkills}
+          setRequiredSkills={setRequiredSkills}
+        />
         <h2>Description</h2>
         <StyledFormTextarea
           {...register('description', { required: true })}
