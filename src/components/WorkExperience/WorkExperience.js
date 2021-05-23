@@ -215,14 +215,13 @@ const FormInputFields = ({
             type="date"
             id="startDate"
             label="Start Date"
-            isInvalid={errors.date}
+            isInvalid={errors.startDate}
           />
           <Input
             {...register('endDate', { required: false })}
             type="date"
             id="endDate"
             label="End Date (If Applicable)"
-            isInvalid={errors.date}
           />
           <div>
             <StyledLabel
