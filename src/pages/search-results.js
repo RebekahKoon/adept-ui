@@ -29,6 +29,10 @@ import {
   SSRDivider,
   SSRCheckBoxOption,
   StyledDropdown,
+  SSRMainContentFooter,
+  SSRFooterPagination,
+  SSRFooterPrev,
+  SSRFooterNext,
 } from '../styles/SearchResultsStyle'
 
 function SearchResultView(props) {
@@ -37,6 +41,7 @@ function SearchResultView(props) {
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
   const dataArr = props.data
   console.log(dataArr)
+  console.log('Page Counnt: ' + props.pageCount)
 
   const selectedCheckboxes = new Set()
 
@@ -89,7 +94,55 @@ function SearchResultView(props) {
 
   const handleClick = (e) => {
     e.preventDefault()
+
     Router.push('/job-posting')
+  }
+
+  function createFooter() {
+    if (props.currPage == 0) {
+      return (
+        <SSRFooterPagination>
+          <SSRFooterNext onClick={handleClickNext}>
+            <p>Next</p>
+            <i class="fas fa-chevron-right"></i>
+          </SSRFooterNext>
+        </SSRFooterPagination>
+      )
+    } else if (props.currPage > 0 && props.currPage < props.pageCount - 1) {
+      return (
+        <SSRFooterPagination>
+          <SSRFooterPrev onClick={handleClickPrev}>
+            <i class="fas fa-chevron-left"></i>
+            <p>Previous</p>
+          </SSRFooterPrev>
+          <SSRFooterNext onClick={handleClickNext}>
+            <p>Next</p>
+            <i class="fas fa-chevron-right"></i>
+          </SSRFooterNext>
+        </SSRFooterPagination>
+      )
+    } else if (props.currPage == props.pageCount - 1) {
+      return (
+        <SSRFooterPagination>
+          <SSRFooterPrev onClick={handleClickPrev}>
+            <i class="fas fa-chevron-left"></i>
+            <p>Previous</p>
+          </SSRFooterPrev>
+        </SSRFooterPagination>
+      )
+    }
+  }
+
+  const handleClickPrev = (e) => {
+    e.preventDefault()
+    var newPage = parseInt(props.currPage) - 1
+    Router.push('/search-results?page=' + newPage)
+  }
+
+  const handleClickNext = (e) => {
+    e.preventDefault()
+    var newPage = parseInt(props.currPage) + 1
+    Router.push('/search-results?page=' + newPage)
   }
 
   const SearchResultSideBar = () => {
@@ -164,6 +217,7 @@ function SearchResultView(props) {
             <SearchResultSideBar />
             <SSRSearchResults>{createDataDivs()}</SSRSearchResults>
           </SSRMainContentContainer>
+          <SSRMainContentFooter>{createFooter()}</SSRMainContentFooter>
         </SSRMain>
       </MainContentFlexContainer>
     </Layout>
@@ -191,20 +245,23 @@ export const getServerSideProps = async (context) => {
     if (allJobData.getAllJobPostings.length > 5) {
       var pageStart = context.query.page * 5
       var pageEnd = pageStart + 5
-      if (pageEnd > allJobData.getAllJobPostings.length) {
+      var length = allJobData.getAllJobPostings.length
+      var pageCount = Math.ceil(allJobData.getAllJobPostings.length / 5)
+      if (pageEnd > length) {
         var diff = pageEnd - allJobData.getAllJobPostings.length
         pageEnd = pageEnd - diff
       }
       var finArr = []
       var tempPos = 0
       for (var i = pageStart; i < pageEnd; i++) {
-        console.log('i= ' + i)
         finArr[tempPos] = allJobData.getAllJobPostings[i]
         tempPos++
       }
       return {
         props: {
           data: finArr,
+          currPage: context.query.page,
+          pageCount: pageCount,
         },
       }
     }

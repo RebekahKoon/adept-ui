@@ -168,4 +168,75 @@ export const StyledDropdown = {
   }),
 }
 
+export const SSRMainContentFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+
+  position: static;
+  width: 1108px;
+  height: 132px;
+  left: 16px;
+  top: 1057px;
+`
+
+export const SSRFooterPagination = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 40px;
+
+  position: static;
+  width: 462px;
+  height: 132px;
+  left: 323px;
+  top: 0px;
+`
+
+export const SSRFooterPrev = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 19px;
+
+  position: static;
+  width: 62px;
+  height: 52px;
+  left: 40px;
+  top: 40px;
+
+  font-size: 1rem;
+
+  :hover {
+    cursor: pointer;
+    color: var(--darkPurple);
+  }
+`
+
+export const SSRFooterNext = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 19px;
+
+  position: static;
+  width: 62px;
+  height: 52px;
+  left: 360px;
+  top: 40px;
+
+  margin-left: 1rem;
+
+  font-size: 1rem;
+
+  :hover {
+    cursor: pointer;
+    color: var(--darkPurple);
+  }
+`
+
 export default StyledSearchResults
