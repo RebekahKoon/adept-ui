@@ -307,7 +307,16 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
         setNewSkill={setNewSkill}
       />
       {addSkillToUserLoading ? (
-        <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+        <div
+          style={{
+            display: 'flex',
+            width: '25%',
+            marginLeft: '5px',
+            justifyContent: 'center',
+          }}
+        >
+          <Loader type="TailSpin" color="#570EF1" height={32} width={32} />
+        </div>
       ) : (
         <AddSkillButton onClick={handleAddSkillToUser}>Add</AddSkillButton>
       )}
