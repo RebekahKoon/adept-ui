@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Select from 'react-select'
 
 import { SEARCH_JOBS } from '../queries/search'
+import { GET_ALL_JOBS } from '../queries/getAllJobPostings'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -28,6 +29,12 @@ import {
   SSRDivider,
   SSRCheckBoxOption,
   StyledDropdown,
+  SSRMainContentFooter,
+  SSRFooterPagination,
+  SSRFooterPrev,
+  SSRFooterPageNumber,
+  SSRFooterCurPage,
+  SSRFooterNext,
 } from '../styles/SearchResultsStyle'
 
 function SearchResultView(props) {
@@ -35,7 +42,6 @@ function SearchResultView(props) {
   const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
   const dataArr = props.data
-
   const selectedCheckboxes = new Set()
 
   const toggleCheckbox = (label) => {
@@ -43,6 +49,7 @@ function SearchResultView(props) {
       selectedCheckboxes.delete(label)
     } else {
       selectedCheckboxes.add(label)
+      console.log(label)
     }
   }
 
@@ -61,7 +68,12 @@ function SearchResultView(props) {
 
   const createDataDivs = () =>
     dataArr.map((data, index) => (
-      <SearchResult data={dataArr[index]} id={index} />
+      <SearchResult
+        data={dataArr[index]}
+        id={index}
+        q={props.q}
+        currPage={props.currPage}
+      />
     ))
 
   const createJobCatCheckboxes = () => JobSkills.map(createCheckbox)
@@ -85,9 +97,71 @@ function SearchResultView(props) {
     },
   ]
 
-  const handleClick = (e) => {
+  function createPageCount() {
+    var pageList = []
+    for (var i = 1; i < props.pageCount + 1; i++) {
+      pageList.push(i)
+    }
+    return pageList.map((pageList, index) => {
+      if (index == props.currPage - 1) {
+        return <SSRFooterCurPage>{index + 1}</SSRFooterCurPage>
+      } else {
+        return <SSRFooterPageNumber>{index + 1}</SSRFooterPageNumber>
+      }
+    })
+  }
+
+  function createFooter() {
+    if (props.currPage - 1 == 0 && props.pageCount > 1) {
+      return (
+        <SSRFooterPagination>
+          {createPageCount()}
+          <SSRFooterNext onClick={handleClickNext}>
+            <p>Next</p>
+            <i class="fas fa-chevron-right"></i>
+          </SSRFooterNext>
+        </SSRFooterPagination>
+      )
+    } else if (
+      props.currPage - 1 > 0 &&
+      props.currPage - 1 < props.pageCount - 1
+    ) {
+      return (
+        <SSRFooterPagination>
+          <SSRFooterPrev onClick={handleClickPrev}>
+            <i class="fas fa-chevron-left"></i>
+            <p>Previous</p>
+          </SSRFooterPrev>
+          {createPageCount()}
+          <SSRFooterNext onClick={handleClickNext}>
+            <p>Next</p>
+            <i class="fas fa-chevron-right"></i>
+          </SSRFooterNext>
+        </SSRFooterPagination>
+      )
+    } else if (props.currPage - 1 == props.pageCount - 1) {
+      return (
+        <SSRFooterPagination>
+          <SSRFooterPrev onClick={handleClickPrev}>
+            <i class="fas fa-chevron-left"></i>
+            <p>Previous</p>
+          </SSRFooterPrev>
+          {createPageCount()}
+        </SSRFooterPagination>
+      )
+    }
+  }
+
+  const handleClickPrev = (e) => {
     e.preventDefault()
-    Router.push('/job-posting')
+    var newPage = parseInt(props.currPage) - 1
+    Router.push('/search-results?page=' + newPage)
+  }
+
+  const handleClickNext = (e) => {
+    e.preventDefault()
+    var newPage = parseInt(props.currPage) + 1
+    Router.push('/search-results?page=' + newPage)
   }
 
   const SearchResultSideBar = () => {
@@ -125,7 +199,6 @@ function SearchResultView(props) {
             <SSRCheckBoxOption>
               <form onSubmit={handleFormSubmit}>
                 {createExperienceCheckboxes()}
-                <button type="submit">Submit</button>
               </form>
             </SSRCheckBoxOption>
           </SSRFilterOptions>
@@ -162,6 +235,7 @@ function SearchResultView(props) {
             <SearchResultSideBar />
             <SSRSearchResults>{createDataDivs()}</SSRSearchResults>
           </SSRMainContentContainer>
+          <SSRMainContentFooter>{createFooter()}</SSRMainContentFooter>
         </SSRMain>
       </MainContentFlexContainer>
     </Layout>
@@ -171,14 +245,47 @@ function SearchResultView(props) {
 export default SearchResultView
 
 export const getServerSideProps = async (context) => {
-  const data = await client.query({
-    query: SEARCH_JOBS,
-    variables: { searchTerm: context.query.q },
-  })
+  if (context.query.q) {
+    const { data: jobData } = await client.query({
+      query: SEARCH_JOBS,
+      variables: { searchTerm: context.query.q },
+    })
+    var pageCount = Math.ceil(jobData.searchJobPostings.length / 5)
+    return {
+      props: {
+        data: jobData.searchJobPostings,
+        q: context.query.q,
+        currPage: context.query.page,
+        pageCount: pageCount,
+      },
+    }
+  } else {
+    const { data: allJobData } = await client.query({
+      query: GET_ALL_JOBS,
+    })
 
-  return {
-    props: {
-      data: data.data.searchJobPostings,
-    },
+    if (allJobData.getAllJobPostings.length > 5) {
+      var pageStart = (context.query.page - 1) * 5
+      var pageEnd = pageStart + 5
+      var length = allJobData.getAllJobPostings.length
+      var pageCount = Math.ceil(allJobData.getAllJobPostings.length / 5)
+      if (pageEnd > length) {
+        var diff = pageEnd - allJobData.getAllJobPostings.length
+        pageEnd = pageEnd - diff
+      }
+      var finArr = []
+      var tempPos = 0
+      for (var i = pageStart; i < pageEnd; i++) {
+        finArr[tempPos] = allJobData.getAllJobPostings[i]
+        tempPos++
+      }
+      return {
+        props: {
+          data: finArr,
+          currPage: context.query.page,
+          pageCount: pageCount,
+        },
+      }
+    }
   }
 }
