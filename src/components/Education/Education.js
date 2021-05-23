@@ -141,6 +141,7 @@ const EducationForm = ({ userId, setUserEducation }) => {
     formIsDisplayed === false
       ? setFormIsDisplayed(true)
       : setFormIsDisplayed(false)
+    reset()
   }
 
   return (

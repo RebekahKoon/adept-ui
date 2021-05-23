@@ -160,6 +160,7 @@ const FormInputFields = ({
     formIsDisplayed === false
       ? setFormIsDisplayed(true)
       : setFormIsDisplayed(false)
+    reset()
   }
 
   return (
