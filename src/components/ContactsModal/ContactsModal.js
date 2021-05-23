@@ -1,5 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
 import Modal from 'react-modal'
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
 import ModalContext from '../../context/ModalContext'
 import ContactsModalStyle from './ContactsModalStyle'
 import Contact from '../Contact'
@@ -7,6 +10,8 @@ import {
   StyledContactsSearch,
   StyledContactsInput,
   StyledContactsGrid,
+  ExitButtonContainer,
+  StyledExitButton,
 } from './ContactsModalStyle'
 
 const UserContacts = ({ contacts, userId, setUserContacts }) => {
@@ -54,6 +59,11 @@ const ContactsModal = ({
       ariaHideApp={false}
       closeTimeoutMS={100}
     >
+      <ExitButtonContainer>
+        <StyledExitButton onClick={closeModal}>
+          <i className="fas fa-times fa-2x"></i>
+        </StyledExitButton>
+      </ExitButtonContainer>
       <StyledContactsSearch>
         <StyledContactsInput
           type="text"
@@ -65,9 +75,9 @@ const ContactsModal = ({
           <i className="fa fa-search"></i>
         </button>
       </StyledContactsSearch>
-      <h1>
+      <h2>
         {numberContacts} Contact{numberContacts === 1 ? '' : 's'}
-      </h1>
+      </h2>
       <StyledContactsGrid>
         <UserContacts
           contacts={searchResults}

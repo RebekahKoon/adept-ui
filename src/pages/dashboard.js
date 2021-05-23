@@ -1,13 +1,17 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
+import { useForm } from 'react-hook-form'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
-import CreatableSelect from 'react-select/creatable'
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
-import { CREATE_SKILL } from '../queries/createSkill'
 import { ADD_SKILL_TO_USER } from '../queries/addSkillToUser'
 import { UPDATE_USER_LOCATION } from '../queries/updateUserLocation'
+import { StyledButtonSolid } from '../components/Button'
+import { Input } from '../components/Input'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
@@ -16,13 +20,13 @@ import SearchBar from '../components/SearchBar'
 import Education from '../components/Education'
 import WorkExperience from '../components/WorkExperience'
 import Skill from '../components/Skill'
+import SkillDropdown from '../components/SkillDropdown'
 import Contact from '../components/Contact'
 import ContactsModal from '../components/ContactsModal'
 import ModalContext from '../context/ModalContext'
-import { StyledButtonSolid } from '../components/Button'
 import withSession from '../lib/session'
 
-export const StyledDashboardBody = styled.div`
+const StyledDashboardBody = styled.div`
   display: flex;
   margin: 0 auto;
   width: 100%;
@@ -43,16 +47,21 @@ export const StyledResume = styled.div`
   border-radius: 5px;
 `
 
-const DashboardButton = styled(StyledButtonSolid)`
+const AddSkillButton = styled(StyledButtonSolid)`
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
-  width: 100%;
+  margin-left: 5px;
+  width: 25%;
   :hover {
     background-color: #4510b7;
   }
 `
 
-const SideBarProfile = styled.div`
+const ViewContactsButton = styled(AddSkillButton)`
+  width: 100%;
+`
+
+const StyledSideBarProfile = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -66,6 +75,37 @@ const SideBarProfile = styled.div`
 
   .fa-user-circle {
     color: #585858;
+  }
+
+  .fa-edit {
+    color: var(--lightGray);
+    :hover {
+      color: var(--purple);
+    }
+  }
+`
+
+const EditButton = styled.button`
+  background: none;
+  border: none;
+`
+
+const FormGrid = styled.div`
+  margin: 0 auto;
+  display: inline-grid;
+  text-align: left;
+  grid-template-columns: repeat(2, minmax(50px, 600px));
+  gap: 1.5rem 1rem;
+  line-height: 1.25em;
+`
+
+const StyledUpdateButton = styled(StyledButtonSolid)`
+  padding: 0.5rem;
+  width: 100%;
+  margin-top: 1rem;
+
+  :hover {
+    background-color: #4510b7;
   }
 `
 
@@ -84,47 +124,121 @@ const StyledSkillDropdownContainer = styled.div`
   justify-content: space-between;
 `
 
-// Styling for the skill dropdown menu
-export const StyledSkillDropdown = {
-  option: (provided) => ({
-    ...provided,
-    color: '#191C3C',
-    backgroundColor: '#FFFFFF',
-    '&:hover': {
-      backgroundColor: '#EEF2FF',
-    },
-  }),
-  control: (provided) => ({
-    ...provided,
-    borderRadius: '5px',
-    color: '#191C3C',
-    boxShadow: 'none',
-    border: '1px solid #D2D0C9',
-    width: '12rem',
-    marginRight: '.5rem',
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    color: '#AEB7D0',
-  }),
-  indicatorSeparator: (base) => ({
-    ...base,
-    display: 'none',
-  }),
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    color: '#311C87',
-    transition: 'all .25s ease',
-    transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : null,
-  }),
-  menu: (base) => ({
-    ...base,
-    width: '12rem',
-  }),
-  container: (base) => ({
-    ...base,
-    flex: 1,
-  }),
+const SidebarProfile = ({ currentUser, currentUserPosition }) => {
+  const [userCity, setUserCity] = useState(currentUser.city)
+  const [userState, setUserState] = useState(currentUser.state)
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({ mode: 'onSubmit' })
+
+  const [updateUserLocation, { loading, error }] = useMutation(
+    UPDATE_USER_LOCATION,
+    {
+      onCompleted({ updateUserLocation }) {
+        if (updateUserLocation) {
+          console.log(updateUserLocation)
+          setUserCity(updateUserLocation.city)
+          setUserState(updateUserLocation.state)
+          setFormIsDisplayed(false)
+        }
+      },
+      onError(e) {
+        console.log(e)
+      },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: { userId: currentUser.userId },
+        },
+      ],
+      awaitRefetchQueries: true,
+    }
+  )
+
+  const onSubmit = (data) => {
+    const input = {
+      userId: currentUser.userId,
+      city: data.city ? data.city : '',
+      state: data.state ? data.state : '',
+    }
+
+    console.log(input)
+    updateUserLocation({ variables: input })
+    reset()
+  }
+
+  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
+  const handleButtonClick = () => {
+    formIsDisplayed === false
+      ? setFormIsDisplayed(true)
+      : setFormIsDisplayed(false)
+    reset()
+  }
+
+  return (
+    <StyledSideBarProfile>
+      <p>
+        <i className="fas fa-user-circle fa-5x"></i>
+      </p>
+      <h2>{currentUser.name}</h2>
+      <div>{currentUser.email}</div>
+      <div>
+        {currentUserPosition[0]
+          ? currentUserPosition[0].position
+          : 'Job seeker'}
+      </div>
+      {/* Displaying form if edit button is pressed */}
+      {formIsDisplayed ? (
+        <form style={{ padding: 0 }} onSubmit={handleSubmit(onSubmit)}>
+          <FormGrid>
+            <Input
+              {...register('city', { required: false })}
+              type="text"
+              placeholder="City"
+              id="city"
+              isInvalid={errors.city}
+              noPadding={true}
+            />
+            <Input
+              {...register('state', { required: false })}
+              type="text"
+              placeholder="State"
+              id="state"
+              isInvalid={errors.state}
+              noPadding={true}
+            />
+          </FormGrid>
+          {loading ? (
+            <div style={{ padding: '1.5rem' }}>
+              <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+            </div>
+          ) : (
+            <StyledUpdateButton type="submit">
+              Update Location
+            </StyledUpdateButton>
+          )}
+        </form>
+      ) : (
+        <div style={{ color: '#585858' }}>
+          {/* This is very hacky, don't know how else to make location centered lol */}
+          <EditButton style={{ visibility: 'hidden' }}>
+            <i className="fas fa-edit"></i>
+          </EditButton>
+          {!userCity && !userState ? 'Location not specified' : `${userCity}`}
+          {userCity && userState && ', '}
+          {userState ? userState : ''}{' '}
+          <EditButton onClick={handleButtonClick}>
+            <i className="fas fa-edit"></i>
+          </EditButton>
+        </div>
+      )}
+    </StyledSideBarProfile>
+  )
 }
 
 const UserSkills = ({ userSkills, setUserSkills, userId }) => {
@@ -150,6 +264,7 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   const [newSkill, setNewSkill] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
+  // Mutation for adding skill to a user
   const [
     addSkillToUser,
     { loading: addSkillToUserLoading, error: addSkillToUserError },
@@ -172,30 +287,6 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
     awaitRefetchQueries: true,
   })
 
-  const [
-    createSkill,
-    { loading: createSkillLoading, error: createSkillError },
-  ] = useMutation(CREATE_SKILL, {
-    onCompleted({ createSkill }) {
-      if (createSkill) {
-        setSkills([
-          ...skills,
-          { name: createSkill.skillId, label: createSkill.name },
-        ])
-        setNewSkill({ name: createSkill.skillId, label: createSkill.name })
-      }
-    },
-    onError(e) {
-      console.log(e)
-    },
-    refetchQueries: [
-      {
-        query: GET_ALL_SKILLS,
-      },
-    ],
-    awaitRefetchQueries: true,
-  })
-
   const handleAddSkillToUser = () => {
     if (newSkill) {
       addSkillToUser({
@@ -204,47 +295,30 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
     }
   }
 
-  // Used to determine if the dropdown value has changed
-  const handleChange = (newValue, actionMeta) => {
-    console.group('Value Changed')
-    console.log(newValue)
-    console.log(`action: ${actionMeta.action}`)
-    console.groupEnd()
-    setNewSkill(newValue)
-  }
-
-  // Creating a new value for the dropdown and adding it to the database
-  const handleCreate = (newValue) => {
-    setIsLoading(true)
-    console.group('Option created')
-    console.log('Wait a moment...')
-    setTimeout(() => {
-      const newOption = createOption(newValue)
-      console.log(newOption)
-      console.groupEnd()
-      setIsLoading(false)
-
-      createSkill({ variables: { name: newValue } })
-    }, 500)
-  }
-
   return (
     <StyledSkillDropdownContainer>
-      <CreatableSelect
-        placeholder={'Add skill to user...'}
-        isClearable
-        isDisabled={isLoading}
+      <SkillDropdown
+        placeholderText={'Add skill to user...'}
         isLoading={isLoading}
-        onChange={handleChange}
-        onCreateOption={handleCreate}
-        options={skills}
-        value={newSkill}
-        styles={StyledSkillDropdown}
+        setIsLoading={setIsLoading}
+        skills={skills}
+        setSkills={setSkills}
+        newSkill={newSkill}
+        setNewSkill={setNewSkill}
       />
       {addSkillToUserLoading ? (
-        <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+        <div
+          style={{
+            display: 'flex',
+            width: '25%',
+            marginLeft: '5px',
+            justifyContent: 'center',
+          }}
+        >
+          <Loader type="TailSpin" color="#570EF1" height={32} width={32} />
+        </div>
       ) : (
-        <DashboardButton onClick={handleAddSkillToUser}>Add</DashboardButton>
+        <AddSkillButton onClick={handleAddSkillToUser}>Add</AddSkillButton>
       )}
     </StyledSkillDropdownContainer>
   )
@@ -268,11 +342,6 @@ const UserContacts = ({ contacts, userId, setUserContacts }) => {
     : null
 }
 
-const createOption = (label) => ({
-  label,
-  value: label.toLowerCase().replace(/\W/g, ''),
-})
-
 const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
   // Used to open modal
   const [isOpen, setIsOpen] = useState(false)
@@ -288,24 +357,10 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
 
   return (
     <StyledSideBar>
-      <SideBarProfile>
-        <p>
-          <i className="fas fa-user-circle fa-5x"></i>
-        </p>
-        <h2>{currentUser.name}</h2>
-        <div>{currentUser.email}</div>
-        <div>
-          {currentUserPosition[0]
-            ? currentUserPosition[0].position
-            : 'Job seeker'}
-        </div>
-        <div style={{ color: '#585858' }}>
-          {currentUser.city
-            ? `${currentUser.city}, `
-            : 'Location not specified'}
-          {currentUser.state ? currentUser.state : ''}
-        </div>
-      </SideBarProfile>
+      <SidebarProfile
+        currentUser={currentUser}
+        currentUserPosition={currentUserPosition}
+      />
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
       <StyledSkillList>
@@ -327,7 +382,9 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
         setUserContacts={setUserContacts}
         userId={currentUser.userId}
       />
-      <DashboardButton onClick={openModal}>View All Contacts</DashboardButton>
+      <ViewContactsButton onClick={openModal}>
+        View All Contacts
+      </ViewContactsButton>
       <ModalContext.Provider
         value={{
           isOpen,

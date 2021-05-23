@@ -25,9 +25,9 @@ const StyledInput = styled.input`
 
 // props contains all possible input props
 export const Input = React.forwardRef((props, ref) => {
-  const { id, label, isInvalid, ...rest } = props
+  const { id, label, isInvalid, noPadding, ...rest } = props
   return (
-    <InputContainer>
+    <InputContainer style={noPadding && { padding: '0' }}>
       <Label htmlFor={id} isInvalid={isInvalid}>
         {isInvalid?.message ? isInvalid.message : label}
       </Label>

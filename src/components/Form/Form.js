@@ -3,7 +3,6 @@ import Loader from 'react-loader-spinner'
 import {
   FormContainer,
   FormGrid,
-  StyledAddToResumeButton,
   StyledButtonContainer,
   StyledSubmitButton,
   StyledCancelButton,

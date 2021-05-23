@@ -87,8 +87,6 @@ const EducationData = ({
 }
 
 const EducationForm = ({ userId, setUserEducation }) => {
-  const [buttonPressed, setButtonIsPressed] = useState(false)
-
   const {
     register,
     handleSubmit,
@@ -120,7 +118,6 @@ const EducationForm = ({ userId, setUserEducation }) => {
   )
 
   const onSubmit = (data) => {
-    setButtonIsPressed(true)
     const input = {
       userId: userId,
       name: data.name,
