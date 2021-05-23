@@ -107,7 +107,7 @@ function SearchResultView(props) {
       pageList.push(i)
     }
     return pageList.map((pageList, index) => {
-      if (index + 1 == props.currPage) {
+      if (index == props.currPage) {
         return <SSRFooterCurPage>{index + 1}</SSRFooterCurPage>
       } else {
         return <SSRFooterPageNumber>{index + 1}</SSRFooterPageNumber>
@@ -119,6 +119,7 @@ function SearchResultView(props) {
     if (props.currPage == 0) {
       return (
         <SSRFooterPagination>
+          {createPageCount()}
           <SSRFooterNext onClick={handleClickNext}>
             <p>Next</p>
             <i class="fas fa-chevron-right"></i>
@@ -146,6 +147,7 @@ function SearchResultView(props) {
             <i class="fas fa-chevron-left"></i>
             <p>Previous</p>
           </SSRFooterPrev>
+          {createPageCount()}
         </SSRFooterPagination>
       )
     }
