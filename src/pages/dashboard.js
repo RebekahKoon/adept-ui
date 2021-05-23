@@ -225,7 +225,7 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
       setIsLoading(false)
 
       createSkill({ variables: { name: newValue } })
-    }, 1000)
+    }, 500)
   }
 
   return (
