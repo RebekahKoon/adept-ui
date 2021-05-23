@@ -188,6 +188,7 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
           ? currentUserPosition[0].position
           : 'Job seeker'}
       </div>
+      {/* Displaying form if edit button is pressed */}
       {formIsDisplayed ? (
         <form style={{ padding: 0 }} onSubmit={handleSubmit(onSubmit)}>
           <FormGrid>
@@ -220,6 +221,10 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
         </form>
       ) : (
         <div style={{ color: '#585858' }}>
+          {/* This is very hacky, don't know how else to make location centered lol */}
+          <EditButton style={{ visibility: 'hidden' }}>
+            <i className="fas fa-edit"></i>
+          </EditButton>
           {userCity ? `${userCity}, ` : 'Location not specified'}
           {userState ? userState : ''}{' '}
           <EditButton onClick={handleButtonClick}>
