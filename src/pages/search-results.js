@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Select from 'react-select'
 
 import { SEARCH_JOBS } from '../queries/search'
+import { GET_ALL_JOBS } from '../queries/getAllJobPostings'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -35,6 +36,8 @@ function SearchResultView(props) {
   const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
   const dataArr = props.data
+
+  console.log(props.data)
 
   const selectedCheckboxes = new Set()
 
@@ -171,14 +174,25 @@ function SearchResultView(props) {
 export default SearchResultView
 
 export const getServerSideProps = async (context) => {
-  const data = await client.query({
-    query: SEARCH_JOBS,
-    variables: { searchTerm: context.query.q },
-  })
+  if (context.query.q) {
+    const { data: jobData } = await client.query({
+      query: SEARCH_JOBS,
+      variables: { searchTerm: context.query.q },
+    })
 
-  return {
-    props: {
-      data: data.data.searchJobPostings,
-    },
+    return {
+      props: {
+        data: jobData.searchJobPostings,
+      },
+    }
+  } else {
+    const { data: allJobData } = await client.query({
+      query: GET_ALL_JOBS,
+    })
+    return {
+      props: {
+        data: allJobData.getAllJobPostings,
+      },
+    }
   }
 }
