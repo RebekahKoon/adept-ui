@@ -97,6 +97,14 @@ function SearchResultView(props) {
     },
   ]
 
+  function handlePageClick(value) {
+    if (props.q) {
+      Router.push('/search-results?page=' + value + '&q=' + props.q)
+    } else {
+      Router.push('/search-results?page=' + value)
+    }
+  }
+
   function createPageCount() {
     var pageList = []
     for (var i = 1; i < props.pageCount + 1; i++) {
@@ -118,7 +126,7 @@ function SearchResultView(props) {
           {createPageCount()}
           <SSRFooterNext onClick={handleClickNext}>
             <p>Next</p>
-            <i class="fas fa-chevron-right"></i>
+            <i className="fas fa-chevron-right"></i>
           </SSRFooterNext>
         </SSRFooterPagination>
       )
@@ -129,21 +137,24 @@ function SearchResultView(props) {
       return (
         <SSRFooterPagination>
           <SSRFooterPrev onClick={handleClickPrev}>
-            <i class="fas fa-chevron-left"></i>
+            <i className="fas fa-chevron-left"></i>
             <p>Previous</p>
           </SSRFooterPrev>
           {createPageCount()}
           <SSRFooterNext onClick={handleClickNext}>
             <p>Next</p>
-            <i class="fas fa-chevron-right"></i>
+            <i className="fas fa-chevron-right"></i>
           </SSRFooterNext>
         </SSRFooterPagination>
       )
-    } else if (props.currPage - 1 == props.pageCount - 1) {
+    } else if (
+      props.currPage - 1 == props.pageCount - 1 &&
+      props.pageCount - 1
+    ) {
       return (
         <SSRFooterPagination>
           <SSRFooterPrev onClick={handleClickPrev}>
-            <i class="fas fa-chevron-left"></i>
+            <i className="fas fa-chevron-left"></i>
             <p>Previous</p>
           </SSRFooterPrev>
           {createPageCount()}
