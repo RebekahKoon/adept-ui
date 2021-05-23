@@ -36,8 +36,7 @@ function SearchResultView(props) {
   const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
   const dataArr = props.data
-
-  console.log(props.data)
+  console.log(dataArr)
 
   const selectedCheckboxes = new Set()
 
@@ -179,7 +178,6 @@ export const getServerSideProps = async (context) => {
       query: SEARCH_JOBS,
       variables: { searchTerm: context.query.q },
     })
-
     return {
       props: {
         data: jobData.searchJobPostings,
@@ -189,10 +187,26 @@ export const getServerSideProps = async (context) => {
     const { data: allJobData } = await client.query({
       query: GET_ALL_JOBS,
     })
-    return {
-      props: {
-        data: allJobData.getAllJobPostings,
-      },
+
+    if (allJobData.getAllJobPostings.length > 5) {
+      var pageStart = context.query.page * 5
+      var pageEnd = pageStart + 5
+      if (pageEnd > allJobData.getAllJobPostings.length) {
+        var diff = pageEnd - allJobData.getAllJobPostings.length
+        pageEnd = pageEnd - diff
+      }
+      var finArr = []
+      var tempPos = 0
+      for (var i = pageStart; i < pageEnd; i++) {
+        console.log('i= ' + i)
+        finArr[tempPos] = allJobData.getAllJobPostings[i]
+        tempPos++
+      }
+      return {
+        props: {
+          data: finArr,
+        },
+      }
     }
   }
 }

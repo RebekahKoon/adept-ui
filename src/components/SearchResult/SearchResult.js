@@ -26,7 +26,7 @@ import {
 } from './SearchResultStyle'
 
 function SearchResult(props) {
-  console.log(props.data)
+  console.log(props.id)
   const dataArr = props.data.skillsRequired
   const handleClick = (e) => {
     e.preventDefault()
