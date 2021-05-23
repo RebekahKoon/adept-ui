@@ -229,7 +229,8 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
           <EditButton style={{ visibility: 'hidden' }}>
             <i className="fas fa-edit"></i>
           </EditButton>
-          {userCity ? `${userCity}, ` : 'Location not specified'}
+          {!userCity && !userState ? 'Location not specified' : `${userCity}`}
+          {userCity && userState && ', '}
           {userState ? userState : ''}{' '}
           <EditButton onClick={handleButtonClick}>
             <i className="fas fa-edit"></i>
