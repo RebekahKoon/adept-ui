@@ -115,10 +115,6 @@ const PostJobForm = () => {
   const [status, setStatus] = useState({ error: false, message: null })
   const [requiredSkills, setRequiredSkills] = useState([])
 
-  useEffect(() => {
-    console.log(requiredSkills)
-  }, [requiredSkills])
-
   const handleRemoveSkill = (skill) => {
     setRequiredSkills(requiredSkills.filter((s) => s.label !== skill))
   }
