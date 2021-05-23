@@ -14,7 +14,7 @@ export const StyledSkillDropdown = {
     color: '#191C3C',
     boxShadow: 'none',
     border: '1px solid #D2D0C9',
-    width: '12rem',
+    width: '100%',
     marginRight: '.5rem',
   }),
   singleValue: (provided) => ({
@@ -33,7 +33,7 @@ export const StyledSkillDropdown = {
   }),
   menu: (base) => ({
     ...base,
-    width: '12rem',
+    width: '100%',
   }),
   container: (base) => ({
     ...base,

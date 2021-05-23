@@ -47,13 +47,18 @@ export const StyledResume = styled.div`
   border-radius: 5px;
 `
 
-const DashboardButton = styled(StyledButtonSolid)`
+const AddSkillButton = styled(StyledButtonSolid)`
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
-  width: 100%;
+  margin-left: 5px;
+  width: 25%;
   :hover {
     background-color: #4510b7;
   }
+`
+
+const ViewContactsButton = styled(AddSkillButton)`
+  width: 100%;
 `
 
 const StyledSideBarProfile = styled.div`
@@ -303,7 +308,7 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
       {addSkillToUserLoading ? (
         <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
       ) : (
-        <DashboardButton onClick={handleAddSkillToUser}>Add</DashboardButton>
+        <AddSkillButton onClick={handleAddSkillToUser}>Add</AddSkillButton>
       )}
     </StyledSkillDropdownContainer>
   )
@@ -367,7 +372,9 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
         setUserContacts={setUserContacts}
         userId={currentUser.userId}
       />
-      <DashboardButton onClick={openModal}>View All Contacts</DashboardButton>
+      <ViewContactsButton onClick={openModal}>
+        View All Contacts
+      </ViewContactsButton>
       <ModalContext.Provider
         value={{
           isOpen,
