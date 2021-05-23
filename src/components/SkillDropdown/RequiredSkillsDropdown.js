@@ -71,7 +71,6 @@ const SkillsSelect = ({ requiredSkills, setRequiredSkills }) => {
     } else if (requiredSkills.includes(newSkill)) {
       setStatus({ error: true, message: 'Duplicate skill' })
     } else {
-      console.log(newSkill)
       setRequiredSkills([...requiredSkills, newSkill])
       setStatus({ error: false, message: 'Skill added' })
     }

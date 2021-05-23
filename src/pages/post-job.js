@@ -256,18 +256,20 @@ const PostJobForm = () => {
           rows="4"
           placeholder="Job description"
         />
-        {loading ? (
-          <CenterContainer>
+        <CenterContainer>
+          {loading ? (
             <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
-          </CenterContainer>
-        ) : (
-          <PostJobButton type="submit">Post Job</PostJobButton>
-        )}
-        {status.message && (
-          <p style={{ color: status.error ? 'red' : 'green' }}>
-            {status.message}
-          </p>
-        )}
+          ) : (
+            <PostJobButton type="submit">Post Job</PostJobButton>
+          )}
+        </CenterContainer>
+        <CenterContainer>
+          {status.message && (
+            <p style={{ color: status.error ? 'red' : 'green' }}>
+              {status.message}
+            </p>
+          )}
+        </CenterContainer>
       </form>
     </FormContainer>
   )
