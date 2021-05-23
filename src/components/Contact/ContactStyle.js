@@ -3,12 +3,12 @@ import {
   StyledEducationContent,
   StyledEducation,
   StyledEducationText,
+  StyledRemoveButton,
 } from '../Education/EducationStyle'
 
 export const StyledContactContainer = styled.div`
   width: 100%;
   display: flex;
-  margin: 0 auto;
   flex-direction: column;
   align-items: flex-start;
   padding: 1rem;
@@ -26,7 +26,9 @@ export const StyledContactContent = styled(StyledEducationContent)`
 `
 
 export const StyledContact = styled(StyledEducation)`
-  align-items: center;
+  width: 100%;
+  margin: auto;
+  padding: 0px, auto;
 
   .fa-user-circle {
     color: #585858;
@@ -36,6 +38,11 @@ export const StyledContact = styled(StyledEducation)`
   }
 `
 
-export const StyledContactText = styled(StyledEducationText)``
+export const StyledContactText = styled(StyledEducationText)`
+  /* width: 100%; */
+`
+export const StyledRemoveContactButton = styled(StyledRemoveButton)`
+  float: right;
+`
 
 export default StyledContactContent

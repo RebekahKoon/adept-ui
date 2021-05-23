@@ -3,7 +3,11 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -11,9 +15,10 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "react-hooks"],
   "rules": {
-    "no-unused-vars ": "warn",
-    "react/prop-types": "disable"
+    "no-unused-vars": "warn",
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0
   }
 }

@@ -1,17 +1,22 @@
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { MainContentFlexContainer } from '../components/styles'
 import SearchBar from '../components/SearchBar'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
 import Loader from 'react-loader-spinner'
-import { REGISTER_USER } from '../queries/register'
+import { CREATE_JOB_POSTING } from '../queries/postJob'
 import Layout from '../components/Layout'
-import { Input, RadioInput } from '../components/Input'
+import { Input, RadioInput, InputWrapper } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
 import { CenterContainer } from '../components/styles'
-
 import { StyledFormTextarea } from '../components/WorkExperience'
+import withSession from '../lib/session'
+import useUser from '../lib/useUser'
+import { RequiredSkillsDropdown } from '../components/SkillDropdown'
+import { RequiredSkill } from '../components/Skill'
+import { StyledSkillList } from '../components/SkillList'
 
 const Container = styled(MainContentFlexContainer)`
   padding: 3.75rem 1rem;
@@ -21,22 +26,21 @@ const PostJobButton = styled(StyledButtonSolid)`
   /* width: 100%; */
 `
 
-// const Container = styled.div`
-//   margin: 0 auto;
-//   display: flex;
-//   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2);
-// `
-
 const FormContainer = styled.div`
   flex: 2;
   padding: 5rem;
   background-color: var(--white);
   border-radius: 0 5px 5px 0;
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2);
+  h2 {
+    font-size: 1rem;
+    margin: 0;
+    padding-bottom: 1rem;
+  }
 `
 
 const FormImage = styled.div`
-  background-image: url('/feature01.png');
+  background-image: url('/feature03.jpeg');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -57,10 +61,13 @@ const FormHeaderStyles = styled.header`
 `
 
 const RadioInputsSection = styled.section`
+  padding-bottom: 2.5rem;
   h2 {
-    font-size: 1rem;
-    margin: 0;
+    padding-bottom: 0;
   }
+`
+
+const RequiredSkillsSection = styled.section`
   padding-bottom: 2.5rem;
 `
 
@@ -77,11 +84,6 @@ const FormRow = styled.div`
   justify-content: space-between;
 `
 
-const InputWrapper = styled.div`
-  width: 100%;
-  padding-right: 35px;
-`
-
 const FormHeader = () => {
   return (
     <FormHeaderStyles>
@@ -96,42 +98,56 @@ const JobType = {
   INTERNSHIP: 'INTERNSHIP',
 }
 
-const RegisterForm = () => {
+const PostJobForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
-  // TODO: Make this the right query
-  const [registerUser, { loading, error }] = useMutation(REGISTER_USER, {
-    onCompleted({ registerUser }) {
-      if (registerUser) {
-        console.log(registerUser)
-        // call login user
-        // store returned token in local storage
-        // redirect to dashboard now that has been token obtained
-      }
-    },
-    onError(e) {
-      console.log(e)
-    },
-  })
+  const [status, setStatus] = useState({ error: false, message: null })
+  const [requiredSkills, setRequiredSkills] = useState([])
 
-  const onSubmit = (data) => {
-    const input = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      type: data.type,
-    }
-    registerUser({ variables: input })
+  const handleRemoveSkill = (skill) => {
+    setRequiredSkills(requiredSkills.filter((s) => s.label !== skill))
   }
 
-  // useEffect(() => {
-  //   console.log(data)
-  // }, [data])
+  const [createJobPosting, { loading, error }] = useMutation(
+    CREATE_JOB_POSTING,
+    {
+      onCompleted({ createJobPosting }) {
+        if (createJobPosting) {
+          console.log(createJobPosting)
+          setStatus({ ...status, message: 'Job posted successfully' })
+        }
+      },
+      onError(e) {
+        console.log(e)
+        setStatus({ error: true, message: 'Error posting job' })
+      },
+    }
+  )
+
+  const { user } = useUser()
+
+  const onSubmit = (data) => {
+    setStatus({ error: false, message: '' })
+    const input = {
+      positionTitle: data.positionTitle,
+      company: data.company,
+      datePosted: new Date(Date.now()).toISOString(),
+      city: data.location,
+      // state: data.state,
+      salary: Number(data.salary),
+      type: data.type,
+      description: data.description,
+      // TODO: change this to form data
+      skillsRequired: requiredSkills.map((s) => s.name),
+      postedBy: user.userId,
+    }
+    console.log(input)
+    createJobPosting({ variables: input })
+  }
 
   return (
     <FormContainer>
@@ -140,12 +156,12 @@ const RegisterForm = () => {
         <FormRow>
           <InputWrapper>
             <Input
-              {...register('jobTitle', { required: true })}
+              {...register('positionTitle', { required: true })}
               type="text"
               placeholder="job title"
-              id="jobTitle"
+              id="positionTitle"
               label="Job Title"
-              isInvalid={errors.jobTitle}
+              isInvalid={errors.positionTitle}
             />
           </InputWrapper>
           <InputWrapper>
@@ -189,14 +205,14 @@ const RegisterForm = () => {
               defaultChecked
               type="radio"
               id="employee"
-              label="A Job Applicant"
+              label="Full Time"
               value={JobType.FULL_TIME}
             />
             <RadioInput
               {...register('type')}
               type="radio"
               id="employer"
-              label="An Employer"
+              label="Part Time"
               value={JobType.PART_TIME}
             />
             <RadioInput
@@ -208,25 +224,47 @@ const RegisterForm = () => {
             />
           </RadioInputs>
         </RadioInputsSection>
+        {/* Allow SkillsSelect to set this component's state */}
+        <RequiredSkillsSection>
+          <h2>Required Skills</h2>
+          <TransitionGroup component={StyledSkillList}>
+            {requiredSkills.map((requiredSkill) => (
+              <CSSTransition
+                key={requiredSkill.name}
+                timeout={300}
+                classNames="transition"
+              >
+                <RequiredSkill
+                  name={requiredSkill.label}
+                  handleRemove={handleRemoveSkill}
+                />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+          <RequiredSkillsDropdown
+            requiredSkills={requiredSkills}
+            setRequiredSkills={setRequiredSkills}
+          />
+        </RequiredSkillsSection>
+        <h2>Description</h2>
         <StyledFormTextarea
+          {...register('description', { required: true })}
           id="description"
           cols="50"
           rows="4"
-          defaultValue="yo what up"
-        ></StyledFormTextarea>
-        {/* <Input
-          {...register('description', { required: true })}
-          type="textarea"
-          id="description"
-          label="Description"
-          isInvalid={errors.description}
-        /> */}
+          placeholder="yo what up"
+        />
         {loading ? (
           <CenterContainer>
             <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
           </CenterContainer>
         ) : (
           <PostJobButton type="submit">Post Job</PostJobButton>
+        )}
+        {status.message && (
+          <p style={{ color: status.error ? 'red' : 'green' }}>
+            {status.message}
+          </p>
         )}
       </form>
     </FormContainer>
@@ -238,13 +276,23 @@ const PostJobPage = (props) => {
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
       <Container>
-        {/* <Container> */}
         <FormImage />
-        <RegisterForm />
-        {/* </Container> */}
+        <PostJobForm />
       </Container>
     </Layout>
   )
 }
 
 export default PostJobPage
+
+// Redirect if user is not logged in
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = req.session.get('user')
+
+  if (user === undefined) {
+    res.setHeader('location', '/login')
+    res.statusCode = 302
+    return res.end()
+  }
+  return { props: {} }
+})

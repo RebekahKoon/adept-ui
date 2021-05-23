@@ -1,9 +1,13 @@
+import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
+import Loader from 'react-loader-spinner'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import { ADD_EDUCATION_TO_RESUME } from '../../queries/addEducationToResume'
+import { DELETE_EDUCATION } from '../../queries/deleteEducation'
+import { GET_USER_BY_ID } from '../../queries/getUserById'
 import Form from '../Form'
 import { Input } from '../Input'
 import {
@@ -12,10 +16,48 @@ import {
   StyledEducationGrid,
   StyledEducation,
   StyledEducationText,
+  StyledRemoveButton,
+  StyledAddEducationButton,
+  StyledRemoveButtonContainer,
 } from './EducationStyle'
 
-const EducationData = ({ educationData }) => {
-  return educationData.map((education) => (
+const EducationData = ({
+  userEducation,
+  setUserEducation,
+  userId,
+  education,
+}) => {
+  const [deleteEducation, { loading, error }] = useMutation(DELETE_EDUCATION, {
+    onCompleted({ deleteEducation }) {
+      if (deleteEducation) {
+        console.log(deleteEducation)
+        setUserEducation(
+          userEducation.filter(
+            (education) => education.educationId !== deleteEducation
+          )
+        )
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+    refetchQueries: [
+      {
+        query: GET_USER_BY_ID,
+        variables: { userId: userId },
+      },
+    ],
+    awaitRefetchQueries: true,
+  })
+
+  const handleDeleteEducation = (educationId) => {
+    console.log(educationId)
+    deleteEducation({
+      variables: { educationId: educationId },
+    })
+  }
+
+  return (
     <StyledEducation>
       <i className="fas fa-graduation-cap fa-3x"></i>
       <StyledEducationText>
@@ -28,15 +70,28 @@ const EducationData = ({ educationData }) => {
         <small>{education.major}</small>
         <small>{education.gpa ? education.gpa.toFixed(1) : ''}</small>
       </StyledEducationText>
+      <StyledRemoveButtonContainer>
+        {loading ? (
+          <Loader type="TailSpin" color="#570EF1" height={20} width={20} />
+        ) : (
+          <StyledRemoveButton
+            id={education.educationId}
+            onClick={() => handleDeleteEducation(education.educationId)}
+          >
+            <i className="fas fa-times"></i>
+          </StyledRemoveButton>
+        )}
+      </StyledRemoveButtonContainer>
     </StyledEducation>
-  ))
+  )
 }
 
-const FormInputFields = ({ userId }) => {
+const EducationForm = ({ userId, setUserEducation }) => {
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
@@ -46,11 +101,19 @@ const FormInputFields = ({ userId }) => {
       onCompleted({ addEducationToResume }) {
         if (addEducationToResume) {
           console.log(addEducationToResume)
+          setUserEducation(addEducationToResume.resume.education)
         }
       },
       onError(e) {
         console.log(e)
       },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: { userId: userId },
+        },
+      ],
+      awaitRefetchQueries: true,
     }
   )
 
@@ -61,87 +124,98 @@ const FormInputFields = ({ userId }) => {
       degree: data.degree,
       major: data.major,
       gpa: parseFloat(data.gpa),
-      // startDate: new Date(data.startDate).valueOf(),
-      // endDate: new Date(data.endDate).valueOf(),
       startDate: data.startDate,
       endDate: data.endDate,
     }
-    console.log(typeof data.startDate)
 
-    // const input = {
-    //   userId: '10737552-9018-497d-8e7a-064f99e8eeaa',
-    //   name: 'test',
-    //   degree: 'test',
-    //   major: 'test',
-    //   gpa: 4.0,
-    //   startDate: '2019-4-20',
-    //   endDate: '2021-6-10',
-    // }
+    console.log(input)
     addEducationToResume({ variables: input })
+    reset()
+  }
+
+  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
+  const handleButtonClick = () => {
+    formIsDisplayed === false
+      ? setFormIsDisplayed(true)
+      : setFormIsDisplayed(false)
+    reset()
   }
 
   return (
     <>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <Form
-          // inputFields={FormInputFields()}
-          buttonText={'Add Education'}
-        >
-          <Input
-            {...register('name', { required: true })}
-            type="text"
-            placeholder="Oregon State University"
-            id="name"
-            label="School name"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('degree', { required: true })}
-            type="text"
-            placeholder="Bachelor of Science"
-            id="degree"
-            label="Degree"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('major', { required: true })}
-            type="text"
-            placeholder="Computer Science"
-            id="major"
-            label="Major"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('gpa', { required: false })}
-            type="number"
-            placeholder="4.0"
-            id="gpa"
-            label="GPA"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('startDate', { required: true })}
-            type="date"
-            id="startDate"
-            name="startDate"
-            label="Start Date"
-            pattern="\d{4}-\d{2}-\d{2}"
-            isInvalid={errors.name}
-          />
-          <Input
-            {...register('endDate', { required: true })}
-            type="date"
-            id="endDate"
-            name="endDate"
-            label="End Date"
-            pattern="\d{4}-\d{2}-\d{2}"
-            isInvalid={errors.name}
-          />
-          {/* <button onClick={onSubmit}>Click</button> */}
-          {/* <button type="submit" value="Submit">
-          Submit
-        </button>
-        {loading ? 'Loading' : 'Added'} */}
+      <StyledAddEducationButton
+        onClick={handleButtonClick}
+        style={{ display: formIsDisplayed ? 'none' : 'flex' }}
+      >
+        Add Education
+      </StyledAddEducationButton>
+      <form
+        style={{ width: '100%', display: formIsDisplayed ? 'flex' : 'none' }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Form loading={loading} handleButtonClick={handleButtonClick}>
+          <div>
+            <Input
+              {...register('name', { required: 'School name is required' })}
+              type="text"
+              placeholder="Enter school name"
+              id="name"
+              label={'School name'}
+              isInvalid={errors.name}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('degree', { required: 'Degree type is required' })}
+              type="text"
+              placeholder="Enter your degree type"
+              id="degree"
+              label="Degree"
+              isInvalid={errors.degree}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('major', { required: 'Major is required' })}
+              type="text"
+              placeholder="Computer Science"
+              id="major"
+              label="Major"
+              isInvalid={errors.major}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('gpa', { required: false, max: 4.0, min: 0.0 })}
+              type="number"
+              placeholder="4.0"
+              id="gpa"
+              label="GPA"
+              // isInvalid={errors.gpa.message}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('startDate', { required: 'Start date is required' })}
+              type="date"
+              id="startDate"
+              name="startDate"
+              label="Start Date"
+              pattern="\d{4}-\d{2}-\d{2}"
+              isInvalid={errors.startDate}
+            />
+          </div>
+          <div>
+            <Input
+              {...register('endDate', { required: 'End date is required' })}
+              type="date"
+              id="endDate"
+              name="endDate"
+              label="End Date"
+              pattern="\d{4}-\d{2}-\d{2}"
+              isInvalid={errors.endDate}
+            />
+          </div>
         </Form>
       </form>
     </>
@@ -149,25 +223,28 @@ const FormInputFields = ({ userId }) => {
 }
 
 const Education = ({ educationData, userId }) => {
-  // const [formIsDisplayed, setFormIsDisplayed] = useState(false)
-  // const handleAddSchool = () => {
-  //   console.log('hi')
-  //   setFormIsDisplayed(true)
-  //   console.log(formIsDisplayed)
-  // }
-  console.log(userId)
+  const [userEducation, setUserEducation] = useState(educationData)
 
   return (
     <StyledEducationContainer>
       <StyledEducationContent>
         <h2>Education</h2>
         <StyledEducationGrid>
-          <EducationData educationData={educationData} />
+          {userEducation.map((education) => (
+            <EducationData
+              userEducation={userEducation}
+              setUserEducation={setUserEducation}
+              userId={userId}
+              education={education}
+            />
+          ))}
         </StyledEducationGrid>
       </StyledEducationContent>
-      {/* <Form inputFields={FormInputFields()} buttonText={'Add Education'}> */}
-      <FormInputFields userId={userId} />
-      {/* </Form> */}
+      <EducationForm
+        userId={userId}
+        userEducation={userEducation}
+        setUserEducation={setUserEducation}
+      />
     </StyledEducationContainer>
   )
 }
