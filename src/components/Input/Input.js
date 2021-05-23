@@ -9,7 +9,7 @@ const InputContainer = styled.div`
 `
 
 const Label = styled.label`
-  /* color: ${(props) => (props.isInvalid ? `red` : `var(--black)`)}; */
+  color: ${(props) => (props.isInvalid ? `red` : `var(--black)`)};
 `
 
 const StyledInput = styled.input`
@@ -29,7 +29,7 @@ export const Input = React.forwardRef((props, ref) => {
   return (
     <InputContainer>
       <Label htmlFor={id} isInvalid={isInvalid}>
-        {label}
+        {isInvalid?.message ? isInvalid.message : label}
       </Label>
       <StyledInput id={id} ref={ref} {...rest} />
     </InputContainer>

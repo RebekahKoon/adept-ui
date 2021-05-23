@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
+import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import CreatableSelect from 'react-select/creatable'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
 import { CREATE_SKILL } from '../queries/createSkill'
-import Select from 'react-select'
+import { ADD_SKILL_TO_USER } from '../queries/addSkillToUser'
+import { UPDATE_USER_LOCATION } from '../queries/updateUserLocation'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
@@ -82,6 +84,7 @@ const StyledSkillDropdownContainer = styled.div`
   justify-content: space-between;
 `
 
+// Styling for the skill dropdown menu
 export const StyledSkillDropdown = {
   option: (provided) => ({
     ...provided,
@@ -124,162 +127,18 @@ export const StyledSkillDropdown = {
   }),
 }
 
-const sampleUserData = {
-  data: {
-    getUserById: {
-      resume: {
-        education: [
-          {
-            name: 'University of Oregon',
-            degree: 'Bachelor of Science',
-            startDate: 2012,
-            endDate: 2016,
-            major: 'Educational Foundations',
-            gpa: 4.0,
-          },
-          {
-            name: 'Oregon State University',
-            degree: 'Bachelor of Science',
-            startDate: 2019,
-            endDate: 2021,
-            major: 'Computer Science',
-            gpa: 4.0,
-          },
-        ],
-        workExperience: [
-          {
-            company: 'Oregon State University',
-            position: 'Teaching Assistant',
-            startDate: 2019,
-            endDate: 2021,
-            isCurrentPosition: false,
-            city: 'Corvallis',
-            state: 'OR',
-            description: 'Teaching assistant for computer science courses.',
-          },
-          {
-            company: 'University of Oregon',
-            position: 'IT Assistant',
-            startDate: 2018,
-            isCurrentPosition: true,
-            city: 'Eugene',
-            state: 'OR',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
-            Suspendisse bibendum vel ligula id dapibus. Phasellus sed metus \
-            sed massa ullamcorper lobortis. Phasellus dictum neque justo. \
-            Sed vestibulum tellus vel maximus vehicula. Sed aliquam vitae nisi\
-             non elementum. Interdum et malesuada fames ac ante ipsum primis in\
-             faucibus. Fusce a lacinia urna, ac tincidunt magna. Nulla vel \
-             tellus velit. Mauris eget iaculis ipsum. Pellentesque dapibus \
-             nisi in ligula finibus malesuada.',
-          },
-        ],
-      },
-      skills: [
-        {
-          name: 'C',
-        },
-        {
-          name: 'C++',
-        },
-        {
-          name: 'CSS',
-        },
-        {
-          name: 'HTML',
-        },
-        {
-          name: 'JavaScript',
-        },
-        {
-          name: 'Object-oriented programming',
-        },
-        {
-          name: 'Python',
-        },
-        {
-          name: 'React',
-        },
-        {
-          name: 'SQL',
-        },
-        {
-          name: 'Teamwork',
-        },
-        {
-          name: 'Time management',
-        },
-      ],
-      contacts: [
-        {
-          name: 'Devin Nguyen',
-          email: 'nguyehu7@oregonstate.edu',
-          city: 'San Antonio',
-          state: 'TX',
-        },
-        {
-          name: 'Nathan Shelby',
-          email: 'shelbyn@oregonstate.edu',
-          city: 'Seattle',
-          state: 'WA',
-        },
-        {
-          name: 'Ridley',
-          email: 'riddles@doggo.com',
-          city: 'Eugene',
-          state: 'OR',
-        },
-      ],
-    },
-  },
+const UserSkills = ({ userSkills, setUserSkills, userId }) => {
+  return userSkills.map((skill) => (
+    <Skill
+      name={skill.name}
+      skillId={skill.skillId}
+      setUserSkills={setUserSkills}
+      userId={userId}
+    />
+  ))
 }
 
-const UserSkills = ({ userSkills }) => {
-  return userSkills.map((skill) => <Skill name={skill.name} />)
-}
-
-const UserContacts = ({ contacts }) => {
-  return contacts
-    ? contacts
-        .slice(0, 3)
-        .map((contact) => (
-          <Contact
-            name={contact.name}
-            email={contact.email}
-            city={contact.city}
-            state={contact.state}
-          />
-        ))
-    : null
-}
-
-const createOption = (label) => ({
-  label,
-  value: label.toLowerCase().replace(/\W/g, ''),
-})
-
-const DashboardSideBar = ({ currentUser, allSkills }) => {
-  // Used to open modal
-  const [isOpen, setIsOpen] = useState(false)
-  const openModal = () => {
-    setIsOpen(true)
-  }
-  const closeModal = () => {
-    setIsOpen(false)
-  }
-
-  const [createSkill, { loading, error }] = useMutation(CREATE_SKILL, {
-    onCompleted({ createSkill }) {
-      if (createSkill) {
-        console.log(createSkill)
-      }
-    },
-    onError(e) {
-      console.log(e)
-    },
-  })
-
+const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   // Dropdown skill list
   const dropdownSkills = allSkills.map((skill) => ({
     name: skill.skillId,
@@ -290,6 +149,60 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
   const [skills, setSkills] = useState(dropdownSkills)
   const [newSkill, setNewSkill] = useState()
   const [isLoading, setIsLoading] = useState(false)
+
+  const [
+    addSkillToUser,
+    { loading: addSkillToUserLoading, error: addSkillToUserError },
+  ] = useMutation(ADD_SKILL_TO_USER, {
+    onCompleted({ addSkillToUser }) {
+      if (addSkillToUser) {
+        console.log(addSkillToUser)
+        setUserSkills(addSkillToUser.skills)
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+    refetchQueries: [
+      {
+        query: GET_USER_BY_ID,
+        variables: { userId: userId },
+      },
+    ],
+    awaitRefetchQueries: true,
+  })
+
+  const [
+    createSkill,
+    { loading: createSkillLoading, error: createSkillError },
+  ] = useMutation(CREATE_SKILL, {
+    onCompleted({ createSkill }) {
+      if (createSkill) {
+        setSkills([
+          ...skills,
+          { name: createSkill.skillId, label: createSkill.name },
+        ])
+        setNewSkill({ name: createSkill.skillId, label: createSkill.name })
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+    refetchQueries: [
+      {
+        query: GET_ALL_SKILLS,
+      },
+    ],
+    awaitRefetchQueries: true,
+  })
+
+  const handleAddSkillToUser = () => {
+    if (newSkill) {
+      addSkillToUser({
+        variables: { userId: userId, skillId: newSkill.name },
+      })
+    }
+  }
 
   // Used to determine if the dropdown value has changed
   const handleChange = (newValue, actionMeta) => {
@@ -309,14 +222,69 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
       const newOption = createOption(newValue)
       console.log(newOption)
       console.groupEnd()
-
       setIsLoading(false)
-      setSkills([...skills, newOption])
-      setNewSkill(newValue)
 
       createSkill({ variables: { name: newValue } })
-    }, 1000)
+    }, 500)
   }
+
+  return (
+    <StyledSkillDropdownContainer>
+      <CreatableSelect
+        placeholder={'Add skill to user...'}
+        isClearable
+        isDisabled={isLoading}
+        isLoading={isLoading}
+        onChange={handleChange}
+        onCreateOption={handleCreate}
+        options={skills}
+        value={newSkill}
+        styles={StyledSkillDropdown}
+      />
+      {addSkillToUserLoading ? (
+        <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+      ) : (
+        <DashboardButton onClick={handleAddSkillToUser}>Add</DashboardButton>
+      )}
+    </StyledSkillDropdownContainer>
+  )
+}
+
+const UserContacts = ({ contacts, userId, setUserContacts }) => {
+  return contacts
+    ? contacts
+        .slice(0, 3)
+        .map((contact) => (
+          <Contact
+            name={contact.name}
+            email={contact.email}
+            city={contact.city}
+            state={contact.state}
+            contactId={contact.userId}
+            userId={userId}
+            setUserContacts={setUserContacts}
+          />
+        ))
+    : null
+}
+
+const createOption = (label) => ({
+  label,
+  value: label.toLowerCase().replace(/\W/g, ''),
+})
+
+const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
+  // Used to open modal
+  const [isOpen, setIsOpen] = useState(false)
+  const openModal = () => {
+    setIsOpen(true)
+  }
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
+  const [userSkills, setUserSkills] = useState(currentUser.skills)
+  const [userContacts, setUserContacts] = useState(currentUser.contacts)
 
   return (
     <StyledSideBar>
@@ -325,8 +293,12 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
           <i className="fas fa-user-circle fa-5x"></i>
         </p>
         <h2>{currentUser.name}</h2>
-        <div>Oregon State University</div>
-        <div>IT Assistant AKA Dishwasher</div>
+        <div>{currentUser.email}</div>
+        <div>
+          {currentUserPosition[0]
+            ? currentUserPosition[0].position
+            : 'Job seeker'}
+        </div>
         <div style={{ color: '#585858' }}>
           {currentUser.city
             ? `${currentUser.city}, `
@@ -337,25 +309,24 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
       <StyledSkillList>
-        <UserSkills userSkills={currentUser.skills} />
-      </StyledSkillList>
-      <StyledSkillDropdownContainer>
-        <CreatableSelect
-          placeholder={'Add skill to user...'}
-          isClearable
-          isDisabled={isLoading}
-          isLoading={isLoading}
-          onChange={handleChange}
-          onCreateOption={handleCreate}
-          options={skills}
-          value={newSkill}
-          styles={StyledSkillDropdown}
+        <UserSkills
+          userSkills={userSkills}
+          setUserSkills={setUserSkills}
+          userId={currentUser.userId}
         />
-        <DashboardButton>Add</DashboardButton>
-      </StyledSkillDropdownContainer>
+      </StyledSkillList>
+      <AddSkillDropdown
+        allSkills={allSkills}
+        userId={currentUser.userId}
+        setUserSkills={setUserSkills}
+      />
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Contacts</h2>
-      <UserContacts contacts={currentUser.contacts} />
+      <UserContacts
+        contacts={userContacts}
+        setUserContacts={setUserContacts}
+        userId={currentUser.userId}
+      />
       <DashboardButton onClick={openModal}>View All Contacts</DashboardButton>
       <ModalContext.Provider
         value={{
@@ -363,7 +334,12 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
           closeModal,
         }}
       >
-        <ContactsModal contacts={currentUser.contacts} numberContacts={420} />
+        <ContactsModal
+          contacts={userContacts}
+          setUserContacts={setUserContacts}
+          userId={currentUser.userId}
+          numberContacts={userContacts.length}
+        />
       </ModalContext.Provider>
     </StyledSideBar>
   )
@@ -373,6 +349,15 @@ const Dashboard = (props) => {
   console.log(props.allSkills)
   console.log(props.currentUser)
 
+  const [userWorkExperience, setUserWorkExperience] = useState(
+    props.currentUser.resume.workExperience
+  )
+  const [currentUserPosition, setCurrentUserPosition] = useState(
+    props.currentUser.resume.workExperience.filter(
+      (workExperience) => !workExperience.endDate
+    )
+  )
+
   return (
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
@@ -380,6 +365,7 @@ const Dashboard = (props) => {
         <StyledDashboardBody>
           <DashboardSideBar
             currentUser={props.currentUser}
+            currentUserPosition={currentUserPosition}
             allSkills={props.allSkills}
           />
           <StyledResume>
@@ -388,7 +374,9 @@ const Dashboard = (props) => {
               userId={props.currentUser.userId}
             />
             <WorkExperience
-              workExperienceData={props.currentUser.resume.workExperience}
+              userWorkExperience={userWorkExperience}
+              setUserWorkExperience={setUserWorkExperience}
+              setCurrentUserPosition={setCurrentUserPosition}
               userId={props.currentUser.userId}
             />
           </StyledResume>
