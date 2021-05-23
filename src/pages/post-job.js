@@ -13,6 +13,7 @@ import { CenterContainer } from '../components/styles'
 import { StyledFormTextarea } from '../components/WorkExperience'
 import withSession from '../lib/session'
 import useUser from '../lib/useUser'
+import SkillsSelect from '../components/SkillsSelect/SkillsSelect'
 
 const Container = styled(MainContentFlexContainer)`
   padding: 3.75rem 1rem;
@@ -219,6 +220,7 @@ const PostJobForm = () => {
             />
           </RadioInputs>
         </RadioInputsSection>
+        <SkillsSelect />
         <h2>Description</h2>
         <StyledFormTextarea
           {...register('description', { required: true })}

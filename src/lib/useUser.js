@@ -8,8 +8,8 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json())
  * Hook that gives access to the currently logged in user.
  * Allows for optional redirect.
  *
- * @param {redirectTo, redirectIfFound} options Optional redirect options
- * @returns {user, mutateUser} The current user based on the stored session cookie
+ * @param {object} options Optional redirect options
+ * @returns {object} The current user based on the stored session cookie
  */
 export default function useUser({
   redirectTo = false,
