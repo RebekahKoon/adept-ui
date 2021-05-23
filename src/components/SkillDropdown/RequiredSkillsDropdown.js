@@ -5,7 +5,8 @@ import CreatableSelect from 'react-select/creatable'
 import { CREATE_SKILL } from '../../queries/createSkill'
 import { GET_ALL_SKILLS } from '../../queries/getAllSkills'
 import { StyledButtonSolid } from '../Button'
-import { StyledSkillDropdown } from '../../pages/dashboard'
+import { InputWrapper } from '../Input'
+import StyledSkillDropdown from './SkillDropdownStyle'
 
 const StyledSkillDropdownContainer = styled.div`
   display: flex;
@@ -17,10 +18,7 @@ const StyledSkillDropdownContainer = styled.div`
 const DashboardButton = styled(StyledButtonSolid)`
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
-  width: 100%;
-  :hover {
-    background-color: #4510b7;
-  }
+  width: auto;
 `
 
 const createOption = (label) => ({
@@ -78,16 +76,16 @@ const SkillsSelect = ({ requiredSkills, setRequiredSkills }) => {
     setIsLoading(true)
     const newOption = createOption(newValue)
     setSkills([...skills, newOption])
-    setNewSkill(newValue)
+    // setNewSkill(newValue)
     await createSkill({ variables: { name: newValue } })
     setIsLoading(false)
   }
 
   return (
-    <>
-      <StyledSkillDropdownContainer>
+    <StyledSkillDropdownContainer>
+      <InputWrapper>
         <CreatableSelect
-          placeholder={'Add required skill'}
+          placeholder={'Search for a skill'}
           isClearable
           isDisabled={isLoading}
           isLoading={isLoading}
@@ -97,9 +95,11 @@ const SkillsSelect = ({ requiredSkills, setRequiredSkills }) => {
           value={newSkill}
           styles={StyledSkillDropdown}
         />
+      </InputWrapper>
+      <InputWrapper>
         <DashboardButton onClick={handleAddRequiredSkill}>Add</DashboardButton>
-      </StyledSkillDropdownContainer>
-    </>
+      </InputWrapper>
+    </StyledSkillDropdownContainer>
   )
 }
 

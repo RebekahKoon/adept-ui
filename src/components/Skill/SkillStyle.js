@@ -13,6 +13,9 @@ export const SkillContainer = styled.span`
   padding: 0.5rem 0.5rem 0.5rem 0.8rem;
   background: var(--lightBlue);
   border-radius: 1rem;
+  :hover {
+    cursor: default;
+  }
 `
 
 export const SkillButton = styled.button`
@@ -28,5 +31,8 @@ export const SkillButton = styled.button`
     :hover {
       color: var(--darkPurple);
     }
+  }
+  :hover {
+    cursor: pointer;
   }
 `

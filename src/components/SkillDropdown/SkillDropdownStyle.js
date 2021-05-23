@@ -1,5 +1,5 @@
 // Styling for the skill dropdown menu
-export const StyledSkillDropdown = {
+const StyledSkillDropdown = {
   option: (provided) => ({
     ...provided,
     color: '#191C3C',

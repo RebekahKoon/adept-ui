@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { MainContentFlexContainer } from '../components/styles'
 import SearchBar from '../components/SearchBar'
 import { useForm } from 'react-hook-form'
@@ -7,14 +8,16 @@ import { useMutation } from '@apollo/client'
 import Loader from 'react-loader-spinner'
 import { CREATE_JOB_POSTING } from '../queries/postJob'
 import Layout from '../components/Layout'
-import { Input, RadioInput } from '../components/Input'
+import { Input, RadioInput, InputWrapper } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
 import { CenterContainer } from '../components/styles'
 import { StyledFormTextarea } from '../components/WorkExperience'
 import withSession from '../lib/session'
 import useUser from '../lib/useUser'
-import SkillsSelect from '../components/SkillsSelect/SkillsSelect'
+// import SkillsSelect from '../components/SkillsSelect/SkillsSelect'
+import { RequiredSkillsDropdown } from '../components/SkillDropdown'
 import { RequiredSkill } from '../components/Skill'
+import { StyledSkillList } from '../components/SkillList'
 
 const Container = styled(MainContentFlexContainer)`
   padding: 3.75rem 1rem;
@@ -65,6 +68,10 @@ const RadioInputsSection = styled.section`
   }
 `
 
+const RequiredSkillsSection = styled.section`
+  padding-bottom: 2.5rem;
+`
+
 const RadioInputs = styled.div`
   display: flex;
   div {
@@ -76,19 +83,6 @@ const FormRow = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-`
-
-const InputWrapper = styled.div`
-  width: 100%;
-  padding-right: 35px;
-`
-
-const StyledSkillList = styled.div`
-  display: block;
-  width: 100%;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 1rem;
 `
 
 const FormHeader = () => {
@@ -231,20 +225,28 @@ const PostJobForm = () => {
             />
           </RadioInputs>
         </RadioInputsSection>
-        <StyledSkillList>
-          {requiredSkills.map((requiredSkill) => (
-            <RequiredSkill
-              name={requiredSkill.label}
-              handleRemove={handleRemoveSkill}
-              key={requiredSkill.name}
-            />
-          ))}
-        </StyledSkillList>
         {/* Allow SkillsSelect to set this component's state */}
-        <SkillsSelect
-          requiredSkills={requiredSkills}
-          setRequiredSkills={setRequiredSkills}
-        />
+        <RequiredSkillsSection>
+          <h2>Required Skills</h2>
+          <TransitionGroup component={StyledSkillList}>
+            {requiredSkills.map((requiredSkill) => (
+              <CSSTransition
+                key={requiredSkill.name}
+                timeout={300}
+                classNames="transition"
+              >
+                <RequiredSkill
+                  name={requiredSkill.label}
+                  handleRemove={handleRemoveSkill}
+                />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+          <RequiredSkillsDropdown
+            requiredSkills={requiredSkills}
+            setRequiredSkills={setRequiredSkills}
+          />
+        </RequiredSkillsSection>
         <h2>Description</h2>
         <StyledFormTextarea
           {...register('description', { required: true })}
