@@ -17,6 +17,7 @@ import useUser from '../lib/useUser'
 import { RequiredSkillsDropdown } from '../components/SkillDropdown'
 import { RequiredSkill } from '../components/Skill'
 import { StyledSkillList } from '../components/SkillList'
+import { FormGrid } from '../components/Form/FormStyle'
 
 const Container = styled.div`
   padding: 3.75rem 1rem;
@@ -40,6 +41,10 @@ const FormContainer = styled.div`
     margin: 0;
     padding-bottom: 1rem;
   }
+`
+
+export const PostJobFormGrid = styled(FormGrid)`
+  gap: 0 2.5rem;
 `
 
 const FormImage = styled.div`
@@ -79,12 +84,6 @@ const RadioInputs = styled.div`
   div {
     width: 50%;
   }
-`
-
-const FormRow = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
 `
 
 const FormHeader = () => {
@@ -142,12 +141,11 @@ const PostJobForm = () => {
       positionTitle: data.positionTitle,
       company: data.company,
       datePosted: new Date(Date.now()).toISOString(),
-      city: data.location,
-      // state: data.state,
+      city: data.city,
+      state: data.state,
       salary: Number(data.salary),
       type: data.type,
       description: data.description,
-      // TODO: change this to form data
       skillsRequired: requiredSkills.map((s) => s.name),
       postedBy: user.userId,
     }
@@ -159,50 +157,48 @@ const PostJobForm = () => {
     <FormContainer>
       <FormHeader />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormRow>
-          <InputWrapper>
-            <Input
-              {...register('positionTitle', { required: true })}
-              type="text"
-              placeholder="Position"
-              id="positionTitle"
-              label="Job Title"
-              isInvalid={errors.positionTitle}
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Input
-              {...register('company', { required: true })}
-              type="text"
-              placeholder="Your Company"
-              id="company"
-              label="Company"
-              isInvalid={errors.company}
-            />
-          </InputWrapper>
-        </FormRow>
-        <FormRow>
-          <InputWrapper>
-            <Input
-              {...register('location', { required: true })}
-              placeholder="City"
-              type="text"
-              id="location"
-              label="Location"
-              isInvalid={errors.location}
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Input
-              {...register('salary', { required: true })}
-              placeholder="Annual Salary"
-              type="number"
-              id="salary"
-              label="Salary"
-              isInvalid={errors.salary}
-            />
-          </InputWrapper>
-        </FormRow>
+        <PostJobFormGrid>
+          <Input
+            {...register('positionTitle', { required: true })}
+            type="text"
+            placeholder="Position"
+            id="positionTitle"
+            label="Job Title"
+            isInvalid={errors.positionTitle}
+          />
+          <Input
+            {...register('company', { required: true })}
+            type="text"
+            placeholder="Your Company"
+            id="company"
+            label="Company"
+            isInvalid={errors.company}
+          />
+          <Input
+            {...register('city', { required: true })}
+            placeholder="City"
+            type="text"
+            id="city"
+            label="City"
+            isInvalid={errors.city}
+          />
+          <Input
+            {...register('state', { required: true })}
+            placeholder="State/Province"
+            type="text"
+            id="state"
+            label="State/Province"
+            isInvalid={errors.state}
+          />
+          <Input
+            {...register('salary', { required: true })}
+            placeholder="Annual Salary"
+            type="number"
+            id="salary"
+            label="Salary"
+            isInvalid={errors.salary}
+          />
+        </PostJobFormGrid>
         <RadioInputsSection>
           <h2>Job Type</h2>
           <RadioInputs>
