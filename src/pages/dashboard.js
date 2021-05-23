@@ -3,13 +3,11 @@ import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
-import CreatableSelect from 'react-select/creatable'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
-import { CREATE_SKILL } from '../queries/createSkill'
 import { ADD_SKILL_TO_USER } from '../queries/addSkillToUser'
 import { UPDATE_USER_LOCATION } from '../queries/updateUserLocation'
 import { StyledButtonSolid } from '../components/Button'
@@ -22,6 +20,7 @@ import SearchBar from '../components/SearchBar'
 import Education from '../components/Education'
 import WorkExperience from '../components/WorkExperience'
 import Skill from '../components/Skill'
+import SkillDropdown from '../components/SkillDropdown'
 import Contact from '../components/Contact'
 import ContactsModal from '../components/ContactsModal'
 import ModalContext from '../context/ModalContext'
@@ -236,49 +235,6 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
   )
 }
 
-// Styling for the skill dropdown menu
-const StyledSkillDropdown = {
-  option: (provided) => ({
-    ...provided,
-    color: '#191C3C',
-    backgroundColor: '#FFFFFF',
-    '&:hover': {
-      backgroundColor: '#EEF2FF',
-    },
-  }),
-  control: (provided) => ({
-    ...provided,
-    borderRadius: '5px',
-    color: '#191C3C',
-    boxShadow: 'none',
-    border: '1px solid #D2D0C9',
-    width: '12rem',
-    marginRight: '.5rem',
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    color: '#AEB7D0',
-  }),
-  indicatorSeparator: (base) => ({
-    ...base,
-    display: 'none',
-  }),
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    color: '#311C87',
-    transition: 'all .25s ease',
-    transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : null,
-  }),
-  menu: (base) => ({
-    ...base,
-    width: '12rem',
-  }),
-  container: (base) => ({
-    ...base,
-    flex: 1,
-  }),
-}
-
 const UserSkills = ({ userSkills, setUserSkills, userId }) => {
   return userSkills.map((skill) => (
     <Skill
@@ -325,31 +281,6 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
     awaitRefetchQueries: true,
   })
 
-  // Mutation for creating a new skill
-  const [
-    createSkill,
-    { loading: createSkillLoading, error: createSkillError },
-  ] = useMutation(CREATE_SKILL, {
-    onCompleted({ createSkill }) {
-      if (createSkill) {
-        setSkills([
-          ...skills,
-          { name: createSkill.skillId, label: createSkill.name },
-        ])
-        setNewSkill({ name: createSkill.skillId, label: createSkill.name })
-      }
-    },
-    onError(e) {
-      console.log(e)
-    },
-    refetchQueries: [
-      {
-        query: GET_ALL_SKILLS,
-      },
-    ],
-    awaitRefetchQueries: true,
-  })
-
   const handleAddSkillToUser = () => {
     if (newSkill) {
       addSkillToUser({
@@ -358,42 +289,16 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
     }
   }
 
-  // Used to determine if the dropdown value has changed
-  const handleChange = (newValue, actionMeta) => {
-    console.group('Value Changed')
-    console.log(newValue)
-    console.log(`action: ${actionMeta.action}`)
-    console.groupEnd()
-    setNewSkill(newValue)
-  }
-
-  // Creating a new value for the dropdown and adding it to the database
-  const handleCreate = (newValue) => {
-    setIsLoading(true)
-    console.group('Option created')
-    console.log('Wait a moment...')
-    setTimeout(() => {
-      const newOption = createOption(newValue)
-      console.log(newOption)
-      console.groupEnd()
-      setIsLoading(false)
-
-      createSkill({ variables: { name: newValue } })
-    }, 500)
-  }
-
   return (
     <StyledSkillDropdownContainer>
-      <CreatableSelect
-        placeholder={'Add skill to user...'}
-        isClearable
-        isDisabled={isLoading}
+      <SkillDropdown
+        placeholderText={'Add skill to user...'}
         isLoading={isLoading}
-        onChange={handleChange}
-        onCreateOption={handleCreate}
-        options={skills}
-        value={newSkill}
-        styles={StyledSkillDropdown}
+        setIsLoading={setIsLoading}
+        skills={skills}
+        setSkills={setSkills}
+        newSkill={newSkill}
+        setNewSkill={setNewSkill}
       />
       {addSkillToUserLoading ? (
         <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
@@ -421,11 +326,6 @@ const UserContacts = ({ contacts, userId, setUserContacts }) => {
         ))
     : null
 }
-
-const createOption = (label) => ({
-  label,
-  value: label.toLowerCase().replace(/\W/g, ''),
-})
 
 const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
   // Used to open modal
