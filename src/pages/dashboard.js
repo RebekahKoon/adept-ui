@@ -100,7 +100,6 @@ const FormGrid = styled.div`
 `
 
 const StyledUpdateButton = styled(StyledButtonSolid)`
-  padding: 0.5rem;
   width: 48%;
   margin-left: 5px;
   margin-top: 1rem;
@@ -110,7 +109,7 @@ const StyledUpdateButton = styled(StyledButtonSolid)`
   }
 `
 
-const StyledCancelAddSkillButton = styled(StyledButtonSolid)`
+const StyledCancelUpdateButton = styled(StyledButtonSolid)`
   width: 48%;
   background-color: var(--lightGray);
   margin-right: 5px;
@@ -229,9 +228,9 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
             </div>
           ) : (
             <>
-              <StyledCancelAddSkillButton onClick={handleButtonClick}>
+              <StyledCancelUpdateButton onClick={handleButtonClick}>
                 Cancel
-              </StyledCancelAddSkillButton>
+              </StyledCancelUpdateButton>
               <StyledUpdateButton type="submit">Update</StyledUpdateButton>
             </>
           )}
