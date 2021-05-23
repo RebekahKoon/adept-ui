@@ -50,6 +50,7 @@ function SearchResultView(props) {
       selectedCheckboxes.delete(label)
     } else {
       selectedCheckboxes.add(label)
+      console.log(label)
     }
   }
 
@@ -180,7 +181,6 @@ function SearchResultView(props) {
             <SSRCheckBoxOption>
               <form onSubmit={handleFormSubmit}>
                 {createExperienceCheckboxes()}
-                <button type="submit">Submit</button>
               </form>
             </SSRCheckBoxOption>
           </SSRFilterOptions>
