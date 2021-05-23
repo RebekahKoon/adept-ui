@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const FooterStyles = styled.footer`
   background: var(--darkerPurple);
   display: flex;
+  flex-shrink: 1;
   h2 {
     margin: 1.25rem 0;
     font-size: 0.75rem;

@@ -60,7 +60,7 @@ function NavBar(props) {
             </StyledNavItem>
 
             <StyledNavItem>
-              <Link href="/search-results">Search</Link>
+              <Link href="/search-results?page=1">Search</Link>
             </StyledNavItem>
 
             <StyledNavItem>
