@@ -12,6 +12,7 @@ export const StyledButtonSolid = styled.button`
   padding: 0.375rem 1rem;
   :hover {
     cursor: pointer;
+    background-color: #4510b7;
     /* border: solid 1px var(--darkPurple);
     color: var(--darkPurple); */
   }

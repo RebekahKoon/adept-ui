@@ -1,11 +1,18 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
+import { useForm } from 'react-hook-form'
+import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
-import CreatableSelect from 'react-select/creatable'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
 import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
-import { CREATE_SKILL } from '../queries/createSkill'
-import Select from 'react-select'
+import { ADD_SKILL_TO_USER } from '../queries/addSkillToUser'
+import { UPDATE_USER_LOCATION } from '../queries/updateUserLocation'
+import { StyledButtonSolid } from '../components/Button'
+import { Input } from '../components/Input'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
@@ -14,13 +21,14 @@ import SearchBar from '../components/SearchBar'
 import Education from '../components/Education'
 import WorkExperience from '../components/WorkExperience'
 import Skill from '../components/Skill'
+import SkillDropdown from '../components/SkillDropdown'
 import Contact from '../components/Contact'
 import ContactsModal from '../components/ContactsModal'
 import ModalContext from '../context/ModalContext'
-import { StyledButtonSolid } from '../components/Button'
 import withSession from '../lib/session'
+import { StyledSkillList } from '../components/SkillList'
 
-export const StyledDashboardBody = styled.div`
+const StyledDashboardBody = styled.div`
   display: flex;
   margin: 0 auto;
   width: 100%;
@@ -41,16 +49,21 @@ export const StyledResume = styled.div`
   border-radius: 5px;
 `
 
-const DashboardButton = styled(StyledButtonSolid)`
+const AddSkillButton = styled(StyledButtonSolid)`
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
-  width: 100%;
+  margin-left: 5px;
+  width: 25%;
   :hover {
     background-color: #4510b7;
   }
 `
 
-const SideBarProfile = styled.div`
+const ViewContactsButton = styled(AddSkillButton)`
+  width: 100%;
+`
+
+const StyledSideBarProfile = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -65,14 +78,37 @@ const SideBarProfile = styled.div`
   .fa-user-circle {
     color: #585858;
   }
+
+  .fa-edit {
+    color: var(--lightGray);
+    :hover {
+      color: var(--purple);
+    }
+  }
 `
 
-const StyledSkillList = styled.div`
-  display: block;
+const EditButton = styled.button`
+  background: none;
+  border: none;
+`
+
+const FormGrid = styled.div`
+  margin: 0 auto;
+  display: inline-grid;
+  text-align: left;
+  grid-template-columns: repeat(2, minmax(50px, 600px));
+  gap: 1.5rem 1rem;
+  line-height: 1.25em;
+`
+
+const StyledUpdateButton = styled(StyledButtonSolid)`
+  padding: 0.5rem;
   width: 100%;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+
+  :hover {
+    background-color: #4510b7;
+  }
 `
 
 const StyledSkillDropdownContainer = styled.div`
@@ -82,204 +118,145 @@ const StyledSkillDropdownContainer = styled.div`
   justify-content: space-between;
 `
 
-export const StyledSkillDropdown = {
-  option: (provided) => ({
-    ...provided,
-    color: '#191C3C',
-    backgroundColor: '#FFFFFF',
-    '&:hover': {
-      backgroundColor: '#EEF2FF',
-    },
-  }),
-  control: (provided) => ({
-    ...provided,
-    borderRadius: '5px',
-    color: '#191C3C',
-    boxShadow: 'none',
-    border: '1px solid #D2D0C9',
-    width: '12rem',
-    marginRight: '.5rem',
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    color: '#AEB7D0',
-  }),
-  indicatorSeparator: (base) => ({
-    ...base,
-    display: 'none',
-  }),
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    color: '#311C87',
-    transition: 'all .25s ease',
-    transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : null,
-  }),
-  menu: (base) => ({
-    ...base,
-    width: '12rem',
-  }),
-  container: (base) => ({
-    ...base,
-    flex: 1,
-  }),
-}
+const SidebarProfile = ({ currentUser, currentUserPosition }) => {
+  const [userCity, setUserCity] = useState(currentUser.city)
+  const [userState, setUserState] = useState(currentUser.state)
 
-const sampleUserData = {
-  data: {
-    getUserById: {
-      resume: {
-        education: [
-          {
-            name: 'University of Oregon',
-            degree: 'Bachelor of Science',
-            startDate: 2012,
-            endDate: 2016,
-            major: 'Educational Foundations',
-            gpa: 4.0,
-          },
-          {
-            name: 'Oregon State University',
-            degree: 'Bachelor of Science',
-            startDate: 2019,
-            endDate: 2021,
-            major: 'Computer Science',
-            gpa: 4.0,
-          },
-        ],
-        workExperience: [
-          {
-            company: 'Oregon State University',
-            position: 'Teaching Assistant',
-            startDate: 2019,
-            endDate: 2021,
-            isCurrentPosition: false,
-            city: 'Corvallis',
-            state: 'OR',
-            description: 'Teaching assistant for computer science courses.',
-          },
-          {
-            company: 'University of Oregon',
-            position: 'IT Assistant',
-            startDate: 2018,
-            isCurrentPosition: true,
-            city: 'Eugene',
-            state: 'OR',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
-            Suspendisse bibendum vel ligula id dapibus. Phasellus sed metus \
-            sed massa ullamcorper lobortis. Phasellus dictum neque justo. \
-            Sed vestibulum tellus vel maximus vehicula. Sed aliquam vitae nisi\
-             non elementum. Interdum et malesuada fames ac ante ipsum primis in\
-             faucibus. Fusce a lacinia urna, ac tincidunt magna. Nulla vel \
-             tellus velit. Mauris eget iaculis ipsum. Pellentesque dapibus \
-             nisi in ligula finibus malesuada.',
-          },
-        ],
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({ mode: 'onSubmit' })
+
+  const [updateUserLocation, { loading, error }] = useMutation(
+    UPDATE_USER_LOCATION,
+    {
+      onCompleted({ updateUserLocation }) {
+        if (updateUserLocation) {
+          console.log(updateUserLocation)
+          setUserCity(updateUserLocation.city)
+          setUserState(updateUserLocation.state)
+          setFormIsDisplayed(false)
+        }
       },
-      skills: [
+      onError(e) {
+        console.log(e)
+      },
+      refetchQueries: [
         {
-          name: 'C',
-        },
-        {
-          name: 'C++',
-        },
-        {
-          name: 'CSS',
-        },
-        {
-          name: 'HTML',
-        },
-        {
-          name: 'JavaScript',
-        },
-        {
-          name: 'Object-oriented programming',
-        },
-        {
-          name: 'Python',
-        },
-        {
-          name: 'React',
-        },
-        {
-          name: 'SQL',
-        },
-        {
-          name: 'Teamwork',
-        },
-        {
-          name: 'Time management',
+          query: GET_USER_BY_ID,
+          variables: { userId: currentUser.userId },
         },
       ],
-      contacts: [
-        {
-          name: 'Devin Nguyen',
-          email: 'nguyehu7@oregonstate.edu',
-          city: 'San Antonio',
-          state: 'TX',
-        },
-        {
-          name: 'Nathan Shelby',
-          email: 'shelbyn@oregonstate.edu',
-          city: 'Seattle',
-          state: 'WA',
-        },
-        {
-          name: 'Ridley',
-          email: 'riddles@doggo.com',
-          city: 'Eugene',
-          state: 'OR',
-        },
-      ],
-    },
-  },
+      awaitRefetchQueries: true,
+    }
+  )
+
+  const onSubmit = (data) => {
+    const input = {
+      userId: currentUser.userId,
+      city: data.city ? data.city : '',
+      state: data.state ? data.state : '',
+    }
+
+    console.log(input)
+    updateUserLocation({ variables: input })
+    reset()
+  }
+
+  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
+  const handleButtonClick = () => {
+    formIsDisplayed === false
+      ? setFormIsDisplayed(true)
+      : setFormIsDisplayed(false)
+    reset()
+  }
+
+  return (
+    <StyledSideBarProfile>
+      <p>
+        <i className="fas fa-user-circle fa-5x"></i>
+      </p>
+      <h2>{currentUser.name}</h2>
+      <div>{currentUser.email}</div>
+      <div>
+        {currentUserPosition[0]
+          ? currentUserPosition[0].position
+          : 'Job seeker'}
+      </div>
+      {/* Displaying form if edit button is pressed */}
+      {formIsDisplayed ? (
+        <form style={{ padding: 0 }} onSubmit={handleSubmit(onSubmit)}>
+          <FormGrid>
+            <Input
+              {...register('city', { required: false })}
+              type="text"
+              placeholder="City"
+              id="city"
+              isInvalid={errors.city}
+              noPadding={true}
+            />
+            <Input
+              {...register('state', { required: false })}
+              type="text"
+              placeholder="State"
+              id="state"
+              isInvalid={errors.state}
+              noPadding={true}
+            />
+          </FormGrid>
+          {loading ? (
+            <div style={{ padding: '1.5rem' }}>
+              <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+            </div>
+          ) : (
+            <StyledUpdateButton type="submit">
+              Update Location
+            </StyledUpdateButton>
+          )}
+        </form>
+      ) : (
+        <div style={{ color: '#585858' }}>
+          {/* This is very hacky, don't know how else to make location centered lol */}
+          <EditButton style={{ visibility: 'hidden' }}>
+            <i className="fas fa-edit"></i>
+          </EditButton>
+          {!userCity && !userState ? 'Location not specified' : `${userCity}`}
+          {userCity && userState && ', '}
+          {userState ? userState : ''}{' '}
+          <EditButton onClick={handleButtonClick}>
+            <i className="fas fa-edit"></i>
+          </EditButton>
+        </div>
+      )}
+    </StyledSideBarProfile>
+  )
 }
 
-const UserSkills = ({ userSkills }) => {
-  return userSkills.map((skill) => <Skill name={skill.name} />)
-}
-
-const UserContacts = ({ contacts }) => {
-  return contacts
-    ? contacts
-        .slice(0, 3)
-        .map((contact) => (
-          <Contact
-            name={contact.name}
-            email={contact.email}
-            city={contact.city}
-            state={contact.state}
+const UserSkills = ({ userSkills, setUserSkills, userId }) => {
+  return (
+    <TransitionGroup component={StyledSkillList}>
+      {userSkills.map((skill) => (
+        <CSSTransition
+          key={skill.skillId}
+          timeout={300}
+          classNames="transition"
+        >
+          <Skill
+            name={skill.name}
+            skillId={skill.skillId}
+            setUserSkills={setUserSkills}
+            userId={userId}
           />
-        ))
-    : null
+        </CSSTransition>
+      ))}
+    </TransitionGroup>
+  )
 }
 
-const createOption = (label) => ({
-  label,
-  value: label.toLowerCase().replace(/\W/g, ''),
-})
-
-const DashboardSideBar = ({ currentUser, allSkills }) => {
-  // Used to open modal
-  const [isOpen, setIsOpen] = useState(false)
-  const openModal = () => {
-    setIsOpen(true)
-  }
-  const closeModal = () => {
-    setIsOpen(false)
-  }
-
-  const [createSkill, { loading, error }] = useMutation(CREATE_SKILL, {
-    onCompleted({ createSkill }) {
-      if (createSkill) {
-        console.log(createSkill)
-      }
-    },
-    onError(e) {
-      console.log(e)
-    },
-  })
-
+const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   // Dropdown skill list
   const dropdownSkills = allSkills.map((skill) => ({
     name: skill.skillId,
@@ -291,79 +268,137 @@ const DashboardSideBar = ({ currentUser, allSkills }) => {
   const [newSkill, setNewSkill] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
-  // Used to determine if the dropdown value has changed
-  const handleChange = (newValue, actionMeta) => {
-    console.group('Value Changed')
-    console.log(newValue)
-    console.log(`action: ${actionMeta.action}`)
-    console.groupEnd()
-    setNewSkill(newValue)
-  }
+  // Mutation for adding skill to a user
+  const [
+    addSkillToUser,
+    { loading: addSkillToUserLoading, error: addSkillToUserError },
+  ] = useMutation(ADD_SKILL_TO_USER, {
+    onCompleted({ addSkillToUser }) {
+      if (addSkillToUser) {
+        console.log(addSkillToUser)
+        setUserSkills(addSkillToUser.skills)
+      }
+    },
+    onError(e) {
+      console.log(e)
+    },
+    refetchQueries: [
+      {
+        query: GET_USER_BY_ID,
+        variables: { userId: userId },
+      },
+    ],
+    awaitRefetchQueries: true,
+  })
 
-  // Creating a new value for the dropdown and adding it to the database
-  const handleCreate = (newValue) => {
-    setIsLoading(true)
-    console.group('Option created')
-    console.log('Wait a moment...')
-    setTimeout(() => {
-      const newOption = createOption(newValue)
-      console.log(newOption)
-      console.groupEnd()
-
-      setIsLoading(false)
-      setSkills([...skills, newOption])
-      setNewSkill(newValue)
-
-      createSkill({ variables: { name: newValue } })
-    }, 1000)
+  const handleAddSkillToUser = () => {
+    if (newSkill) {
+      addSkillToUser({
+        variables: { userId: userId, skillId: newSkill.name },
+      })
+    }
   }
 
   return (
-    <StyledSideBar>
-      <SideBarProfile>
-        <p>
-          <i className="fas fa-user-circle fa-5x"></i>
-        </p>
-        <h2>{currentUser.name}</h2>
-        <div>Oregon State University</div>
-        <div>IT Assistant AKA Dishwasher</div>
-        <div style={{ color: '#585858' }}>
-          {currentUser.city
-            ? `${currentUser.city}, `
-            : 'Location not specified'}
-          {currentUser.state ? currentUser.state : ''}
+    <StyledSkillDropdownContainer>
+      <SkillDropdown
+        placeholderText={'Add skill to user...'}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        skills={skills}
+        setSkills={setSkills}
+        newSkill={newSkill}
+        setNewSkill={setNewSkill}
+      />
+      {addSkillToUserLoading ? (
+        <div
+          style={{
+            display: 'flex',
+            width: '25%',
+            marginLeft: '5px',
+            justifyContent: 'center',
+          }}
+        >
+          <Loader type="TailSpin" color="#570EF1" height={32} width={32} />
         </div>
-      </SideBarProfile>
+      ) : (
+        <AddSkillButton onClick={handleAddSkillToUser}>Add</AddSkillButton>
+      )}
+    </StyledSkillDropdownContainer>
+  )
+}
+
+const UserContacts = ({ contacts, userId, setUserContacts }) => {
+  return contacts
+    ? contacts
+        .slice(0, 3)
+        .map((contact) => (
+          <Contact
+            name={contact.name}
+            email={contact.email}
+            city={contact.city}
+            state={contact.state}
+            contactId={contact.userId}
+            userId={userId}
+            setUserContacts={setUserContacts}
+          />
+        ))
+    : null
+}
+
+const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
+  // Used to open modal
+  const [isOpen, setIsOpen] = useState(false)
+  const openModal = () => {
+    setIsOpen(true)
+  }
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
+  const [userSkills, setUserSkills] = useState(currentUser.skills)
+  const [userContacts, setUserContacts] = useState(currentUser.contacts)
+
+  return (
+    <StyledSideBar>
+      <SidebarProfile
+        currentUser={currentUser}
+        currentUserPosition={currentUserPosition}
+      />
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
-      <StyledSkillList>
-        <UserSkills userSkills={currentUser.skills} />
-      </StyledSkillList>
-      <StyledSkillDropdownContainer>
-        <CreatableSelect
-          placeholder={'Add skill to user...'}
-          isClearable
-          isDisabled={isLoading}
-          isLoading={isLoading}
-          onChange={handleChange}
-          onCreateOption={handleCreate}
-          options={skills}
-          value={newSkill}
-          styles={StyledSkillDropdown}
-        />
-        <DashboardButton>Add</DashboardButton>
-      </StyledSkillDropdownContainer>
+      <UserSkills
+        userSkills={userSkills}
+        setUserSkills={setUserSkills}
+        userId={currentUser.userId}
+      />
+      <AddSkillDropdown
+        allSkills={allSkills}
+        userId={currentUser.userId}
+        setUserSkills={setUserSkills}
+      />
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Contacts</h2>
-      <UserContacts contacts={currentUser.contacts} />
-      <DashboardButton onClick={openModal}>View All Contacts</DashboardButton>
+      <UserContacts
+        contacts={userContacts}
+        setUserContacts={setUserContacts}
+        userId={currentUser.userId}
+      />
+      <ViewContactsButton onClick={openModal}>
+        View All Contacts
+      </ViewContactsButton>
       <ModalContext.Provider
         value={{
           isOpen,
           closeModal,
         }}
       >
-        <ContactsModal contacts={currentUser.contacts} numberContacts={420} />
+        <ContactsModal
+          contacts={userContacts}
+          setUserContacts={setUserContacts}
+          userId={currentUser.userId}
+          numberContacts={userContacts.length}
+        />
       </ModalContext.Provider>
     </StyledSideBar>
   )
@@ -373,6 +408,15 @@ const Dashboard = (props) => {
   console.log(props.allSkills)
   console.log(props.currentUser)
 
+  const [userWorkExperience, setUserWorkExperience] = useState(
+    props.currentUser.resume.workExperience
+  )
+  const [currentUserPosition, setCurrentUserPosition] = useState(
+    props.currentUser.resume.workExperience.filter(
+      (workExperience) => !workExperience.endDate
+    )
+  )
+
   return (
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
@@ -380,6 +424,7 @@ const Dashboard = (props) => {
         <StyledDashboardBody>
           <DashboardSideBar
             currentUser={props.currentUser}
+            currentUserPosition={currentUserPosition}
             allSkills={props.allSkills}
           />
           <StyledResume>
@@ -388,7 +433,9 @@ const Dashboard = (props) => {
               userId={props.currentUser.userId}
             />
             <WorkExperience
-              workExperienceData={props.currentUser.resume.workExperience}
+              userWorkExperience={userWorkExperience}
+              setUserWorkExperience={setUserWorkExperience}
+              setCurrentUserPosition={setCurrentUserPosition}
               userId={props.currentUser.userId}
             />
           </StyledResume>

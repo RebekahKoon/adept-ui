@@ -47,7 +47,7 @@ const Hero = () => {
           <HeroMessage textAlign="left">Start your journey to</HeroMessage>
           <HeroMessage textAlign="right">become an expert</HeroMessage>
           <Divider />
-          <LargeButtonOutline href="/">Get Started</LargeButtonOutline>
+          <LargeButtonOutline href="/register">Get Started</LargeButtonOutline>
         </StyledHeroContent>
       </MainContentContainer>
     </StyledHero>

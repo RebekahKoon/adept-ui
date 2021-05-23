@@ -4,6 +4,7 @@ import {
   StyledEducationContent,
   StyledEducation,
   StyledEducationText,
+  StyledAddEducationButton,
 } from '../Education/EducationStyle'
 
 export const StyledWorkExperienceContainer = styled(StyledEducationContainer)``
@@ -13,8 +14,11 @@ export const StyledWorkExperienceContent = styled(StyledEducationContent)`
 `
 
 export const StyledWorkExperience = styled(StyledEducation)`
+  width: 100%;
   line-height: 1.8em;
+  margin: auto;
   margin-bottom: 2.5rem;
+  padding: 0px, auto;
 
   b {
     line-height: 1.2em;
@@ -25,10 +29,18 @@ export const StyledWorkExperience = styled(StyledEducation)`
     display: inline-block;
     vertical-align: top;
   }
+
+  .fa-times {
+    color: var(--lightGray);
+    :hover {
+      color: var(--purple);
+    }
+  }
 `
 
 export const StyledWorkExperienceText = styled(StyledEducationText)`
   margin-left: 1.3rem;
+  width: 100%;
 `
 
 export const StyledFormTextarea = styled.textarea`
@@ -54,5 +66,18 @@ export const StyledFormTextarea = styled.textarea`
 export const StyledLabel = styled.label`
   font-size: 0.875rem;
 `
+
+export const StyledRemoveButtonContainer = styled.div`
+  left: 100%;
+  transform: translate(-100%, 0);
+  justify-content: right;
+`
+
+export const StyledRemoveButton = styled.button`
+  border: none;
+  background-color: var(--white);
+`
+
+export const StyledAddWorkExperienceButton = styled(StyledAddEducationButton)``
 
 export default StyledEducationContainer

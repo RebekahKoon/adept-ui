@@ -1,37 +1,29 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import Loader from 'react-loader-spinner'
 import {
   FormContainer,
   FormGrid,
-  StyledAddToResumeButton,
   StyledButtonContainer,
   StyledSubmitButton,
   StyledCancelButton,
 } from './FormStyle'
 
-const Form = ({ children, buttonText }) => {
-  const [formIsDisplayed, setFormIsDisplayed] = useState(false)
-  const handleButtonClick = () => {
-    formIsDisplayed === false
-      ? setFormIsDisplayed(true)
-      : setFormIsDisplayed(false)
-  }
-
+const Form = ({ children, loading, handleButtonClick }) => {
   return (
     <>
-      <StyledAddToResumeButton
-        onClick={handleButtonClick}
-        style={{ display: formIsDisplayed ? 'none' : 'flex' }}
-      >
-        {buttonText}
-      </StyledAddToResumeButton>
-      <FormContainer style={{ display: formIsDisplayed ? 'flex' : 'none' }}>
+      <FormContainer>
         <FormGrid>{children}</FormGrid>
         <StyledButtonContainer>
-          <StyledCancelButton onClick={handleButtonClick}>
-            Cancel
-          </StyledCancelButton>
-          <StyledSubmitButton type="submit">Submit</StyledSubmitButton>
+          {loading ? (
+            <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+          ) : (
+            <>
+              <StyledCancelButton onClick={handleButtonClick}>
+                Cancel
+              </StyledCancelButton>
+              <StyledSubmitButton type="submit">Submit</StyledSubmitButton>
+            </>
+          )}
         </StyledButtonContainer>
       </FormContainer>
     </>

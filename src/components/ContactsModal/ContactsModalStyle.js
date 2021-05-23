@@ -47,4 +47,22 @@ export const StyledContactsInput = styled(StyledInput)`
   border-radius: 5px;
 `
 
+export const ExitButtonContainer = styled.div`
+  margin-bottom: 4.5rem;
+
+  .fa-times {
+    color: var(--lightGray);
+
+    :hover {
+      color: var(--purple);
+    }
+  }
+`
+
+export const StyledExitButton = styled.button`
+  float: right;
+  background: none;
+  border: none;
+`
+
 export default modalStyle
