@@ -104,7 +104,6 @@ const FormInputFields = ({
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
@@ -268,6 +267,7 @@ const WorkExperience = ({
         <h2>Work Experience</h2>
         {userWorkExperience.map((workExperience) => (
           <WorkExperienceData
+            key={workExperience.workExpId}
             userWorkExperience={userWorkExperience}
             setUserWorkExperience={setUserWorkExperience}
             setCurrentUserPosition={setCurrentUserPosition}

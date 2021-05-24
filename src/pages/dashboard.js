@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -25,6 +26,7 @@ import Contact from '../components/Contact'
 import ContactsModal from '../components/ContactsModal'
 import ModalContext from '../context/ModalContext'
 import withSession from '../lib/session'
+import { StyledSkillList } from '../components/SkillList'
 
 const StyledDashboardBody = styled.div`
   display: flex;
@@ -119,14 +121,6 @@ const StyledCancelUpdateButton = styled(StyledButtonSolid)`
   }
 `
 
-const StyledSkillList = styled.div`
-  display: block;
-  width: 100%;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`
-
 const StyledSkillDropdownContainer = styled.div`
   display: flex;
   width: 100%;
@@ -141,7 +135,6 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
@@ -255,14 +248,24 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
 }
 
 const UserSkills = ({ userSkills, setUserSkills, userId }) => {
-  return userSkills.map((skill) => (
-    <Skill
-      name={skill.name}
-      skillId={skill.skillId}
-      setUserSkills={setUserSkills}
-      userId={userId}
-    />
-  ))
+  return (
+    <TransitionGroup component={StyledSkillList}>
+      {userSkills.map((skill) => (
+        <CSSTransition
+          key={skill.skillId}
+          timeout={300}
+          classNames="transition"
+        >
+          <Skill
+            name={skill.name}
+            skillId={skill.skillId}
+            setUserSkills={setUserSkills}
+            userId={userId}
+          />
+        </CSSTransition>
+      ))}
+    </TransitionGroup>
+  )
 }
 
 const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
@@ -343,6 +346,7 @@ const UserContacts = ({ contacts, userId, setUserContacts }) => {
         .slice(0, 3)
         .map((contact) => (
           <Contact
+            key={contact.userId}
             name={contact.name}
             email={contact.email}
             city={contact.city}
@@ -375,21 +379,19 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
         currentUserPosition={currentUserPosition}
       />
       <hr></hr>
-      <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
-      <StyledSkillList>
-        <UserSkills
-          userSkills={userSkills}
-          setUserSkills={setUserSkills}
-          userId={currentUser.userId}
-        />
-      </StyledSkillList>
+      <h2>{`${currentUser.name.split(' ')[0]}'s Skills`}</h2>
+      <UserSkills
+        userSkills={userSkills}
+        setUserSkills={setUserSkills}
+        userId={currentUser.userId}
+      />
       <AddSkillDropdown
         allSkills={allSkills}
         userId={currentUser.userId}
         setUserSkills={setUserSkills}
       />
       <hr></hr>
-      <h2>{currentUser.name.split(' ')[0]}'s Contacts</h2>
+      <h2>{`${currentUser.name.split(' ')[0]}'s Contacts`}</h2>
       <UserContacts
         contacts={userContacts}
         setUserContacts={setUserContacts}

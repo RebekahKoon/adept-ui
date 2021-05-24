@@ -26,11 +26,16 @@ import {
 } from './SearchResultStyle'
 
 function SearchResult(props) {
-  console.log(props.data)
   const dataArr = props.data.skillsRequired
   const handleClick = (e) => {
     e.preventDefault()
-    Router.push('/job-posting?q=' + props.data.company + '&id=' + props.id)
+    var currPage = props.currPage - 1
+    var id = currPage * 5 + props.id
+    if (props.q) {
+      Router.push('/job-posting?q=' + props.q + '&id=' + id)
+    } else {
+      Router.push('/job-posting?id=' + id)
+    }
   }
 
   const createSkillDivs = () =>

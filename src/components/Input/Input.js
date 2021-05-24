@@ -24,6 +24,7 @@ const StyledInput = styled.input`
 `
 
 // props contains all possible input props
+// eslint-disable-next-line react/display-name
 export const Input = React.forwardRef((props, ref) => {
   const { id, label, isInvalid, noPadding, ...rest } = props
   return (

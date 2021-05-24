@@ -1,16 +1,12 @@
 import { gql } from '@apollo/client'
 
-export const SEARCH_JOBS = gql`
-  query SearchQuery($searchTerm: String) {
-    searchJobPostings(
-      company: $searchTerm
-      positionTitle: $searchTerm
-      city: $searchTerm
-      state: $searchTerm
-    ) {
+export const GET_ALL_JOBS = gql`
+  query GetAllJobPostings {
+    getAllJobPostings {
       jobPostId
       positionTitle
       company
+      datePosted
       city
       state
       salary

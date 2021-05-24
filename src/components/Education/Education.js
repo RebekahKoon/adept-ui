@@ -248,6 +248,7 @@ const Education = ({ educationData, userId }) => {
         <StyledEducationGrid>
           {userEducation.map((education) => (
             <EducationData
+              key={education.educationId}
               userEducation={userEducation}
               setUserEducation={setUserEducation}
               userId={userId}
