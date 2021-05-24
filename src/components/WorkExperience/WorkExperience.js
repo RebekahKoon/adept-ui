@@ -109,6 +109,8 @@ const FormInputFields = ({
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
+  const [endDateError, setEndDateError] = useState()
+
   const [addWorkExperienceToResume, { loading, error }] = useMutation(
     ADD_WORK_EXPERIENCE_TO_RESUME,
     {
@@ -150,9 +152,13 @@ const FormInputFields = ({
       description: data.description,
     }
 
-    console.log(input)
-    addWorkExperienceToResume({ variables: input })
-    reset()
+    if (data.endDate && data.endDate < data.startDate) {
+      setEndDateError({ message: 'End date must be greater than start date' })
+    } else {
+      setEndDateError()
+      addWorkExperienceToResume({ variables: input })
+      reset()
+    }
   }
 
   const [formIsDisplayed, setFormIsDisplayed] = useState(false)
@@ -222,6 +228,7 @@ const FormInputFields = ({
             type="date"
             id="endDate"
             label="End Date (If Applicable)"
+            isInvalid={endDateError}
           />
           <div>
             <StyledLabel

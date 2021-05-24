@@ -95,6 +95,8 @@ const EducationForm = ({ userId, setUserEducation }) => {
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
+  const [endDateError, setEndDateError] = useState()
+
   const [addEducationToResume, { loading, error }] = useMutation(
     ADD_EDUCATION_TO_RESUME,
     {
@@ -129,8 +131,18 @@ const EducationForm = ({ userId, setUserEducation }) => {
     }
 
     console.log(input)
-    addEducationToResume({ variables: input })
-    reset()
+
+    if (data.endDate < data.startDate) {
+      setEndDateError({ message: 'End date must be greater than start date' })
+    } else {
+      setEndDateError()
+      addEducationToResume({ variables: input })
+      reset()
+    }
+
+    // console.log(input)
+    // addEducationToResume({ variables: input })
+    // reset()
   }
 
   const [formIsDisplayed, setFormIsDisplayed] = useState(false)
@@ -186,12 +198,16 @@ const EducationForm = ({ userId, setUserEducation }) => {
           </div>
           <div>
             <Input
-              {...register('gpa', { required: false, max: 4.0, min: 0.0 })}
+              {...register('gpa', {
+                required: false,
+                max: { value: 4.0, message: 'GPA must be between 0.0 and 4.0' },
+                min: { value: 0.0, message: 'GPA must be between 0.0 and 4.0' },
+              })}
               type="number"
               placeholder="4.0"
               id="gpa"
               label="GPA"
-              // isInvalid={errors.gpa.message}
+              isInvalid={errors.gpa}
             />
           </div>
           <div>
@@ -213,7 +229,7 @@ const EducationForm = ({ userId, setUserEducation }) => {
               name="endDate"
               label="End Date"
               pattern="\d{4}-\d{2}-\d{2}"
-              isInvalid={errors.endDate}
+              isInvalid={endDateError ? endDateError : errors.endDate}
             />
           </div>
         </Form>
