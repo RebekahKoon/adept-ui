@@ -6,9 +6,7 @@ const StyledSearchResults = styled.div`
   justify-content: center;
   align-items: flex-start;
 
-  position: static;
   width: var(--maxWidth);
-  height: 1357px;
   left: 0px;
   top: 298.5px;
 `
@@ -18,9 +16,7 @@ export const SSRSearchResults = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  position: static;
   width: 68%;
-  height: 964px;
   left: 390px;
   top: 16.5px;
 `
@@ -30,9 +26,7 @@ export const SSRMain = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  position: static;
   width: 1140px;
-  //height: 1189px;
   left: 150px;
   top: 40px;
 `
@@ -42,9 +36,7 @@ export const SSRMainContentContainer = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  position: static;
   width: 1140px;
-  height: 997px;
   left: 16px;
   top: 44px;
 `
@@ -55,7 +47,6 @@ export const SSRSearchResultsHeader = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  position: static;
   width: 100%;
   height: 4rem;
 `
@@ -65,7 +56,6 @@ export const SSRSortByDropdown = styled.div`
   flex-direction: row;
   align-items: center;
 
-  position: static;
   height: 1rem;
 `
 
@@ -81,7 +71,6 @@ export const SSRFilterOptions = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  position: static;
   height: 160px;
   left: 0px;
   top: 31px;
@@ -96,7 +85,6 @@ export const SSRDividerContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  position: static;
   width: 270px;
   height: 40px;
   left: 40px;
@@ -104,7 +92,6 @@ export const SSRDividerContainer = styled.div`
 `
 
 export const SSRDivider = styled.div`
-  position: static;
   width: 190px;
   height: 0px;
   left: 0px;
@@ -175,7 +162,6 @@ export const SSRMainContentFooter = styled.div`
   align-items: center;
   padding: 0px;
 
-  position: static;
   width: 1108px;
   height: 132px;
   left: 16px;
@@ -188,7 +174,6 @@ export const SSRFooterPagination = styled.div`
   align-items: center;
   padding: 40px;
 
-  position: static;
   width: 462px;
   height: 132px;
   left: 323px;
@@ -202,7 +187,6 @@ export const SSRFooterPrev = styled.div`
   align-items: center;
   padding: 14px 19px;
 
-  position: static;
   width: 62px;
   height: 52px;
   left: 40px;
@@ -223,28 +207,10 @@ export const SSRFooterPageNumber = styled.div`
   align-items: center;
   padding: 14px 19px;
 
-  position: static;
-  width: 48px;
+  width: 200px;
   height: 49px;
   left: 152px;
   top: 41.5px;
-`
-
-export const SSRFooterCurPage = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 14px 19px;
-
-  position: static;
-  width: 48px;
-  height: 49px;
-  left: 103px;
-  top: 41.5px;
-
-  background: #570ff1;
-  border-radius: 50px;
 `
 
 export const SSRFooterNext = styled.div`
@@ -254,7 +220,6 @@ export const SSRFooterNext = styled.div`
   align-items: center;
   padding: 14px 19px;
 
-  position: static;
   width: 62px;
   height: 52px;
   left: 360px;
