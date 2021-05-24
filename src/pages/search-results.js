@@ -33,7 +33,6 @@ import {
   SSRFooterPagination,
   SSRFooterPrev,
   SSRFooterPageNumber,
-  SSRFooterCurPage,
   SSRFooterNext,
 } from '../styles/SearchResultsStyle'
 
