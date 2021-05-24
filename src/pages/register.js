@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
 import Loader from 'react-loader-spinner'
+import Link from 'next/link'
 import { REGISTER_USER } from '../queries/register'
 import Layout from '../components/Layout'
 import { Input, RadioInput } from '../components/Input'
@@ -98,7 +99,7 @@ const FormFooter = () => {
   return (
     <FormFooterStyles>
       <div>
-        Already have an account? <a>Sign in</a>
+        Already have an account? <Link href="/login">Sign in</Link>
       </div>
       <div>
         <a>Forgot Password?</a>
@@ -116,7 +117,7 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    setError,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
@@ -133,25 +134,30 @@ const RegisterForm = () => {
         // console.log(registerUser)
       }
     },
-    onError(e) {
-      console.log(e)
+    onError(err) {
+      throw err
     },
   })
 
   const onSubmit = async (data) => {
+    const PASSWORD_MISMATCH = 'Password does not match'
+    const UNIQUE_CONSTRAINT = 'unique'
     const input = {
       name: data.name,
       email: data.email,
       password: data.password,
       type: data.type,
     }
-    await registerUser({ variables: input })
-    const body = {
-      email: data.email,
-      password: data.password,
-    }
-    setIsLoginLoading(true)
     try {
+      if (data.password !== data.confirmPassword) {
+        throw new Error(PASSWORD_MISMATCH)
+      }
+      await registerUser({ variables: input })
+      const body = {
+        email: data.email,
+        password: data.password,
+      }
+      setIsLoginLoading(true)
       await mutateUser(
         fetchJson('/api/login', {
           method: 'POST',
@@ -160,7 +166,22 @@ const RegisterForm = () => {
         })
       )
     } catch (err) {
-      console.log(err)
+      if (err.message.includes(UNIQUE_CONSTRAINT)) {
+        console.log('UNIQUE')
+        setError('email', {
+          type: 'manual',
+          message: 'Email unavailable',
+        })
+      }
+      if (err.message.includes(PASSWORD_MISMATCH)) {
+        console.log('PASSWORDS')
+        setError('password', {
+          type: 'manual',
+        })
+        setError('confirmPassword', {
+          type: 'manual',
+        })
+      }
     }
     setIsLoginLoading(false)
   }
@@ -170,15 +191,19 @@ const RegisterForm = () => {
       <FormHeader />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
-          {...register('name', { required: true })}
+          {...register('name', {
+            required: { value: true, message: 'Name required' },
+          })}
           type="text"
-          placeholder="john doe"
+          placeholder="Michael Scott"
           id="name"
           label="Name"
           isInvalid={errors.name}
         />
         <Input
-          {...register('email', { required: true })}
+          {...register('email', {
+            required: { value: true, message: 'Email required' },
+          })}
           type="email"
           placeholder="hello@adept.com"
           id="email"
@@ -186,16 +211,20 @@ const RegisterForm = () => {
           isInvalid={errors.email}
         />
         <Input
-          {...register('password', { required: true })}
-          placeholder="password"
+          {...register('password', {
+            required: { value: true, message: 'Password required' },
+          })}
+          placeholder="Password"
           type="password"
           id="password"
           label="Password"
           isInvalid={errors.password}
         />
         <Input
-          {...register('confirmPassword', { required: true })}
-          placeholder="password"
+          {...register('confirmPassword', {
+            required: { value: true, message: 'Confirm Password required' },
+          })}
+          placeholder="Confirm Password"
           type="password"
           id="confirmPassword"
           label="Confirm Password"

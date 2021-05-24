@@ -44,6 +44,9 @@ const FormContainer = styled.div`
     margin: 0;
     padding-bottom: 1rem;
   }
+  label {
+    font-size: 0.875rem;
+  }
 `
 
 export const PostJobFormGrid = styled(FormGrid)`
@@ -187,9 +190,7 @@ const PostJobForm = () => {
             isInvalid={errors.city}
           />
           <section>
-            <label htmlFor="state" style={{ fontSize: '0.875rem' }}>
-              State
-            </label>
+            <label htmlFor="state">State</label>
             <Controller
               name="state"
               isClearable
