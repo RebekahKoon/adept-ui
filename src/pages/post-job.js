@@ -9,7 +9,7 @@ import { useMutation } from '@apollo/client'
 import Loader from 'react-loader-spinner'
 import { CREATE_JOB_POSTING } from '../queries/postJob'
 import Layout from '../components/Layout'
-import { Input, RadioInput } from '../components/Input'
+import { Input, RadioInput, Label } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
 import { CenterContainer } from '../components/styles'
 import { StyledFormTextarea } from '../components/WorkExperience'
@@ -190,11 +190,14 @@ const PostJobForm = () => {
             isInvalid={errors.city}
           />
           <section>
-            <label htmlFor="state">State</label>
+            <Label htmlFor="state" isInvalid={errors.state}>
+              State
+            </Label>
             <Controller
               name="state"
               isClearable
               control={control}
+              rules={{ required: true }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -242,7 +245,17 @@ const PostJobForm = () => {
         </RadioInputsSection>
         {/* Allow SkillsSelect to set this component's state */}
         <RequiredSkillsSection>
-          <h2>Required Skills</h2>
+          <Label htmlFor="requiredSkills" isInvalid={errors.requiredSkills}>
+            <h2>Required Skills</h2>
+          </Label>
+          {/* Allows us to validate required skills, which isn't a traditional input */}
+          <input
+            {...register('requiredSkills', {
+              validate: () => requiredSkills?.length !== 0,
+            })}
+            type="hidden"
+            id="requiredSkills"
+          />
           <TransitionGroup component={StyledSkillList}>
             {requiredSkills.map((requiredSkill) => (
               <CSSTransition
@@ -262,7 +275,9 @@ const PostJobForm = () => {
             setRequiredSkills={setRequiredSkills}
           />
         </RequiredSkillsSection>
-        <h2>Description</h2>
+        <Label htmlFor="description" isInvalid={errors.description}>
+          <h2>Description</h2>
+        </Label>
         <StyledFormTextarea
           {...register('description', { required: true })}
           id="description"
