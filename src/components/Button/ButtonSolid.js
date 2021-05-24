@@ -18,10 +18,10 @@ export const StyledButtonSolid = styled.button`
   }
 `
 
-export const ButtonSolid = ({ href, children }) => {
+export const ButtonSolid = ({ href, children, ...rest }) => {
   return (
     <Link href={href ?? ''}>
-      <StyledButtonSolid>{children}</StyledButtonSolid>
+      <StyledButtonSolid {...rest}>{children}</StyledButtonSolid>
     </Link>
   )
 }

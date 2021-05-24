@@ -7,7 +7,12 @@ const RequiredSkill = ({ name, handleRemove }) => {
   return (
     <SkillContainer>
       {name}{' '}
-      <SkillButton onClick={() => handleRemove(name)}>
+      <SkillButton
+        onClick={(e) => {
+          e.preventDefault()
+          handleRemove(name)
+        }}
+      >
         <i className="fas fa-times"></i>
       </SkillButton>
     </SkillContainer>
