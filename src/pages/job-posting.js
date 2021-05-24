@@ -12,6 +12,7 @@ import JobPostingNavContainer from '../styles/JobPostingStyle'
 import useUser from '../lib/useUser'
 import client from '../apollo/apolloClient'
 import { SEARCH_JOBS } from '../queries/search'
+import { GET_ALL_JOBS } from '../queries/getAllJobPostings'
 import {
   JobPostingNavContent,
   JobPostingReturn,
@@ -40,7 +41,12 @@ import {
 function JobPostingView(props) {
   const handleClick = (e) => {
     e.preventDefault()
-    Router.push('/search-results?q=' + props.q)
+    var page = Math.floor(props.id / 5) + 1
+    if (props.q) {
+      Router.push('/search-results?page=' + page + '&q=' + props.q)
+    } else {
+      Router.push('/search-results?page=' + page)
+    }
   }
   const data = props.data[props.id]
 
@@ -164,15 +170,27 @@ function JobPostingView(props) {
 export default JobPostingView
 
 export const getServerSideProps = async (context) => {
-  const data = await client.query({
-    query: SEARCH_JOBS,
-    variables: { searchTerm: context.query.q },
-  })
-  return {
-    props: {
-      data: data.data.searchJobPostings,
-      id: context.query.id,
-      q: context.query.q,
-    },
+  if (context.query.q) {
+    const data = await client.query({
+      query: SEARCH_JOBS,
+      variables: { searchTerm: context.query.q },
+    })
+    return {
+      props: {
+        data: data.data.searchJobPostings,
+        id: context.query.id,
+        q: context.query.q,
+      },
+    }
+  } else {
+    const { data: allJobData } = await client.query({
+      query: GET_ALL_JOBS,
+    })
+    return {
+      props: {
+        data: allJobData.getAllJobPostings,
+        id: context.query.id,
+      },
+    }
   }
 }

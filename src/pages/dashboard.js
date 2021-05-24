@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -25,6 +26,7 @@ import Contact from '../components/Contact'
 import ContactsModal from '../components/ContactsModal'
 import ModalContext from '../context/ModalContext'
 import withSession from '../lib/session'
+import { StyledSkillList } from '../components/SkillList'
 
 const StyledDashboardBody = styled.div`
   display: flex;
@@ -107,14 +109,6 @@ const StyledUpdateButton = styled(StyledButtonSolid)`
   :hover {
     background-color: #4510b7;
   }
-`
-
-const StyledSkillList = styled.div`
-  display: block;
-  width: 100%;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 1rem;
 `
 
 const StyledSkillDropdownContainer = styled.div`
@@ -242,14 +236,24 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
 }
 
 const UserSkills = ({ userSkills, setUserSkills, userId }) => {
-  return userSkills.map((skill) => (
-    <Skill
-      name={skill.name}
-      skillId={skill.skillId}
-      setUserSkills={setUserSkills}
-      userId={userId}
-    />
-  ))
+  return (
+    <TransitionGroup component={StyledSkillList}>
+      {userSkills.map((skill) => (
+        <CSSTransition
+          key={skill.skillId}
+          timeout={300}
+          classNames="transition"
+        >
+          <Skill
+            name={skill.name}
+            skillId={skill.skillId}
+            setUserSkills={setUserSkills}
+            userId={userId}
+          />
+        </CSSTransition>
+      ))}
+    </TransitionGroup>
+  )
 }
 
 const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
@@ -363,13 +367,11 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
       />
       <hr></hr>
       <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
-      <StyledSkillList>
-        <UserSkills
-          userSkills={userSkills}
-          setUserSkills={setUserSkills}
-          userId={currentUser.userId}
-        />
-      </StyledSkillList>
+      <UserSkills
+        userSkills={userSkills}
+        setUserSkills={setUserSkills}
+        userId={currentUser.userId}
+      />
       <AddSkillDropdown
         allSkills={allSkills}
         userId={currentUser.userId}
@@ -460,7 +462,7 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
 
   const { data: userData } = await client.query({
     query: GET_USER_BY_ID,
-    variables: { userId: user.userId },
+    variables: { userId: '43bd7639-97e0-4ed1-b3bb-7beea0f6687e' },
   })
 
   return {

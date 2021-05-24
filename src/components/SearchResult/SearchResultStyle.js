@@ -6,7 +6,6 @@ const SSRSearchResultDiv = styled.div`
   align-items: flex-start;
   padding: 40px;
 
-  position: static;
   width: 100%;
   height: 10rem;
   left: 0px;
@@ -40,7 +39,6 @@ export const SSRSearchResultFooter = styled.div`
   align-items: center;
   padding: 0px;
 
-  position: static;
   width: 500px;
   height: 32px;
   left: 40px;
@@ -69,7 +67,6 @@ export const SSRSearchResultContainer = styled.div`
   align-items: flex-start;
   padding: 0px;
 
-  position: static;
   width: 100%;
   height: 59px;
   left: 40px;
@@ -82,7 +79,6 @@ export const SSRSearchResultLinkContainer = styled.div`
   align-items: center;
   padding: 0px;
 
-  position: static;
   margin-left: 3%;
   width: 100%;
   height: 20px;
@@ -94,7 +90,6 @@ export const SSRSearchResultContent = styled.div`
   align-items: flex-start;
   padding: 0px;
 
-  position: static;
   width: 600px;
   height: 59px;
   left: 0px;
@@ -107,7 +102,6 @@ export const SSRJobInfoAndLogo = styled.div`
   align-items: flex-start;
   padding: 0px;
 
-  position: static;
   width: 483px;
   height: 59px;
   left: 0px;
@@ -132,7 +126,6 @@ export const SSRMainContent = styled.div`
   align-items: flex-start;
   padding: 0px;
 
-  position: static;
   width: 395px;
   height: 59px;
   left: 88px;
@@ -147,7 +140,6 @@ export const SSRJobLogoContainer = styled.div`
 
   font-size: 2.5rem;
 
-  position: static;
   width: 100px;
   height: 100px;
   left: 0px;
@@ -161,7 +153,6 @@ export const SSRJobTitleContainer = styled.div`
   align-items: center;
   padding: 0px;
 
-  position: static;
   width: 200px;
   height: 25px;
   left: 0px;
@@ -174,7 +165,6 @@ export const SSRJobInfoContainer = styled.div`
   align-items: flex-start;
   padding: 0px;
 
-  position: static;
   width: 395px;
   height: 24px;
   left: 0px;
@@ -187,11 +177,8 @@ export const SSRCompanyContainer = styled.div`
   align-items: flex-start;
   padding: 0px;
 
-  position: static;
   width: 395px;
   height: 24px;
-  left: 0px;
-  top: 0px;
 `
 
 export const SSRCompanyTextContainer = styled.div`
@@ -200,7 +187,6 @@ export const SSRCompanyTextContainer = styled.div`
   align-items: center;
   padding: 0px;
 
-  position: static;
   width: 100%;
   height: 24px;
   left: 0px;
@@ -213,7 +199,6 @@ export const SSRSkillsContainer = styled.div`
   align-items: flex-start;
   padding: 0px;
 
-  position: static;
   width: 300px;
   height: 32px;
   left: 0px;
