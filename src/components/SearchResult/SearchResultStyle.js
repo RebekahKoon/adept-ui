@@ -25,6 +25,9 @@ export const SSRCompanyText = styled.div`
   align-items: center;
   margin-right: 4rem;
   width: 7rem;
+  white-space: nowrap;
+
+  overflow: hidden;
 
   p {
     margin-left: 0.25rem;
