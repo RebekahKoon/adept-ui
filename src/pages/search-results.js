@@ -97,33 +97,13 @@ function SearchResultView(props) {
     },
   ]
 
-  function handlePageClick(value) {
-    if (props.q) {
-      Router.push('/search-results?page=' + value + '&q=' + props.q)
-    } else {
-      Router.push('/search-results?page=' + value)
-    }
-  }
-
-  function createPageCount() {
-    var pageList = []
-    for (var i = 1; i < props.pageCount + 1; i++) {
-      pageList.push(i)
-    }
-    return pageList.map((pageList, index) => {
-      if (index == props.currPage - 1) {
-        return <SSRFooterCurPage>{index + 1}</SSRFooterCurPage>
-      } else {
-        return <SSRFooterPageNumber>{index + 1}</SSRFooterPageNumber>
-      }
-    })
-  }
-
   function createFooter() {
     if (props.currPage - 1 == 0 && props.pageCount > 1) {
       return (
         <SSRFooterPagination>
-          {createPageCount()}
+          <SSRFooterPageNumber>
+            Showing Page {props.currPage} of {props.pageCount}
+          </SSRFooterPageNumber>
           <SSRFooterNext onClick={handleClickNext}>
             <p>Next</p>
             <i className="fas fa-chevron-right"></i>
@@ -140,7 +120,9 @@ function SearchResultView(props) {
             <i className="fas fa-chevron-left"></i>
             <p>Previous</p>
           </SSRFooterPrev>
-          {createPageCount()}
+          <SSRFooterPageNumber>
+            Showing Page {props.currPage} of {props.pageCount}
+          </SSRFooterPageNumber>
           <SSRFooterNext onClick={handleClickNext}>
             <p>Next</p>
             <i className="fas fa-chevron-right"></i>
@@ -157,7 +139,9 @@ function SearchResultView(props) {
             <i className="fas fa-chevron-left"></i>
             <p>Previous</p>
           </SSRFooterPrev>
-          {createPageCount()}
+          <SSRFooterPageNumber>
+            Showing Page {props.currPage} of {props.pageCount}
+          </SSRFooterPageNumber>
         </SSRFooterPagination>
       )
     }
@@ -261,7 +245,7 @@ export const getServerSideProps = async (context) => {
       query: SEARCH_JOBS,
       variables: { searchTerm: context.query.q },
     })
-    var pageCount = Math.ceil(jobData.searchJobPostings.length / 5)
+    var pageCount = Math.ceil(jobData.searchJobPostings.length / 12)
     return {
       props: {
         data: jobData.searchJobPostings,
@@ -275,11 +259,11 @@ export const getServerSideProps = async (context) => {
       query: GET_ALL_JOBS,
     })
 
-    if (allJobData.getAllJobPostings.length > 5) {
-      var pageStart = (context.query.page - 1) * 5
-      var pageEnd = pageStart + 5
+    if (allJobData.getAllJobPostings.length > 12) {
+      var pageStart = (context.query.page - 1) * 12
+      var pageEnd = pageStart + 12
       var length = allJobData.getAllJobPostings.length
-      var pageCount = Math.ceil(allJobData.getAllJobPostings.length / 5)
+      var pageCount = Math.ceil(allJobData.getAllJobPostings.length / 12)
       if (pageEnd > length) {
         var diff = pageEnd - allJobData.getAllJobPostings.length
         pageEnd = pageEnd - diff
