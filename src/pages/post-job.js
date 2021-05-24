@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import Select from 'react-select'
 import { MainContentFlexContainer } from '../components/styles'
 import SearchBar from '../components/SearchBar'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
 import Loader from 'react-loader-spinner'
 import { CREATE_JOB_POSTING } from '../queries/postJob'
 import Layout from '../components/Layout'
-import { Input, RadioInput, InputWrapper } from '../components/Input'
+import { Input, RadioInput } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
 import { CenterContainer } from '../components/styles'
 import { StyledFormTextarea } from '../components/WorkExperience'
@@ -18,6 +19,8 @@ import { RequiredSkillsDropdown } from '../components/SkillDropdown'
 import { RequiredSkill } from '../components/Skill'
 import { StyledSkillList } from '../components/SkillList'
 import { FormGrid } from '../components/Form/FormStyle'
+import { StyledSkillDropdown } from '../components/SkillDropdown'
+import states from '../utils/states'
 
 const Container = styled.div`
   padding: 3.75rem 1rem;
@@ -106,6 +109,7 @@ const PostJobForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm({ mode: 'onSubmit' })
 
   const [status, setStatus] = useState({ error: false, message: null })
@@ -142,7 +146,7 @@ const PostJobForm = () => {
       company: data.company,
       datePosted: new Date(Date.now()).toISOString(),
       city: data.city,
-      state: data.state,
+      state: data.state.value,
       salary: Number(data.salary),
       type: data.type,
       description: data.description,
@@ -182,14 +186,23 @@ const PostJobForm = () => {
             label="City"
             isInvalid={errors.city}
           />
-          <Input
-            {...register('state', { required: true })}
-            placeholder="State/Province"
-            type="text"
-            id="state"
-            label="State/Province"
-            isInvalid={errors.state}
-          />
+          <section>
+            <label htmlFor="state" style={{ fontSize: '0.875rem' }}>
+              State
+            </label>
+            <Controller
+              name="state"
+              isClearable
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={states}
+                  styles={StyledSkillDropdown}
+                />
+              )}
+            />
+          </section>
           <Input
             {...register('salary', { required: true })}
             placeholder="Annual Salary"
