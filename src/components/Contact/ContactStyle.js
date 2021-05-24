@@ -16,7 +16,6 @@ export const StyledContactContainer = styled.div`
   margin-bottom: 1rem;
 
   :hover {
-    /* background-color: var(--lightBlue); */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
 `

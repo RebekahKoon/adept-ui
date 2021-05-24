@@ -34,6 +34,7 @@ export const StyledWorkExperience = styled(StyledEducation)`
     color: var(--lightGray);
     :hover {
       color: var(--purple);
+      cursor: pointer;
     }
   }
 `
