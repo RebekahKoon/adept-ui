@@ -10,42 +10,67 @@ import {
 } from './NavBarStyle.js'
 import MainContentContainer from '../styles/MainContentContainer'
 import ButtonOutline from '../Button/ButtonOutline'
+import useScrollFromTop from './useScrollFromTop'
+import useUser from '../../lib/useUser'
 
-function NavBar(props) {
-  const [listener, setListener] = useState(null)
-  const [status, setStatus] = useState('top')
-  const handleScroll = (event) => {
-    var scrolled = document.scrollingElement.scrollTop
-    if (scrolled >= 5) {
-      if (status !== 'scrolled') {
-        setStatus({ status: 'scrolled' })
-      }
-    } else {
-      if (status !== 'top') {
-        setStatus({ status: 'top' })
-      }
-    }
-  }
+const AuthedNavBar = (params) => {
+  return (
+    <StyledNavContainer>
+      <StyledNavLogo>
+        <Link href="/">Adept</Link>
+      </StyledNavLogo>
 
-  useEffect(() => {
-    if (status == 'top') {
-      setListener(document.addEventListener('scroll', handleScroll))
-    } else {
-      setListener(document.removeEventListener('scroll', handleScroll))
-    }
-  })
+      <StyledNavItems>
+        <StyledNavItem>
+          <Link href="/post-job">Post Job</Link>
+        </StyledNavItem>
 
-  /*
-  componentDidUpdate() {
-    document.removeEventListener('scroll', this.listener)
-  }
-*/
+        <StyledNavItem>
+          <Link href="/search-results?page=1">Search</Link>
+        </StyledNavItem>
+
+        <StyledNavItem>
+          <ButtonOutline href="/login">Login</ButtonOutline>
+        </StyledNavItem>
+      </StyledNavItems>
+    </StyledNavContainer>
+  )
+}
+
+const UnauthedNavBar = (params) => {
+  return (
+    <StyledNavContainer>
+      <StyledNavLogo>
+        <Link href="/">Adept</Link>
+      </StyledNavLogo>
+
+      <StyledNavItems>
+        <StyledNavItem>
+          <Link href="/search-results?page=1">View jobs</Link>
+        </StyledNavItem>
+
+        <StyledNavItem>
+          <Link href="/post-job">Sign in</Link>
+        </StyledNavItem>
+
+        <StyledNavItem>
+          <ButtonOutline href="/register">Sign up</ButtonOutline>
+        </StyledNavItem>
+      </StyledNavItems>
+    </StyledNavContainer>
+  )
+}
+
+const NavBar = (props) => {
+  const isTop = useScrollFromTop()
+  const { user } = useUser()
 
   return (
     <StyledNavBar
       style={{
-        backgroundColor:
-          status === 'top' ? 'rgba(87, 15, 241, 0)' : 'rgba(87, 15, 241, 1)',
+        backgroundColor: isTop
+          ? 'rgba(87, 15, 241, 0)'
+          : 'rgba(87, 15, 241, 1)',
       }}
     >
       <MainContentContainer>
