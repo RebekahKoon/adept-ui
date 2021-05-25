@@ -18,6 +18,7 @@ const UserContacts = ({ contacts, userId, setUserContacts }) => {
   return contacts
     ? contacts.map((contact) => (
         <Contact
+          key={contact.userId}
           name={contact.name}
           email={contact.email}
           city={contact.city}
