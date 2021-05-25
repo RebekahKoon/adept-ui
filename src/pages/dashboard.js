@@ -227,14 +227,6 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
                 )}
               />
             </section>
-            {/* <Input
-              {...register('state', { required: false })}
-              type="text"
-              placeholder="State"
-              id="state"
-              isInvalid={errors.state}
-              noPadding={true}
-            /> */}
           </FormGrid>
           {loading ? (
             <div style={{ padding: '1.5rem' }}>
