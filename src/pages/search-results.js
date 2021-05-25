@@ -239,6 +239,14 @@ function SearchResultView(props) {
 export default SearchResultView
 
 export const getServerSideProps = async (context) => {
+  if (context.query.page == null) {
+    return {
+      redirect: {
+        destination: '/search-results?page=1',
+        permanent: false,
+      },
+    }
+  }
   if (context.query.q) {
     const { data: jobData } = await client.query({
       query: SEARCH_JOBS,

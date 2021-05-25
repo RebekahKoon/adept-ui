@@ -113,10 +113,8 @@ export const SSRCompanyTextContainer = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0px;
-
+  margin-top: 0.25rem;
   height: 24px;
-  left: 0px;
-  top: 0px;
 `
 
 export const SSRCompanyText = styled.div`
@@ -150,7 +148,7 @@ export const SSRSearchResultLinkContainer = styled.div`
   padding: 0px;
 
   margin-left: 3%;
-  //width: 100%;
+  width: 100%;
   height: 20px;
 `
 export const SSRJobButton = styled.button`
@@ -173,7 +171,7 @@ export const SSRSearchResultFooter = styled.div`
   align-items: center;
   padding: 0px;
 
-  //width: 500px;
+  width: 100%;
   height: 32px;
   left: 40px;
   top: 139px;
@@ -181,6 +179,7 @@ export const SSRSearchResultFooter = styled.div`
 
 export const SSRSkillsContainer = styled.div`
   display: flex;
+  flex: 1 75%;
   flex-direction: row;
   align-items: flex-start;
   padding: 0px;
@@ -201,22 +200,19 @@ export const SSRSkillDiv = styled.div`
 
   //width: 104px;
   height: 32px;
-  left: 358px;
-  top: 1942px;
+  margin-top: 1.5rem;
   background: rgba(80, 120, 239, 0.1);
   border-radius: 15px;
 `
 
 export const SSRDate = styled.div`
   display: flex;
+  flex: 2 20%;
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-end;
   padding: 0px;
-
-  position: relative;
-  left: 33%;
-  //width: 100px;
+  margin-top: 1.5rem;
   height: 16px;
 `
 export default SSRSearchResultDiv
