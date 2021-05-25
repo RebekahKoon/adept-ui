@@ -14,7 +14,12 @@ import {
   StyledExitButton,
 } from './ContactsModalStyle'
 
-const UserContacts = ({ contacts, userId, setUserContacts }) => {
+const UserContacts = ({
+  contacts,
+  userId,
+  setUserContacts,
+  setSearchResults,
+}) => {
   return contacts
     ? contacts.map((contact) => (
         <Contact
@@ -26,6 +31,7 @@ const UserContacts = ({ contacts, userId, setUserContacts }) => {
           contactId={contact.userId}
           userId={userId}
           setUserContacts={setUserContacts}
+          setSearchResults={setSearchResults}
         />
       ))
     : null
@@ -84,6 +90,7 @@ const ContactsModal = ({
           contacts={searchResults}
           userId={userId}
           setUserContacts={setUserContacts}
+          setSearchResults={setSearchResults}
         />
       </StyledContactsGrid>
       <br />
