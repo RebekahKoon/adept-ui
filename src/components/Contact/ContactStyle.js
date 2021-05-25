@@ -42,6 +42,9 @@ export const StyledContactText = styled(StyledEducationText)`
 `
 export const StyledRemoveContactButton = styled(StyledRemoveButton)`
   float: right;
+  :hover {
+    cursor: pointer;
+  }
 `
 
 export default StyledContactContent

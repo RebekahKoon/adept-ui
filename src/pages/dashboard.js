@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
+import Select from 'react-select'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
@@ -12,7 +13,7 @@ import { GET_USER_BY_ID } from '../queries/getUserById'
 import { ADD_SKILL_TO_USER } from '../queries/addSkillToUser'
 import { UPDATE_USER_LOCATION } from '../queries/updateUserLocation'
 import { StyledButtonSolid } from '../components/Button'
-import { Input } from '../components/Input'
+import { Input, Label } from '../components/Input'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
@@ -27,6 +28,8 @@ import ContactsModal from '../components/ContactsModal'
 import ModalContext from '../context/ModalContext'
 import withSession from '../lib/session'
 import { StyledSkillList } from '../components/SkillList'
+import { StyledSkillDropdown } from '../components/SkillDropdown'
+import states from '../utils/states'
 
 const StyledDashboardBody = styled.div`
   display: flex;
@@ -136,6 +139,7 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
@@ -167,7 +171,7 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
     const input = {
       userId: currentUser.userId,
       city: data.city ? data.city : '',
-      state: data.state ? data.state : '',
+      state: data.state?.value ? data.state.value : '',
     }
 
     console.log(input)
@@ -197,7 +201,7 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
       </div>
       {/* Displaying form if edit button is pressed */}
       {formIsDisplayed ? (
-        <form style={{ padding: 0 }} onSubmit={handleSubmit(onSubmit)}>
+        <form style={{ paddingTop: '.5rem' }} onSubmit={handleSubmit(onSubmit)}>
           <FormGrid>
             <Input
               {...register('city', { required: false })}
@@ -207,14 +211,30 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
               isInvalid={errors.city}
               noPadding={true}
             />
-            <Input
+            <section>
+              <Controller
+                name="state"
+                isClearable
+                control={control}
+                rules={{ required: false }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    placeholder={'State'}
+                    options={states}
+                    styles={StyledSkillDropdown}
+                  />
+                )}
+              />
+            </section>
+            {/* <Input
               {...register('state', { required: false })}
               type="text"
               placeholder="State"
               id="state"
               isInvalid={errors.state}
               noPadding={true}
-            />
+            /> */}
           </FormGrid>
           {loading ? (
             <div style={{ padding: '1.5rem' }}>

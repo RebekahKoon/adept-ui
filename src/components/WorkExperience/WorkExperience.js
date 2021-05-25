@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
+import Select from 'react-select'
 import Loader from 'react-loader-spinner'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import { ADD_WORK_EXPERIENCE_TO_RESUME } from '../../queries/addWorkExperienceToResume'
 import { DELETE_WORK_EXPERIENCE } from '../../queries/deleteWorkExperience'
 import { GET_USER_BY_ID } from '../../queries/getUserById'
 import Form from '../Form'
-import { Input } from '../Input'
+import { Input, Label } from '../Input'
+import { StyledSkillDropdown } from '../SkillDropdown'
+import states from '../../utils/states'
 import {
   StyledWorkExperienceContainer,
   StyledWorkExperienceContent,
@@ -105,6 +108,7 @@ const FormInputFields = ({
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
@@ -144,7 +148,7 @@ const FormInputFields = ({
       company: data.company,
       position: data.position,
       city: data.city,
-      state: data.state,
+      state: data.state.value,
       isCurrentPosition: data.endDate ? false : true,
       startDate: data.startDate,
       endDate: data.endDate,
@@ -207,14 +211,22 @@ const FormInputFields = ({
             label="City"
             isInvalid={errors.city}
           />
-          <Input
-            {...register('state', { required: false })}
-            type="text"
-            placeholder="WA"
-            id="state"
-            label="State"
-            isInvalid={errors.state}
-          />
+          <section>
+            <StyledLabel htmlFor="state"> State</StyledLabel>
+            <Controller
+              name="state"
+              isClearable
+              control={control}
+              rules={{ required: false }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={states}
+                  styles={StyledSkillDropdown}
+                />
+              )}
+            />
+          </section>
           <Input
             {...register('startDate', { required: 'Start date is required' })}
             type="date"
