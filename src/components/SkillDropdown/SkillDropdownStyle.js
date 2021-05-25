@@ -19,7 +19,7 @@ const StyledSkillDropdown = {
   }),
   singleValue: (provided) => ({
     ...provided,
-    color: '#AEB7D0',
+    color: '#191C3C',
   }),
   indicatorSeparator: (base) => ({
     ...base,

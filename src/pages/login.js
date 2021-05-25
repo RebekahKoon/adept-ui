@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner'
@@ -81,7 +82,7 @@ const FormFooter = () => {
   return (
     <FormFooterStyles>
       <div>
-        Don't have an account? <a>Register</a>
+        Don't have an account? <Link href="/register">Register</Link>
       </div>
       <div>
         <a>Forgot Password?</a>
@@ -98,19 +99,17 @@ const LoginForm = () => {
   })
   const [isLoading, setIsLoading] = useState(false)
 
-  // useEffect(() => {
-  //   console.log('user:', user?.userId)
-  // }, [user])
-
   const {
     register,
     handleSubmit,
-    watch,
+    setError,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
   // Delegate login to /api/login to set session cookies
   const onSubmit = async (data) => {
+    const INVALID_USER_MSG = 'That user does not exist'
+    const INVALID_PASSWORD_MSG = 'Invalid password'
     const body = {
       email: data.email,
       password: data.password,
@@ -125,7 +124,18 @@ const LoginForm = () => {
         })
       )
     } catch (err) {
-      console.log(err)
+      if (err.message.includes(INVALID_USER_MSG)) {
+        setError('email', {
+          type: 'manual',
+          message: 'Email not found',
+        })
+      }
+      if (err.message.includes(INVALID_PASSWORD_MSG)) {
+        setError('password', {
+          type: 'manual',
+          message: 'Password incorrect',
+        })
+      }
     }
     setIsLoading(false)
   }
