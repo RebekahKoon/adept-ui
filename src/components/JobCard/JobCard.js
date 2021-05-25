@@ -61,7 +61,7 @@ const JobCard = () => {
           </StyledSkills>
         </StyledJobCardBottom>
         <StyledDate>
-          <small>Apr 20, 2021</small>
+          <small>Applied Apr 20, 2021</small>
         </StyledDate>
       </StyledJobCardContent>
     </StyledJobCardContainer>
