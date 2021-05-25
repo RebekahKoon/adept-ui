@@ -50,14 +50,14 @@ const JobCard = () => {
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
+            {/* <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
-            <JobPostSkill name="Communication" />
-            <JobPostSkill name="Communication" />
+            <JobPostSkill name="Communication" /> */}
           </StyledSkills>
         </StyledJobCardBottom>
         <StyledDate>
