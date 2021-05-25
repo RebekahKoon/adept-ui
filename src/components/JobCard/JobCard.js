@@ -6,10 +6,12 @@ import {
   StyledJobCardContainer,
   StyledJobCardContent,
   StyledJobCardGrid,
+  StyledGridItem,
   StyledJobCardTop,
   StyledJobCardBottom,
   StyledJobCardText,
   StyledTitleLine,
+  StyledViewJob,
   StyledSkills,
   StyledDate,
 } from './JobCardStyle'
@@ -22,24 +24,24 @@ const JobCard = () => {
           <i className="fab fa-asymmetrik fa-3x"></i>
           <StyledJobCardText>
             <StyledTitleLine>
-              <h3>Software Engineer</h3>
-              <section style={{ textAlign: 'right' }}>
+              <h3>Sales Person</h3>
+              <StyledViewJob>
                 View Job <i className="fas fa-arrow-circle-right"></i>
-              </section>
+              </StyledViewJob>
             </StyledTitleLine>
             <StyledJobCardGrid>
-              <div>
-                <i className="fas fa-briefcase"></i> Nintendo
-              </div>
-              <div>
-                <i className="fas fa-map-marker-alt"></i> Bellvue, WA
-              </div>
-              <div>
+              <StyledGridItem>
+                <i className="fas fa-briefcase"></i> Dunder Mifflin
+              </StyledGridItem>
+              <StyledGridItem>
+                <i className="fas fa-map-marker-alt"></i> Scranton, PA
+              </StyledGridItem>
+              <StyledGridItem>
                 <i className="fas fa-clock"></i> Full-time
-              </div>
-              <div>
-                <i className="fas fa-dollar-sign"></i> 10000000
-              </div>
+              </StyledGridItem>
+              <StyledGridItem>
+                <i className="fas fa-dollar-sign"></i> 69420
+              </StyledGridItem>
             </StyledJobCardGrid>
           </StyledJobCardText>
         </StyledJobCardTop>
@@ -48,14 +50,14 @@ const JobCard = () => {
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
-            {/* <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
             <JobPostSkill name="Communication" />
-            <JobPostSkill name="Communication" /> */}
+            <JobPostSkill name="Communication" />
+            <JobPostSkill name="Communication" />
           </StyledSkills>
         </StyledJobCardBottom>
         <StyledDate>
