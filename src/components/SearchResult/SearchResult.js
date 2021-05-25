@@ -39,9 +39,11 @@ function SearchResult(props) {
   }
 
   const createSkillDivs = () =>
-    dataArr.map((data, index) => (
-      <SSRSkillDiv> {dataArr[index].name} </SSRSkillDiv>
-    ))
+    dataArr.map((data, index) => {
+      while (index <= 4) {
+        return <SSRSkillDiv> {dataArr[index].name} </SSRSkillDiv>
+      }
+    })
 
   const handleType = () => {
     if (props.data.type == 'PART_TIME') {
