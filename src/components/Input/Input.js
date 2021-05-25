@@ -8,7 +8,7 @@ const InputContainer = styled.div`
   font-size: 0.875rem;
 `
 
-const Label = styled.label`
+export const Label = styled.label`
   color: ${(props) => (props.isInvalid ? `red` : `var(--black)`)};
 `
 
