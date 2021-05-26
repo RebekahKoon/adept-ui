@@ -49,7 +49,13 @@ function SearchResultView(props) {
     } else {
       selectedCheckboxes.add(label)
       if (label == 'Full Time' && !props.jt1) {
-        console.log(label)
+        Router.push(window.location.href + '&jt1=FullTime')
+      } else if (label == 'Part Time' && !props.jt2) {
+        Router.push(window.location.href + '&jt2=PartTime')
+      } else if (label == 'Contract' && !props.jt3) {
+        Router.push(window.location.href + '&jt3=Contract')
+      } else if (label == 'Internship' && !props.jt4) {
+        Router.push(window.location.href + '&jt4=Internship')
       }
     }
   }
@@ -295,6 +301,16 @@ export const getServerSideProps = async (context) => {
         pageCount: pageCount,
         o: context.query.o || null,
         jt1: context.query.jt1 || null,
+        jt2: context.query.jt2 || null,
+        jt3: context.query.jt3 || null,
+        jt4: context.query.jt4 || null,
+        sc1: context.query.sc1 || null,
+        sc2: context.query.sc2 || null,
+        sc3: context.query.sc3 || null,
+        ex1: context.query.ex1 || null,
+        ex2: context.query.ex1 || null,
+        ex3: context.query.ex1 || null,
+        ex4: context.query.ex1 || null,
       },
     }
   } else {
@@ -324,6 +340,16 @@ export const getServerSideProps = async (context) => {
           pageCount: pageCount,
           o: context.query.o || null,
           jt1: context.query.jt1 || null,
+          jt2: context.query.jt2 || null,
+          jt3: context.query.jt3 || null,
+          jt4: context.query.jt4 || null,
+          sc1: context.query.sc1 || null,
+          sc2: context.query.sc2 || null,
+          sc3: context.query.sc3 || null,
+          ex1: context.query.ex1 || null,
+          ex2: context.query.ex1 || null,
+          ex3: context.query.ex1 || null,
+          ex4: context.query.ex1 || null,
         },
       }
     }
