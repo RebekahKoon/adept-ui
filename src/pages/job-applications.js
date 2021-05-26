@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
@@ -7,6 +8,8 @@ import SearchBar from '../components/SearchBar'
 import JobCard from '../components/JobCard'
 import { RadioInput } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
+import ModalContext from '../context/ModalContext'
+import { StatisticsModal } from '../components/Modal'
 
 const StyledBody = styled.div`
   display: flex;
@@ -41,6 +44,14 @@ const SkillStatsButton = styled(StyledButtonSolid)`
 `
 
 const ViewUserJobPostings = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const openModal = () => {
+    setIsOpen(true)
+  }
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
   const handleInputChange = () => {
     console.log('hi')
   }
@@ -89,7 +100,17 @@ const ViewUserJobPostings = () => {
               noPadding={true}
               onChange={handleInputChange}
             />
-            <SkillStatsButton>View More Statistics</SkillStatsButton>
+            <SkillStatsButton onClick={openModal}>
+              View More Statistics
+            </SkillStatsButton>
+            <ModalContext.Provider
+              value={{
+                isOpen,
+                closeModal,
+              }}
+            >
+              <StatisticsModal />
+            </ModalContext.Provider>
           </StyledSideBar>
           <StyledJobContainer>
             <JobCard />
