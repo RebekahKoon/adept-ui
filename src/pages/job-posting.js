@@ -41,7 +41,7 @@ import {
 function JobPostingView(props) {
   const handleClick = (e) => {
     e.preventDefault()
-    var page = Math.floor(props.id / 5) + 1
+    var page = Math.floor(props.id / 12) + 1
     if (props.q) {
       Router.push('/search-results?page=' + page + '&q=' + props.q)
     } else {

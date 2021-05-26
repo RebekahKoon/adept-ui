@@ -31,7 +31,7 @@ function SearchResult(props) {
   const handleClick = (e) => {
     e.preventDefault()
     var currPage = props.currPage - 1
-    var id = currPage * 5 + props.id
+    var id = currPage * 12 + props.id
     if (props.q) {
       Router.push('/job-posting?q=' + props.q + '&id=' + id)
     } else {
