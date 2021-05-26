@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import client from '../apollo/apolloClient'
+import { GET_ALL_SKILLS } from '../queries/getAllSkills'
+import { GET_USER_BY_ID } from '../queries/getUserById'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import StyledSideBar from '../components/SideBar'
@@ -10,6 +12,7 @@ import { RadioInput } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
 import ModalContext from '../context/ModalContext'
 import { StatisticsModal } from '../components/Modal'
+import withSession from '../lib/session'
 
 const StyledBody = styled.div`
   display: flex;
@@ -43,7 +46,7 @@ const SkillStatsButton = styled(StyledButtonSolid)`
   }
 `
 
-const ViewUserJobPostings = () => {
+const ViewUserJobPostings = (props) => {
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => {
     setIsOpen(true)
@@ -55,6 +58,9 @@ const ViewUserJobPostings = () => {
   const handleInputChange = () => {
     console.log('hi')
   }
+
+  console.log(props.currentUser)
+  console.log(props.currentUser.jobApplications)
 
   return (
     <Layout>
@@ -113,8 +119,17 @@ const ViewUserJobPostings = () => {
             </ModalContext.Provider>
           </StyledSideBar>
           <StyledJobContainer>
-            <JobCard />
-            <JobCard />
+            {props.currentUser.jobApplications.map((jobApplication) => (
+              <>
+                {console.log(jobApplication)}
+                <JobCard
+                  jobApplication={jobApplication}
+                  key={jobApplication.jobApId}
+                />
+              </>
+            ))}
+            {/* <JobCard />
+            <JobCard /> */}
           </StyledJobContainer>
         </StyledBody>
       </MainContentFlexContainer>
@@ -123,3 +138,25 @@ const ViewUserJobPostings = () => {
 }
 
 export default ViewUserJobPostings
+
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = req.session.get('user')
+
+  if (user === undefined) {
+    res.setHeader('location', '/login')
+    res.statusCode = 302
+    res.end()
+    return { props: {} }
+  }
+
+  const { data: userData } = await client.query({
+    query: GET_USER_BY_ID,
+    variables: { userId: user.userId },
+  })
+
+  return {
+    props: {
+      currentUser: userData.getUserById,
+    },
+  }
+})
