@@ -21,6 +21,7 @@ const Contact = ({
   contactId,
   userId,
   setUserContacts,
+  setSearchResults,
 }) => {
   const [removeContactFromUser, { loading, error }] = useMutation(
     REMOVE_CONTACT_FROM_USER,
@@ -28,6 +29,7 @@ const Contact = ({
       onCompleted({ removeContactFromUser }) {
         console.log(removeContactFromUser)
         setUserContacts(removeContactFromUser.contacts)
+        setSearchResults(removeContactFromUser.contacts)
       },
       onError(e) {
         console.log(e)

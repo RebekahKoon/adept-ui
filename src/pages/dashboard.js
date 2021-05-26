@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
+import Select from 'react-select'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
@@ -12,7 +13,7 @@ import { GET_USER_BY_ID } from '../queries/getUserById'
 import { ADD_SKILL_TO_USER } from '../queries/addSkillToUser'
 import { UPDATE_USER_LOCATION } from '../queries/updateUserLocation'
 import { StyledButtonSolid } from '../components/Button'
-import { Input } from '../components/Input'
+import { Input, Label } from '../components/Input'
 import client from '../apollo/apolloClient'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
@@ -27,6 +28,8 @@ import ContactsModal from '../components/ContactsModal'
 import ModalContext from '../context/ModalContext'
 import withSession from '../lib/session'
 import { StyledSkillList } from '../components/SkillList'
+import { StyledSkillDropdown } from '../components/SkillDropdown'
+import states from '../utils/states'
 
 const StyledDashboardBody = styled.div`
   display: flex;
@@ -39,7 +42,7 @@ const StyledDashboardBody = styled.div`
   padding: 2.5rem 0px 8rem;
 `
 
-export const StyledResume = styled.div`
+const StyledResume = styled.div`
   display: flex;
   margin: 0 auto;
   width: 68%;
@@ -83,6 +86,7 @@ const StyledSideBarProfile = styled.div`
     color: var(--lightGray);
     :hover {
       color: var(--purple);
+      cursor: pointer;
     }
   }
 `
@@ -102,12 +106,21 @@ const FormGrid = styled.div`
 `
 
 const StyledUpdateButton = styled(StyledButtonSolid)`
-  padding: 0.5rem;
-  width: 100%;
+  width: 48%;
+  margin-left: 5px;
   margin-top: 1rem;
 
   :hover {
     background-color: #4510b7;
+  }
+`
+
+const StyledCancelUpdateButton = styled(StyledButtonSolid)`
+  width: 48%;
+  background-color: var(--lightGray);
+  margin-right: 5px;
+  :hover {
+    background-color: #bab7b0;
   }
 `
 
@@ -125,8 +138,8 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
+    control,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
@@ -158,7 +171,7 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
     const input = {
       userId: currentUser.userId,
       city: data.city ? data.city : '',
-      state: data.state ? data.state : '',
+      state: data.state?.value ? data.state.value : '',
     }
 
     console.log(input)
@@ -188,7 +201,7 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
       </div>
       {/* Displaying form if edit button is pressed */}
       {formIsDisplayed ? (
-        <form style={{ padding: 0 }} onSubmit={handleSubmit(onSubmit)}>
+        <form style={{ paddingTop: '.5rem' }} onSubmit={handleSubmit(onSubmit)}>
           <FormGrid>
             <Input
               {...register('city', { required: false })}
@@ -198,23 +211,42 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
               isInvalid={errors.city}
               noPadding={true}
             />
-            <Input
+            <section>
+              <Controller
+                name="state"
+                isClearable
+                control={control}
+                rules={{ required: false }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    placeholder={'State'}
+                    options={states}
+                    styles={StyledSkillDropdown}
+                  />
+                )}
+              />
+            </section>
+            {/* <Input
               {...register('state', { required: false })}
               type="text"
               placeholder="State"
               id="state"
               isInvalid={errors.state}
               noPadding={true}
-            />
+            /> */}
           </FormGrid>
           {loading ? (
             <div style={{ padding: '1.5rem' }}>
               <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
             </div>
           ) : (
-            <StyledUpdateButton type="submit">
-              Update Location
-            </StyledUpdateButton>
+            <>
+              <StyledCancelUpdateButton onClick={handleButtonClick}>
+                Cancel
+              </StyledCancelUpdateButton>
+              <StyledUpdateButton type="submit">Update</StyledUpdateButton>
+            </>
           )}
         </form>
       ) : (
@@ -334,6 +366,7 @@ const UserContacts = ({ contacts, userId, setUserContacts }) => {
         .slice(0, 3)
         .map((contact) => (
           <Contact
+            key={contact.userId}
             name={contact.name}
             email={contact.email}
             city={contact.city}
@@ -366,7 +399,7 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
         currentUserPosition={currentUserPosition}
       />
       <hr></hr>
-      <h2>{currentUser.name.split(' ')[0]}'s Skills</h2>
+      <h2>{`${currentUser.name.split(' ')[0]}'s Skills`}</h2>
       <UserSkills
         userSkills={userSkills}
         setUserSkills={setUserSkills}
@@ -378,7 +411,7 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
         setUserSkills={setUserSkills}
       />
       <hr></hr>
-      <h2>{currentUser.name.split(' ')[0]}'s Contacts</h2>
+      <h2>{`${currentUser.name.split(' ')[0]}'s Contacts`}</h2>
       <UserContacts
         contacts={userContacts}
         setUserContacts={setUserContacts}

@@ -52,6 +52,7 @@ export const StyledEducation = styled.div`
     color: var(--lightGray);
     :hover {
       color: var(--purple);
+      cursor: pointer;
     }
   }
 `
