@@ -48,7 +48,9 @@ function SearchResultView(props) {
       selectedCheckboxes.delete(label)
     } else {
       selectedCheckboxes.add(label)
-      console.log(label)
+      if (label == 'Full Time' && !props.jt1) {
+        console.log(label)
+      }
     }
   }
 
@@ -82,7 +84,39 @@ function SearchResultView(props) {
   const [sortOption, setOption] = useState('All')
   const handleOptionChange = (e) => {
     setOption(e.value)
-    console.log(e.value)
+    if (e.value == 'newest') {
+      if (!props.o) {
+        Router.push(window.location.href + '&o=newest')
+      } else {
+        if (props.q) {
+          Router.push(
+            '/search-results?page=' +
+              props.currPage +
+              '&q=' +
+              props.q +
+              '&o=newest'
+          )
+        } else {
+          Router.push('/search-results?page=' + props.currPage + '&o=newest')
+        }
+      }
+    } else {
+      if (!props.o) {
+        Router.push(window.location.href + '&o=oldest')
+      } else {
+        if (props.q) {
+          Router.push(
+            '/search-results?page=' +
+              props.currPage +
+              '&q=' +
+              props.q +
+              '&o=oldest'
+          )
+        } else {
+          Router.push('/search-results?page=' + props.currPage + '&o=oldest')
+        }
+      }
+    }
   }
 
   const sortOptions = [
@@ -259,6 +293,8 @@ export const getServerSideProps = async (context) => {
         q: context.query.q,
         currPage: context.query.page,
         pageCount: pageCount,
+        o: context.query.o || null,
+        jt1: context.query.jt1 || null,
       },
     }
   } else {
@@ -286,6 +322,8 @@ export const getServerSideProps = async (context) => {
           data: finArr,
           currPage: context.query.page,
           pageCount: pageCount,
+          o: context.query.o || null,
+          jt1: context.query.jt1 || null,
         },
       }
     }
