@@ -33,12 +33,14 @@ const statisticsModalStyle = {
   },
 }
 
-const StatisticsModal = () => {
+const StatisticsModal = ({ skillCount }) => {
   const { isOpen, closeModal } = useContext(ModalContext)
 
   const handleInputChange = () => {
     console.log('hi')
   }
+
+  console.log(skillCount)
 
   return (
     <Modal
@@ -55,7 +57,7 @@ const StatisticsModal = () => {
       </ExitButtonContainer>
       <h2>Skill Statistics</h2>
       {/* <StyledBody> */}
-      <SkillBarChart />
+      <SkillBarChart skillCount={skillCount} />
       {/* <h4 style={{ lineHeight: '0rem' }}>Docker</h4>
         Appeared in 25% of your applications
         <RadioInput

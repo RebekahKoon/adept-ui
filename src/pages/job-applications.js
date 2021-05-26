@@ -2,6 +2,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import client from '../apollo/apolloClient'
 import { GET_USER_BY_ID } from '../queries/getUserById'
+import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import StyledSideBar from '../components/SideBar'
@@ -58,8 +59,23 @@ const ViewUserJobPostings = (props) => {
     console.log('hi')
   }
 
-  console.log(props.currentUser)
-  console.log(props.currentUser.jobApplications)
+  // console.log(props.currentUser)
+  // console.log(props.currentUser.jobApplications)
+  // console.log(props.allSkills)
+  const skillNames = props.allSkills.map((skill) => skill.name)
+  const skillCount = skillNames.reduce(
+    (name, curr) => ((name[curr] = 0), name),
+    {}
+  )
+
+  props.currentUser.jobApplications.map((jobApplication) =>
+    jobApplication.jobPosting.skillsRequired.map(
+      (skill) => (skillCount[skill.name] += 1)
+    )
+  )
+  // console.log(skillCount)
+  // console.log(allSkills)
+  // console.log(skillNames)
 
   return (
     <Layout>
@@ -114,16 +130,15 @@ const ViewUserJobPostings = (props) => {
                 closeModal,
               }}
             >
-              <StatisticsModal />
+              <StatisticsModal skillCount={skillCount} />
             </ModalContext.Provider>
           </StyledSideBar>
           <StyledJobContainer>
             {props.currentUser.jobApplications.map((jobApplication) => (
               <>
-                {console.log(jobApplication)}
                 <JobCard
                   jobApplication={jobApplication}
-                  key={jobApplication.jobApId}
+                  key={jobApplication.jobAppId}
                 />
               </>
             ))}
@@ -148,6 +163,10 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
     return { props: {} }
   }
 
+  const { data: skillsData } = await client.query({
+    query: GET_ALL_SKILLS,
+  })
+
   const { data: userData } = await client.query({
     query: GET_USER_BY_ID,
     variables: { userId: user.userId },
@@ -155,6 +174,7 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
 
   return {
     props: {
+      allSkills: skillsData.getAllSkills,
       currentUser: userData.getUserById,
     },
   }

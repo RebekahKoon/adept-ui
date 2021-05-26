@@ -3,82 +3,48 @@ const ReactApexCharts = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
 
-const data = {
-  series: [
-    {
-      data: [
-        400,
-        430,
-        448,
-        470,
-        540,
-        580,
-        690,
-        1100,
-        1200,
-        1380,
-        400,
-        430,
-        448,
-        470,
-        540,
-        580,
-        690,
-        1100,
-        1200,
-        1380,
-      ],
-    },
-  ],
-  options: {
-    chart: {
-      type: 'bar',
-      height: 350,
-      width: '100%',
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        horizontal: true,
+const SkillBarChart = ({ skillCount }) => {
+  const data = {
+    series: [
+      {
+        data: Object.values(skillCount),
+      },
+    ],
+    options: {
+      chart: {
+        type: 'bar',
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        },
+        column: {
+          pointPadding: 1000,
+          borderWidth: 0,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: Object.keys(skillCount),
       },
     },
-    dataLabels: {
-      enabled: false,
+    markers: {
+      size: 0,
     },
-    xaxis: {
-      categories: [
-        'South Korea',
-        'Canada',
-        'United Kingdom',
-        'Netherlands',
-        'Italy',
-        'France',
-        'Japan',
-        'United States',
-        'China',
-        'Germany',
-        'South Korea',
-        'Canada',
-        'United Kingdom',
-        'Netherlands',
-        'Italy',
-        'France',
-        'Japan',
-        'United States',
-        'China',
-        'Germany',
-      ],
-    },
-  },
-}
+  }
 
-const SkillBarChart = () => {
+  console.log(Object.keys(skillCount).length)
+  const height = Object.keys(skillCount).length * 15
+
   return (
     <ReactApexCharts
       options={data.options}
       series={data.series}
       type="bar"
-      // height={350}
+      height={height}
       width="100%"
     />
   )
