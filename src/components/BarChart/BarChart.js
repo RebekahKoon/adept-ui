@@ -1,4 +1,3 @@
-// import ReactApexCharts from 'react-apexcharts'
 import dynamic from 'next/dynamic'
 const ReactApexCharts = dynamic(() => import('react-apexcharts'), {
   ssr: false,

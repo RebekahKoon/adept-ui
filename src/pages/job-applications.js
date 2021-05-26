@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import client from '../apollo/apolloClient'
-import { GET_ALL_SKILLS } from '../queries/getAllSkills'
 import { GET_USER_BY_ID } from '../queries/getUserById'
 import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
