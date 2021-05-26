@@ -92,8 +92,8 @@ const ViewUserJobPostings = () => {
             <SkillStatsButton>View More Statistics</SkillStatsButton>
           </StyledSideBar>
           <StyledJobContainer>
-            <JobCard />
-            <JobCard />
+            {/* <JobCard />
+            <JobCard /> */}
           </StyledJobContainer>
         </StyledBody>
       </MainContentFlexContainer>
