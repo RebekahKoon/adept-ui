@@ -8,7 +8,6 @@ import MainContentFlexContainer from '../components/styles/MainContentFlexContai
 import StyledSideBar from '../components/SideBar'
 import SearchBar from '../components/SearchBar'
 import JobCard from '../components/JobCard'
-import { RadioInput } from '../components/Input'
 import { StyledButtonSolid } from '../components/Button'
 import ModalContext from '../context/ModalContext'
 import { StatisticsModal } from '../components/Modal'
@@ -46,7 +45,17 @@ const SkillStatsButton = styled(StyledButtonSolid)`
   }
 `
 
-const JobApplications = (props) => {
+const TopSkill = ({ topSkill }) => {
+  return (
+    <>
+      <h4 style={{ lineHeight: '0rem' }}>{topSkill[0]}</h4>
+      Appeared in {topSkill[1]} of your applications
+      <hr style={{ visibility: 'hidden', margin: '1.5rem 0' }}></hr>
+    </>
+  )
+}
+
+const Sidebar = ({ currentUser, allSkills }) => {
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => {
     setIsOpen(true)
@@ -55,88 +64,63 @@ const JobApplications = (props) => {
     setIsOpen(false)
   }
 
-  const handleInputChange = () => {
-    console.log('hi')
-  }
-
-  // console.log(props.currentUser)
-  // console.log(props.currentUser.jobApplications)
-  // console.log(props.allSkills)
-  const skillNames = props.allSkills.map((skill) => skill.name)
+  const skillNames = allSkills.map((skill) => skill.name)
   const skillCount = skillNames.reduce(
     (name, curr) => ((name[curr] = 0), name),
     {}
   )
 
-  props.currentUser.jobApplications.map((jobApplication) =>
+  currentUser.jobApplications.map((jobApplication) =>
     jobApplication.jobPosting.skillsRequired.map(
       (skill) => (skillCount[skill.name] += 1)
     )
   )
 
-  // console.log(skillCount)
-  // console.log(allSkills)
-  // console.log(skillNames)
+  let topSkills = []
+  for (let skill in skillCount) {
+    topSkills.push([skill, skillCount[skill]])
+  }
 
+  topSkills
+    .sort((a, b) => {
+      return a[1] - b[1]
+    })
+    .reverse()
+
+  return (
+    <StyledSideBar>
+      <h3>Top Skills in Your Job Applications</h3>
+      {topSkills.slice(0, 5).map((topSkill) => (
+        <TopSkill topSkill={topSkill} key={topSkill[0]} />
+      ))}
+      <SkillStatsButton onClick={openModal}>
+        View More Statistics
+      </SkillStatsButton>
+      <ModalContext.Provider
+        value={{
+          isOpen,
+          closeModal,
+        }}
+      >
+        <StatisticsModal
+          skillCount={skillCount}
+          totalApplications={currentUser.jobApplications.length}
+        />
+      </ModalContext.Provider>
+    </StyledSideBar>
+  )
+}
+
+const JobApplications = (props) => {
   return (
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
       <MainContentFlexContainer>
         <StyledBody>
-          <StyledSideBar>
-            <h4 style={{ lineHeight: '0rem' }}>Docker</h4>
-            Appeared in 25% of your applications
-            <RadioInput
-              // {...register('city', { required: false })}
-              type="checkbox"
-              placeholder="Compenent?"
-              id="isCompetent"
-              // isInvalid={errors.city}
-              label="Are you comfortable with this skill?"
-              noPadding={true}
-              onChange={handleInputChange}
-            />
-            <hr></hr>
-            <h4 style={{ lineHeight: '0rem' }}>Communication</h4>
-            Appeared in 100% of your applications
-            <RadioInput
-              // {...register('city', { required: false })}
-              type="checkbox"
-              placeholder="Compenent?"
-              id="isCompetent"
-              // isInvalid={errors.city}
-              label="Are you comfortable with this skill?"
-              noPadding={true}
-              onChange={handleInputChange}
-            />
-            <hr></hr>
-            <h4 style={{ lineHeight: '0rem' }}>React</h4>
-            Appeared in 50% of your applications
-            <RadioInput
-              // {...register('city', { required: false })}
-              type="checkbox"
-              placeholder="Compenent?"
-              id="isCompetent"
-              // isInvalid={errors.city}
-              label="Are you comfortable with this skill?"
-              noPadding={true}
-              onChange={handleInputChange}
-            />
-            <SkillStatsButton onClick={openModal}>
-              View More Statistics
-            </SkillStatsButton>
-            <ModalContext.Provider
-              value={{
-                isOpen,
-                closeModal,
-              }}
-            >
-              <StatisticsModal
-                skillCount={skillCount}
-                totalApplications={props.currentUser.jobApplications.length}
-              />
-            </ModalContext.Provider>
-          </StyledSideBar>
+          <Sidebar
+            currentUser={props.currentUser}
+            allSkills={props.allSkills}
+          />
           <StyledJobContainer>
             {props.currentUser.jobApplications.map((jobApplication) => (
               <>
@@ -146,8 +130,6 @@ const JobApplications = (props) => {
                 />
               </>
             ))}
-            {/* <JobCard />
-            <JobCard /> */}
           </StyledJobContainer>
         </StyledBody>
       </MainContentFlexContainer>
