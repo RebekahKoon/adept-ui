@@ -329,5 +329,9 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
     res.statusCode = 302
     return res.end()
   }
+  if (user.type === 'EMPLOYEE') {
+    res.statusCode = 401
+    return res.end()
+  }
   return { props: {} }
 })
