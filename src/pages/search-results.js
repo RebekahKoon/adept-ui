@@ -37,7 +37,7 @@ import {
 } from '../styles/SearchResultsStyle'
 
 function SearchResultView(props) {
-  const JobType = ['Full Time', 'Part Time', 'Contract', 'Internship']
+  const JobType = ['Full Time', 'Part Time', 'Internship']
   const JobSkills = ['React', 'Python', 'Javascript']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
   const dataArr = props.data
@@ -70,11 +70,8 @@ function SearchResultView(props) {
       } else if (label == 'Part Time') {
         newHref = removeURLParameter(window.location.href, 'jt2')
         Router.push(newHref)
-      } else if (label == 'Contract') {
-        newHref = removeURLParameter(window.location.href, 'jt3')
-        Router.push(newHref)
       } else if (label == 'Internship') {
-        newHref = removeURLParameter(window.location.href, 'jt4')
+        newHref = removeURLParameter(window.location.href, 'jt3')
         Router.push(newHref)
       } else if (label == 'React') {
         newHref = removeURLParameter(window.location.href, 'sc1')
@@ -104,10 +101,8 @@ function SearchResultView(props) {
         Router.push(window.location.href + '&jt1=FullTime')
       } else if (label == 'Part Time' && !props.jt2) {
         Router.push(window.location.href + '&jt2=PartTime')
-      } else if (label == 'Contract' && !props.jt3) {
-        Router.push(window.location.href + '&jt3=Contract')
-      } else if (label == 'Internship' && !props.jt4) {
-        Router.push(window.location.href + '&jt4=Internship')
+      } else if (label == 'Internship' && !props.jt3) {
+        Router.push(window.location.href + '&jt3=Internship')
       } else if (label == 'React' && !props.sc1) {
         Router.push(window.location.href + '&sc1=React')
       } else if (label == 'Python' && !props.sc2) {
@@ -154,17 +149,7 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (label == 'Contract' && props.jt3) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
-    } else if (label == 'Internship' && props.jt4) {
+    } else if (label == 'Internship' && props.jt3) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -487,7 +472,6 @@ export const getServerSideProps = async (context) => {
         jt1: context.query.jt1 || null,
         jt2: context.query.jt2 || null,
         jt3: context.query.jt3 || null,
-        jt4: context.query.jt4 || null,
         sc1: context.query.sc1 || null,
         sc2: context.query.sc2 || null,
         sc3: context.query.sc3 || null,
@@ -501,39 +485,182 @@ export const getServerSideProps = async (context) => {
     const { data: allJobData } = await client.query({
       query: GET_ALL_JOBS,
     })
+    var jt1 = context.query.jt1
+    var jt2 = context.query.jt2
+    var jt3 = context.query.jt3
+    var sc1 = context.query.sc1
+    var sc2 = context.query.sc2
+    var sc3 = context.query.sc3
+    var ex1 = context.query.ex1
+    var ex2 = context.query.ex2
+    var ex3 = context.query.ex3
+    var ex4 = context.query.ex4
+    var newArr = allJobData.getAllJobPostings
 
-    if (allJobData.getAllJobPostings.length > 12) {
+    if (jt1) {
+      var tempArr = []
+      var tempPos = 0
+      for (var i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'FULL_TIME') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+    if (jt2) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'PART_TIME') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+    if (jt3) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'INTERNSHIP') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+    if (sc1) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'React') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+    if (sc2) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'Python') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+    if (sc3) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'Javascript') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+    if (ex1) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'FULL_TIME') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+    if (ex2) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'FULL_TIME') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+    if (ex3) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'FULL_TIME') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+    if (ex4) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].type == 'FULL_TIME') {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      newArr = tempArr
+    }
+
+    if (newArr.length > 12) {
       var pageStart = (context.query.page - 1) * 12
       var pageEnd = pageStart + 12
-      var length = allJobData.getAllJobPostings.length
-      var pageCount = Math.ceil(allJobData.getAllJobPostings.length / 12)
+      var length = newArr.length
+      var pageCount = Math.ceil(length / 12)
       if (pageEnd > length) {
-        var diff = pageEnd - allJobData.getAllJobPostings.length
+        var diff = pageEnd - length
         pageEnd = pageEnd - diff
       }
       var finArr = []
-      var tempPos = 0
-      for (var i = pageStart; i < pageEnd; i++) {
-        finArr[tempPos] = allJobData.getAllJobPostings[i]
+      tempPos = 0
+      for (i = pageStart; i < pageEnd; i++) {
+        finArr[tempPos] = newArr[i]
         tempPos++
       }
+      console.log(newArr)
       return {
         props: {
           data: finArr,
           currPage: context.query.page,
           pageCount: pageCount,
           o: context.query.o || null,
-          jt1: context.query.jt1 || null,
-          jt2: context.query.jt2 || null,
-          jt3: context.query.jt3 || null,
-          jt4: context.query.jt4 || null,
-          sc1: context.query.sc1 || null,
-          sc2: context.query.sc2 || null,
-          sc3: context.query.sc3 || null,
-          ex1: context.query.ex1 || null,
-          ex2: context.query.ex2 || null,
-          ex3: context.query.ex3 || null,
-          ex4: context.query.ex4 || null,
+          jt1: jt1 || null,
+          jt2: jt2 || null,
+          jt3: jt3 || null,
+          sc1: sc1 || null,
+          sc2: sc2 || null,
+          sc3: sc3 || null,
+          ex1: ex1 || null,
+          ex2: ex2 || null,
+          ex3: ex3 || null,
+          ex4: ex4 || null,
+        },
+      }
+    } else {
+      console.log(newArr)
+
+      return {
+        props: {
+          data: newArr,
+          currPage: context.query.page,
+          pageCount: 1,
+          o: context.query.o || null,
+          jt1: jt1 || null,
+          jt2: jt2 || null,
+          jt3: jt3 || null,
+          sc1: sc1 || null,
+          sc2: sc2 || null,
+          sc3: sc3 || null,
+          ex1: ex1 || null,
+          ex2: ex2 || null,
+          ex3: ex3 || null,
+          ex4: ex4 || null,
         },
       }
     }
