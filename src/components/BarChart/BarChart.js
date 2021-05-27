@@ -8,16 +8,17 @@ const SkillBarChart = ({ skillCount, totalApplications }) => {
   const totalSkills = Object.keys(skillCount).length
   const height = totalSkills * 15
 
-  const dataTest = Object.values(skillCount).map((value) =>
+  const skillData = Object.values(skillCount).map((value) =>
     (value = (value / totalApplications) * 100).toFixed(2)
   )
 
-  console.log(dataTest)
+  console.log(skillData)
 
   const data = {
     series: [
       {
-        data: dataTest,
+        data: skillData,
+        name: 'Percent on your applications',
       },
     ],
     options: {
@@ -38,11 +39,21 @@ const SkillBarChart = ({ skillCount, totalApplications }) => {
         enabled: false,
       },
       xaxis: {
+        type: 'Category',
         categories: Object.keys(skillCount),
+        title: {
+          text: 'Percent',
+        },
       },
       yaxis: {
         forceNiceScale: false,
         max: 100,
+        labels: {
+          show: true,
+        },
+        title: {
+          text: 'Skills',
+        },
       },
     },
     markers: {

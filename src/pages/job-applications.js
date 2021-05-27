@@ -46,7 +46,7 @@ const SkillStatsButton = styled(StyledButtonSolid)`
   }
 `
 
-const ViewUserJobPostings = (props) => {
+const JobApplications = (props) => {
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => {
     setIsOpen(true)
@@ -155,7 +155,7 @@ const ViewUserJobPostings = (props) => {
   )
 }
 
-export default ViewUserJobPostings
+export default JobApplications
 
 export const getServerSideProps = withSession(async ({ req, res }) => {
   const user = req.session.get('user')
