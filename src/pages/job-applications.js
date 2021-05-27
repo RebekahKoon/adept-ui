@@ -45,12 +45,32 @@ const SkillStatsButton = styled(StyledButtonSolid)`
   }
 `
 
+const StyledRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .fa-check-circle {
+    margin-right: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    color: var(--lightPurple);
+  }
+`
+
 const TopSkill = ({ topSkill }) => {
   return (
     <>
-      <h4 style={{ lineHeight: '0rem' }}>{topSkill[0]}</h4>
-      Appeared in {topSkill[1]} of your applications
-      <hr style={{ visibility: 'hidden', margin: '1.5rem 0' }}></hr>
+      <StyledRow>
+        <i className="far fa-check-circle fa-2x"></i>
+        <div>
+          <h4 style={{ lineHeight: '0rem', marginBottom: '1rem' }}>
+            {topSkill[0]}
+          </h4>
+          Appeared in {topSkill[1]} applications
+        </div>
+      </StyledRow>
+      <hr style={{ visibility: 'hidden', margin: '1.25rem 0' }}></hr>
     </>
   )
 }
