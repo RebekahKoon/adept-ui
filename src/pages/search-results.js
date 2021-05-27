@@ -38,7 +38,7 @@ import {
 
 function SearchResultView(props) {
   const JobType = ['Full Time', 'Part Time', 'Internship']
-  const JobSkills = ['React', 'Python', 'Javascript']
+  const SalaryRange = ['$0 - $40,000', '$40,000 - $100,000', '$100,000 +']
   const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
   const dataArr = props.data
   const selectedCheckboxes = new Set()
@@ -73,13 +73,13 @@ function SearchResultView(props) {
       } else if (label == 'Internship') {
         newHref = removeURLParameter(window.location.href, 'jt3')
         Router.push(newHref)
-      } else if (label == 'React') {
+      } else if (label == '$0 - $40,000') {
         newHref = removeURLParameter(window.location.href, 'sc1')
         Router.push(newHref)
-      } else if (label == 'Python') {
+      } else if (label == '$40,000 - $100,000') {
         newHref = removeURLParameter(window.location.href, 'sc2')
         Router.push(newHref)
-      } else if (label == 'Javascript') {
+      } else if (label == '$100,000 +') {
         newHref = removeURLParameter(window.location.href, 'sc3')
         Router.push(newHref)
       } else if (label == 'Entry Level') {
@@ -103,12 +103,12 @@ function SearchResultView(props) {
         Router.push(window.location.href + '&jt2=PartTime')
       } else if (label == 'Internship' && !props.jt3) {
         Router.push(window.location.href + '&jt3=Internship')
-      } else if (label == 'React' && !props.sc1) {
-        Router.push(window.location.href + '&sc1=React')
-      } else if (label == 'Python' && !props.sc2) {
-        Router.push(window.location.href + '&sc2=Python')
-      } else if (label == 'Javascript' && !props.sc3) {
-        Router.push(window.location.href + '&sc3=Javascript')
+      } else if (label == '$0 - $40,000' && !props.sc1) {
+        Router.push(window.location.href + '&sc1=1')
+      } else if (label == '$40,000 - $100,000' && !props.sc2) {
+        Router.push(window.location.href + '&sc2=1')
+      } else if (label == '$100,000 +' && !props.sc3) {
+        Router.push(window.location.href + '&sc3=1')
       } else if (label == 'Entry Level' && !props.ex1) {
         Router.push(window.location.href + '&ex1=EntryLevel')
       } else if (label == 'Associate' && !props.ex2) {
@@ -252,7 +252,7 @@ function SearchResultView(props) {
       />
     ))
 
-  const createJobCatCheckboxes = () => JobSkills.map(createCheckbox)
+  const createSalRangeCheckboxes = () => SalaryRange.map(createCheckbox)
 
   const createExperienceCheckboxes = () => Experience.map(createCheckbox)
 
@@ -384,11 +384,11 @@ function SearchResultView(props) {
           <SSRDividerContainer>
             <SSRDivider />
           </SSRDividerContainer>
-          <SSRFilterOptionHeader>Job Category</SSRFilterOptionHeader>
+          <SSRFilterOptionHeader>Salary Range</SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
               <form onSubmit={handleFormSubmit}>
-                {createJobCatCheckboxes()}
+                {createSalRangeCheckboxes()}
               </form>
             </SSRCheckBoxOption>
           </SSRFilterOptions>
@@ -496,6 +496,7 @@ export const getServerSideProps = async (context) => {
     var ex3 = context.query.ex3
     var ex4 = context.query.ex4
     var newArr = allJobData.getAllJobPostings
+    var o = context.query.o
 
     if (jt1) {
       var tempArr = []
@@ -534,7 +535,7 @@ export const getServerSideProps = async (context) => {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'React') {
+        if (newArr[i].salary < 40000) {
           tempArr[tempPos] = newArr[i]
           tempPos++
         }
@@ -545,7 +546,7 @@ export const getServerSideProps = async (context) => {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'Python') {
+        if (newArr[i].salary >= 40000 && newArr[i].salary < 100000) {
           tempArr[tempPos] = newArr[i]
           tempPos++
         }
@@ -556,7 +557,7 @@ export const getServerSideProps = async (context) => {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'Javascript') {
+        if (newArr[i].salary >= 100000) {
           tempArr[tempPos] = newArr[i]
           tempPos++
         }
@@ -606,6 +607,12 @@ export const getServerSideProps = async (context) => {
         }
       }
       newArr = tempArr
+    }
+
+    if (o !== 'oldest') {
+      newArr = newArr.slice().sort((a, b) => b.datePosted - a.datePosted)
+    } else {
+      newArr = newArr.slice().sort((a, b) => a.datePosted - b.datePosted)
     }
 
     if (newArr.length > 12) {
