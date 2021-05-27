@@ -148,7 +148,6 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
     {
       onCompleted({ updateUserLocation }) {
         if (updateUserLocation) {
-          console.log(updateUserLocation)
           setUserCity(updateUserLocation.city)
           setUserState(updateUserLocation.state)
           setFormIsDisplayed(false)
@@ -174,7 +173,6 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
       state: data.state?.value ? data.state.value : '',
     }
 
-    console.log(input)
     updateUserLocation({ variables: input })
     reset()
   }
@@ -299,7 +297,6 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   ] = useMutation(ADD_SKILL_TO_USER, {
     onCompleted({ addSkillToUser }) {
       if (addSkillToUser) {
-        console.log(addSkillToUser)
         setUserSkills(addSkillToUser.skills)
       }
     },
@@ -391,7 +388,7 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
         currentUserPosition={currentUserPosition}
       />
       <hr></hr>
-      <h2>{`${currentUser.name.split(' ')[0]}'s Skills`}</h2>
+      <h2>{`${currentUser.name}'s Skills`}</h2>
       <UserSkills
         userSkills={userSkills}
         setUserSkills={setUserSkills}
@@ -430,9 +427,6 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
 }
 
 const Dashboard = (props) => {
-  console.log(props.allSkills)
-  console.log(props.currentUser)
-
   const [userWorkExperience, setUserWorkExperience] = useState(
     props.currentUser.resume.workExperience
   )

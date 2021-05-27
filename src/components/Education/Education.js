@@ -30,7 +30,6 @@ const EducationData = ({
   const [deleteEducation, { loading, error }] = useMutation(DELETE_EDUCATION, {
     onCompleted({ deleteEducation }) {
       if (deleteEducation) {
-        console.log(deleteEducation)
         setUserEducation(
           userEducation.filter(
             (education) => education.educationId !== deleteEducation
@@ -51,7 +50,6 @@ const EducationData = ({
   })
 
   const handleDeleteEducation = (educationId) => {
-    console.log(educationId)
     deleteEducation({
       variables: { educationId: educationId },
     })
@@ -102,7 +100,6 @@ const EducationForm = ({ userId, setUserEducation }) => {
     {
       onCompleted({ addEducationToResume }) {
         if (addEducationToResume) {
-          console.log(addEducationToResume)
           setUserEducation(addEducationToResume.resume.education)
         }
       },
@@ -130,8 +127,6 @@ const EducationForm = ({ userId, setUserEducation }) => {
       endDate: data.endDate,
     }
 
-    console.log(input)
-
     if (data.endDate < data.startDate) {
       setEndDateError({ message: 'End date must be greater than start date' })
     } else {
@@ -139,10 +134,6 @@ const EducationForm = ({ userId, setUserEducation }) => {
       addEducationToResume({ variables: input })
       reset()
     }
-
-    // console.log(input)
-    // addEducationToResume({ variables: input })
-    // reset()
   }
 
   const [formIsDisplayed, setFormIsDisplayed] = useState(false)

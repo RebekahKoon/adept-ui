@@ -1,11 +1,10 @@
-import { useState, useEffect, useContext } from 'react'
+import { useContext } from 'react'
 import Modal from 'react-modal'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import ModalContext from '../../context/ModalContext'
-import { StyledBody, ExitButtonContainer, StyledExitButton } from './ModalStyle'
-import { RadioInput } from '../Input'
+import { ExitButtonContainer, StyledExitButton } from './ModalStyle'
 import SkillBarChart from '../BarChart'
 
 const statisticsModalStyle = {
@@ -36,13 +35,6 @@ const statisticsModalStyle = {
 const StatisticsModal = ({ skillCount, totalApplications }) => {
   const { isOpen, closeModal } = useContext(ModalContext)
 
-  const handleInputChange = () => {
-    console.log('hi')
-  }
-
-  console.log(skillCount)
-  console.log(totalApplications)
-
   return (
     <Modal
       isOpen={isOpen}
@@ -57,7 +49,6 @@ const StatisticsModal = ({ skillCount, totalApplications }) => {
         </StyledExitButton>
       </ExitButtonContainer>
       <h2>Skill Frequency on Your Applications</h2>
-      {/* <StyledBody> */}
       <SkillBarChart
         skillCount={skillCount}
         totalApplications={totalApplications}

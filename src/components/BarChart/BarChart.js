@@ -19,6 +19,7 @@ const SkillBarChart = ({ skillCount, totalApplications }) => {
       {
         data: skillData,
         name: 'Percent on your applications',
+        color: '#570EF1',
       },
     ],
     options: {
@@ -42,7 +43,8 @@ const SkillBarChart = ({ skillCount, totalApplications }) => {
         type: 'Category',
         categories: Object.keys(skillCount),
         title: {
-          text: 'Percent',
+          text: 'Percentage on Your Applications',
+          fontSize: '140px',
         },
       },
       yaxis: {
