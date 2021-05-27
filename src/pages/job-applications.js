@@ -113,9 +113,12 @@ const Sidebar = ({ currentUser, allSkills }) => {
       {currentUser.jobApplications.length > 0 &&
         topSkills
           .slice(0, 5)
-          .map((topSkill) => (
-            <TopSkill topSkill={topSkill} key={topSkill[0]} />
-          ))}
+          .map(
+            (topSkill) =>
+              topSkill[1] > 0 && (
+                <TopSkill topSkill={topSkill} key={topSkill[0]} />
+              )
+          )}
       <SkillStatsButton onClick={openModal}>
         View More Statistics
       </SkillStatsButton>
