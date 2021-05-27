@@ -43,9 +43,61 @@ function SearchResultView(props) {
   const dataArr = props.data
   const selectedCheckboxes = new Set()
 
+  function removeURLParameter(url, parameter) {
+    var urlparts = url.split('?')
+    if (urlparts.length >= 2) {
+      var prefix = encodeURIComponent(parameter) + '='
+      var pars = urlparts[1].split(/[&;]/g)
+
+      for (var i = pars.length; i-- > 0; ) {
+        if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+          pars.splice(i, 1)
+        }
+      }
+
+      return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '')
+    }
+    return url
+  }
+
   const toggleCheckbox = (label) => {
     if (selectedCheckboxes.has(label)) {
       selectedCheckboxes.delete(label)
+      var newHref
+      if (label == 'Full Time') {
+        newHref = removeURLParameter(window.location.href, 'jt1')
+        Router.push(newHref)
+      } else if (label == 'Part Time') {
+        newHref = removeURLParameter(window.location.href, 'jt2')
+        Router.push(newHref)
+      } else if (label == 'Contract') {
+        newHref = removeURLParameter(window.location.href, 'jt3')
+        Router.push(newHref)
+      } else if (label == 'Internship') {
+        newHref = removeURLParameter(window.location.href, 'jt4')
+        Router.push(newHref)
+      } else if (label == 'React') {
+        newHref = removeURLParameter(window.location.href, 'sc1')
+        Router.push(newHref)
+      } else if (label == 'Python') {
+        newHref = removeURLParameter(window.location.href, 'sc2')
+        Router.push(newHref)
+      } else if (label == 'Javascript') {
+        newHref = removeURLParameter(window.location.href, 'sc3')
+        Router.push(newHref)
+      } else if (label == 'Entry Level') {
+        newHref = removeURLParameter(window.location.href, 'ex1')
+        Router.push(newHref)
+      } else if (label == 'Associate') {
+        newHref = removeURLParameter(window.location.href, 'ex2')
+        Router.push(newHref)
+      } else if (label == 'Senior') {
+        newHref = removeURLParameter(window.location.href, 'ex3')
+        Router.push(newHref)
+      } else if (label == 'Leadership') {
+        newHref = removeURLParameter(window.location.href, 'ex4')
+        Router.push(newHref)
+      }
     } else {
       selectedCheckboxes.add(label)
       if (label == 'Full Time' && !props.jt1) {
