@@ -110,9 +110,12 @@ const Sidebar = ({ currentUser, allSkills }) => {
   return (
     <StyledSideBar>
       <h3>Top Skills in Your Job Applications</h3>
-      {topSkills.slice(0, 5).map((topSkill) => (
-        <TopSkill topSkill={topSkill} key={topSkill[0]} />
-      ))}
+      {currentUser.jobApplications.length > 0 &&
+        topSkills
+          .slice(0, 5)
+          .map((topSkill) => (
+            <TopSkill topSkill={topSkill} key={topSkill[0]} />
+          ))}
       <SkillStatsButton onClick={openModal}>
         View More Statistics
       </SkillStatsButton>
