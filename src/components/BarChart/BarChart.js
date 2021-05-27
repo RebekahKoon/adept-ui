@@ -44,7 +44,9 @@ const SkillBarChart = ({ skillCount, totalApplications }) => {
         categories: Object.keys(skillCount),
         title: {
           text: 'Percentage on Your Applications',
-          fontSize: '140px',
+          style: {
+            fontSize: '14px',
+          },
         },
       },
       yaxis: {
@@ -55,6 +57,9 @@ const SkillBarChart = ({ skillCount, totalApplications }) => {
         },
         title: {
           text: 'Skills',
+          style: {
+            fontSize: '14px',
+          },
         },
       },
     },
