@@ -1,6 +1,5 @@
-// componenets/NavBar.js
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import router from 'next/router'
 import StyledNavBar from './NavBarStyle.js'
 import {
   StyledNavContainer,
@@ -12,8 +11,10 @@ import MainContentContainer from '../styles/MainContentContainer'
 import ButtonOutline from '../Button/ButtonOutline'
 import useScrollFromTop from './useScrollFromTop'
 import useUser from '../../lib/useUser'
+import fetchJson from '../../lib/fetchJson.js'
 
 const AuthedNavBar = (params) => {
+  const { user, mutateUser } = useUser()
   return (
     <StyledNavContainer>
       <StyledNavLogo>
@@ -22,15 +23,46 @@ const AuthedNavBar = (params) => {
 
       <StyledNavItems>
         <StyledNavItem>
-          <Link href="/post-job">Post Job</Link>
+          <Link href="/dashboard">Dashboard</Link>
         </StyledNavItem>
 
-        <StyledNavItem>
-          <Link href="/search-results?page=1">Search</Link>
-        </StyledNavItem>
+        {user?.type === 'EMPLOYER' && (
+          <>
+            <StyledNavItem>
+              <Link href="/post-job">Post Job</Link>
+            </StyledNavItem>
+            <StyledNavItem>
+              <Link href="/postings">Your Postings</Link>
+            </StyledNavItem>
+          </>
+        )}
+
+        {user?.type === 'EMPLOYEE' && (
+          <StyledNavItem>
+            <Link href="/job-applications">Applications</Link>
+          </StyledNavItem>
+        )}
 
         <StyledNavItem>
-          <ButtonOutline href="/login">Login</ButtonOutline>
+          <ButtonOutline
+            onClick={async (e) => {
+              e.preventDefault()
+              try {
+                mutateUser(
+                  await fetchJson('/api/logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                  }),
+                  false
+                )
+                router.push('/login')
+              } catch (err) {
+                console.log(err)
+              }
+            }}
+          >
+            Log out
+          </ButtonOutline>
         </StyledNavItem>
       </StyledNavItems>
     </StyledNavContainer>
@@ -74,25 +106,7 @@ const NavBar = (props) => {
       }}
     >
       <MainContentContainer>
-        <StyledNavContainer>
-          <StyledNavLogo>
-            <Link href="/dashboard">Adept</Link>
-          </StyledNavLogo>
-
-          <StyledNavItems>
-            <StyledNavItem>
-              <Link href="/post-job">Post Job</Link>
-            </StyledNavItem>
-
-            <StyledNavItem>
-              <Link href="/search-results?page=1">Search</Link>
-            </StyledNavItem>
-
-            <StyledNavItem>
-              <ButtonOutline href="/login">Login</ButtonOutline>
-            </StyledNavItem>
-          </StyledNavItems>
-        </StyledNavContainer>
+        {user?.isLoggedIn ? <AuthedNavBar /> : <UnauthedNavBar />}
       </MainContentContainer>
     </StyledNavBar>
   )
