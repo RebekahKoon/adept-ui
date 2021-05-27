@@ -56,6 +56,20 @@ function SearchResultView(props) {
         Router.push(window.location.href + '&jt3=Contract')
       } else if (label == 'Internship' && !props.jt4) {
         Router.push(window.location.href + '&jt4=Internship')
+      } else if (label == 'React' && !props.sc1) {
+        Router.push(window.location.href + '&sc1=React')
+      } else if (label == 'Python' && !props.sc2) {
+        Router.push(window.location.href + '&sc2=Python')
+      } else if (label == 'Javascript' && !props.sc3) {
+        Router.push(window.location.href + '&sc3=Javascript')
+      } else if (label == 'Entry Level' && !props.ex1) {
+        Router.push(window.location.href + '&ex1=EntryLevel')
+      } else if (label == 'Associate' && !props.ex2) {
+        Router.push(window.location.href + '&ex2=Associate')
+      } else if (label == 'Senior' && !props.ex3) {
+        Router.push(window.location.href + '&ex3=Senior')
+      } else if (label == 'Leadership' && !props.ex4) {
+        Router.push(window.location.href + '&ex4=Leadership')
       }
     }
   }
@@ -67,9 +81,127 @@ function SearchResultView(props) {
     }
   }
 
-  const createCheckbox = (label) => (
-    <Checkbox label={label} handleCheckboxChange={toggleCheckbox} key={label} />
-  )
+  const createCheckbox = (label) => {
+    if (label == 'Full Time' && props.jt1) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Part Time' && props.jt2) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Contract' && props.jt3) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Internship' && props.jt4) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'React' && props.sc1) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Python' && props.sc2) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Javascript' && props.sc3) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Entry Level' && props.ex1) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Associate' && props.ex2) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Senior' && props.ex3) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Leadership' && props.ex4) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else {
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+        />
+      )
+    }
+  }
 
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
@@ -308,9 +440,9 @@ export const getServerSideProps = async (context) => {
         sc2: context.query.sc2 || null,
         sc3: context.query.sc3 || null,
         ex1: context.query.ex1 || null,
-        ex2: context.query.ex1 || null,
-        ex3: context.query.ex1 || null,
-        ex4: context.query.ex1 || null,
+        ex2: context.query.ex2 || null,
+        ex3: context.query.ex3 || null,
+        ex4: context.query.ex4 || null,
       },
     }
   } else {
@@ -347,9 +479,9 @@ export const getServerSideProps = async (context) => {
           sc2: context.query.sc2 || null,
           sc3: context.query.sc3 || null,
           ex1: context.query.ex1 || null,
-          ex2: context.query.ex1 || null,
-          ex3: context.query.ex1 || null,
-          ex4: context.query.ex1 || null,
+          ex2: context.query.ex2 || null,
+          ex3: context.query.ex3 || null,
+          ex4: context.query.ex4 || null,
         },
       }
     }

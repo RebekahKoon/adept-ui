@@ -5,7 +5,7 @@ import { StyledCheckbox, CheckboxContainer, Icon } from './CheckboxStyle'
 
 function Checkbox(props) {
   const [state, setState] = useState({
-    isChecked: false,
+    isChecked: props.checked,
   })
 
   const toggleCheckboxChange = () => {
