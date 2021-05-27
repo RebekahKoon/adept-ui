@@ -33,6 +33,10 @@ export const GET_JOB_POSTING_BY_ID = gql`
           email
           city
           state
+          skills {
+            skillId
+            name
+          }
         }
       }
     }
