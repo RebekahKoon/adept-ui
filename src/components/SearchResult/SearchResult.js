@@ -31,10 +31,12 @@ function SearchResult(props) {
     e.preventDefault()
     var currPage = props.currPage - 1
     var id = currPage * 5 + props.id
+    const jid = '0d8f2554-d0a3-4f1a-a5ba-caed21b9eb1a'
     if (props.q) {
-      Router.push('/job-posting?q=' + props.q + '&id=' + id)
+      // Router.push('/job-posting?q=' + props.q + '&id=' + id)
+      Router.push(`/job-posting?id=${jid}`)
     } else {
-      Router.push('/job-posting?id=' + id)
+      Router.push(`/job-posting?id=${jid}`)
     }
   }
 
