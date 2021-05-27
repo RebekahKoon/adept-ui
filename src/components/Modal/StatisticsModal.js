@@ -33,7 +33,7 @@ const statisticsModalStyle = {
   },
 }
 
-const StatisticsModal = ({ skillCount }) => {
+const StatisticsModal = ({ skillCount, totalApplications }) => {
   const { isOpen, closeModal } = useContext(ModalContext)
 
   const handleInputChange = () => {
@@ -41,6 +41,7 @@ const StatisticsModal = ({ skillCount }) => {
   }
 
   console.log(skillCount)
+  console.log(totalApplications)
 
   return (
     <Modal
@@ -55,48 +56,12 @@ const StatisticsModal = ({ skillCount }) => {
           <i className="fas fa-times fa-2x"></i>
         </StyledExitButton>
       </ExitButtonContainer>
-      <h2>Skill Statistics</h2>
+      <h2>Skill Frequency on Your Applications</h2>
       {/* <StyledBody> */}
-      <SkillBarChart skillCount={skillCount} />
-      {/* <h4 style={{ lineHeight: '0rem' }}>Docker</h4>
-        Appeared in 25% of your applications
-        <RadioInput
-          // {...register('city', { required: false })}
-          type="checkbox"
-          placeholder="Compenent?"
-          id="isCompetent"
-          // isInvalid={errors.city}
-          label="Are you comfortable with this skill?"
-          noPadding={true}
-          onChange={handleInputChange}
-        />
-        <hr></hr>
-        <h4 style={{ lineHeight: '0rem' }}>Communication</h4>
-        Appeared in 100% of your applications
-        <RadioInput
-          // {...register('city', { required: false })}
-          type="checkbox"
-          placeholder="Compenent?"
-          id="isCompetent"
-          // isInvalid={errors.city}
-          label="Are you comfortable with this skill?"
-          noPadding={true}
-          onChange={handleInputChange}
-        />
-        <hr></hr>
-        <h4 style={{ lineHeight: '0rem' }}>React</h4>
-        Appeared in 50% of your applications
-        <RadioInput
-          // {...register('city', { required: false })}
-          type="checkbox"
-          placeholder="Compenent?"
-          id="isCompetent"
-          // isInvalid={errors.city}
-          label="Are you comfortable with this skill?"
-          noPadding={true}
-          onChange={handleInputChange}
-        /> */}
-      {/* </StyledBody> */}
+      <SkillBarChart
+        skillCount={skillCount}
+        totalApplications={totalApplications}
+      />
       <br />
     </Modal>
   )

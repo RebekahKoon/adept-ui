@@ -3,11 +3,21 @@ const ReactApexCharts = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
 
-const SkillBarChart = ({ skillCount }) => {
+const SkillBarChart = ({ skillCount, totalApplications }) => {
+  console.log(Object.keys(skillCount).length)
+  const totalSkills = Object.keys(skillCount).length
+  const height = totalSkills * 15
+
+  const dataTest = Object.values(skillCount).map((value) =>
+    (value = (value / totalApplications) * 100).toFixed(2)
+  )
+
+  console.log(dataTest)
+
   const data = {
     series: [
       {
-        data: Object.values(skillCount),
+        data: dataTest,
       },
     ],
     options: {
@@ -30,14 +40,15 @@ const SkillBarChart = ({ skillCount }) => {
       xaxis: {
         categories: Object.keys(skillCount),
       },
+      yaxis: {
+        forceNiceScale: false,
+        max: 100,
+      },
     },
     markers: {
       size: 0,
     },
   }
-
-  console.log(Object.keys(skillCount).length)
-  const height = Object.keys(skillCount).length * 15
 
   return (
     <ReactApexCharts

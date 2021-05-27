@@ -73,6 +73,7 @@ const ViewUserJobPostings = (props) => {
       (skill) => (skillCount[skill.name] += 1)
     )
   )
+
   // console.log(skillCount)
   // console.log(allSkills)
   // console.log(skillNames)
@@ -130,7 +131,10 @@ const ViewUserJobPostings = (props) => {
                 closeModal,
               }}
             >
-              <StatisticsModal skillCount={skillCount} />
+              <StatisticsModal
+                skillCount={skillCount}
+                totalApplications={props.currentUser.jobApplications.length}
+              />
             </ModalContext.Provider>
           </StyledSideBar>
           <StyledJobContainer>
