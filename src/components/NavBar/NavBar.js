@@ -38,9 +38,14 @@ const AuthedNavBar = (params) => {
         )}
 
         {user?.type === 'EMPLOYEE' && (
-          <StyledNavItem>
-            <Link href="/job-applications">Applications</Link>
-          </StyledNavItem>
+          <>
+            <StyledNavItem>
+              <Link href="/job-applications">Applications</Link>
+            </StyledNavItem>
+            <StyledNavItem>
+              <Link href="/search-results?page=1">View jobs</Link>
+            </StyledNavItem>
+          </>
         )}
 
         <StyledNavItem>
