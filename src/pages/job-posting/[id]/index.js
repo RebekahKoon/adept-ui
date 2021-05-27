@@ -16,6 +16,7 @@ const JobPosting = (props) => {
   const { loading, error, data } = useQuery(GET_JOB_POSTING_BY_ID, {
     variables: { jobPostId: id },
   })
+  console.log(data)
   useEffect(() => {
     console.log(data)
   }, [data])
