@@ -17,37 +17,35 @@ import {
   StyledDate,
 } from './JobCardStyle'
 
-const JobMainContent = ({ jobApplication }) => {
+const JobMainContent = ({ jobPosting }) => {
   return (
     <StyledJobCardTop>
       <i className="fab fa-asymmetrik fa-3x"></i>
       <StyledJobCardText>
         <StyledTitleLine>
-          <h3>{jobApplication.jobPosting.positionTitle}</h3>
+          <h3>{jobPosting.positionTitle}</h3>
           <StyledViewJob>
             View Job <i className="fas fa-arrow-circle-right"></i>
           </StyledViewJob>
         </StyledTitleLine>
         <StyledJobCardGrid>
           <StyledGridItem>
-            <i className="fas fa-briefcase"></i>{' '}
-            {jobApplication.jobPosting.company}
+            <i className="fas fa-briefcase"></i> {jobPosting.company}
           </StyledGridItem>
           <StyledGridItem>
-            <i className="fas fa-map-marker-alt"></i>{' '}
-            {jobApplication.jobPosting.city}, {jobApplication.jobPosting.state}
+            <i className="fas fa-map-marker-alt"></i> {jobPosting.city},{' '}
+            {jobPosting.state}
           </StyledGridItem>
           <StyledGridItem>
             <i className="fas fa-clock"></i>{' '}
-            {jobApplication.jobPosting.type === 'FULL_TIME'
+            {jobPosting.type === 'FULL_TIME'
               ? 'Full-time'
-              : jobApplication.jobPosting.type === 'PART_TIME'
+              : jobPosting.type === 'PART_TIME'
               ? 'Part-time'
               : 'Internship'}
           </StyledGridItem>
           <StyledGridItem>
-            <i className="fas fa-dollar-sign"></i>{' '}
-            {jobApplication.jobPosting.salary}
+            <i className="fas fa-dollar-sign"></i> {jobPosting.salary}
           </StyledGridItem>
         </StyledJobCardGrid>
       </StyledJobCardText>
@@ -67,17 +65,17 @@ const JobSkills = ({ skills }) => {
   )
 }
 
-const JobCard = ({ jobApplication }) => {
-  const dateApplied = new Date(parseInt(jobApplication.dateApplied))
+const JobPostCard = ({ jobPosting }) => {
+  const dateApplied = new Date(parseInt(jobPosting.datePosted))
 
   return (
     <StyledJobCardContainer>
       <StyledJobCardContent>
-        <JobMainContent jobApplication={jobApplication} />
-        <JobSkills skills={jobApplication.jobPosting.skillsRequired} />
+        <JobMainContent jobPosting={jobPosting} />
+        <JobSkills skills={jobPosting.skillsRequired} />
         <StyledDate>
           <small>
-            Applied {months[dateApplied.getMonth()]} {dateApplied.getDate()},{' '}
+            Posted {months[dateApplied.getMonth()]} {dateApplied.getDate()},{' '}
             {dateApplied.getFullYear()}
           </small>
         </StyledDate>
@@ -86,4 +84,4 @@ const JobCard = ({ jobApplication }) => {
   )
 }
 
-export default JobCard
+export default JobPostCard

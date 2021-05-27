@@ -7,7 +7,7 @@ import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import StyledSideBar from '../components/SideBar'
 import SearchBar from '../components/SearchBar'
-import JobAppCard from '../components/JobCard'
+import { JobPostCard } from '../components/JobCard'
 import { StyledButtonSolid } from '../components/Button'
 import ModalContext from '../context/ModalContext'
 import { StatisticsModal } from '../components/Modal'
@@ -137,7 +137,7 @@ const Sidebar = ({ currentUser, allSkills }) => {
   )
 }
 
-const JobApplications = (props) => {
+const JobPosting = (props) => {
   return (
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
@@ -148,11 +148,11 @@ const JobApplications = (props) => {
             allSkills={props.allSkills}
           />
           <StyledJobContainer>
-            {props.currentUser.jobApplications.map((jobApplication) => (
+            {props.currentUser.jobPostings.map((jobPosting) => (
               <>
-                <JobAppCard
-                  jobApplication={jobApplication}
-                  key={jobApplication.jobAppId}
+                <JobPostCard
+                  jobPosting={jobPosting}
+                  key={jobPosting.jobPostId}
                 />
               </>
             ))}
@@ -163,7 +163,7 @@ const JobApplications = (props) => {
   )
 }
 
-export default JobApplications
+export default JobPosting
 
 export const getServerSideProps = withSession(async ({ req, res }) => {
   const user = req.session.get('user')
