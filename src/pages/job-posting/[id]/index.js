@@ -68,17 +68,29 @@ const ConnectButton = styled(StyledButtonSolid)`
   font-size: 0.875rem;
 `
 
+const Em = styled.span`
+  font-weight: 700;
+`
+
+const AppliedIcon = styled.span`
+  padding-left: 1rem;
+  color: green;
+`
+
 const JobPosting = ({ user }) => {
   // use router.back() to go back
   const [jobPost, setJobPost] = useState(null)
+  const [hasApplied, setHasApplied] = useState(false)
+  const [isOwner, setIsOwner] = useState(false)
   const router = useRouter()
-  const { id } = router.query
+  const { id: jobPostId } = router.query
 
   const { loading, error, data } = useQuery(GET_JOB_POSTING_BY_ID, {
-    variables: { jobPostId: id },
+    variables: { jobPostId },
     onCompleted: (data) => {
       if (data) {
         setJobPost(data.getJobPostingById)
+        setIsOwner(data.getJobPostingById.postedBy.userId === user.userId)
       }
     },
     onError: (error) => {
@@ -99,11 +111,32 @@ const JobPosting = ({ user }) => {
     refetchQueries: [
       {
         query: GET_JOB_POSTING_BY_ID,
-        variables: { jobPostId: id },
+        variables: { jobPostId },
       },
     ],
     awaitRefetchQueries: true,
   })
+
+  useEffect(() => {
+    setHasApplied(
+      jobPost?.applicants.filter(
+        (applicant) => applicant.user.userId === user.userId
+      ).length !== 0
+    )
+    console.log(hasApplied)
+  }, [jobPost, user.userId])
+
+  const handleApply = async () => {
+    const input = {
+      jobPostId,
+      userId: user.userId,
+      dateApplied: new Date(Date.now()).toISOString(),
+    }
+    await applyToJob({
+      variables: input,
+    })
+    setHasApplied(true)
+  }
 
   return (
     <Layout hasNav={false}>
@@ -120,7 +153,14 @@ const JobPosting = ({ user }) => {
                   <i className="fab fa-asymmetrik fa-3x"></i>
                 </CompanyLogo>
                 <h2>{jobPost?.company}</h2>
-                <h1>{jobPost?.positionTitle}</h1>
+                <h1>
+                  {jobPost?.positionTitle}
+                  {hasApplied && !isOwner && (
+                    <AppliedIcon>
+                      <i className="fas fa-check-circle"></i>
+                    </AppliedIcon>
+                  )}
+                </h1>
                 <StyledJobCardGrid>
                   <StyledGridItem>
                     <i className="fas fa-map-marker-alt"></i> {jobPost?.city},{' '}
@@ -143,12 +183,17 @@ const JobPosting = ({ user }) => {
 
               <PostedBySection>
                 <span>
-                  Posted on {new Date(parseInt(jobPost?.datePosted)).getDate()}
+                  Published{' '}
+                  {new Date(parseInt(jobPost?.datePosted)).toLocaleDateString()}
                 </span>
-                <span>By: {jobPost?.postedBy.name}</span>
                 <span>
-                  <ConnectButton>Connect</ConnectButton>
+                  By: <Em>{isOwner ? 'You' : jobPost?.postedBy.name}</Em>
                 </span>
+                {!isOwner && (
+                  <span>
+                    <ConnectButton>Connect</ConnectButton>
+                  </span>
+                )}
               </PostedBySection>
 
               <DescriptionSection>{jobPost?.description}</DescriptionSection>
@@ -181,22 +226,20 @@ const JobPosting = ({ user }) => {
                     />
                   </CenterContainer>
                 ) : ( */}
-                <LargeButtonSolid
-                  loading={applyLoading}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    const input = {
-                      jobPostId: id,
-                      userId: user.userId,
-                      dateApplied: new Date(Date.now()).toISOString(),
-                    }
-                    applyToJob({
-                      variables: input,
-                    })
-                  }}
-                >
-                  Apply
-                </LargeButtonSolid>
+
+                {/* Don't render Apply Button if this user posted this job */}
+                {!isOwner && (
+                  <LargeButtonSolid
+                    loading={applyLoading}
+                    disabled={applyLoading || hasApplied}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleApply()
+                    }}
+                  >
+                    {hasApplied ? 'Applied' : 'Apply'}
+                  </LargeButtonSolid>
+                )}
                 {/* )} */}
               </SubSection>
             </>

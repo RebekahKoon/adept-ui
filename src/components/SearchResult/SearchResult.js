@@ -1,5 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
+import Link from 'next/link'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -134,14 +135,14 @@ function SearchResult(props) {
           </SSRJobInfoAndLogo>
         </SSRSearchResultContent>
         <SSRSearchResultLinkContainer>
-          <SSRJobButton
-            href={`/job-posting/${props.data.jobPostId}`}
-            value="View Job"
-            label="ViewJob"
-          >
-            View Job
-            <i className="fas fa-arrow-right"></i>
-          </SSRJobButton>
+          <Link href={`/job-posting/${props.data.jobPostId}`}>
+            <a>
+              <SSRJobButton value="View Job" label="ViewJob">
+                View Job
+                <i className="fas fa-arrow-right"></i>
+              </SSRJobButton>
+            </a>
+          </Link>
         </SSRSearchResultLinkContainer>
       </SSRSearchResultContainer>
       <SSRSearchResultFooter>
