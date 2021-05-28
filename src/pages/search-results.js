@@ -305,6 +305,13 @@ function SearchResultView(props) {
     },
   ]
 
+  var currOption
+  if (props.o == 'oldest') {
+    currOption = sortOptions[1]
+  } else {
+    currOption = [sortOptions[0]]
+  }
+
   function createFooter() {
     if (props.currPage - 1 == 0 && props.pageCount > 1) {
       return (
@@ -413,7 +420,7 @@ function SearchResultView(props) {
       <SSRSortByDropdown>
         Sort by:
         <Select
-          defaultValue={sortOptions[0]}
+          defaultValue={currOption}
           onChange={handleOptionChange}
           options={sortOptions}
           styles={StyledDropdown}
