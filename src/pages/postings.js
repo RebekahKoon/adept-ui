@@ -67,7 +67,7 @@ const TopSkill = ({ topSkill }) => {
           <h4 style={{ lineHeight: '0rem', marginBottom: '1rem' }}>
             {topSkill[0]}
           </h4>
-          Appeared in {topSkill[1]} application{topSkill[1] !== 1 && 's'}
+          Appeared in {topSkill[1]} posting{topSkill[1] !== 1 && 's'}
         </div>
       </StyledRow>
       <hr style={{ visibility: 'hidden', margin: '1.25rem 0' }}></hr>
