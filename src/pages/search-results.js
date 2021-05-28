@@ -82,17 +82,20 @@ function SearchResultView(props) {
       } else if (label == '$100,000 +') {
         newHref = removeURLParameter(window.location.href, 'sc3')
         Router.push(newHref)
-      } else if (label == 'Entry Level') {
+      } else if (label == props.skillArr[0]) {
         newHref = removeURLParameter(window.location.href, 'ex1')
         Router.push(newHref)
-      } else if (label == 'Associate') {
+      } else if (label == props.skillArr[1]) {
         newHref = removeURLParameter(window.location.href, 'ex2')
         Router.push(newHref)
-      } else if (label == 'Senior') {
+      } else if (label == props.skillArr[2]) {
         newHref = removeURLParameter(window.location.href, 'ex3')
         Router.push(newHref)
-      } else if (label == 'Leadership') {
+      } else if (label == props.skillArr[3]) {
         newHref = removeURLParameter(window.location.href, 'ex4')
+        Router.push(newHref)
+      } else if (label == props.skillArr[4]) {
+        newHref = removeURLParameter(window.location.href, 'ex5')
         Router.push(newHref)
       }
     } else {
@@ -109,22 +112,17 @@ function SearchResultView(props) {
         Router.push(window.location.href + '&sc2=1')
       } else if (label == '$100,000 +' && !props.sc3) {
         Router.push(window.location.href + '&sc3=1')
-      } else if (label == 'Entry Level' && !props.ex1) {
-        Router.push(window.location.href + '&ex1=EntryLevel')
-      } else if (label == 'Associate' && !props.ex2) {
-        Router.push(window.location.href + '&ex2=Associate')
-      } else if (label == 'Senior' && !props.ex3) {
-        Router.push(window.location.href + '&ex3=Senior')
-      } else if (label == 'Leadership' && !props.ex4) {
-        Router.push(window.location.href + '&ex4=Leadership')
+      } else if (label == props.skillArr[0] && !props.ex1) {
+        Router.push(window.location.href + '&ex1=' + props.skillArr[0])
+      } else if (label == props.skillArr[1] && !props.ex2) {
+        Router.push(window.location.href + '&ex2=' + props.skillArr[1])
+      } else if (label == props.skillArr[2] && !props.ex3) {
+        Router.push(window.location.href + '&ex3=' + props.skillArr[2])
+      } else if (label == props.skillArr[3] && !props.ex4) {
+        Router.push(window.location.href + '&ex4=' + props.skillArr[3])
+      } else if (label == props.skillArr[4] && !props.ex5) {
+        Router.push(window.location.href + '&ex5=' + props.skillArr[4])
       }
-    }
-  }
-
-  const handleFormSubmit = (formSubmitEvent) => {
-    formSubmitEvent.preventDefault()
-    for (const checkbox of selectedCheckboxes) {
-      console.log(checkbox, 'is selected.')
     }
   }
 
@@ -159,7 +157,7 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (label == 'React' && props.sc1) {
+    } else if (label == '$0 - $40,000' && props.sc1) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -169,7 +167,7 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (label == 'Python' && props.sc2) {
+    } else if (label == '$40,000 - $100,000' && props.sc2) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -179,7 +177,7 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (label == 'Javascript' && props.sc3) {
+    } else if (label == '$100,000 +' && props.sc3) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -189,7 +187,14 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (label == 'Entry Level' && props.ex1) {
+    } else if (
+      label == props.skillArr[0] &&
+      (label == props.ex1 ||
+        label == props.ex2 ||
+        label == props.ex3 ||
+        label == props.ex4 ||
+        label == props.ex5)
+    ) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -199,7 +204,14 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (label == 'Associate' && props.ex2) {
+    } else if (
+      label == props.skillArr[1] &&
+      (label == props.ex1 ||
+        label == props.ex2 ||
+        label == props.ex3 ||
+        label == props.ex4 ||
+        label == props.ex5)
+    ) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -209,7 +221,14 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (label == 'Senior' && props.ex3) {
+    } else if (
+      label == props.skillArr[2] &&
+      (label == props.ex1 ||
+        label == props.ex2 ||
+        label == props.ex3 ||
+        label == props.ex4 ||
+        label == props.ex5)
+    ) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -219,7 +238,31 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (label == 'Leadership' && props.ex4) {
+    } else if (
+      label == props.skillArr[3] &&
+      (label == props.ex1 ||
+        label == props.ex2 ||
+        label == props.ex3 ||
+        label == props.ex4 ||
+        label == props.ex5)
+    ) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (
+      label == props.skillArr[4] &&
+      (label == props.ex1 ||
+        label == props.ex2 ||
+        label == props.ex3 ||
+        label == props.ex4 ||
+        label == props.ex5)
+    ) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -256,9 +299,7 @@ function SearchResultView(props) {
 
   const createSkillCheckboxes = () => skillArr.map(createCheckbox)
 
-  const [sortOption, setOption] = useState('All')
   const handleOptionChange = (e) => {
-    setOption(e.value)
     if (e.value == 'newest') {
       if (!props.o) {
         Router.push(window.location.href + '&o=newest')
@@ -381,9 +422,7 @@ function SearchResultView(props) {
           <SSRFilterOptionHeader>JobType</SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              <form onSubmit={handleFormSubmit}>
-                {createJobTypeCheckboxes()}
-              </form>
+              <form>{createJobTypeCheckboxes()}</form>
             </SSRCheckBoxOption>
           </SSRFilterOptions>
         </SSRFilterSection>
@@ -394,9 +433,7 @@ function SearchResultView(props) {
           <SSRFilterOptionHeader>Salary Range</SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              <form onSubmit={handleFormSubmit}>
-                {createSalRangeCheckboxes()}
-              </form>
+              <form>{createSalRangeCheckboxes()}</form>
             </SSRCheckBoxOption>
           </SSRFilterOptions>
         </SSRFilterSection>
@@ -407,7 +444,7 @@ function SearchResultView(props) {
           <SSRFilterOptionHeader>Skill</SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              <form onSubmit={handleFormSubmit}>{createSkillCheckboxes()}</form>
+              <form>{createSkillCheckboxes()}</form>
             </SSRCheckBoxOption>
           </SSRFilterOptions>
         </SSRFilterSection>
@@ -484,6 +521,7 @@ export const getServerSideProps = async (context) => {
         ex2: context.query.ex2 || null,
         ex3: context.query.ex3 || null,
         ex4: context.query.ex4 || null,
+        ex5: context.query.ex5 || null,
       },
     }
   } else {
@@ -500,6 +538,7 @@ export const getServerSideProps = async (context) => {
     var ex2 = context.query.ex2
     var ex3 = context.query.ex3
     var ex4 = context.query.ex4
+    var ex5 = context.query.ex5
     var newArr = allJobData.getAllJobPostings
     var o = context.query.o
 
@@ -573,10 +612,11 @@ export const getServerSideProps = async (context) => {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'FULL_TIME') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
+        for (var j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex1) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
       }
       newArr = tempArr
     }
@@ -584,10 +624,11 @@ export const getServerSideProps = async (context) => {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'FULL_TIME') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex2) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
       }
       newArr = tempArr
     }
@@ -595,10 +636,11 @@ export const getServerSideProps = async (context) => {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'FULL_TIME') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex3) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
       }
       newArr = tempArr
     }
@@ -606,10 +648,23 @@ export const getServerSideProps = async (context) => {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'FULL_TIME') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex4) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
+      }
+      newArr = tempArr
+    }
+    if (ex5) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex5) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
       }
       newArr = tempArr
     }
@@ -622,7 +677,7 @@ export const getServerSideProps = async (context) => {
 
     var skillArr = []
     for (i = 0; i < newArr.length; i++) {
-      for (var j = 0; j < newArr[i].skillsRequired.length; j++) {
+      for (j = 0; j < newArr[i].skillsRequired.length; j++) {
         skillArr.push(newArr[i].skillsRequired[j].name)
       }
     }
@@ -636,8 +691,6 @@ export const getServerSideProps = async (context) => {
       return sortedArr[i1] - sortedArr[i0]
     })
 
-    console.log(skillArr)
-
     var orderedArr = skillArr.filter(function (value, index, self) {
       return self.indexOf(value) === index
     })
@@ -649,8 +702,6 @@ export const getServerSideProps = async (context) => {
       }
       orderedArr = tempArr
     }
-
-    console.log(orderedArr)
 
     if (newArr.length > 12) {
       var pageStart = (context.query.page - 1) * 12
@@ -683,6 +734,7 @@ export const getServerSideProps = async (context) => {
           ex2: ex2 || null,
           ex3: ex3 || null,
           ex4: ex4 || null,
+          ex5: ex5 || null,
           skillArr: orderedArr || null,
         },
       }
@@ -703,6 +755,7 @@ export const getServerSideProps = async (context) => {
           ex2: ex2 || null,
           ex3: ex3 || null,
           ex4: ex4 || null,
+          ex5: ex5 || null,
           skillArr: orderedArr || null,
         },
       }
