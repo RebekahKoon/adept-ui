@@ -453,7 +453,7 @@ function SearchResultView(props) {
       <MainContentFlexContainer>
         <SSRMain>
           <SSRSearchResultsHeader>
-            {props.data.length} results found
+            {props.searchLength} results found
             <SearchResultDropdown />
           </SSRSearchResultsHeader>
           <SSRMainContentContainer>
@@ -483,31 +483,6 @@ export const getServerSideProps = async (context) => {
       query: SEARCH_JOBS,
       variables: { searchTerm: context.query.q },
     })
-    var pageCount = Math.ceil(jobData.searchJobPostings.length / 12)
-    return {
-      props: {
-        data: jobData.searchJobPostings,
-        q: context.query.q,
-        currPage: context.query.page,
-        pageCount: pageCount,
-        o: context.query.o || null,
-        jt1: context.query.jt1 || null,
-        jt2: context.query.jt2 || null,
-        jt3: context.query.jt3 || null,
-        sc1: context.query.sc1 || null,
-        sc2: context.query.sc2 || null,
-        sc3: context.query.sc3 || null,
-        ex1: context.query.ex1 || null,
-        ex2: context.query.ex2 || null,
-        ex3: context.query.ex3 || null,
-        ex4: context.query.ex4 || null,
-        ex5: context.query.ex5 || null,
-      },
-    }
-  } else {
-    const { data: allJobData } = await client.query({
-      query: GET_ALL_JOBS,
-    })
     var jt1 = context.query.jt1
     var jt2 = context.query.jt2
     var jt3 = context.query.jt3
@@ -519,10 +494,11 @@ export const getServerSideProps = async (context) => {
     var ex3 = context.query.ex3
     var ex4 = context.query.ex4
     var ex5 = context.query.ex5
-    var newArr = allJobData.getAllJobPostings
+    var newArr = jobData.searchJobPostings
     var jtArr = []
     var scArr = []
     var exArr = []
+    var arrLen
     var o = context.query.o
 
     if (jt1) {
@@ -645,7 +621,7 @@ export const getServerSideProps = async (context) => {
       }
       orderedArr = tempArr
     }
-
+    arrLen = newArr.length
     if (newArr.length > 12) {
       var pageStart = (context.query.page - 1) * 12
       var pageEnd = pageStart + 12
@@ -656,6 +632,185 @@ export const getServerSideProps = async (context) => {
         pageEnd = pageEnd - diff
       }
       var finArr = []
+      tempPos = 0
+      for (i = pageStart; i < pageEnd; i++) {
+        finArr[tempPos] = newArr[i]
+        tempPos++
+      }
+    }
+    return {
+      props: {
+        data: newArr,
+        q: context.query.q,
+        currPage: context.query.page,
+        pageCount: pageCount || 0,
+        jt1: jt1 || null,
+        jt2: jt2 || null,
+        jt3: jt3 || null,
+        sc1: sc1 || null,
+        sc2: sc2 || null,
+        sc3: sc3 || null,
+        ex1: ex1 || null,
+        ex2: ex2 || null,
+        ex3: ex3 || null,
+        ex4: ex4 || null,
+        ex5: ex5 || null,
+        skillArr: orderedArr || null,
+        searchLength: arrLen,
+      },
+    }
+  } else {
+    const { data: allJobData } = await client.query({
+      query: GET_ALL_JOBS,
+    })
+    jt1 = context.query.jt1
+    jt2 = context.query.jt2
+    jt3 = context.query.jt3
+    sc1 = context.query.sc1
+    sc2 = context.query.sc2
+    sc3 = context.query.sc3
+    ex1 = context.query.ex1
+    ex2 = context.query.ex2
+    ex3 = context.query.ex3
+    ex4 = context.query.ex4
+    ex5 = context.query.ex5
+    newArr = allJobData.getAllJobPostings
+    jtArr = []
+    scArr = []
+    exArr = []
+    o = context.query.o
+
+    if (jt1) {
+      tempArr = newArr.filter((term) => term.type == 'FULL_TIME')
+      newArr = tempArr
+    }
+    if (jt2) {
+      tempArr = newArr.filter((term) => term.type == 'PART_TIME')
+      newArr = tempArr
+    }
+    if (jt3) {
+      tempArr = newArr.filter((term) => term.type == 'INTERNSHIP')
+      newArr = tempArr
+    }
+    if (sc1) {
+      tempArr = newArr.filter((term) => term.salary < 40000)
+      newArr = tempArr
+    }
+    if (sc2) {
+      tempArr = newArr.filter(
+        (term) => term.salary > 40000 && term.salary < 100000
+      )
+      newArr = tempArr
+    }
+    if (sc3) {
+      tempArr = newArr.filter((term) => term.salary > 100000)
+      newArr = tempArr
+    }
+    if (ex1) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex1) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
+      }
+      newArr = tempArr
+    }
+    if (ex2) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex2) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
+      }
+      newArr = tempArr
+    }
+    if (ex3) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex3) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
+      }
+      newArr = tempArr
+    }
+    if (ex4) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex4) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
+      }
+      newArr = tempArr
+    }
+    if (ex5) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          if (newArr[i].skillsRequired[j].name == ex5) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
+      }
+      newArr = tempArr
+    }
+
+    if (o !== 'oldest') {
+      newArr = newArr.slice().sort((a, b) => b.datePosted - a.datePosted)
+    } else {
+      newArr = newArr.slice().sort((a, b) => a.datePosted - b.datePosted)
+    }
+
+    skillArr = []
+    for (i = 0; i < newArr.length; i++) {
+      for (j = 0; j < newArr[i].skillsRequired.length; j++) {
+        skillArr.push(newArr[i].skillsRequired[j].name)
+      }
+    }
+
+    sortedArr = skillArr.reduce((sortedArr, index) => {
+      sortedArr[index] = (sortedArr[index] || 0) + 1
+      return sortedArr
+    }, {})
+
+    skillArr.sort(function (i0, i1) {
+      return sortedArr[i1] - sortedArr[i0]
+    })
+
+    orderedArr = skillArr.filter(function (value, index, self) {
+      return self.indexOf(value) === index
+    })
+
+    if (orderedArr.length > 5) {
+      tempArr = []
+      for (i = 0; i < 5; i++) {
+        tempArr.push(orderedArr[i])
+      }
+      orderedArr = tempArr
+    }
+    arrLen = newArr.length
+    if (newArr.length > 12) {
+      pageStart = (context.query.page - 1) * 12
+      pageEnd = pageStart + 12
+      length = newArr.length
+      pageCount = Math.ceil(length / 12)
+      if (pageEnd > length) {
+        diff = pageEnd - length
+        pageEnd = pageEnd - diff
+      }
+      finArr = []
       tempPos = 0
       for (i = pageStart; i < pageEnd; i++) {
         finArr[tempPos] = newArr[i]
@@ -679,9 +834,11 @@ export const getServerSideProps = async (context) => {
           ex4: ex4 || null,
           ex5: ex5 || null,
           skillArr: orderedArr || null,
+          searchLength: arrLen,
         },
       }
     } else {
+      arrLen = newArr.length
       return {
         props: {
           data: newArr,
@@ -700,6 +857,7 @@ export const getServerSideProps = async (context) => {
           ex4: ex4 || null,
           ex5: ex5 || null,
           skillArr: orderedArr || null,
+          searchLength: arrLen,
         },
       }
     }
