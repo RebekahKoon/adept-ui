@@ -380,15 +380,19 @@ function SearchResultView(props) {
   }
 
   const handleClickPrev = (e) => {
-    e.preventDefault()
-    var newPage = parseInt(props.currPage) - 1
-    Router.push('/search-results?page=' + newPage)
+    var page = parseInt(props.currPage) - 1
+    var searchParams = new URLSearchParams(window.location.search)
+    console.log(searchParams)
+    searchParams.set('page', page)
+    window.location.search = searchParams.toString()
   }
 
   const handleClickNext = (e) => {
-    e.preventDefault()
-    var newPage = parseInt(props.currPage) + 1
-    Router.push('/search-results?page=' + newPage)
+    var page = parseInt(props.currPage) + 1
+    var searchParams = new URLSearchParams(window.location.search)
+    searchParams.set('page', page)
+    console.log(searchParams)
+    window.location.search = searchParams.toString()
   }
 
   const SearchResultSideBar = () => {
@@ -516,78 +520,41 @@ export const getServerSideProps = async (context) => {
     var ex4 = context.query.ex4
     var ex5 = context.query.ex5
     var newArr = allJobData.getAllJobPostings
+    var jtArr = []
+    var scArr = []
+    var exArr = []
     var o = context.query.o
 
     if (jt1) {
-      var tempArr = []
-      var tempPos = 0
-      for (var i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'FULL_TIME') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
+      var tempArr = newArr.filter((term) => term.type == 'FULL_TIME')
       newArr = tempArr
     }
     if (jt2) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'PART_TIME') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
+      tempArr = newArr.filter((term) => term.type == 'PART_TIME')
       newArr = tempArr
     }
     if (jt3) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'INTERNSHIP') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
+      tempArr = newArr.filter((term) => term.type == 'INTERNSHIP')
       newArr = tempArr
     }
     if (sc1) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].salary < 40000) {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
+      tempArr = newArr.filter((term) => term.salary < 40000)
       newArr = tempArr
     }
     if (sc2) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].salary >= 40000 && newArr[i].salary < 100000) {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
+      tempArr = newArr.filter(
+        (term) => term.salary > 40000 && term.salary < 100000
+      )
       newArr = tempArr
     }
     if (sc3) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].salary >= 100000) {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
+      tempArr = newArr.filter((term) => term.salary > 100000)
       newArr = tempArr
     }
     if (ex1) {
       tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
+      var tempPos = 0
+      for (var i = 0; i < newArr.length; i++) {
         for (var j = 0; j < newArr[i].skillsRequired.length - 1; j++)
           if (newArr[i].skillsRequired[j].name == ex1) {
             tempArr[tempPos] = newArr[i]
