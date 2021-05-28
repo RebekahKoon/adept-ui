@@ -1,4 +1,6 @@
+import { useMutation } from '@apollo/client'
 import CreatableSelect from 'react-select/creatable'
+import { GET_ALL_SKILLS } from '../../queries/getAllSkills'
 import StyledSkillDropdown from './SkillDropdownStyle'
 
 const SearchSkillDropdown = ({

@@ -2,7 +2,7 @@
 import Router from 'next/router'
 import { useState } from 'react'
 import Select from 'react-select'
-
+import { SEARCH_USERS } from '../queries/searchUsers'
 import { SEARCH_JOBS } from '../queries/search'
 import { GET_ALL_JOBS } from '../queries/getAllJobPostings'
 import Layout from '../components/Layout'
@@ -478,6 +478,13 @@ export const getServerSideProps = async (context) => {
         permanent: false,
       },
     }
+  }
+  if (context.query.uq) {
+    const { data: userData } = await client.query({
+      query: SEARCH_USERS,
+      variables: { searchTerm: context.query.uq },
+    })
+    console.log(userData)
   }
   if (context.query.q) {
     const { data: jobData } = await client.query({
