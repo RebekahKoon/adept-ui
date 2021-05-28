@@ -39,7 +39,7 @@ import {
 function SearchResultView(props) {
   const JobType = ['Full Time', 'Part Time', 'Internship']
   const SalaryRange = ['$0 - $40,000', '$40,000 - $100,000', '$100,000 +']
-  const Experience = ['Entry Level', 'Associate', 'Senior', 'Leadership']
+  const skillArr = props.skillArr
   const dataArr = props.data
   const selectedCheckboxes = new Set()
 
@@ -254,7 +254,7 @@ function SearchResultView(props) {
 
   const createSalRangeCheckboxes = () => SalaryRange.map(createCheckbox)
 
-  const createExperienceCheckboxes = () => Experience.map(createCheckbox)
+  const createSkillCheckboxes = () => skillArr.map(createCheckbox)
 
   const [sortOption, setOption] = useState('All')
   const handleOptionChange = (e) => {
@@ -397,12 +397,10 @@ function SearchResultView(props) {
           <SSRDividerContainer>
             <SSRDivider />
           </SSRDividerContainer>
-          <SSRFilterOptionHeader>Experience</SSRFilterOptionHeader>
+          <SSRFilterOptionHeader>Skill</SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              <form onSubmit={handleFormSubmit}>
-                {createExperienceCheckboxes()}
-              </form>
+              <form onSubmit={handleFormSubmit}>{createSkillCheckboxes()}</form>
             </SSRCheckBoxOption>
           </SSRFilterOptions>
         </SSRFilterSection>
@@ -615,6 +613,38 @@ export const getServerSideProps = async (context) => {
       newArr = newArr.slice().sort((a, b) => a.datePosted - b.datePosted)
     }
 
+    var skillArr = []
+    for (i = 0; i < newArr.length; i++) {
+      for (var j = 0; j < newArr[i].skillsRequired.length; j++) {
+        skillArr.push(newArr[i].skillsRequired[j].name)
+      }
+    }
+
+    var sortedArr = skillArr.reduce((sortedArr, index) => {
+      sortedArr[index] = (sortedArr[index] || 0) + 1
+      return sortedArr
+    }, {})
+
+    skillArr.sort(function (i0, i1) {
+      return sortedArr[i1] - sortedArr[i0]
+    })
+
+    console.log(skillArr)
+
+    var orderedArr = skillArr.filter(function (value, index, self) {
+      return self.indexOf(value) === index
+    })
+
+    if (orderedArr.length > 5) {
+      tempArr = []
+      for (i = 0; i < 5; i++) {
+        tempArr.push(orderedArr[i])
+      }
+      orderedArr = tempArr
+    }
+
+    console.log(orderedArr)
+
     if (newArr.length > 12) {
       var pageStart = (context.query.page - 1) * 12
       var pageEnd = pageStart + 12
@@ -630,7 +660,6 @@ export const getServerSideProps = async (context) => {
         finArr[tempPos] = newArr[i]
         tempPos++
       }
-      console.log(newArr)
       return {
         props: {
           data: finArr,
@@ -647,11 +676,10 @@ export const getServerSideProps = async (context) => {
           ex2: ex2 || null,
           ex3: ex3 || null,
           ex4: ex4 || null,
+          skillArr: orderedArr || null,
         },
       }
     } else {
-      console.log(newArr)
-
       return {
         props: {
           data: newArr,
@@ -668,6 +696,7 @@ export const getServerSideProps = async (context) => {
           ex2: ex2 || null,
           ex3: ex3 || null,
           ex4: ex4 || null,
+          skillArr: orderedArr || null,
         },
       }
     }
