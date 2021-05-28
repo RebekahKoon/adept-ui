@@ -3,13 +3,13 @@ const ReactApexCharts = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
 
-const SkillBarChart = ({ skillCount, totalApplications }) => {
+const SkillBarChart = ({ skillCount, length, type }) => {
   console.log(Object.keys(skillCount).length)
   const totalSkills = Object.keys(skillCount).length
   const height = totalSkills * 15
 
   const skillData = Object.values(skillCount).map((value) =>
-    (value = (value / totalApplications) * 100).toFixed(2)
+    (value = (value / length) * 100).toFixed(2)
   )
 
   console.log(skillData)
@@ -18,7 +18,7 @@ const SkillBarChart = ({ skillCount, totalApplications }) => {
     series: [
       {
         data: skillData,
-        name: 'Percent on your applications',
+        name: `Percent`,
         color: '#570EF1',
       },
     ],
@@ -43,7 +43,7 @@ const SkillBarChart = ({ skillCount, totalApplications }) => {
         type: 'Category',
         categories: Object.keys(skillCount),
         title: {
-          text: 'Percentage on Your Applications',
+          text: `Percentage on Your ${type}`,
           style: {
             fontSize: '14px',
           },

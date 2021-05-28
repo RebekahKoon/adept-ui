@@ -1,2 +1,3 @@
-import JobCard from './JobCard'
-export default JobCard
+import JobAppCard from './JobAppCard'
+export default JobAppCard
+export { default as JobPostCard } from './JobPostCard'

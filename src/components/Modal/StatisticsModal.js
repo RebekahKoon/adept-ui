@@ -32,7 +32,7 @@ const statisticsModalStyle = {
   },
 }
 
-const StatisticsModal = ({ skillCount, totalApplications }) => {
+const StatisticsModal = ({ skillCount, length, type }) => {
   const { isOpen, closeModal } = useContext(ModalContext)
 
   return (
@@ -48,11 +48,8 @@ const StatisticsModal = ({ skillCount, totalApplications }) => {
           <i className="fas fa-times fa-2x"></i>
         </StyledExitButton>
       </ExitButtonContainer>
-      <h2>Skill Frequency on Your Applications</h2>
-      <SkillBarChart
-        skillCount={skillCount}
-        totalApplications={totalApplications}
-      />
+      <h2>Skill Frequency on Your {type}</h2>
+      <SkillBarChart skillCount={skillCount} length={length} type={type} />
       <br />
     </Modal>
   )

@@ -7,7 +7,7 @@ import Layout from '../components/Layout'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import StyledSideBar from '../components/SideBar'
 import SearchBar from '../components/SearchBar'
-import JobAppCard from '../components/JobCard'
+import { JobPostCard } from '../components/JobCard'
 import { StyledButtonSolid } from '../components/Button'
 import ModalContext from '../context/ModalContext'
 import { StatisticsModal } from '../components/Modal'
@@ -67,7 +67,7 @@ const TopSkill = ({ topSkill }) => {
           <h4 style={{ lineHeight: '0rem', marginBottom: '1rem' }}>
             {topSkill[0]}
           </h4>
-          Appeared in {topSkill[1]} application{topSkill[1] !== 1 && 's'}
+          Appeared in {topSkill[1]} posting{topSkill[1] !== 1 && 's'}
         </div>
       </StyledRow>
       <hr style={{ visibility: 'hidden', margin: '1.25rem 0' }}></hr>
@@ -90,10 +90,8 @@ const Sidebar = ({ currentUser, allSkills }) => {
     {}
   )
 
-  currentUser.jobApplications.map((jobApplication) =>
-    jobApplication.jobPosting.skillsRequired.map(
-      (skill) => (skillCount[skill.name] += 1)
-    )
+  currentUser.jobPostings.map((jobPosting) =>
+    jobPosting.skillsRequired.map((skill) => (skillCount[skill.name] += 1))
   )
 
   let topSkills = []
@@ -109,8 +107,8 @@ const Sidebar = ({ currentUser, allSkills }) => {
 
   return (
     <StyledSideBar>
-      <h3>Top Skills in Your Job Applications</h3>
-      {currentUser.jobApplications.length > 0 &&
+      <h3>Top Skills in Your Job Postings</h3>
+      {currentUser.jobPostings.length > 0 &&
         topSkills
           .slice(0, 5)
           .map(
@@ -130,15 +128,15 @@ const Sidebar = ({ currentUser, allSkills }) => {
       >
         <StatisticsModal
           skillCount={skillCount}
-          length={currentUser.jobApplications.length}
-          type={'Applications'}
+          length={currentUser.jobPostings.length}
+          type={'Postings'}
         />
       </ModalContext.Provider>
     </StyledSideBar>
   )
 }
 
-const JobApplications = (props) => {
+const JobPosting = (props) => {
   return (
     <Layout>
       <SearchBar headerText="Discover Jobs and Make Connections" />
@@ -149,11 +147,11 @@ const JobApplications = (props) => {
             allSkills={props.allSkills}
           />
           <StyledJobContainer>
-            {props.currentUser.jobApplications.map((jobApplication) => (
+            {props.currentUser.jobPostings.map((jobPosting) => (
               <>
-                <JobAppCard
-                  jobApplication={jobApplication}
-                  key={jobApplication.jobAppId}
+                <JobPostCard
+                  jobPosting={jobPosting}
+                  key={jobPosting.jobPostId}
                 />
               </>
             ))}
@@ -164,7 +162,7 @@ const JobApplications = (props) => {
   )
 }
 
-export default JobApplications
+export default JobPosting
 
 export const getServerSideProps = withSession(async ({ req, res }) => {
   const user = req.session.get('user')
