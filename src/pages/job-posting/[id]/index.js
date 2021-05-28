@@ -9,7 +9,10 @@ import client from '../../../apollo/apolloClient'
 import Loader from 'react-loader-spinner'
 import Layout from '../../../components/Layout'
 import withSession from '../../../lib/session'
-import { GET_JOB_POSTING_BY_ID } from '../../../queries/jobPosting'
+import {
+  GET_JOB_POSTING_BY_ID,
+  CREATE_JOB_APPLICATION,
+} from '../../../queries/jobPosting'
 import {
   CenterContainer,
   MainContentFlexContainer,
@@ -83,9 +86,24 @@ const JobPosting = ({ user }) => {
     },
   })
 
-  useEffect(() => {
-    console.log(jobPost)
-  }, [jobPost])
+  const [
+    applyToJob,
+    { loading: applyLoading, error: applyError, data: applyData },
+  ] = useMutation(CREATE_JOB_APPLICATION, {
+    onCompleted: (data) => {
+      console.log(data)
+    },
+    onError: (err) => {
+      console.log(err)
+    },
+    refetchQueries: [
+      {
+        query: GET_JOB_POSTING_BY_ID,
+        variables: { jobPostId: id },
+      },
+    ],
+    awaitRefetchQueries: true,
+  })
 
   return (
     <Layout hasNav={false}>
@@ -153,7 +171,33 @@ const JobPosting = ({ user }) => {
                 </StyledSkills>
               </SubSection>
               <SubSection>
-                <LargeButtonSolid>Apply</LargeButtonSolid>
+                {/* {applyLoading ? (
+                  <CenterContainer>
+                    <Loader
+                      type="TailSpin"
+                      color="#570EF1"
+                      height={26}
+                      width={26}
+                    />
+                  </CenterContainer>
+                ) : ( */}
+                <LargeButtonSolid
+                  loading={applyLoading}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    const input = {
+                      jobPostId: id,
+                      userId: user.userId,
+                      dateApplied: new Date(Date.now()).toISOString(),
+                    }
+                    applyToJob({
+                      variables: input,
+                    })
+                  }}
+                >
+                  Apply
+                </LargeButtonSolid>
+                {/* )} */}
               </SubSection>
             </>
           )}

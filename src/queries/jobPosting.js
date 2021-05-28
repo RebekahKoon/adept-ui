@@ -42,3 +42,21 @@ export const GET_JOB_POSTING_BY_ID = gql`
     }
   }
 `
+
+export const CREATE_JOB_APPLICATION = gql`
+  mutation CreateJobApplication(
+    $jobPostId: String!
+    $userId: String!
+    $dateApplied: String
+  ) {
+    createJobApplication(
+      input: {
+        jobPostId: $jobPostId
+        userId: $userId
+        dateApplied: $dateApplied
+      }
+    ) {
+      jobAppId
+    }
+  }
+`

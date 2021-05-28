@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Loader from 'react-loader-spinner'
 import Link from 'next/link'
 
 export const StyledLargeButtonSolid = styled.button`
@@ -9,16 +10,29 @@ export const StyledLargeButtonSolid = styled.button`
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--white);
+  :disabled {
+    background: var(--lightGray);
+    :hover {
+      background: var(--lightGray);
+      cursor: default;
+    }
+  }
   :hover {
     cursor: pointer;
     background: var(--darkPurple);
   }
 `
 
-export const LargeButtonSolid = ({ href, children, ...rest }) => {
+export const LargeButtonSolid = ({ href, loading, children, ...rest }) => {
   return (
     <Link href={href ?? ''}>
-      <StyledLargeButtonSolid {...rest}>{children}</StyledLargeButtonSolid>
+      <StyledLargeButtonSolid disabled={loading} {...rest}>
+        {loading ? (
+          <Loader type="TailSpin" color="#570EF1" height={26} width={26} />
+        ) : (
+          children
+        )}
+      </StyledLargeButtonSolid>
     </Link>
   )
 }
