@@ -90,10 +90,8 @@ const Sidebar = ({ currentUser, allSkills }) => {
     {}
   )
 
-  currentUser.jobApplications.map((jobApplication) =>
-    jobApplication.jobPosting.skillsRequired.map(
-      (skill) => (skillCount[skill.name] += 1)
-    )
+  currentUser.jobPostings.map((jobPosting) =>
+    jobPosting.skillsRequired.map((skill) => (skillCount[skill.name] += 1))
   )
 
   let topSkills = []
@@ -110,7 +108,7 @@ const Sidebar = ({ currentUser, allSkills }) => {
   return (
     <StyledSideBar>
       <h3>Top Skills in Your Job Applications</h3>
-      {currentUser.jobApplications.length > 0 &&
+      {currentUser.jobPostings.length > 0 &&
         topSkills
           .slice(0, 5)
           .map(
@@ -130,7 +128,7 @@ const Sidebar = ({ currentUser, allSkills }) => {
       >
         <StatisticsModal
           skillCount={skillCount}
-          totalApplications={currentUser.jobApplications.length}
+          totalApplications={currentUser.jobPostings.length}
         />
       </ModalContext.Provider>
     </StyledSideBar>
