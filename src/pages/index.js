@@ -7,6 +7,7 @@ import '@fortawesome/fontawesome-free/js/regular'
 import Layout from '../components/Layout'
 import Hero from '../components/Hero'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
+import { ButtonOutline, ButtonSolid } from '../components/Button'
 
 const StyledBackground = styled.div`
   background-color: #2d1f66;
@@ -52,6 +53,61 @@ const ImageContainer = styled.div`
   margin-bottom: 2.5rem;
 `
 
+const CenteredContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin: 1rem 0rem 2.5rem 0rem;
+  padding: 5rem 0rem;
+
+  h2 {
+    font-size: 3rem;
+    line-height: 0;
+  }
+  p {
+    width: 60%;
+    color: #585858;
+    margin: 0 auto;
+    line-height: 2.2rem;
+    margin-bottom: 1.5rem;
+  }
+`
+
+const CenteredButtonSection = styled.section`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+`
+
+const LoginButton = styled(ButtonOutline)`
+  width: 20%;
+  color: var(--darkPurple);
+  border-color: var(--darkPurple);
+  font-size: 1.125rem;
+  padding: 0.6rem;
+  margin-left: 0.5rem;
+
+  :hover {
+    color: var(--white);
+    background-color: #3f20ba;
+  }
+`
+
+const CreateAccountButton = styled(ButtonSolid)`
+  width: 20%;
+  background-color: #3f20ba;
+  margin-right: 0.5rem;
+  padding: 0.6rem;
+  font-size: 1.125rem;
+
+  :hover {
+    background-color: var(--darkPurple);
+  }
+`
+
 const Index = () => (
   <Layout>
     <Hero />
@@ -71,7 +127,7 @@ const Index = () => (
           </StyledRow>
           <StyledRow>
             <i className="fas fa-check fa-2x"></i>
-            Discover the perfect job for you
+            Discover the perfect job or internship
           </StyledRow>
           <StyledRow>
             <i className="fas fa-check fa-2x"></i>
@@ -96,6 +152,22 @@ const Index = () => (
         </StyledColumn>
       </MainContentFlexContainer>
     </StyledBackground>
+    <MainContentFlexContainer>
+      <CenteredContainer>
+        <h2>Get started today</h2>
+        <p>
+          Whether you're an employer or a job seeker, Adept can help you get a
+          head-start on success and discover new opportunities. Get started on
+          your profile today!
+        </p>
+        <CenteredButtonSection>
+          <CreateAccountButton href="/register">
+            Create an account
+          </CreateAccountButton>
+          <LoginButton href="/login">Login</LoginButton>
+        </CenteredButtonSection>
+      </CenteredContainer>
+    </MainContentFlexContainer>
   </Layout>
 )
 
