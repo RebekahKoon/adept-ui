@@ -130,7 +130,8 @@ const Sidebar = ({ currentUser, allSkills }) => {
       >
         <StatisticsModal
           skillCount={skillCount}
-          totalApplications={currentUser.jobApplications.length}
+          length={currentUser.jobApplications.length}
+          type={'Applications'}
         />
       </ModalContext.Provider>
     </StyledSideBar>

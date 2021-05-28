@@ -107,7 +107,7 @@ const Sidebar = ({ currentUser, allSkills }) => {
 
   return (
     <StyledSideBar>
-      <h3>Top Skills in Your Job Applications</h3>
+      <h3>Top Skills in Your Job Postings</h3>
       {currentUser.jobPostings.length > 0 &&
         topSkills
           .slice(0, 5)
@@ -128,7 +128,8 @@ const Sidebar = ({ currentUser, allSkills }) => {
       >
         <StatisticsModal
           skillCount={skillCount}
-          totalApplications={currentUser.jobPostings.length}
+          length={currentUser.jobPostings.length}
+          type={'Postings'}
         />
       </ModalContext.Provider>
     </StyledSideBar>
