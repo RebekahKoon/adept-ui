@@ -63,7 +63,7 @@ export const SSRFilterSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  height: 191px;
+  margin-bottom: 1rem;
 `
 
 export const SSRFilterOptions = styled.div`
@@ -71,7 +71,7 @@ export const SSRFilterOptions = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  height: 160px;
+  //height: 160px;
   left: 0px;
   top: 31px;
 `
@@ -86,9 +86,8 @@ export const SSRDividerContainer = styled.div`
   align-items: flex-start;
 
   width: 270px;
-  height: 40px;
-  left: 40px;
-  top: 462px;
+  //height: 40px;
+  margin-bottom: 1rem;
 `
 
 export const SSRDivider = styled.div`
