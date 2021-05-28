@@ -42,8 +42,18 @@ export const GET_USER_BY_ID = gql`
       }
       jobApplications {
         jobAppId
+        dateApplied
         jobPosting {
           positionTitle
+          company
+          datePosted
+          city
+          state
+          salary
+          type
+          skillsRequired {
+            name
+          }
         }
         user {
           name
@@ -51,7 +61,16 @@ export const GET_USER_BY_ID = gql`
       }
       jobPostings {
         jobPostId
+        positionTitle
         company
+        datePosted
+        city
+        state
+        salary
+        type
+        skillsRequired {
+          name
+        }
         postedBy {
           name
         }
