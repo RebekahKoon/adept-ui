@@ -301,37 +301,13 @@ function SearchResultView(props) {
 
   const handleOptionChange = (e) => {
     if (e.value == 'newest') {
-      if (!props.o) {
-        Router.push(window.location.href + '&o=newest')
-      } else {
-        if (props.q) {
-          Router.push(
-            '/search-results?page=' +
-              props.currPage +
-              '&q=' +
-              props.q +
-              '&o=newest'
-          )
-        } else {
-          Router.push('/search-results?page=' + props.currPage + '&o=newest')
-        }
-      }
+      var searchParams = new URLSearchParams(window.location.search)
+      searchParams.set('o', 'newest')
+      window.location.search = searchParams.toString()
     } else {
-      if (!props.o) {
-        Router.push(window.location.href + '&o=oldest')
-      } else {
-        if (props.q) {
-          Router.push(
-            '/search-results?page=' +
-              props.currPage +
-              '&q=' +
-              props.q +
-              '&o=oldest'
-          )
-        } else {
-          Router.push('/search-results?page=' + props.currPage + '&o=oldest')
-        }
-      }
+      searchParams = new URLSearchParams(window.location.search)
+      searchParams.set('o', 'oldest')
+      window.location.search = searchParams.toString()
     }
   }
 
