@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import { StyledSearchBar, StyledInput } from '../SearchBar/SearchBarStyle'
+import StyledSideBar from '../SideBar'
 
-export const modalStyle = {
+export const contactsModalStyle = {
   modal: {},
   content: {
     padding: '3.6rem',
@@ -26,7 +27,7 @@ export const modalStyle = {
   },
 }
 
-export const StyledContactsGrid = styled.div`
+export const StyledGrid = styled.div`
   margin: 0 auto;
   display: inline-grid;
   text-align: left;
@@ -34,6 +35,24 @@ export const StyledContactsGrid = styled.div`
   gap: 0.5rem 0.5rem;
   line-height: 1.25em;
 `
+
+export const StyledBody = styled(StyledSideBar)`
+  width: 100%;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: none;
+`
+
+// export const StyledBody = styled.div`
+//   margin: 0 auto;
+//   display: inline-grid;
+//   text-align: left;
+//   width: 50%;
+//   /* grid-template-columns: repeat(3, minmax(50px, 600px)); */
+//   gap: 0.5rem 0.5rem;
+//   line-height: 1.25em;
+// `
 
 export const StyledContactsSearch = styled(StyledSearchBar)`
   margin-bottom: 2rem;
@@ -65,4 +84,4 @@ export const StyledExitButton = styled.button`
   border: none;
 `
 
-export default modalStyle
+export default contactsModalStyle

@@ -34,7 +34,6 @@ const WorkExperienceData = ({
     DELETE_WORK_EXPERIENCE,
     {
       onCompleted({ deleteWorkExperience }) {
-        console.log(deleteWorkExperience)
         setUserWorkExperience(
           userWorkExperience.filter(
             (workExperience) =>
@@ -64,7 +63,6 @@ const WorkExperienceData = ({
   )
 
   const handleDeleteWorkExperience = (workExpId) => {
-    console.log(workExpId)
     deleteWorkExperience({ variables: { workExpId: workExpId } })
   }
 
@@ -119,7 +117,6 @@ const FormInputFields = ({
     {
       onCompleted({ addWorkExperienceToResume }) {
         if (addWorkExperienceToResume) {
-          console.log(addWorkExperienceToResume)
           setUserWorkExperience(addWorkExperienceToResume.resume.workExperience)
 
           setCurrentUserPosition(

@@ -16,10 +16,10 @@ const StyledButtonOutline = styled.button`
   }
 `
 
-const ButtonOutline = ({ href, children }) => {
+const ButtonOutline = ({ href, children, ...rest }) => {
   return (
     <Link href={href ?? ''}>
-      <StyledButtonOutline>{children}</StyledButtonOutline>
+      <StyledButtonOutline {...rest}>{children}</StyledButtonOutline>
     </Link>
   )
 }

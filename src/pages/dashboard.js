@@ -24,7 +24,7 @@ import WorkExperience from '../components/WorkExperience'
 import Skill from '../components/Skill'
 import SkillDropdown from '../components/SkillDropdown'
 import Contact from '../components/Contact'
-import ContactsModal from '../components/ContactsModal'
+import ContactsModal from '../components/Modal'
 import ModalContext from '../context/ModalContext'
 import withSession from '../lib/session'
 import { StyledSkillList } from '../components/SkillList'
@@ -148,7 +148,6 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
     {
       onCompleted({ updateUserLocation }) {
         if (updateUserLocation) {
-          console.log(updateUserLocation)
           setUserCity(updateUserLocation.city)
           setUserState(updateUserLocation.state)
           setFormIsDisplayed(false)
@@ -174,7 +173,6 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
       state: data.state?.value ? data.state.value : '',
     }
 
-    console.log(input)
     updateUserLocation({ variables: input })
     reset()
   }
@@ -227,14 +225,6 @@ const SidebarProfile = ({ currentUser, currentUserPosition }) => {
                 )}
               />
             </section>
-            {/* <Input
-              {...register('state', { required: false })}
-              type="text"
-              placeholder="State"
-              id="state"
-              isInvalid={errors.state}
-              noPadding={true}
-            /> */}
           </FormGrid>
           {loading ? (
             <div style={{ padding: '1.5rem' }}>
@@ -307,7 +297,6 @@ const AddSkillDropdown = ({ allSkills, userId, setUserSkills }) => {
   ] = useMutation(ADD_SKILL_TO_USER, {
     onCompleted({ addSkillToUser }) {
       if (addSkillToUser) {
-        console.log(addSkillToUser)
         setUserSkills(addSkillToUser.skills)
       }
     },
@@ -399,7 +388,7 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
         currentUserPosition={currentUserPosition}
       />
       <hr></hr>
-      <h2>{`${currentUser.name.split(' ')[0]}'s Skills`}</h2>
+      <h2>{`${currentUser.name}'s Skills`}</h2>
       <UserSkills
         userSkills={userSkills}
         setUserSkills={setUserSkills}
@@ -438,9 +427,6 @@ const DashboardSideBar = ({ currentUser, allSkills, currentUserPosition }) => {
 }
 
 const Dashboard = (props) => {
-  console.log(props.allSkills)
-  console.log(props.currentUser)
-
   const [userWorkExperience, setUserWorkExperience] = useState(
     props.currentUser.resume.workExperience
   )

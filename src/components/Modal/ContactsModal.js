@@ -4,15 +4,15 @@ import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import ModalContext from '../../context/ModalContext'
-import ContactsModalStyle from './ContactsModalStyle'
+import contactsModalStyle from './ModalStyle'
 import Contact from '../Contact'
 import {
   StyledContactsSearch,
   StyledContactsInput,
-  StyledContactsGrid,
+  StyledGrid,
   ExitButtonContainer,
   StyledExitButton,
-} from './ContactsModalStyle'
+} from './ModalStyle'
 
 const UserContacts = ({
   contacts,
@@ -62,7 +62,7 @@ const ContactsModal = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
-      style={ContactsModalStyle}
+      style={contactsModalStyle}
       ariaHideApp={false}
       closeTimeoutMS={100}
     >
@@ -85,14 +85,14 @@ const ContactsModal = ({
       <h2>
         {numberContacts} Contact{numberContacts === 1 ? '' : 's'}
       </h2>
-      <StyledContactsGrid>
+      <StyledGrid>
         <UserContacts
           contacts={searchResults}
           userId={userId}
           setUserContacts={setUserContacts}
           setSearchResults={setSearchResults}
         />
-      </StyledContactsGrid>
+      </StyledGrid>
       <br />
     </Modal>
   )
