@@ -44,6 +44,7 @@ export const GET_USER_BY_ID = gql`
         jobAppId
         dateApplied
         jobPosting {
+          jobPostId
           positionTitle
           company
           datePosted
