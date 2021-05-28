@@ -16,6 +16,7 @@ import StyledSideBar from '../components/SideBar'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import client from '../apollo/apolloClient'
 import Checkbox from '../components/Checkbox'
+import { JobPostCard } from '../components/JobCard'
 import {
   SSRSearchResults,
   SSRMain,
@@ -287,12 +288,7 @@ function SearchResultView(props) {
 
   const createDataDivs = () =>
     dataArr.map((data, index) => (
-      <SearchResult
-        data={dataArr[index]}
-        id={index}
-        q={props.q}
-        currPage={props.currPage}
-      />
+      <JobPostCard jobPosting={dataArr[index]} key={dataArr[index].jobPostId} />
     ))
 
   const createSalRangeCheckboxes = () => SalaryRange.map(createCheckbox)
@@ -428,7 +424,7 @@ function SearchResultView(props) {
         </SSRFilterSection>
         <SSRFilterSection>
           <SSRDividerContainer>
-            <SSRDivider />
+            <hr />
           </SSRDividerContainer>
           <SSRFilterOptionHeader>Salary Range</SSRFilterOptionHeader>
           <SSRFilterOptions>
@@ -439,7 +435,7 @@ function SearchResultView(props) {
         </SSRFilterSection>
         <SSRFilterSection>
           <SSRDividerContainer>
-            <SSRDivider />
+            <hr />
           </SSRDividerContainer>
           <SSRFilterOptionHeader>Skill</SSRFilterOptionHeader>
           <SSRFilterOptions>
