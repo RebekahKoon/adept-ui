@@ -20,6 +20,7 @@ import {
   SSRJobInfoContainer,
   SSRCompanyContainer,
   SSRCompanyTextContainer,
+  SSRCompanyTextDiv,
   SSRCompanyText,
   SSRSkillsContainer,
   SSRDate,
@@ -30,7 +31,7 @@ function SearchResult(props) {
   const handleClick = (e) => {
     e.preventDefault()
     var currPage = props.currPage - 1
-    var id = currPage * 5 + props.id
+    var id = currPage * 12 + props.id
     const jid = '0d8f2554-d0a3-4f1a-a5ba-caed21b9eb1a'
     if (props.q) {
       // Router.push('/job-posting?q=' + props.q + '&id=' + id)
@@ -50,24 +51,33 @@ function SearchResult(props) {
   const handleType = () => {
     if (props.data.type == 'PART_TIME') {
       return (
-        <SSRCompanyText>
-          <i className="fas fa-clock"></i>
-          <p>Part Time</p>
-        </SSRCompanyText>
+        <SSRCompanyTextDiv className="type">
+          <SSRCompanyText>
+            <i className="fas fa-clock"></i>
+            <p>Part Time</p>
+            <p className="tooltiptext">Part Time</p>
+          </SSRCompanyText>
+        </SSRCompanyTextDiv>
       )
     } else if (props.data.type == 'INTERNSHIP') {
       return (
-        <SSRCompanyText>
-          <i className="fas fa-clock"></i>
-          <p>Internship</p>
-        </SSRCompanyText>
+        <SSRCompanyTextDiv className="type">
+          <SSRCompanyText>
+            <i className="fas fa-clock"></i>
+            <p>Internship</p>
+            <p className="tooltiptext">Internship</p>
+          </SSRCompanyText>
+        </SSRCompanyTextDiv>
       )
     } else if (props.data.type == 'FULL_TIME') {
       return (
-        <SSRCompanyText>
-          <i className="fas fa-clock"></i>
-          <p>Full Time</p>
-        </SSRCompanyText>
+        <SSRCompanyTextDiv className="type">
+          <SSRCompanyText>
+            <i className="fas fa-clock"></i>
+            <p>Full Time</p>
+            <p className="tooltiptext">Full Time</p>
+          </SSRCompanyText>
+        </SSRCompanyTextDiv>
       )
     } else {
       console.log('Oopsie')
@@ -105,19 +115,30 @@ function SearchResult(props) {
               <SSRJobInfoContainer>
                 <SSRCompanyContainer>
                   <SSRCompanyTextContainer>
-                    <SSRCompanyText>
-                      <i className="fas fa-suitcase"></i>
-                      <p>{props.data.company}</p>
-                    </SSRCompanyText>
-                    <SSRCompanyText>
-                      <i className="fas fa-map-marker-alt"></i>
-                      <p>{props.data.city + ', ' + props.data.state}</p>
-                    </SSRCompanyText>
+                    <SSRCompanyTextDiv className="company">
+                      <SSRCompanyText>
+                        <i className="fas fa-suitcase"></i>
+                        <p>{props.data.company}</p>
+                        <p className="tooltiptext">{props.data.company}</p>
+                      </SSRCompanyText>
+                    </SSRCompanyTextDiv>
+                    <SSRCompanyTextDiv className="location">
+                      <SSRCompanyText>
+                        <i className="fas fa-map-marker-alt"></i>
+                        <p>{props.data.city + ', ' + props.data.state}</p>
+                        <p className="tooltiptext">
+                          {props.data.city + ', ' + props.data.state}
+                        </p>
+                      </SSRCompanyText>
+                    </SSRCompanyTextDiv>
                     {handleType()}
-                    <SSRCompanyText>
-                      <i className="fas fa-dollar-sign"></i>
-                      <p>{props.data.salary}</p>
-                    </SSRCompanyText>
+                    <SSRCompanyTextDiv className="salary">
+                      <SSRCompanyText>
+                        <i className="fas fa-dollar-sign"></i>
+                        <p>{props.data.salary}</p>
+                        <p className="tooltiptext">{props.data.salary}</p>
+                      </SSRCompanyText>
+                    </SSRCompanyTextDiv>
                   </SSRCompanyTextContainer>
                 </SSRCompanyContainer>
               </SSRJobInfoContainer>
