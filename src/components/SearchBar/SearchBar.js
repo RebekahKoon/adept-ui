@@ -20,8 +20,13 @@ function SearchBar({ headerText }) {
   const handleChange = (e) => {
     e.preventDefault()
     setSearchItem(e.target.value)
-    var url = '/search-results?page=1&q=' + searchItem
-    Router.push(url)
+    if (option == 'Job Postings') {
+      var url = '/search-results?page=1&q=' + searchItem
+      Router.push(url)
+    } else {
+      url = '/search-results?page=1&uq=' + searchItem
+      Router.push(url)
+    }
   }
 
   const options = [
