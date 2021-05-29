@@ -5,8 +5,7 @@ import { SEARCH_USERS } from '../queries/searchUsers'
 import { SEARCH_JOBS } from '../queries/search'
 import { GET_ALL_JOBS } from '../queries/getAllJobPostings'
 import Layout from '../components/Layout'
-import SearchResult from '../components/SearchResult'
-import UserSearchResult from '../components/UserSearchResult'
+import UserCard from '../components/UserCard'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -189,9 +188,16 @@ function SearchResultView(props) {
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
   const createDataDivs = () =>
-    dataArr.map((data, index) => (
-      <JobPostCard jobPosting={dataArr[index]} key={dataArr[index].jobPostId} />
-    ))
+    dataArr.map((data, index) =>
+      props.uq ? (
+        <UserCard data={dataArr[index]} />
+      ) : (
+        <JobPostCard
+          jobPosting={dataArr[index]}
+          key={dataArr[index].jobPostId}
+        />
+      )
+    )
 
   const createSalRangeCheckboxes = () => SalaryRange.map(createCheckbox)
 
@@ -423,41 +429,75 @@ export const getServerSideProps = async (context) => {
 
     if (jt1) {
       var tempArr = newArr.filter((term) => term.type == 'FULL_TIME')
-      newArr = tempArr
+      for (var i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
     }
     if (jt2) {
       tempArr = newArr.filter((term) => term.type == 'PART_TIME')
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
     }
     if (jt3) {
       tempArr = newArr.filter((term) => term.type == 'INTERNSHIP')
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
+    }
+    if (jt1 || jt2 || jt3) {
+      newArr = jtArr
     }
     if (sc1) {
       tempArr = newArr.filter((term) => term.salary < 40000)
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
     }
     if (sc2) {
       tempArr = newArr.filter(
-        (term) => term.salary > 40000 && term.salary < 100000
+        (term) => term.salary > 40000 && term.salary <= 100000
       )
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
     }
     if (sc3) {
       tempArr = newArr.filter((term) => term.salary > 100000)
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
+    }
+    if (sc1 || sc2 || sc3) {
+      newArr = scArr
     }
     if (skill) {
       tempArr = []
       var tempPos = 0
-      for (var i = 0; i < newArr.length; i++) {
-        for (var j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == skill) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
+      skill = JSON.parse(skill)
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
+          for (var k = 0; k < skill.length; k++) {
+            if (k == 0) {
+              if (newArr[i].skillsRequired[j].name == skill[k]) {
+                tempArr[tempPos] = newArr[i]
+                tempPos++
+              }
+            } else {
+              if (newArr[i].skillsRequired[j].name == skill[k]) {
+                tempArr[tempPos] = newArr[i]
+                tempPos++
+              }
+            }
           }
       }
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
+    }
+
+    if (skill) {
+      newArr = exArr
     }
 
     if (o !== 'oldest') {
@@ -472,7 +512,7 @@ export const getServerSideProps = async (context) => {
 
     skillArr = []
     for (i = 0; i < newArr.length; i++) {
-      for (j = 0; j < newArr[i].skillsRequired.length; j++) {
+      for (var j = 0; j < newArr[i].skillsRequired.length; j++) {
         skillArr.push(newArr[i].skillsRequired[j].name)
       }
     }
@@ -540,7 +580,6 @@ export const getServerSideProps = async (context) => {
     scArr = []
     exArr = []
     o = context.query.o
-
     if (jt1) {
       tempArr = newArr.filter((term) => term.type == 'FULL_TIME')
       for (i = 0; i < tempArr.length; i++) {
@@ -588,11 +627,21 @@ export const getServerSideProps = async (context) => {
     if (skill) {
       tempArr = []
       tempPos = 0
+      skill = JSON.parse(skill)
       for (i = 0; i < newArr.length; i++) {
         for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == skill) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
+          for (var k = 0; k < skill.length; k++) {
+            if (k == 0) {
+              if (newArr[i].skillsRequired[j].name == skill[k]) {
+                tempArr[tempPos] = newArr[i]
+                tempPos++
+              }
+            } else {
+              if (newArr[i].skillsRequired[j].name == skill[k]) {
+                tempArr[tempPos] = newArr[i]
+                tempPos++
+              }
+            }
           }
       }
       for (i = 0; i < tempArr.length; i++) {

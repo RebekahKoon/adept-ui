@@ -22,14 +22,8 @@ function SearchSkillDropdown(props) {
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState({ error: false, message: null })
 
-  var currSkill
-  for (var i = 0; i < props.skillArr.length; i++) {
-    if (props.skillArr[i] == props.skill) {
-      currSkill = i
-    }
-  }
-
-  console.log(props.skillArr[currSkill])
+  var SearchedSkills = props.skill || []
+  console.log(SearchedSkills)
 
   const mapSkills = (skills) => {
     return skills.map((skill) => ({
@@ -42,8 +36,9 @@ function SearchSkillDropdown(props) {
   }, [props.skillArr])
 
   const SearchSkill = (targetSkill) => {
+    SearchedSkills.push(targetSkill[0].label)
     var searchParams = new URLSearchParams(window.location.search)
-    searchParams.set('skill', targetSkill[0].label)
+    searchParams.set('skill', JSON.stringify(SearchedSkills))
     window.location.search = searchParams.toString()
   }
   // Used to determine if the dropdown value has changed
