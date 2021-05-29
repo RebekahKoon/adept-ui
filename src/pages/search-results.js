@@ -94,23 +94,6 @@ function SearchResultView(props) {
       } else if (label == '$100,000 +') {
         newHref = removeURLParameter(window.location.href, 'sc3')
         Router.push(newHref)
-      } else if (label == props.ex1) {
-        newHref = removeURLParameter(window.location.href, 'ex1')
-        Router.push(newHref)
-      } else if (label == props.ex2) {
-        newHref = removeURLParameter(window.location.href, 'ex2')
-        Router.push(newHref)
-      } else if (label == props.ex3) {
-        console.log('pros.ex3: ' + props.ex3)
-        newHref = removeURLParameter(window.location.href, 'ex3')
-        console.log(newHref)
-        Router.push(newHref)
-      } else if (label == props.ex4) {
-        newHref = removeURLParameter(window.location.href, 'ex4')
-        Router.push(newHref)
-      } else if (label == props.ex5) {
-        newHref = removeURLParameter(window.location.href, 'ex5')
-        Router.push(newHref)
       }
     } else {
       selectedCheckboxes.add(label)
@@ -126,16 +109,6 @@ function SearchResultView(props) {
         Router.push(window.location.href + '&sc2=1')
       } else if (label == '$100,000 +' && !props.sc3) {
         Router.push(window.location.href + '&sc3=1')
-      } else if (label == props.skillArr[0] && !props.ex1) {
-        Router.push(window.location.href + '&ex1=' + props.skillArr[0])
-      } else if (label == props.skillArr[1] && !props.ex2) {
-        Router.push(window.location.href + '&ex2=' + props.skillArr[1])
-      } else if (label == props.skillArr[2] && !props.ex3) {
-        Router.push(window.location.href + '&ex3=' + props.skillArr[2])
-      } else if (label == props.skillArr[3] && !props.ex4) {
-        Router.push(window.location.href + '&ex4=' + props.skillArr[3])
-      } else if (label == props.skillArr[4] && !props.ex5) {
-        Router.push(window.location.href + '&ex5=' + props.skillArr[4])
       }
     }
   }
@@ -201,91 +174,6 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (
-      label == props.skillArr[0] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
-    } else if (
-      label == props.skillArr[1] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
-    } else if (
-      label == props.skillArr[2] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
-    } else if (
-      label == props.skillArr[3] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
-    } else if (
-      label == props.skillArr[4] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
     } else {
       return (
         <Checkbox
@@ -318,15 +206,12 @@ function SearchResultView(props) {
             id={index}
             q={props.q}
             currPage={props.currPage}
-            skills={skillArr}
           />
         )
       }
     })
 
   const createSalRangeCheckboxes = () => SalaryRange.map(createCheckbox)
-
-  const createSkillCheckboxes = () => skillArr.map(createCheckbox)
 
   const handleOptionChange = (e) => {
     if (e.value == 'newest') {
@@ -451,7 +336,7 @@ function SearchResultView(props) {
           <SSRFilterOptionHeader>Skill</SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SkillDropdownContainer>
-              <SearchSkillDropdown />
+              <SearchSkillDropdown skillArr={skillArr} />
             </SkillDropdownContainer>
           </SSRFilterOptions>
         </SSRFilterSection>
@@ -529,11 +414,7 @@ export const getServerSideProps = async (context) => {
         sc1: sc1 || null,
         sc2: sc2 || null,
         sc3: sc3 || null,
-        ex1: ex1 || null,
-        ex2: ex2 || null,
-        ex3: ex3 || null,
-        ex4: ex4 || null,
-        ex5: ex5 || null,
+        skill: skill || null,
         skillArr: skillArr,
         searchLength: userData.searchUsers.length,
       },
@@ -550,11 +431,7 @@ export const getServerSideProps = async (context) => {
     var sc1 = context.query.sc1
     var sc2 = context.query.sc2
     var sc3 = context.query.sc3
-    var ex1 = context.query.ex1
-    var ex2 = context.query.ex2
-    var ex3 = context.query.ex3
-    var ex4 = context.query.ex4
-    var ex5 = context.query.ex5
+    var skill = context.query.skill
     newArr = jobData.searchJobPostings
     var jtArr = []
     var scArr = []
@@ -588,60 +465,12 @@ export const getServerSideProps = async (context) => {
       tempArr = newArr.filter((term) => term.salary > 100000)
       newArr = tempArr
     }
-    if (ex1) {
+    if (skill) {
       tempArr = []
       var tempPos = 0
       for (var i = 0; i < newArr.length; i++) {
         for (var j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex1) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      newArr = tempArr
-    }
-    if (ex2) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex2) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      newArr = tempArr
-    }
-    if (ex3) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex3) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      newArr = tempArr
-    }
-    if (ex4) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex4) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      newArr = tempArr
-    }
-    if (ex5) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex5) {
+          if (newArr[i].skillsRequired[j].name == skill) {
             tempArr[tempPos] = newArr[i]
             tempPos++
           }
@@ -679,13 +508,6 @@ export const getServerSideProps = async (context) => {
       return self.indexOf(value) === index
     })
 
-    if (orderedArr.length > 5) {
-      tempArr = []
-      for (i = 0; i < 5; i++) {
-        tempArr.push(orderedArr[i])
-      }
-      orderedArr = tempArr
-    }
     arrLen = newArr.length
     if (newArr.length > 12) {
       var pageStart = (context.query.page - 1) * 12
@@ -715,11 +537,7 @@ export const getServerSideProps = async (context) => {
         sc1: sc1 || null,
         sc2: sc2 || null,
         sc3: sc3 || null,
-        ex1: ex1 || null,
-        ex2: ex2 || null,
-        ex3: ex3 || null,
-        ex4: ex4 || null,
-        ex5: ex5 || null,
+        skill: skill || null,
         skillArr: orderedArr || null,
         searchLength: arrLen,
       },
@@ -734,11 +552,7 @@ export const getServerSideProps = async (context) => {
     sc1 = context.query.sc1
     sc2 = context.query.sc2
     sc3 = context.query.sc3
-    ex1 = context.query.ex1
-    ex2 = context.query.ex2
-    ex3 = context.query.ex3
-    ex4 = context.query.ex4
-    ex5 = context.query.ex5
+    skill = context.query.skill
     newArr = allJobData.getAllJobPostings
     jtArr = []
     scArr = []
@@ -789,68 +603,12 @@ export const getServerSideProps = async (context) => {
     if (sc1 || sc2 || sc3) {
       newArr = scArr
     }
-    if (ex1) {
+    if (skill) {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
         for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex1) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      for (i = 0; i < tempArr.length; i++) {
-        exArr.push(tempArr[i])
-      }
-    }
-    if (ex2) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex2) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      for (i = 0; i < tempArr.length; i++) {
-        exArr.push(tempArr[i])
-      }
-    }
-    if (ex3) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex3) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      for (i = 0; i < tempArr.length; i++) {
-        exArr.push(tempArr[i])
-      }
-    }
-    if (ex4) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex4) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      for (i = 0; i < tempArr.length; i++) {
-        exArr.push(tempArr[i])
-      }
-    }
-    if (ex5) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex5) {
+          if (newArr[i].skillsRequired[j].name == skill) {
             tempArr[tempPos] = newArr[i]
             tempPos++
           }
@@ -860,7 +618,7 @@ export const getServerSideProps = async (context) => {
       }
     }
 
-    if (ex1 || ex2 || ex3 || ex4 || ex5) {
+    if (skill) {
       newArr = exArr
     }
 
@@ -894,13 +652,6 @@ export const getServerSideProps = async (context) => {
       return self.indexOf(value) === index
     })
 
-    if (orderedArr.length > 5) {
-      tempArr = []
-      for (i = 0; i < 5; i++) {
-        tempArr.push(orderedArr[i])
-      }
-      orderedArr = tempArr
-    }
     arrLen = newArr.length
     if (newArr.length > 12) {
       pageStart = (context.query.page - 1) * 12
@@ -929,11 +680,7 @@ export const getServerSideProps = async (context) => {
           sc1: sc1 || null,
           sc2: sc2 || null,
           sc3: sc3 || null,
-          ex1: ex1 || null,
-          ex2: ex2 || null,
-          ex3: ex3 || null,
-          ex4: ex4 || null,
-          ex5: ex5 || null,
+          skill: skill || null,
           skillArr: orderedArr || null,
           searchLength: arrLen,
         },
@@ -952,11 +699,7 @@ export const getServerSideProps = async (context) => {
           sc1: sc1 || null,
           sc2: sc2 || null,
           sc3: sc3 || null,
-          ex1: ex1 || null,
-          ex2: ex2 || null,
-          ex3: ex3 || null,
-          ex4: ex4 || null,
-          ex5: ex5 || null,
+          skill: skill || null,
           skillArr: orderedArr || null,
           searchLength: arrLen,
         },

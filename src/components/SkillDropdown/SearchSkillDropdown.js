@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Router from 'next/router'
 import { useState, useEffect } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import CreatableSelect from 'react-select/creatable'
@@ -14,33 +15,34 @@ const SearchSkillDropdownContainer = styled.div`
   }
 `
 
-const SearchSkillDropdown = ({ requiredSkills, setRequiredSkills }) => {
+function SearchSkillDropdown(props) {
   // Dropdown menu states
-  const [skills, setSkills] = useState([])
+  const [skills, setSkills] = useState(props.skillArr)
   const [newSkill, setNewSkill] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState({ error: false, message: null })
 
-  const { loading, error, data: skillsData } = useQuery(GET_ALL_SKILLS)
+  console.log(props.skillArr)
 
-  // Converts data from graphql response to dropdown
   const mapSkills = (skills) => {
     return skills.map((skill) => ({
-      name: skill.skillId,
-      label: skill.name,
+      label: skill,
     }))
   }
 
   useEffect(() => {
-    skillsData ? setSkills(mapSkills(skillsData.getAllSkills)) : setSkills([])
-    if (requiredSkills?.length === 0) {
-      setStatus({ error: false, message: null })
-    }
-  }, [skillsData, requiredSkills])
+    props.skillArr ? setSkills(mapSkills(props.skillArr)) : setSkills([])
+  }, [props.skillArr])
+
+  const SearchSkill = (targetSkill) => {
+    var searchParams = new URLSearchParams(window.location.search)
+    searchParams.set('skill', targetSkill[0].label)
+    window.location.search = searchParams.toString()
+  }
 
   // Used to determine if the dropdown value has changed
   const handleChange = (newValue, actionMeta) => {
-    setNewSkill(newValue)
+    SearchSkill(newValue)
   }
 
   return (
@@ -48,6 +50,7 @@ const SearchSkillDropdown = ({ requiredSkills, setRequiredSkills }) => {
       <CreatableSelect
         placeholder={'Search for a skill'}
         isClearable
+        isMulti={true}
         isDisabled={isLoading}
         isLoading={isLoading}
         onChange={handleChange}
