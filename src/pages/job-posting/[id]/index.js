@@ -20,110 +20,23 @@ import {
   StyledGridItem,
 } from '../../../components/JobCard'
 import { JobPostSkill } from '../../../components/Skill'
-import { StyledButtonSolid, LargeButtonSolid } from '../../../components/Button'
-import Applicant from '../../../components/Applicant'
-
-const JobPostContainer = styled.div`
-  margin-top: 5rem;
-  padding: 2.5rem;
-  min-height: 80vh;
-  width: 100%;
-`
-
-const JobPostHeader = styled.header`
-  h2 {
-    color: var(--purple);
-  }
-`
-
-const CompanyLogo = styled.section`
-  padding-bottom: 2.5rem;
-`
-
-const PostedBySection = styled.section`
-  padding-top: 2.5rem;
-  padding-bottom: 1rem;
-  span {
-    padding-right: 1rem;
-  }
-`
-
-const DescriptionSection = styled.section`
-  padding-bottom: 2.5rem;
-  line-height: 1.5;
-`
-
-const SubSection = styled.section`
-  padding-bottom: 2.5rem;
-`
-
-const ConnectButton = styled(StyledButtonSolid)`
-  border-radius: 1rem;
-  font-size: 0.875rem;
-`
-
-const Em = styled.span`
-  font-weight: 700;
-  padding-right: 0;
-`
-
-const AppliedIcon = styled.span`
-  padding-left: 1rem;
-  color: green;
-`
-
-const SideBar = styled.div`
-  width: 33%;
-`
-
-const ApplicantsContainer = styled.div`
-  padding: 2.5rem;
-  border: 1px solid var(--lightGray);
-  box-shadow: 0px 1px 10px rgba(80, 120, 239, 0.1);
-  border-radius: 5px;
-`
-
-const JobPostFlexContainer = styled.section`
-  display: flex;
-  justify-content: space-between;
-`
-
-const JobPostContent = styled.div`
-  width: 60%;
-`
-
-const ApplyButton = styled(LargeButtonSolid)`
-  width: 150px;
-`
-
-const FullPageLoadContainer = styled.div`
-  width: 100%;
-  min-height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-// Returns an array of n most common skills
-// applicants is a JobApplication that contains user field
-const getMostCommonSkills = (applicants, n = 10) => {
-  const skillFrequency = new Map()
-  for (const applicant of applicants) {
-    const {
-      user: { skills },
-    } = applicant
-    for (const skill of skills) {
-      if (!skillFrequency.get(skill.name)) {
-        skillFrequency.set(skill.name, 0)
-      }
-      skillFrequency.set(skill.name, skillFrequency.get(skill.name) + 1)
-    }
-  }
-  const sortedSkills = new Map(
-    [...skillFrequency.entries()].sort((a, b) => b[1] - a[1])
-  )
-  return Array.from(sortedSkills.keys()).slice(0, n)
-}
+import { Applicants, MostCommonSkills } from '../../../components/JobPost'
+import { Em } from '../../../components/styles'
+import {
+  JobPostContainer,
+  JobPostHeader,
+  CompanyLogo,
+  PostedBySection,
+  DescriptionSection,
+  SubSection,
+  ConnectButton,
+  AppliedIcon,
+  SideBar,
+  JobPostFlexContainer,
+  JobPostContent,
+  ApplyButton,
+  FullPageLoadContainer,
+} from '../../../styles/JobPosting'
 
 const JobPosting = ({ user }) => {
   // use router.back() to go back
@@ -139,7 +52,6 @@ const JobPosting = ({ user }) => {
       if (data) {
         setJobPost(data.getJobPostingById)
         setIsOwner(data.getJobPostingById.postedBy.userId === user.userId)
-        getMostCommonSkills(data.getJobPostingById.applicants)
       }
     },
     onError: (error) => {
@@ -168,12 +80,12 @@ const JobPosting = ({ user }) => {
 
   useEffect(() => {
     setHasApplied(
-      jobPost?.applicants.filter(
+      data?.getJobPostingById?.applicants.filter(
         (applicant) => applicant.user.userId === user.userId
       ).length !== 0
     )
-    setJobPost(jobPost)
-  }, [jobPost, user.userId])
+    setJobPost(data?.getJobPostingById)
+  }, [data, user.userId])
 
   const handleApply = async () => {
     const input = {
@@ -185,18 +97,6 @@ const JobPosting = ({ user }) => {
       variables: input,
     })
     setHasApplied(true)
-  }
-
-  // applicant is a JobApplication that has a user field
-  const Applicants = ({ applicants }) => {
-    return (
-      <ApplicantsContainer>
-        <h2>Applicants</h2>
-        {applicants?.map((applicant) => (
-          <Applicant applicant={applicant.user} key={applicant.user.userId} />
-        ))}
-      </ApplicantsContainer>
-    )
   }
 
   return (
@@ -272,16 +172,7 @@ const JobPosting = ({ user }) => {
                     </StyledSkills>
                   </SubSection>
                   <SubSection>
-                    <h2>Most Common Skills of Current Applicants:</h2>
-                    <StyledSkills>
-                      {jobPost && jobPost.applicants.length
-                        ? getMostCommonSkills(
-                            jobPost?.applicants
-                          ).map((skill, index) => (
-                            <JobPostSkill name={skill} key={index} />
-                          ))
-                        : 'No applicants'}
-                    </StyledSkills>
+                    <MostCommonSkills applicants={jobPost?.applicants} />
                   </SubSection>
                   <SubSection>
                     {/* Don't render Apply Button if this user posted this job */}
