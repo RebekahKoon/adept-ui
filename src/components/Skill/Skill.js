@@ -35,16 +35,15 @@ const Skill = ({ name, skillId, setUserSkills, userId }) => {
   return (
     <SkillContainer>
       {name}{' '}
-      {/* {loading ? (
-        <Loader type="TailSpin" color="#570EF1" height={10} width={10} />
+      {loading ? (
+        <div style={{ float: 'right', padding: '0rem .5rem' }}>
+          <Loader type="TailSpin" color="#570EF1" height={10} width={10} />
+        </div>
       ) : (
         <SkillButton onClick={() => handleDeleteSkillFromUser(userId, skillId)}>
           <i className="fas fa-times"></i>
         </SkillButton>
-      )} */}
-      <SkillButton onClick={() => handleDeleteSkillFromUser(userId, skillId)}>
-        <i className="fas fa-times"></i>
-      </SkillButton>
+      )}
     </SkillContainer>
   )
 }
