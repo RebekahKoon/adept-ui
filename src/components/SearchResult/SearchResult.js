@@ -27,7 +27,7 @@ import {
 } from './SearchResultStyle'
 
 function SearchResult(props) {
-  const dataArr = props.skills
+  const dataArr = props.data.skillsRequired
   const handleClick = (e) => {
     e.preventDefault()
     var currPage = props.currPage - 1
@@ -84,7 +84,8 @@ function SearchResult(props) {
     }
   }
 
-  const date = new Date(props.data.datePosted)
+  const date = new Date(parseInt(props.data.datePosted))
+  console.log(props.data.datePosted)
   const months = [
     'Jan',
     'Feb',
@@ -155,7 +156,7 @@ function SearchResult(props) {
       <SSRSearchResultFooter>
         <SSRSkillsContainer>{createSkillDivs()}</SSRSkillsContainer>
         <SSRDate>
-          {months[date.getMonth() + 1] +
+          {months[date.getMonth()] +
             ' ' +
             date.getDate() +
             ', ' +

@@ -550,7 +550,7 @@ export const getServerSideProps = async (context) => {
     var ex3 = context.query.ex3
     var ex4 = context.query.ex4
     var ex5 = context.query.ex5
-    var newArr = jobData.searchJobPostings
+    newArr = jobData.searchJobPostings
     var jtArr = []
     var scArr = []
     var exArr = []
@@ -645,9 +645,13 @@ export const getServerSideProps = async (context) => {
     }
 
     if (o !== 'oldest') {
-      newArr = newArr.slice().sort((a, b) => b.datePosted - a.datePosted)
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(b.datePosted) - parseInt(a.datePosted))
     } else {
-      newArr = newArr.slice().sort((a, b) => a.datePosted - b.datePosted)
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(a.datePosted) - parseInt(b.datePosted))
     }
 
     skillArr = []
@@ -738,29 +742,47 @@ export const getServerSideProps = async (context) => {
 
     if (jt1) {
       tempArr = newArr.filter((term) => term.type == 'FULL_TIME')
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
     }
     if (jt2) {
       tempArr = newArr.filter((term) => term.type == 'PART_TIME')
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
     }
     if (jt3) {
       tempArr = newArr.filter((term) => term.type == 'INTERNSHIP')
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
+    }
+    if (jt1 || jt2 || jt3) {
+      newArr = jtArr
     }
     if (sc1) {
       tempArr = newArr.filter((term) => term.salary < 40000)
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
     }
     if (sc2) {
       tempArr = newArr.filter(
         (term) => term.salary > 40000 && term.salary < 100000
       )
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
     }
     if (sc3) {
       tempArr = newArr.filter((term) => term.salary > 100000)
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
+    }
+    if (sc1 || sc2 || sc3) {
+      newArr = scArr
     }
     if (ex1) {
       tempArr = []
@@ -824,9 +846,13 @@ export const getServerSideProps = async (context) => {
     }
 
     if (o !== 'oldest') {
-      newArr = newArr.slice().sort((a, b) => b.datePosted - a.datePosted)
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(b.datePosted) - parseInt(a.datePosted))
     } else {
-      newArr = newArr.slice().sort((a, b) => a.datePosted - b.datePosted)
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(a.datePosted) - parseInt(b.datePosted))
     }
 
     skillArr = []
