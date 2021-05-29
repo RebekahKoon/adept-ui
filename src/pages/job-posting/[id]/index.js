@@ -191,7 +191,9 @@ const JobPosting = ({ user }) => {
                   </SubSection>
                 </JobPostContent>
                 <SideBar>
-                  <Applicants applicants={jobPost?.applicants} />
+                  {jobPost?.applicants.length !== 0 && (
+                    <Applicants applicants={jobPost?.applicants} />
+                  )}
                 </SideBar>
               </JobPostFlexContainer>
             </>
