@@ -26,8 +26,8 @@ import {
   SSRDate,
 } from './SearchResultStyle'
 
-function SearchResult(props) {
-  const dataArr = props.skills
+function UserSearchResult(props) {
+  const dataArr = props.data.skillsRequired
   const handleClick = (e) => {
     e.preventDefault()
     var currPage = props.currPage - 1
@@ -165,4 +165,4 @@ function SearchResult(props) {
     </SSRSearchResultDiv>
   )
 }
-export default SearchResult
+export default UserSearchResult

@@ -7,6 +7,7 @@ import { SEARCH_JOBS } from '../queries/search'
 import { GET_ALL_JOBS } from '../queries/getAllJobPostings'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
+import UserSearchResult from '../components/SearchResult'
 import { SearchSkillDropdown } from '../components/SkillDropdown'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
@@ -38,10 +39,17 @@ import {
 } from '../styles/SearchResultsStyle'
 
 function SearchResultView(props) {
+  var dataArr
+  if (props.uq) {
+    dataArr = props.data.searchUsers
+  } else {
+    dataArr = props.data
+  }
   const JobType = ['Full Time', 'Part Time', 'Internship']
   const SalaryRange = ['$0 - $40,000', '$40,000 - $100,000', '$100,000 +']
   const skillArr = props.skillArr
-  const dataArr = props.data
+  console.log(skillArr)
+
   const selectedCheckboxes = new Set()
 
   function removeURLParameter(url, parameter) {
@@ -293,6 +301,7 @@ function SearchResultView(props) {
         id={index}
         q={props.q}
         currPage={props.currPage}
+        skills={skillArr}
       />
     ))
 
@@ -484,7 +493,34 @@ export const getServerSideProps = async (context) => {
       query: SEARCH_USERS,
       variables: { searchTerm: context.query.uq },
     })
-    console.log(userData)
+    var newArr = userData.searchUsers
+    var skillArr = []
+    for (i = 0; i < newArr.length; i++) {
+      for (j = 0; j < newArr[i].skills.length; j++) {
+        skillArr.push(newArr[i].skills[j].name)
+      }
+    }
+    console.log(skillArr)
+    return {
+      props: {
+        data: userData,
+        uq: context.query.uq,
+        currPage: context.query.page,
+        pageCount: pageCount || 0,
+        jt1: jt1 || null,
+        jt2: jt2 || null,
+        jt3: jt3 || null,
+        sc1: sc1 || null,
+        sc2: sc2 || null,
+        sc3: sc3 || null,
+        ex1: ex1 || null,
+        ex2: ex2 || null,
+        ex3: ex3 || null,
+        ex4: ex4 || null,
+        ex5: ex5 || null,
+        skillArr: skillArr,
+      },
+    }
   }
   if (context.query.q) {
     const { data: jobData } = await client.query({
@@ -602,7 +638,7 @@ export const getServerSideProps = async (context) => {
       newArr = newArr.slice().sort((a, b) => a.datePosted - b.datePosted)
     }
 
-    var skillArr = []
+    skillArr = []
     for (i = 0; i < newArr.length; i++) {
       for (j = 0; j < newArr[i].skillsRequired.length; j++) {
         skillArr.push(newArr[i].skillsRequired[j].name)
