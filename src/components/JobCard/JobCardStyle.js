@@ -26,6 +26,12 @@ export const StyledViewJob = styled.section`
   align-items: right;
   justify-content: flex-end;
   line-height: 0.25rem;
+  a {
+    color: var(--darkPurple);
+    :hover {
+      text-decoration: underline;
+    }
+  }
 `
 
 export const StyledJobCardTop = styled(StyledEducation)`

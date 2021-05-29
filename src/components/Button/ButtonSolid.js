@@ -10,6 +10,13 @@ export const StyledButtonSolid = styled.button`
   font-weight: bold;
   color: var(--white);
   padding: 0.375rem 1rem;
+  :disabled {
+    background: var(--lightGray);
+    :hover {
+      background: var(--lightGray);
+      cursor: default;
+    }
+  }
   :hover {
     cursor: pointer;
     background-color: #4510b7;

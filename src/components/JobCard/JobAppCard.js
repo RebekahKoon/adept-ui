@@ -1,6 +1,7 @@
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
+import Link from 'next/link'
 import { JobPostSkill } from '../Skill'
 import months from '../../utils/months'
 import {
@@ -25,7 +26,11 @@ const JobMainContent = ({ jobApplication }) => {
         <StyledTitleLine>
           <h3>{jobApplication.jobPosting.positionTitle}</h3>
           <StyledViewJob>
-            View Job <i className="fas fa-arrow-circle-right"></i>
+            <Link href={`/job-posting/${jobApplication.jobPosting.jobPostId}`}>
+              <a>
+                View Job <i className="fas fa-arrow-circle-right"></i>
+              </a>
+            </Link>
           </StyledViewJob>
         </StyledTitleLine>
         <StyledJobCardGrid>

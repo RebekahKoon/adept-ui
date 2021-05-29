@@ -1,84 +1,75 @@
 import { useState, useEffect } from 'react'
-import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { useQuery, useMutation } from '@apollo/client'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
-import client from '../../../apollo/apolloClient'
 import Loader from 'react-loader-spinner'
 import Layout from '../../../components/Layout'
 import withSession from '../../../lib/session'
 import {
   GET_JOB_POSTING_BY_ID,
   CREATE_JOB_APPLICATION,
+  ADD_CONTACT,
+  GET_USER_CONTACTS,
 } from '../../../queries/jobPosting'
-import {
-  CenterContainer,
-  MainContentFlexContainer,
-} from '../../../components/styles'
-import SearchBar from '../../../components/SearchBar'
+import { MainContentFlexContainer } from '../../../components/styles'
 import {
   StyledSkills,
   StyledJobCardGrid,
   StyledGridItem,
 } from '../../../components/JobCard'
 import { JobPostSkill } from '../../../components/Skill'
+import { Applicants, MostCommonSkills } from '../../../components/JobPost'
+import { Em } from '../../../components/styles'
 import {
-  ButtonSolid,
-  StyledButtonSolid,
-  LargeButtonSolid,
-} from '../../../components/Button'
-
-const JobPostContainer = styled.div`
-  padding: 2.5rem;
-  min-height: 800px;
-`
-
-const JobPostHeader = styled.header`
-  h2 {
-    color: var(--purple);
-  }
-`
-
-const CompanyLogo = styled.section`
-  padding-bottom: 2.5rem;
-`
-
-const PostedBySection = styled.section`
-  padding-top: 2.5rem;
-  padding-bottom: 1rem;
-  span {
-    padding-right: 1rem;
-  }
-`
-
-const DescriptionSection = styled.section`
-  width: 800px;
-  padding-bottom: 2.5rem;
-  line-height: 1.5;
-`
-
-const SubSection = styled.section`
-  padding-bottom: 2.5rem;
-`
-
-const ConnectButton = styled(StyledButtonSolid)`
-  border-radius: 1rem;
-  font-size: 0.875rem;
-`
+  JobPostContainer,
+  JobPostHeader,
+  CompanyLogo,
+  PostedBySection,
+  DescriptionSection,
+  SubSection,
+  ConnectButton,
+  AppliedIcon,
+  SideBar,
+  JobPostFlexContainer,
+  JobPostContent,
+  ApplyButton,
+  FullPageLoadContainer,
+  ConnectButtonWrapper,
+} from '../../../styles/JobPosting'
 
 const JobPosting = ({ user }) => {
   // use router.back() to go back
   const [jobPost, setJobPost] = useState(null)
+  const [hasApplied, setHasApplied] = useState(false)
+  const [isOwner, setIsOwner] = useState(false)
+  const [contacts, setContacts] = useState([])
+  const [hasConnected, setHasConnected] = useState(false)
+  const [addedStatus, setAddedStatus] = useState(false)
+
+  // Get the jobPostId from the url
   const router = useRouter()
-  const { id } = router.query
+  const { id: jobPostId } = router.query
 
   const { loading, error, data } = useQuery(GET_JOB_POSTING_BY_ID, {
-    variables: { jobPostId: id },
+    variables: { jobPostId },
     onCompleted: (data) => {
       if (data) {
         setJobPost(data.getJobPostingById)
+        setIsOwner(data.getJobPostingById.postedBy.userId === user.userId)
+      }
+    },
+    onError: (error) => {
+      console.log(error)
+    },
+  })
+
+  const { data: contactsData } = useQuery(GET_USER_CONTACTS, {
+    variables: { userId: user.userId },
+    onCompleted: (data) => {
+      if (data) {
+        setContacts(data.getUserById.contacts)
       }
     },
     onError: (error) => {
@@ -90,29 +81,93 @@ const JobPosting = ({ user }) => {
     applyToJob,
     { loading: applyLoading, error: applyError, data: applyData },
   ] = useMutation(CREATE_JOB_APPLICATION, {
-    onCompleted: (data) => {
-      console.log(data)
-    },
     onError: (err) => {
       console.log(err)
     },
     refetchQueries: [
       {
         query: GET_JOB_POSTING_BY_ID,
-        variables: { jobPostId: id },
+        variables: { jobPostId },
       },
     ],
     awaitRefetchQueries: true,
   })
 
+  const [
+    addContact,
+    {
+      loading: addContactLoading,
+      error: addContactError,
+      data: addContactData,
+    },
+  ] = useMutation(ADD_CONTACT, {
+    onCompleted: (data) => {
+      if (data) {
+        setContacts(data.addContactToUser.contacts)
+        setAddedStatus(true)
+      }
+    },
+    onError: (err) => {
+      console.log(err)
+    },
+    refetchQueries: [
+      {
+        query: GET_USER_CONTACTS,
+        variables: { userId: user.userId },
+      },
+    ],
+    awaitRefetchQueries: true,
+  })
+
+  useEffect(() => {
+    setContacts(contactsData?.getUserById.contacts)
+    setHasConnected(
+      contactsData?.getUserById?.contacts.filter(
+        (contact) => contact.userId === jobPost?.postedBy.userId
+      ).length !== 0
+    )
+  }, [contactsData, user.userId, jobPost, addContactData])
+
+  useEffect(() => {
+    setJobPost(data?.getJobPostingById)
+    setHasApplied(
+      data?.getJobPostingById?.applicants.filter(
+        (applicant) => applicant.user.userId === user.userId
+      ).length !== 0
+    )
+  }, [data, user.userId])
+
+  const handleApply = async () => {
+    const input = {
+      jobPostId,
+      userId: user.userId,
+      dateApplied: new Date(Date.now()).toISOString(),
+    }
+    await applyToJob({
+      variables: input,
+    })
+    setHasApplied(true)
+  }
+
+  const handleAddContact = async () => {
+    const input = {
+      userId: user.userId,
+      contactId: jobPost?.postedBy.userId,
+    }
+    await addContact({
+      variables: input,
+    })
+    setHasConnected(true)
+  }
+
   return (
-    <Layout hasNav={false}>
+    <Layout navFadeIn={false}>
       <MainContentFlexContainer>
         <JobPostContainer>
           {loading ? (
-            <CenterContainer>
+            <FullPageLoadContainer>
               <Loader type="TailSpin" color="#570EF1" />
-            </CenterContainer>
+            </FullPageLoadContainer>
           ) : (
             <>
               <JobPostHeader>
@@ -120,85 +175,109 @@ const JobPosting = ({ user }) => {
                   <i className="fab fa-asymmetrik fa-3x"></i>
                 </CompanyLogo>
                 <h2>{jobPost?.company}</h2>
-                <h1>{jobPost?.positionTitle}</h1>
-                <StyledJobCardGrid>
-                  <StyledGridItem>
-                    <i className="fas fa-map-marker-alt"></i> {jobPost?.city},{' '}
-                    {jobPost?.state}
-                  </StyledGridItem>
-                  <StyledGridItem>
-                    <i className="fas fa-clock"></i>{' '}
-                    {jobPost?.type === 'FULL_TIME'
-                      ? 'Full-time'
-                      : jobPost?.type === 'PART_TIME'
-                      ? 'Part-time'
-                      : 'Internship'}
-                  </StyledGridItem>
-                  <StyledGridItem>
-                    <i className="fas fa-dollar-sign"></i>{' '}
-                    {Number(jobPost?.salary).toLocaleString()}
-                  </StyledGridItem>
-                </StyledJobCardGrid>
               </JobPostHeader>
+              <JobPostFlexContainer>
+                <JobPostContent>
+                  <h1>
+                    {jobPost?.positionTitle}
+                    {hasApplied && !isOwner && (
+                      <AppliedIcon>
+                        <i className="fas fa-check-circle"></i>
+                      </AppliedIcon>
+                    )}
+                  </h1>
+                  <StyledJobCardGrid>
+                    <StyledGridItem>
+                      <i className="fas fa-map-marker-alt"></i> {jobPost?.city},{' '}
+                      {jobPost?.state}
+                    </StyledGridItem>
+                    <StyledGridItem>
+                      <i className="fas fa-clock"></i>{' '}
+                      {jobPost?.type === 'FULL_TIME'
+                        ? 'Full-time'
+                        : jobPost?.type === 'PART_TIME'
+                        ? 'Part-time'
+                        : 'Internship'}
+                    </StyledGridItem>
+                    <StyledGridItem>
+                      <i className="fas fa-dollar-sign"></i>{' '}
+                      {Number(jobPost?.salary).toLocaleString()}
+                    </StyledGridItem>
+                  </StyledJobCardGrid>
 
-              <PostedBySection>
-                <span>
-                  Posted on {new Date(parseInt(jobPost?.datePosted)).getDate()}
-                </span>
-                <span>By: {jobPost?.postedBy.name}</span>
-                <span>
-                  <ConnectButton>Connect</ConnectButton>
-                </span>
-              </PostedBySection>
+                  <PostedBySection>
+                    <span>
+                      Published{' '}
+                      {new Date(
+                        parseInt(jobPost?.datePosted)
+                      ).toLocaleDateString()}
+                    </span>
+                    <span>
+                      By: <Em>{isOwner ? 'You' : jobPost?.postedBy.name}</Em>
+                    </span>
+                    {!isOwner && (
+                      <ConnectButtonWrapper>
+                        {addContactLoading ? (
+                          <Loader
+                            type="TailSpin"
+                            color="#570EF1"
+                            height={16}
+                            width={16}
+                          />
+                        ) : (
+                          <ConnectButton
+                            disabled={addContactLoading || hasConnected}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              handleAddContact()
+                            }}
+                          >
+                            {hasConnected ? 'Connected' : 'Connect'}
+                          </ConnectButton>
+                        )}
+                      </ConnectButtonWrapper>
+                    )}
+                    {addedStatus && (
+                      <span style={{ color: 'green' }}>Added to contacts</span>
+                    )}
+                  </PostedBySection>
 
-              <DescriptionSection>{jobPost?.description}</DescriptionSection>
-              <SubSection>
-                <h2>Desired Skills:</h2>
-                <StyledSkills>
-                  {data?.getJobPostingById?.skillsRequired?.map((skill) => (
-                    <JobPostSkill name={skill.name} key={skill.skillId} />
-                  ))}
-                </StyledSkills>
-              </SubSection>
-              <SubSection>
-                <h2>Current Applicants Possess These Skills:</h2>
-                <StyledSkills>
-                  {data?.getJobPostingById?.skillsRequired?.map(
-                    (skill, index) => (
-                      <JobPostSkill name={skill.name} key={index} />
-                    )
+                  <DescriptionSection>
+                    {jobPost?.description}
+                  </DescriptionSection>
+                  <SubSection>
+                    <h2>Desired Skills:</h2>
+                    <StyledSkills>
+                      {data?.getJobPostingById?.skillsRequired?.map((skill) => (
+                        <JobPostSkill name={skill.name} key={skill.skillId} />
+                      ))}
+                    </StyledSkills>
+                  </SubSection>
+                  <SubSection>
+                    <MostCommonSkills applicants={jobPost?.applicants} />
+                  </SubSection>
+                  <SubSection>
+                    {/* Don't render Apply Button if this user posted this job */}
+                    {!isOwner && (
+                      <ApplyButton
+                        loading={applyLoading}
+                        disabled={applyLoading || hasApplied}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          handleApply()
+                        }}
+                      >
+                        {hasApplied ? 'Applied' : 'Apply'}
+                      </ApplyButton>
+                    )}
+                  </SubSection>
+                </JobPostContent>
+                <SideBar>
+                  {jobPost?.applicants.length !== 0 && (
+                    <Applicants applicants={jobPost?.applicants} />
                   )}
-                </StyledSkills>
-              </SubSection>
-              <SubSection>
-                {/* {applyLoading ? (
-                  <CenterContainer>
-                    <Loader
-                      type="TailSpin"
-                      color="#570EF1"
-                      height={26}
-                      width={26}
-                    />
-                  </CenterContainer>
-                ) : ( */}
-                <LargeButtonSolid
-                  loading={applyLoading}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    const input = {
-                      jobPostId: id,
-                      userId: user.userId,
-                      dateApplied: new Date(Date.now()).toISOString(),
-                    }
-                    applyToJob({
-                      variables: input,
-                    })
-                  }}
-                >
-                  Apply
-                </LargeButtonSolid>
-                {/* )} */}
-              </SubSection>
+                </SideBar>
+              </JobPostFlexContainer>
             </>
           )}
         </JobPostContainer>
