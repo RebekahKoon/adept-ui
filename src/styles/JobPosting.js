@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { StyledButtonSolid, LargeButtonSolid } from '../components/Button'
+import { ButtonSolid, LargeButtonSolid } from '../components/Button'
 
 export const JobPostContainer = styled.div`
   margin-top: 5rem;
@@ -21,6 +21,8 @@ export const CompanyLogo = styled.section`
 export const PostedBySection = styled.section`
   padding-top: 2.5rem;
   padding-bottom: 1rem;
+  display: flex;
+  align-items: center;
   span {
     padding-right: 1rem;
   }
@@ -35,7 +37,7 @@ export const SubSection = styled.section`
   padding-bottom: 2.5rem;
 `
 
-export const ConnectButton = styled(StyledButtonSolid)`
+export const ConnectButton = styled(ButtonSolid)`
   border-radius: 1rem;
   font-size: 0.875rem;
 `
@@ -75,4 +77,10 @@ export const FullPageLoadContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+export const ConnectButtonWrapper = styled.span`
+  display: flex;
+  justify-content: center;
+  width: 95px;
 `

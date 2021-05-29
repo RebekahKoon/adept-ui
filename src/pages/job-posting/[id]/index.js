@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
-import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { useQuery, useMutation } from '@apollo/client'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
-import client from '../../../apollo/apolloClient'
 import Loader from 'react-loader-spinner'
 import Layout from '../../../components/Layout'
 import withSession from '../../../lib/session'
 import {
   GET_JOB_POSTING_BY_ID,
   CREATE_JOB_APPLICATION,
+  ADD_CONTACT,
+  GET_USER_CONTACTS,
 } from '../../../queries/jobPosting'
 import { MainContentFlexContainer } from '../../../components/styles'
 import {
@@ -36,6 +36,7 @@ import {
   JobPostContent,
   ApplyButton,
   FullPageLoadContainer,
+  ConnectButtonWrapper,
 } from '../../../styles/JobPosting'
 
 const JobPosting = ({ user }) => {
@@ -43,6 +44,11 @@ const JobPosting = ({ user }) => {
   const [jobPost, setJobPost] = useState(null)
   const [hasApplied, setHasApplied] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
+  const [contacts, setContacts] = useState([])
+  const [hasConnected, setHasConnected] = useState(false)
+  const [addedStatus, setAddedStatus] = useState(false)
+
+  // Get the jobPostId from the url
   const router = useRouter()
   const { id: jobPostId } = router.query
 
@@ -52,6 +58,18 @@ const JobPosting = ({ user }) => {
       if (data) {
         setJobPost(data.getJobPostingById)
         setIsOwner(data.getJobPostingById.postedBy.userId === user.userId)
+      }
+    },
+    onError: (error) => {
+      console.log(error)
+    },
+  })
+
+  const { data: contactsData } = useQuery(GET_USER_CONTACTS, {
+    variables: { userId: user.userId },
+    onCompleted: (data) => {
+      if (data) {
+        setContacts(data.getUserById.contacts)
       }
     },
     onError: (error) => {
@@ -75,13 +93,48 @@ const JobPosting = ({ user }) => {
     awaitRefetchQueries: true,
   })
 
+  const [
+    addContact,
+    {
+      loading: addContactLoading,
+      error: addContactError,
+      data: addContactData,
+    },
+  ] = useMutation(ADD_CONTACT, {
+    onCompleted: (data) => {
+      if (data) {
+        setContacts(data.addContactToUser.contacts)
+        setAddedStatus(true)
+      }
+    },
+    onError: (err) => {
+      console.log(err)
+    },
+    refetchQueries: [
+      {
+        query: GET_USER_CONTACTS,
+        variables: { userId: user.userId },
+      },
+    ],
+    awaitRefetchQueries: true,
+  })
+
   useEffect(() => {
+    setContacts(contactsData?.getUserById.contacts)
+    setHasConnected(
+      contactsData?.getUserById?.contacts.filter(
+        (contact) => contact.userId === jobPost?.postedBy.userId
+      ).length !== 0
+    )
+  }, [contactsData, user.userId, jobPost, addContactData])
+
+  useEffect(() => {
+    setJobPost(data?.getJobPostingById)
     setHasApplied(
       data?.getJobPostingById?.applicants.filter(
         (applicant) => applicant.user.userId === user.userId
       ).length !== 0
     )
-    setJobPost(data?.getJobPostingById)
   }, [data, user.userId])
 
   const handleApply = async () => {
@@ -94,6 +147,17 @@ const JobPosting = ({ user }) => {
       variables: input,
     })
     setHasApplied(true)
+  }
+
+  const handleAddContact = async () => {
+    const input = {
+      userId: user.userId,
+      contactId: jobPost?.postedBy.userId,
+    }
+    await addContact({
+      variables: input,
+    })
+    setHasConnected(true)
   }
 
   return (
@@ -152,9 +216,29 @@ const JobPosting = ({ user }) => {
                       By: <Em>{isOwner ? 'You' : jobPost?.postedBy.name}</Em>
                     </span>
                     {!isOwner && (
-                      <span>
-                        <ConnectButton>Connect</ConnectButton>
-                      </span>
+                      <ConnectButtonWrapper>
+                        {addContactLoading ? (
+                          <Loader
+                            type="TailSpin"
+                            color="#570EF1"
+                            height={16}
+                            width={16}
+                          />
+                        ) : (
+                          <ConnectButton
+                            disabled={addContactLoading || hasConnected}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              handleAddContact()
+                            }}
+                          >
+                            {hasConnected ? 'Connected' : 'Connect'}
+                          </ConnectButton>
+                        )}
+                      </ConnectButtonWrapper>
+                    )}
+                    {addedStatus && (
+                      <span style={{ color: 'green' }}>Added to contacts</span>
                     )}
                   </PostedBySection>
 
