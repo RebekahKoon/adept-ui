@@ -211,5 +211,27 @@ const GlobalStyle = createGlobalStyle`
   [hidden] {
     display: none;
   }
+
+  .transition-enter {
+    opacity: 0.01;
+    transform: translate(0, -10px);
+  }
+
+  .transition-enter-active {
+    opacity: 1;
+    transform: translate(0, 0);
+    transition: all 150ms ease-in;
+  }
+
+  .transition-exit {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .transition-exit-active {
+    opacity: 0.01;
+    transform: translate(0, 10px);
+    transition: all 150ms ease-in;
+  }
 `
 export default GlobalStyle
