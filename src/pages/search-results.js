@@ -7,7 +7,7 @@ import { SEARCH_JOBS } from '../queries/search'
 import { GET_ALL_JOBS } from '../queries/getAllJobPostings'
 import Layout from '../components/Layout'
 import SearchResult from '../components/SearchResult'
-import UserSearchResult from '../components/SearchResult'
+import UserSearchResult from '../components/UserSearchResult'
 import { SearchSkillDropdown } from '../components/SkillDropdown'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
@@ -297,15 +297,29 @@ function SearchResultView(props) {
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
   const createDataDivs = () =>
-    dataArr.map((data, index) => (
-      <SearchResult
-        data={dataArr[index]}
-        id={index}
-        q={props.q}
-        currPage={props.currPage}
-        skills={skillArr}
-      />
-    ))
+    dataArr.map((data, index) => {
+      if (props.uq) {
+        return (
+          <UserSearchResult
+            data={dataArr[index]}
+            id={index}
+            q={props.q}
+            currPage={props.currPage}
+            skills={skillArr}
+          />
+        )
+      } else {
+        return (
+          <SearchResult
+            data={dataArr[index]}
+            id={index}
+            q={props.q}
+            currPage={props.currPage}
+            skills={skillArr}
+          />
+        )
+      }
+    })
 
   const createSalRangeCheckboxes = () => SalaryRange.map(createCheckbox)
 
@@ -394,7 +408,6 @@ function SearchResultView(props) {
   const handleClickPrev = (e) => {
     var page = parseInt(props.currPage) - 1
     var searchParams = new URLSearchParams(window.location.search)
-    console.log(searchParams)
     searchParams.set('page', page)
     window.location.search = searchParams.toString()
   }
@@ -403,7 +416,6 @@ function SearchResultView(props) {
     var page = parseInt(props.currPage) + 1
     var searchParams = new URLSearchParams(window.location.search)
     searchParams.set('page', page)
-    console.log(searchParams)
     window.location.search = searchParams.toString()
   }
 
@@ -502,7 +514,6 @@ export const getServerSideProps = async (context) => {
         skillArr.push(newArr[i].skills[j].name)
       }
     }
-    console.log(userData)
     return {
       props: {
         data: userData,

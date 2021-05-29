@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 
-import SSRSearchResultDiv from './SearchResultStyle'
+import SSRSearchResultDiv from './UserSearchResultStyle'
 import {
   SSRSearchResultFooter,
   SSRSkillDiv,
@@ -24,10 +24,12 @@ import {
   SSRCompanyText,
   SSRSkillsContainer,
   SSRDate,
-} from './SearchResultStyle'
+} from './UserSearchResultStyle'
 
 function UserSearchResult(props) {
-  const dataArr = props.data.skillsRequired
+  console.log(props.data)
+  const dataArr = props.data.skills
+  console.log(dataArr)
   const handleClick = (e) => {
     e.preventDefault()
     var currPage = props.currPage - 1
@@ -47,6 +49,32 @@ function UserSearchResult(props) {
         return <SSRSkillDiv> {dataArr[index].name} </SSRSkillDiv>
       }
     })
+
+  function createWorkExperience() {
+    if (props.data.resume.workExperience[0]) {
+      return (
+        <SSRCompanyTextDiv className="company">
+          <SSRCompanyText>
+            <i className="fas fa-suitcase"></i>
+            <p>{props.data.resume.workExperience[0].company}</p>
+            <p className="tooltiptext">
+              {props.data.resume.workExperience[0].company}
+            </p>
+          </SSRCompanyText>
+        </SSRCompanyTextDiv>
+      )
+    } else {
+      return (
+        <SSRCompanyTextDiv className="company">
+          <SSRCompanyText>
+            <i className="fas fa-suitcase"></i>
+            <p>Unemployed</p>
+            <p className="tooltiptext">Unemployed</p>
+          </SSRCompanyText>
+        </SSRCompanyTextDiv>
+      )
+    }
+  }
 
   const handleType = () => {
     if (props.data.type == 'PART_TIME') {
@@ -79,8 +107,6 @@ function UserSearchResult(props) {
           </SSRCompanyText>
         </SSRCompanyTextDiv>
       )
-    } else {
-      console.log('Oopsie')
     }
   }
 
@@ -115,13 +141,7 @@ function UserSearchResult(props) {
               <SSRJobInfoContainer>
                 <SSRCompanyContainer>
                   <SSRCompanyTextContainer>
-                    <SSRCompanyTextDiv className="company">
-                      <SSRCompanyText>
-                        <i className="fas fa-suitcase"></i>
-                        <p>{props.data.company}</p>
-                        <p className="tooltiptext">{props.data.company}</p>
-                      </SSRCompanyText>
-                    </SSRCompanyTextDiv>
+                    {createWorkExperience()}
                     <SSRCompanyTextDiv className="location">
                       <SSRCompanyText>
                         <i className="fas fa-map-marker-alt"></i>
