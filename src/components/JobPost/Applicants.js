@@ -1,6 +1,7 @@
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import {
   StyledContactContainer,
   StyledContactContent,
@@ -32,12 +33,18 @@ const Applicant = ({ applicant }) => {
 // applicants is an array of JobApplications that has a user field
 const Applicants = ({ applicants = [] }) => {
   return (
-    <ApplicantsContainer>
+    <TransitionGroup component={ApplicantsContainer}>
       <h2>Applicants</h2>
       {applicants.map((applicant) => (
-        <Applicant applicant={applicant.user} key={applicant.user.userId} />
+        <CSSTransition
+          key={applicant.user.userId}
+          timeout={300}
+          classNames="transition"
+        >
+          <Applicant applicant={applicant.user} />
+        </CSSTransition>
       ))}
-    </ApplicantsContainer>
+    </TransitionGroup>
   )
 }
 
