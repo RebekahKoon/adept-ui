@@ -16,6 +16,7 @@ import StyledSideBar from '../components/SideBar'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import client from '../apollo/apolloClient'
 import Checkbox from '../components/Checkbox'
+import { SearchSkillDropdown } from '../components/SkillDropdown'
 import {
   SSRSearchResults,
   SSRMain,
@@ -29,12 +30,14 @@ import {
   SSRDivider,
   SSRCheckBoxOption,
   StyledDropdown,
+  SkillDropdownContainer,
   SSRMainContentFooter,
   SSRFooterPagination,
   SSRFooterPrev,
   SSRFooterPageNumber,
   SSRFooterNext,
 } from '../styles/SearchResultsStyle'
+import Skill from '../components/Skill'
 
 function SearchResultView(props) {
   var dataArr
@@ -91,19 +94,21 @@ function SearchResultView(props) {
       } else if (label == '$100,000 +') {
         newHref = removeURLParameter(window.location.href, 'sc3')
         Router.push(newHref)
-      } else if (label == props.skillArr[0]) {
+      } else if (label == props.ex1) {
         newHref = removeURLParameter(window.location.href, 'ex1')
         Router.push(newHref)
-      } else if (label == props.skillArr[1]) {
+      } else if (label == props.ex2) {
         newHref = removeURLParameter(window.location.href, 'ex2')
         Router.push(newHref)
-      } else if (label == props.skillArr[2]) {
+      } else if (label == props.ex3) {
+        console.log('pros.ex3: ' + props.ex3)
         newHref = removeURLParameter(window.location.href, 'ex3')
+        console.log(newHref)
         Router.push(newHref)
-      } else if (label == props.skillArr[3]) {
+      } else if (label == props.ex4) {
         newHref = removeURLParameter(window.location.href, 'ex4')
         Router.push(newHref)
-      } else if (label == props.skillArr[4]) {
+      } else if (label == props.ex5) {
         newHref = removeURLParameter(window.location.href, 'ex5')
         Router.push(newHref)
       }
@@ -445,9 +450,9 @@ function SearchResultView(props) {
           </SSRDividerContainer>
           <SSRFilterOptionHeader>Skill</SSRFilterOptionHeader>
           <SSRFilterOptions>
-            <SSRCheckBoxOption>
-              <form>{createSkillCheckboxes()}</form>
-            </SSRCheckBoxOption>
+            <SkillDropdownContainer>
+              <SearchSkillDropdown />
+            </SkillDropdownContainer>
           </SSRFilterOptions>
         </SSRFilterSection>
       </StyledSideBar>
@@ -794,7 +799,9 @@ export const getServerSideProps = async (context) => {
             tempPos++
           }
       }
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
     }
     if (ex2) {
       tempArr = []
@@ -806,7 +813,9 @@ export const getServerSideProps = async (context) => {
             tempPos++
           }
       }
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
     }
     if (ex3) {
       tempArr = []
@@ -818,7 +827,9 @@ export const getServerSideProps = async (context) => {
             tempPos++
           }
       }
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
     }
     if (ex4) {
       tempArr = []
@@ -830,7 +841,9 @@ export const getServerSideProps = async (context) => {
             tempPos++
           }
       }
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
     }
     if (ex5) {
       tempArr = []
@@ -842,7 +855,13 @@ export const getServerSideProps = async (context) => {
             tempPos++
           }
       }
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
+    }
+
+    if (ex1 || ex2 || ex3 || ex4 || ex5) {
+      newArr = exArr
     }
 
     if (o !== 'oldest') {

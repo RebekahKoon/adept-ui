@@ -85,7 +85,6 @@ function SearchResult(props) {
   }
 
   const date = new Date(parseInt(props.data.datePosted))
-  console.log(props.data.datePosted)
   const months = [
     'Jan',
     'Feb',

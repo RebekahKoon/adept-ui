@@ -109,6 +109,10 @@ export const SSRCheckBoxOption = styled.div`
   }
 `
 
+export const SkillDropdownContainer = styled.div`
+  width: 12rem;
+`
+
 export const StyledDropdown = {
   option: (provided) => ({
     ...provided,
