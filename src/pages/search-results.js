@@ -40,15 +40,17 @@ import {
 
 function SearchResultView(props) {
   var dataArr
+  var searchLength
   if (props.uq) {
     dataArr = props.data.searchUsers
+    searchLength = dataArr.length
   } else {
     dataArr = props.data
+    searchLength = props.searchLength
   }
   const JobType = ['Full Time', 'Part Time', 'Internship']
   const SalaryRange = ['$0 - $40,000', '$40,000 - $100,000', '$100,000 +']
   const skillArr = props.skillArr
-  console.log(skillArr)
 
   const selectedCheckboxes = new Set()
 
@@ -463,7 +465,7 @@ function SearchResultView(props) {
       <MainContentFlexContainer>
         <SSRMain>
           <SSRSearchResultsHeader>
-            {props.searchLength} results found
+            {searchLength} results found
             <SearchResultDropdown />
           </SSRSearchResultsHeader>
           <SSRMainContentContainer>
@@ -500,7 +502,7 @@ export const getServerSideProps = async (context) => {
         skillArr.push(newArr[i].skills[j].name)
       }
     }
-    console.log(skillArr)
+    console.log(userData)
     return {
       props: {
         data: userData,
@@ -519,6 +521,7 @@ export const getServerSideProps = async (context) => {
         ex4: ex4 || null,
         ex5: ex5 || null,
         skillArr: skillArr,
+        searchLength: userData.searchUsers.length,
       },
     }
   }
