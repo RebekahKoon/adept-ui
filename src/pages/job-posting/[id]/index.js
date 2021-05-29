@@ -71,6 +71,7 @@ const JobPosting = ({ user }) => {
     onCompleted: (data) => {
       if (data) {
         setContacts(data.getUserById.contacts)
+        setUserSkills(data?.getUserById.skills.map((skill) => skill.name))
       }
     },
     onError: (error) => {
