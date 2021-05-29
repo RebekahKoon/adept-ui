@@ -65,11 +65,14 @@ export const ADD_CONTACT = gql`
   }
 `
 
-export const GET_USER_CONTACTS = gql`
+export const GET_USER_CONTACTS_AND_SKILLS = gql`
   query GetUserContacts($userId: ID!) {
     getUserById(userId: $userId) {
       contacts {
         userId
+      }
+      skills {
+        name
       }
     }
   }

@@ -11,7 +11,7 @@ import {
   GET_JOB_POSTING_BY_ID,
   CREATE_JOB_APPLICATION,
   ADD_CONTACT,
-  GET_USER_CONTACTS,
+  GET_USER_CONTACTS_AND_SKILLS,
 } from '../../../queries/jobPosting'
 import { MainContentFlexContainer } from '../../../components/styles'
 import {
@@ -45,6 +45,7 @@ const JobPosting = ({ user }) => {
   const [hasApplied, setHasApplied] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
   const [contacts, setContacts] = useState([])
+  const [userSkills, setUserSkills] = useState([])
   const [hasConnected, setHasConnected] = useState(false)
   const [addedStatus, setAddedStatus] = useState(false)
 
@@ -65,7 +66,7 @@ const JobPosting = ({ user }) => {
     },
   })
 
-  const { data: contactsData } = useQuery(GET_USER_CONTACTS, {
+  const { data: userData } = useQuery(GET_USER_CONTACTS_AND_SKILLS, {
     variables: { userId: user.userId },
     onCompleted: (data) => {
       if (data) {
@@ -112,7 +113,7 @@ const JobPosting = ({ user }) => {
     },
     refetchQueries: [
       {
-        query: GET_USER_CONTACTS,
+        query: GET_USER_CONTACTS_AND_SKILLS,
         variables: { userId: user.userId },
       },
     ],
@@ -120,13 +121,14 @@ const JobPosting = ({ user }) => {
   })
 
   useEffect(() => {
-    setContacts(contactsData?.getUserById.contacts)
+    setContacts(userData?.getUserById.contacts)
+    setUserSkills(userData?.getUserById.skills.map((skill) => skill.name))
     setHasConnected(
-      contactsData?.getUserById?.contacts.filter(
+      userData?.getUserById?.contacts.filter(
         (contact) => contact.userId === jobPost?.postedBy.userId
       ).length !== 0
     )
-  }, [contactsData, user.userId, jobPost, addContactData])
+  }, [userData, user.userId, jobPost, addContactData])
 
   useEffect(() => {
     setJobPost(data?.getJobPostingById)
@@ -249,12 +251,19 @@ const JobPosting = ({ user }) => {
                     <h2>Desired Skills:</h2>
                     <StyledSkills>
                       {data?.getJobPostingById?.skillsRequired?.map((skill) => (
-                        <JobPostSkill name={skill.name} key={skill.skillId} />
+                        <JobPostSkill
+                          name={skill.name}
+                          hasSkill={userSkills.includes(skill.name)}
+                          key={skill.skillId}
+                        />
                       ))}
                     </StyledSkills>
                   </SubSection>
                   <SubSection>
-                    <MostCommonSkills applicants={jobPost?.applicants} />
+                    <MostCommonSkills
+                      applicants={jobPost?.applicants}
+                      userSkills={userSkills}
+                    />
                   </SubSection>
                   <SubSection>
                     {/* Don't render Apply Button if this user posted this job */}

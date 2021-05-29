@@ -24,7 +24,7 @@ const getMostCommonSkills = (applicants, n = 10) => {
   return Array.from(sortedSkills.keys()).slice(0, n)
 }
 
-const MostCommonSkills = ({ applicants = [] }) => {
+const MostCommonSkills = ({ applicants = [], userSkills = [] }) => {
   return (
     <>
       <h2>Most Common Skills of Current Applicants:</h2>
@@ -32,7 +32,10 @@ const MostCommonSkills = ({ applicants = [] }) => {
         <TransitionGroup component={StyledSkills}>
           {getMostCommonSkills(applicants).map((skill, index) => (
             <CSSTransition key={index} timeout={300} classNames="transition">
-              <JobPostSkill name={skill} />
+              <JobPostSkill
+                name={skill}
+                hasSkill={userSkills.includes(skill)}
+              />
             </CSSTransition>
           ))}
         </TransitionGroup>
