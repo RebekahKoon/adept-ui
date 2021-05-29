@@ -21,7 +21,7 @@ const statisticsModalStyle = {
     borderRadius: '5px',
     border: 'none',
     boxShadow: '0px 20px 20px -20px rgba(0,0,0,1)',
-    width: '70vw',
+    width: '85vw',
     maxHeight: '40vw',
     overflow: 'auto',
     WebkitOverflowScrolling: 'touch',

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_JOB_POSTING_BY_ID = gql`
-  query getJobPostingById($jobPostId: ID!) {
+  query GetJobPostingById($jobPostId: ID!) {
     getJobPostingById(jobPostId: $jobPostId) {
       jobPostId
       positionTitle
@@ -19,14 +19,8 @@ export const GET_JOB_POSTING_BY_ID = gql`
       postedBy {
         userId
         name
-        email
-        type
-        city
-        state
       }
       applicants {
-        jobAppId
-        dateApplied
         user {
           userId
           name
@@ -57,6 +51,29 @@ export const CREATE_JOB_APPLICATION = gql`
       }
     ) {
       jobAppId
+    }
+  }
+`
+
+export const ADD_CONTACT = gql`
+  mutation AddContact($userId: ID!, $contactId: ID!) {
+    addContactToUser(userId: $userId, contactId: $contactId) {
+      contacts {
+        userId
+      }
+    }
+  }
+`
+
+export const GET_USER_CONTACTS_AND_SKILLS = gql`
+  query GetUserContacts($userId: ID!) {
+    getUserById(userId: $userId) {
+      contacts {
+        userId
+      }
+      skills {
+        name
+      }
     }
   }
 `
