@@ -1,5 +1,6 @@
 import { JobPostSkill } from '../Skill'
 import { StyledSkills } from '../JobCard'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 // Returns an array of n most common skills
 // applicants is a JobApplication that contains user field
@@ -26,13 +27,17 @@ const MostCommonSkills = ({ applicants = [] }) => {
   return (
     <>
       <h2>Most Common Skills of Current Applicants:</h2>
-      <StyledSkills>
-        {applicants.length
-          ? getMostCommonSkills(applicants).map((skill, index) => (
-              <JobPostSkill name={skill} key={index} />
-            ))
-          : 'No applicants'}
-      </StyledSkills>
+      {applicants.length ? (
+        <TransitionGroup component={StyledSkills}>
+          {getMostCommonSkills(applicants).map((skill, index) => (
+            <CSSTransition key={index} timeout={300} classNames="transition">
+              <JobPostSkill name={skill} />
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
+      ) : (
+        'No applicants'
+      )}
     </>
   )
 }

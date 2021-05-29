@@ -63,9 +63,6 @@ const JobPosting = ({ user }) => {
     applyToJob,
     { loading: applyLoading, error: applyError, data: applyData },
   ] = useMutation(CREATE_JOB_APPLICATION, {
-    onCompleted: (data) => {
-      console.log(data)
-    },
     onError: (err) => {
       console.log(err)
     },
@@ -143,6 +140,7 @@ const JobPosting = ({ user }) => {
                       {Number(jobPost?.salary).toLocaleString()}
                     </StyledGridItem>
                   </StyledJobCardGrid>
+
                   <PostedBySection>
                     <span>
                       Published{' '}

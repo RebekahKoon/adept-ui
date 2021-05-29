@@ -103,6 +103,28 @@ export const StyledSkills = styled.div`
   width: 100%;
   align-items: flex-start;
   justify-content: space-between;
+
+  .transition-enter {
+    opacity: 0.01;
+    transform: translate(0, -10px);
+  }
+
+  .transition-enter-active {
+    opacity: 1;
+    transform: translate(0, 0);
+    transition: all 150ms ease-in;
+  }
+
+  .transition-exit {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .transition-exit-active {
+    opacity: 0.01;
+    transform: translate(0, 10px);
+    transition: all 150ms ease-in;
+  }
 `
 
 export const StyledDate = styled.div`
