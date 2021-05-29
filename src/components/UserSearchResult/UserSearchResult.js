@@ -77,54 +77,28 @@ function UserSearchResult(props) {
   }
 
   const handleType = () => {
-    if (props.data.type == 'PART_TIME') {
+    if (props.data.type == 'EMPLOYER') {
       return (
         <SSRCompanyTextDiv className="type">
           <SSRCompanyText>
-            <i className="fas fa-clock"></i>
-            <p>Part Time</p>
-            <p className="tooltiptext">Part Time</p>
+            <i className="fas fa-user"></i>
+            <p>Employer</p>
+            <p className="tooltiptext">Employer</p>
           </SSRCompanyText>
         </SSRCompanyTextDiv>
       )
-    } else if (props.data.type == 'INTERNSHIP') {
+    } else if (props.data.type == 'EMPLOYEE') {
       return (
         <SSRCompanyTextDiv className="type">
           <SSRCompanyText>
-            <i className="fas fa-clock"></i>
-            <p>Internship</p>
-            <p className="tooltiptext">Internship</p>
-          </SSRCompanyText>
-        </SSRCompanyTextDiv>
-      )
-    } else if (props.data.type == 'FULL_TIME') {
-      return (
-        <SSRCompanyTextDiv className="type">
-          <SSRCompanyText>
-            <i className="fas fa-clock"></i>
-            <p>Full Time</p>
-            <p className="tooltiptext">Full Time</p>
+            <i className="fas fa-user"></i>
+            <p>Employee</p>
+            <p className="tooltiptext">Employee</p>
           </SSRCompanyText>
         </SSRCompanyTextDiv>
       )
     }
   }
-
-  const date = new Date(props.data.datePosted)
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ]
 
   return (
     <SSRSearchResultDiv>
@@ -154,9 +128,9 @@ function UserSearchResult(props) {
                     {handleType()}
                     <SSRCompanyTextDiv className="salary">
                       <SSRCompanyText>
-                        <i className="fas fa-dollar-sign"></i>
-                        <p>{props.data.salary}</p>
-                        <p className="tooltiptext">{props.data.salary}</p>
+                        <i className="fas fa-envelope"></i>
+                        <p>{props.data.email}</p>
+                        <p className="tooltiptext">{props.data.email}</p>
                       </SSRCompanyText>
                     </SSRCompanyTextDiv>
                   </SSRCompanyTextContainer>
@@ -174,13 +148,6 @@ function UserSearchResult(props) {
       </SSRSearchResultContainer>
       <SSRSearchResultFooter>
         <SSRSkillsContainer>{createSkillDivs()}</SSRSkillsContainer>
-        <SSRDate>
-          {months[date.getMonth() + 1] +
-            ' ' +
-            date.getDate() +
-            ', ' +
-            date.getFullYear()}
-        </SSRDate>
       </SSRSearchResultFooter>
     </SSRSearchResultDiv>
   )
