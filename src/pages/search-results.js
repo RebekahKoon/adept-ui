@@ -772,13 +772,13 @@ export const getServerSideProps = async (context) => {
         (term) => term.salary > 40000 && term.salary < 100000
       )
       for (i = 0; i < tempArr.length; i++) {
-        jtArr.push(tempArr[i])
+        scArr.push(tempArr[i])
       }
     }
     if (sc3) {
       tempArr = newArr.filter((term) => term.salary > 100000)
       for (i = 0; i < tempArr.length; i++) {
-        jtArr.push(tempArr[i])
+        scArr.push(tempArr[i])
       }
     }
     if (sc1 || sc2 || sc3) {
