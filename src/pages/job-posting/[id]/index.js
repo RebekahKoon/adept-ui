@@ -13,26 +13,21 @@ import {
   GET_JOB_POSTING_BY_ID,
   CREATE_JOB_APPLICATION,
 } from '../../../queries/jobPosting'
-import {
-  CenterContainer,
-  MainContentFlexContainer,
-} from '../../../components/styles'
-import SearchBar from '../../../components/SearchBar'
+import { MainContentFlexContainer } from '../../../components/styles'
 import {
   StyledSkills,
   StyledJobCardGrid,
   StyledGridItem,
 } from '../../../components/JobCard'
 import { JobPostSkill } from '../../../components/Skill'
-import {
-  ButtonSolid,
-  StyledButtonSolid,
-  LargeButtonSolid,
-} from '../../../components/Button'
+import { StyledButtonSolid, LargeButtonSolid } from '../../../components/Button'
+import Applicant from '../../../components/Applicant'
 
 const JobPostContainer = styled.div`
+  margin-top: 5rem;
   padding: 2.5rem;
-  min-height: 800px;
+  min-height: 80vh;
+  width: 100%;
 `
 
 const JobPostHeader = styled.header`
@@ -54,7 +49,6 @@ const PostedBySection = styled.section`
 `
 
 const DescriptionSection = styled.section`
-  width: 800px;
   padding-bottom: 2.5rem;
   line-height: 1.5;
 `
@@ -70,12 +64,66 @@ const ConnectButton = styled(StyledButtonSolid)`
 
 const Em = styled.span`
   font-weight: 700;
+  padding-right: 0;
 `
 
 const AppliedIcon = styled.span`
   padding-left: 1rem;
   color: green;
 `
+
+const SideBar = styled.div`
+  width: 33%;
+`
+
+const ApplicantsContainer = styled.div`
+  padding: 2.5rem;
+  border: 1px solid var(--lightGray);
+  box-shadow: 0px 1px 10px rgba(80, 120, 239, 0.1);
+  border-radius: 5px;
+`
+
+const JobPostFlexContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
+`
+
+const JobPostContent = styled.div`
+  width: 60%;
+`
+
+const ApplyButton = styled(LargeButtonSolid)`
+  width: 150px;
+`
+
+const FullPageLoadContainer = styled.div`
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+// Returns an array of n most common skills
+// applicants is a JobApplication that contains user field
+const getMostCommonSkills = (applicants, n = 10) => {
+  const skillFrequency = new Map()
+  for (const applicant of applicants) {
+    const {
+      user: { skills },
+    } = applicant
+    for (const skill of skills) {
+      if (!skillFrequency.get(skill.name)) {
+        skillFrequency.set(skill.name, 0)
+      }
+      skillFrequency.set(skill.name, skillFrequency.get(skill.name) + 1)
+    }
+  }
+  const sortedSkills = new Map(
+    [...skillFrequency.entries()].sort((a, b) => b[1] - a[1])
+  )
+  return Array.from(sortedSkills.keys()).slice(0, n)
+}
 
 const JobPosting = ({ user }) => {
   // use router.back() to go back
@@ -91,6 +139,7 @@ const JobPosting = ({ user }) => {
       if (data) {
         setJobPost(data.getJobPostingById)
         setIsOwner(data.getJobPostingById.postedBy.userId === user.userId)
+        getMostCommonSkills(data.getJobPostingById.applicants)
       }
     },
     onError: (error) => {
@@ -123,7 +172,7 @@ const JobPosting = ({ user }) => {
         (applicant) => applicant.user.userId === user.userId
       ).length !== 0
     )
-    console.log(hasApplied)
+    setJobPost(jobPost)
   }, [jobPost, user.userId])
 
   const handleApply = async () => {
@@ -138,14 +187,26 @@ const JobPosting = ({ user }) => {
     setHasApplied(true)
   }
 
+  // applicant is a JobApplication that has a user field
+  const Applicants = ({ applicants }) => {
+    return (
+      <ApplicantsContainer>
+        <h2>Applicants</h2>
+        {applicants?.map((applicant) => (
+          <Applicant applicant={applicant.user} key={applicant.user.userId} />
+        ))}
+      </ApplicantsContainer>
+    )
+  }
+
   return (
-    <Layout hasNav={false}>
+    <Layout navFadeIn={false}>
       <MainContentFlexContainer>
         <JobPostContainer>
           {loading ? (
-            <CenterContainer>
+            <FullPageLoadContainer>
               <Loader type="TailSpin" color="#570EF1" />
-            </CenterContainer>
+            </FullPageLoadContainer>
           ) : (
             <>
               <JobPostHeader>
@@ -153,95 +214,95 @@ const JobPosting = ({ user }) => {
                   <i className="fab fa-asymmetrik fa-3x"></i>
                 </CompanyLogo>
                 <h2>{jobPost?.company}</h2>
-                <h1>
-                  {jobPost?.positionTitle}
-                  {hasApplied && !isOwner && (
-                    <AppliedIcon>
-                      <i className="fas fa-check-circle"></i>
-                    </AppliedIcon>
-                  )}
-                </h1>
-                <StyledJobCardGrid>
-                  <StyledGridItem>
-                    <i className="fas fa-map-marker-alt"></i> {jobPost?.city},{' '}
-                    {jobPost?.state}
-                  </StyledGridItem>
-                  <StyledGridItem>
-                    <i className="fas fa-clock"></i>{' '}
-                    {jobPost?.type === 'FULL_TIME'
-                      ? 'Full-time'
-                      : jobPost?.type === 'PART_TIME'
-                      ? 'Part-time'
-                      : 'Internship'}
-                  </StyledGridItem>
-                  <StyledGridItem>
-                    <i className="fas fa-dollar-sign"></i>{' '}
-                    {Number(jobPost?.salary).toLocaleString()}
-                  </StyledGridItem>
-                </StyledJobCardGrid>
               </JobPostHeader>
+              <JobPostFlexContainer>
+                <JobPostContent>
+                  <h1>
+                    {jobPost?.positionTitle}
+                    {hasApplied && !isOwner && (
+                      <AppliedIcon>
+                        <i className="fas fa-check-circle"></i>
+                      </AppliedIcon>
+                    )}
+                  </h1>
+                  <StyledJobCardGrid>
+                    <StyledGridItem>
+                      <i className="fas fa-map-marker-alt"></i> {jobPost?.city},{' '}
+                      {jobPost?.state}
+                    </StyledGridItem>
+                    <StyledGridItem>
+                      <i className="fas fa-clock"></i>{' '}
+                      {jobPost?.type === 'FULL_TIME'
+                        ? 'Full-time'
+                        : jobPost?.type === 'PART_TIME'
+                        ? 'Part-time'
+                        : 'Internship'}
+                    </StyledGridItem>
+                    <StyledGridItem>
+                      <i className="fas fa-dollar-sign"></i>{' '}
+                      {Number(jobPost?.salary).toLocaleString()}
+                    </StyledGridItem>
+                  </StyledJobCardGrid>
+                  <PostedBySection>
+                    <span>
+                      Published{' '}
+                      {new Date(
+                        parseInt(jobPost?.datePosted)
+                      ).toLocaleDateString()}
+                    </span>
+                    <span>
+                      By: <Em>{isOwner ? 'You' : jobPost?.postedBy.name}</Em>
+                    </span>
+                    {!isOwner && (
+                      <span>
+                        <ConnectButton>Connect</ConnectButton>
+                      </span>
+                    )}
+                  </PostedBySection>
 
-              <PostedBySection>
-                <span>
-                  Published{' '}
-                  {new Date(parseInt(jobPost?.datePosted)).toLocaleDateString()}
-                </span>
-                <span>
-                  By: <Em>{isOwner ? 'You' : jobPost?.postedBy.name}</Em>
-                </span>
-                {!isOwner && (
-                  <span>
-                    <ConnectButton>Connect</ConnectButton>
-                  </span>
-                )}
-              </PostedBySection>
-
-              <DescriptionSection>{jobPost?.description}</DescriptionSection>
-              <SubSection>
-                <h2>Desired Skills:</h2>
-                <StyledSkills>
-                  {data?.getJobPostingById?.skillsRequired?.map((skill) => (
-                    <JobPostSkill name={skill.name} key={skill.skillId} />
-                  ))}
-                </StyledSkills>
-              </SubSection>
-              <SubSection>
-                <h2>Current Applicants Possess These Skills:</h2>
-                <StyledSkills>
-                  {data?.getJobPostingById?.skillsRequired?.map(
-                    (skill, index) => (
-                      <JobPostSkill name={skill.name} key={index} />
-                    )
-                  )}
-                </StyledSkills>
-              </SubSection>
-              <SubSection>
-                {/* {applyLoading ? (
-                  <CenterContainer>
-                    <Loader
-                      type="TailSpin"
-                      color="#570EF1"
-                      height={26}
-                      width={26}
-                    />
-                  </CenterContainer>
-                ) : ( */}
-
-                {/* Don't render Apply Button if this user posted this job */}
-                {!isOwner && (
-                  <LargeButtonSolid
-                    loading={applyLoading}
-                    disabled={applyLoading || hasApplied}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleApply()
-                    }}
-                  >
-                    {hasApplied ? 'Applied' : 'Apply'}
-                  </LargeButtonSolid>
-                )}
-                {/* )} */}
-              </SubSection>
+                  <DescriptionSection>
+                    {jobPost?.description}
+                  </DescriptionSection>
+                  <SubSection>
+                    <h2>Desired Skills:</h2>
+                    <StyledSkills>
+                      {data?.getJobPostingById?.skillsRequired?.map((skill) => (
+                        <JobPostSkill name={skill.name} key={skill.skillId} />
+                      ))}
+                    </StyledSkills>
+                  </SubSection>
+                  <SubSection>
+                    <h2>Most Common Skills of Current Applicants:</h2>
+                    <StyledSkills>
+                      {jobPost && jobPost.applicants.length
+                        ? getMostCommonSkills(
+                            jobPost?.applicants
+                          ).map((skill, index) => (
+                            <JobPostSkill name={skill} key={index} />
+                          ))
+                        : 'No applicants'}
+                    </StyledSkills>
+                  </SubSection>
+                  <SubSection>
+                    {/* Don't render Apply Button if this user posted this job */}
+                    {!isOwner && (
+                      <ApplyButton
+                        loading={applyLoading}
+                        disabled={applyLoading || hasApplied}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          handleApply()
+                        }}
+                      >
+                        {hasApplied ? 'Applied' : 'Apply'}
+                      </ApplyButton>
+                    )}
+                  </SubSection>
+                </JobPostContent>
+                <SideBar>
+                  <Applicants applicants={jobPost?.applicants} />
+                </SideBar>
+              </JobPostFlexContainer>
             </>
           )}
         </JobPostContainer>
