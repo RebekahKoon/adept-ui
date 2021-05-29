@@ -117,6 +117,18 @@ export const SSRCompanyTextContainer = styled.div`
   height: 24px;
 `
 
+export const SSRCompanyTextDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  margin-top: 0.25rem;
+  height: 24px;
+  :hover .tooltiptext {
+    visibility: visible;
+  }
+`
+
 export const SSRCompanyText = styled.div`
   display: flex;
   flex-direction: row;
@@ -126,17 +138,25 @@ export const SSRCompanyText = styled.div`
   width: 5rem;
   white-space: nowrap;
 
+  .tooltiptext {
+    visibility: hidden;
+    width: 8rem;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    white-space: normal;
+
+    position: absolute;
+    z-index: 1;
+  }
+
   p {
     margin-left: 0.25rem;
+    width: 70rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    :hover {
-      white-space: normal;
-      //width: 10rem;
-      background-color: white;
-      overflow: visible;
-      z-index: 11;
-    }
   }
 `
 
