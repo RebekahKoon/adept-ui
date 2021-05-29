@@ -1,5 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
+import Link from 'next/link'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -28,18 +29,6 @@ import {
 
 function SearchResult(props) {
   const dataArr = props.data.skillsRequired
-  const handleClick = (e) => {
-    e.preventDefault()
-    var currPage = props.currPage - 1
-    var id = currPage * 12 + props.id
-    const jid = '0d8f2554-d0a3-4f1a-a5ba-caed21b9eb1a'
-    if (props.q) {
-      // Router.push('/job-posting?q=' + props.q + '&id=' + id)
-      Router.push(`/job-posting?id=${jid}`)
-    } else {
-      Router.push(`/job-posting?id=${jid}`)
-    }
-  }
 
   const createSkillDivs = () =>
     dataArr.map((data, index) => {
@@ -146,10 +135,14 @@ function SearchResult(props) {
           </SSRJobInfoAndLogo>
         </SSRSearchResultContent>
         <SSRSearchResultLinkContainer>
-          <SSRJobButton value="View Job" label="ViewJob" onClick={handleClick}>
-            View Job
-            <i className="fas fa-arrow-right"></i>
-          </SSRJobButton>
+          <Link href={`/job-posting/${props.data.jobPostId}`}>
+            <a>
+              <SSRJobButton value="View Job" label="ViewJob">
+                View Job
+                <i className="fas fa-arrow-right"></i>
+              </SSRJobButton>
+            </a>
+          </Link>
         </SSRSearchResultLinkContainer>
       </SSRSearchResultContainer>
       <SSRSearchResultFooter>

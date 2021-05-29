@@ -13,6 +13,11 @@ import ModalContext from '../context/ModalContext'
 import { StatisticsModal } from '../components/Modal'
 import withSession from '../lib/session'
 
+const JobPostingsSideBar = styled(StyledSideBar)`
+  margin-right: 0;
+  margin-left: 2.5rem;
+`
+
 const StyledBody = styled.div`
   display: flex;
   margin: 0 auto;
@@ -106,7 +111,7 @@ const Sidebar = ({ currentUser, allSkills }) => {
     .reverse()
 
   return (
-    <StyledSideBar>
+    <JobPostingsSideBar>
       <h3>Top Skills in Your Job Postings</h3>
       {currentUser.jobPostings.length > 0 &&
         topSkills
@@ -132,7 +137,7 @@ const Sidebar = ({ currentUser, allSkills }) => {
           type={'Postings'}
         />
       </ModalContext.Provider>
-    </StyledSideBar>
+    </JobPostingsSideBar>
   )
 }
 
@@ -142,10 +147,6 @@ const JobPosting = (props) => {
       <SearchBar headerText="Discover Jobs and Make Connections" />
       <MainContentFlexContainer>
         <StyledBody>
-          <Sidebar
-            currentUser={props.currentUser}
-            allSkills={props.allSkills}
-          />
           <StyledJobContainer>
             {props.currentUser.jobPostings.map((jobPosting) => (
               <>
@@ -156,6 +157,10 @@ const JobPosting = (props) => {
               </>
             ))}
           </StyledJobContainer>
+          <Sidebar
+            currentUser={props.currentUser}
+            allSkills={props.allSkills}
+          />
         </StyledBody>
       </MainContentFlexContainer>
     </Layout>
@@ -176,11 +181,13 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
 
   const { data: skillsData } = await client.query({
     query: GET_ALL_SKILLS,
+    fetchPolicy: 'no-cache',
   })
 
   const { data: userData } = await client.query({
     query: GET_USER_BY_ID,
     variables: { userId: user.userId },
+    fetchPolicy: 'no-cache',
   })
 
   return {

@@ -31,6 +31,9 @@ export const StyledJobPostSkill = styled.span`
   padding: 0.5rem 0.8rem 0.5rem 0.8rem;
   background: var(--lightBlue);
   border-radius: 1rem;
+  :hover {
+    cursor: default;
+  }
 `
 
 export const SkillButton = styled.button`

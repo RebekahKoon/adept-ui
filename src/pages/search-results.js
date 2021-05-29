@@ -16,6 +16,7 @@ import StyledSideBar from '../components/SideBar'
 import MainContentFlexContainer from '../components/styles/MainContentFlexContainer'
 import client from '../apollo/apolloClient'
 import Checkbox from '../components/Checkbox'
+import { JobPostCard } from '../components/JobCard'
 import { SearchSkillDropdown } from '../components/SkillDropdown'
 import {
   SSRSearchResults,
@@ -188,28 +189,9 @@ function SearchResultView(props) {
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
   const createDataDivs = () =>
-    dataArr.map((data, index) => {
-      if (props.uq) {
-        return (
-          <UserSearchResult
-            data={dataArr[index]}
-            id={index}
-            q={props.q}
-            currPage={props.currPage}
-            skills={skillArr}
-          />
-        )
-      } else {
-        return (
-          <SearchResult
-            data={dataArr[index]}
-            id={index}
-            q={props.q}
-            currPage={props.currPage}
-          />
-        )
-      }
-    })
+    dataArr.map((data, index) => (
+      <JobPostCard jobPosting={dataArr[index]} key={dataArr[index].jobPostId} />
+    ))
 
   const createSalRangeCheckboxes = () => SalaryRange.map(createCheckbox)
 
@@ -293,14 +275,14 @@ function SearchResultView(props) {
     }
   }
 
-  const handleClickPrev = (e) => {
+  const handleClickPrev = () => {
     var page = parseInt(props.currPage) - 1
     var searchParams = new URLSearchParams(window.location.search)
     searchParams.set('page', page)
     window.location.search = searchParams.toString()
   }
 
-  const handleClickNext = (e) => {
+  const handleClickNext = () => {
     var page = parseInt(props.currPage) + 1
     var searchParams = new URLSearchParams(window.location.search)
     searchParams.set('page', page)
@@ -320,7 +302,7 @@ function SearchResultView(props) {
         </SSRFilterSection>
         <SSRFilterSection>
           <SSRDividerContainer>
-            <SSRDivider />
+            <hr />
           </SSRDividerContainer>
           <SSRFilterOptionHeader>Salary Range</SSRFilterOptionHeader>
           <SSRFilterOptions>
@@ -331,12 +313,12 @@ function SearchResultView(props) {
         </SSRFilterSection>
         <SSRFilterSection>
           <SSRDividerContainer>
-            <SSRDivider />
+            <hr />
           </SSRDividerContainer>
           <SSRFilterOptionHeader>Skill</SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SkillDropdownContainer>
-              <SearchSkillDropdown skillArr={skillArr} />
+              <SearchSkillDropdown skillArr={skillArr} skill={props.skill} />
             </SkillDropdownContainer>
           </SSRFilterOptions>
         </SSRFilterSection>

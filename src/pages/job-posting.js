@@ -38,17 +38,17 @@ import {
   JobPostingApply,
 } from '../styles/JobPostingStyle'
 
-function JobPostingView(props) {
-  const handleClick = (e) => {
-    e.preventDefault()
-    var page = Math.floor(props.id / 12) + 1
-    if (props.q) {
-      Router.push('/search-results?page=' + page + '&q=' + props.q)
-    } else {
-      Router.push('/search-results?page=' + page)
-    }
-  }
-  const data = props.data[props.id]
+// function JobPostingView(props) {
+//   const handleClick = (e) => {
+//     e.preventDefault()
+//     var page = Math.floor(props.id / 12) + 1
+//     if (props.q) {
+//       Router.push('/search-results?page=' + page + '&q=' + props.q)
+//     } else {
+//       Router.push('/search-results?page=' + page)
+//     }
+//   }
+//   const data = props.data[props.id]
 
 //   const userId = 'f0e24414-6df7-45e8-b245-691e65dec14b'
 
@@ -166,6 +166,7 @@ function JobPostingView(props) {
 //     </Layout>
 //   )
 // }
+
 const JobPosting = (params) => {
   return <></>
 }

@@ -43,7 +43,7 @@ const AuthedNavBar = (params) => {
               <Link href="/job-applications">Applications</Link>
             </StyledNavItem>
             <StyledNavItem>
-              <Link href="/search-results?page=1">View jobs</Link>
+              <Link href="/search-results">View jobs</Link>
             </StyledNavItem>
           </>
         )}
@@ -98,17 +98,21 @@ const UnauthedNavBar = (params) => {
   )
 }
 
-const NavBar = (props) => {
+const NavBar = ({ navFadeIn = true }) => {
   const isTop = useScrollFromTop()
   const { user } = useUser()
 
   return (
     <StyledNavBar
-      style={{
-        backgroundColor: isTop
-          ? 'rgba(87, 15, 241, 0)'
-          : 'rgba(87, 15, 241, 1)',
-      }}
+      style={
+        navFadeIn
+          ? {
+              backgroundColor: isTop
+                ? 'rgba(87, 15, 241, 0)'
+                : 'rgba(87, 15, 241, 1)',
+            }
+          : { backgroundColor: 'rgba(87, 15, 241, 1)' }
+      }
     >
       <MainContentContainer>
         {user?.isLoggedIn ? <AuthedNavBar /> : <UnauthedNavBar />}
