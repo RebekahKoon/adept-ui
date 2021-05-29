@@ -3,10 +3,11 @@ import { StyledSkills } from '../JobCard'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 // Returns an array of n most common skills
-// applicants is a JobApplication that contains user field
+// applicants is a JobApplication array that contains user field
 const getMostCommonSkills = (applicants, n = 10) => {
   const skillFrequency = new Map()
   for (const applicant of applicants) {
+    // We're only concerned about the array of skills on each user
     const {
       user: { skills },
     } = applicant
