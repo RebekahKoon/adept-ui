@@ -1,11 +1,9 @@
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
-import Link from 'next/link'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import { JobPostSkill } from '../Skill'
-import months from '../../utils/months'
 import { useMutation } from '@apollo/client'
 import { ADD_CONTACT_TO_USER } from '../../queries/addContactToUser'
 import useUser from '../../lib/useUser'
@@ -20,8 +18,17 @@ import {
   StyledTitleLine,
   StyledViewJob,
   StyledSkills,
-  StyledDate,
 } from '../JobCard/JobCardStyle'
+
+const StyledUserGrid = styled(StyledJobCardGrid)`
+  .fa-user {
+    margin-right: 0.4rem;
+  }
+
+  .fa-envelope {
+    margin-right: 0.4rem;
+  }
+`
 
 const UserButton = styled.button`
   background: transparent;
@@ -105,7 +112,7 @@ function UserCard(props) {
                 )}
               </StyledViewJob>
             </StyledTitleLine>
-            <StyledJobCardGrid>
+            <StyledUserGrid>
               <StyledGridItem>
                 <i className="fas fa-briefcase"></i>{' '}
                 {props.data.resume.workExperience[0]
@@ -113,8 +120,17 @@ function UserCard(props) {
                   : 'Unemployed'}
               </StyledGridItem>
               <StyledGridItem>
-                <i className="fas fa-map-marker-alt"></i> {props.data.city},{' '}
-                {props.data.state}
+                {props.data.city && props.data.state ? (
+                  <i className="fas fa-map-marker-alt"></i>
+                ) : (
+                  ''
+                )}{' '}
+                {props.data.city ? props.data.city : ''}
+                {props.data.state && props.data.city
+                  ? `, ${props.data.state}`
+                  : props.data.state && !props.data.city
+                  ? `${props.data.state}`
+                  : ''}
               </StyledGridItem>
               <StyledGridItem>
                 <i className="fas fa-user"></i>{' '}
@@ -123,7 +139,7 @@ function UserCard(props) {
               <StyledGridItem>
                 <i className="fas fa-envelope"></i> {props.data.email}
               </StyledGridItem>
-            </StyledJobCardGrid>
+            </StyledUserGrid>
           </StyledJobCardText>
         </StyledJobCardTop>
         <JobSkills skills={skillsArr} />
