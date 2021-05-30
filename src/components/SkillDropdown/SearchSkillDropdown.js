@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Router from 'next/router'
 import { useState, useEffect } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
-import CreatableSelect from 'react-select/creatable'
+import Select from 'react-select'
 import { CREATE_SKILL } from '../../queries/createSkill'
 import { GET_ALL_SKILLS } from '../../queries/getAllSkills'
 import { StyledButtonSolid } from '../Button'
@@ -23,11 +23,10 @@ function SearchSkillDropdown(props) {
   const [status, setStatus] = useState({ error: false, message: null })
 
   var SearchedSkills = props.skill || []
-  console.log(SearchedSkills)
-
   const mapSkills = (skills) => {
     return skills.map((skill) => ({
       label: skill,
+      value: skill,
     }))
   }
 
@@ -46,9 +45,20 @@ function SearchSkillDropdown(props) {
     SearchSkill(newValue)
   }
 
+  var SearchedSkillsArr = []
+
+  for (var i = 0; i < skills.length; i++) {
+    for (var j = 0; j < SearchedSkills.length; j++) {
+      if (skills[i].label == SearchedSkills[j]) {
+        SearchedSkillsArr.push(skills[i])
+      }
+    }
+  }
+
   return (
     <SearchSkillDropdownContainer>
-      <CreatableSelect
+      <Select
+        defaultValue={SearchedSkillsArr}
         placeholder={'Search for a skill'}
         isClearable
         isMulti={true}

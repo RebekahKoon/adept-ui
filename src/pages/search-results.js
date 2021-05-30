@@ -77,7 +77,13 @@ function SearchResultView(props) {
     if (selectedCheckboxes.has(label)) {
       selectedCheckboxes.delete(label)
       var newHref
-      if (label == 'Full Time') {
+      if (label == 'Employer') {
+        newHref = removeURLParameter(window.location.href, 'ut1')
+        Router.push(newHref)
+      } else if (label == 'Employee') {
+        newHref = removeURLParameter(window.location.href, 'ut2')
+        Router.push(newHref)
+      } else if (label == 'Full Time') {
         newHref = removeURLParameter(window.location.href, 'jt1')
         Router.push(newHref)
       } else if (label == 'Part Time') {
@@ -98,7 +104,11 @@ function SearchResultView(props) {
       }
     } else {
       selectedCheckboxes.add(label)
-      if (label == 'Full Time' && !props.jt1) {
+      if (label == 'Employer' && !props.ut1) {
+        Router.push(window.location.href + '&ut1=Employer')
+      } else if (label == 'Employee' && !props.ut2) {
+        Router.push(window.location.href + '&ut2=Employee')
+      } else if (label == 'Full Time' && !props.jt1) {
         Router.push(window.location.href + '&jt1=FullTime')
       } else if (label == 'Part Time' && !props.jt2) {
         Router.push(window.location.href + '&jt2=PartTime')
@@ -116,7 +126,27 @@ function SearchResultView(props) {
 
   // Create the checkbox
   const createCheckbox = (label) => {
-    if (label == 'Full Time' && props.jt1) {
+    if (label == 'Employer' && props.ut1) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Employee' && props.ut2) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Full Time' && props.jt1) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -413,6 +443,29 @@ export const getServerSideProps = async (context) => {
     var newArr = userData.searchUsers
     var skill = context.query.skill
     var exArr = []
+    var ut1 = context.query.ut1
+    var ut2 = context.query.ut2
+    var utArr = []
+
+    if (ut1) {
+      tempArr = newArr.filter((term) => term.type == 'EMPLOYER')
+      for (i = 0; i < tempArr.length; i++) {
+        utArr.push(tempArr[i])
+      }
+    }
+    if (ut2) {
+      console.log('made it')
+      tempArr = newArr.filter((term) => term.type == 'EMPLOYEE')
+      for (i = 0; i < tempArr.length; i++) {
+        utArr.push(tempArr[i])
+      }
+    }
+
+    console.log(utArr)
+    if (ut1 || ut2) {
+      newArr = utArr
+    }
+
     if (skill) {
       tempArr = []
       var tempPos = 0
@@ -472,9 +525,29 @@ export const getServerSideProps = async (context) => {
     var orderedArr = skillArr.filter(function (value, index, self) {
       return self.indexOf(value) === index
     })
+
+    arrLen = newArr.length
+    if (newArr.length > 12) {
+      pageStart = (context.query.page - 1) * 12
+      pageEnd = pageStart + 12
+      length = newArr.length
+      pageCount = Math.ceil(length / 12)
+      if (pageEnd > length) {
+        diff = pageEnd - length
+        pageEnd = pageEnd - diff
+      }
+      finArr = []
+      tempPos = 0
+      for (i = pageStart; i < pageEnd; i++) {
+        finArr[tempPos] = newArr[i]
+        tempPos++
+      }
+    } else {
+      finArr = newArr
+    }
     return {
       props: {
-        data: newArr,
+        data: finArr,
         uq: context.query.uq,
         currPage: context.query.page,
         pageCount: pageCount || 0,
@@ -484,9 +557,11 @@ export const getServerSideProps = async (context) => {
         sc1: sc1 || null,
         sc2: sc2 || null,
         sc3: sc3 || null,
+        ut1: ut1 || null,
+        ut2: ut2 || null,
         skill: skill || null,
         skillArr: orderedArr || null,
-        searchLength: userData.searchUsers.length,
+        searchLength: arrLen,
       },
     }
   }
@@ -630,10 +705,12 @@ export const getServerSideProps = async (context) => {
         finArr[tempPos] = newArr[i]
         tempPos++
       }
+    } else {
+      finArr = newArr
     }
     return {
       props: {
-        data: newArr,
+        data: finArr,
         q: context.query.q,
         currPage: context.query.page,
         pageCount: pageCount || 0,
