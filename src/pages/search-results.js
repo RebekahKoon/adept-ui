@@ -43,21 +43,13 @@ function SearchResultView(props) {
   var dataArr
   var searchLength
 
-  // if this is a user query, take the length and data from that specifically
-  if (props.uq) {
-    dataArr = props.data.searchUsers
-    searchLength = dataArr.length
-  }
-
-  // Otherwise, take the job search length and data
-  else {
-    dataArr = props.data
-    searchLength = props.searchLength
-  }
+  dataArr = props.data
+  searchLength = props.searchLength
 
   // Consts for the checkboxes for JobType and Salary as well as the data of the skills from the search
   const JobType = ['Full Time', 'Part Time', 'Internship']
   const SalaryRange = ['$0 - $40,000', '$40,000 - $100,000', '$100,000 +']
+  const UserType = ['Employer', 'Employee']
   const skillArr = props.skillArr
 
   const selectedCheckboxes = new Set()
@@ -197,6 +189,8 @@ function SearchResultView(props) {
 
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
+  const createUserTypeCheckboxes = () => UserType.map(createCheckbox)
+
   // Create the search result data div
   const createDataDivs = () =>
     dataArr.map((data, index) =>
@@ -315,10 +309,16 @@ function SearchResultView(props) {
     return (
       <StyledSideBar>
         <SSRFilterSection>
-          <SSRFilterOptionHeader>JobType</SSRFilterOptionHeader>
+          <SSRFilterOptionHeader>
+            {props.uq ? 'User Type' : 'Job Type'}
+          </SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              <form>{createJobTypeCheckboxes()}</form>
+              {props.uq ? (
+                <form>{createUserTypeCheckboxes()}</form>
+              ) : (
+                <form>{createJobTypeCheckboxes()}</form>
+              )}
             </SSRCheckBoxOption>
           </SSRFilterOptions>
         </SSRFilterSection>
@@ -411,12 +411,14 @@ export const getServerSideProps = async (context) => {
       variables: { searchTerm: context.query.uq },
     })
     var newArr = userData.searchUsers
+    var skill = context.query.skill
+    var exArr = []
     if (skill) {
       tempArr = []
       var tempPos = 0
       skill = JSON.parse(skill)
       for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skills.length - 1; j++)
+        for (j = 0; j < newArr[i].skills.length - 1; j++) {
           for (var k = 0; k < skill.length; k++) {
             if (k == 0) {
               if (newArr[i].skills[j].name == skill[k]) {
@@ -430,6 +432,7 @@ export const getServerSideProps = async (context) => {
               }
             }
           }
+        }
       }
       for (i = 0; i < tempArr.length; i++) {
         exArr.push(tempArr[i])
@@ -471,7 +474,7 @@ export const getServerSideProps = async (context) => {
     })
     return {
       props: {
-        data: userData,
+        data: newArr,
         uq: context.query.uq,
         currPage: context.query.page,
         pageCount: pageCount || 0,
@@ -500,11 +503,11 @@ export const getServerSideProps = async (context) => {
     var sc1 = context.query.sc1
     var sc2 = context.query.sc2
     var sc3 = context.query.sc3
-    var skill = context.query.skill
+    skill = context.query.skill
     newArr = jobData.searchJobPostings
     var jtArr = []
     var scArr = []
-    var exArr = []
+    exArr = []
     var arrLen
     var o = context.query.o
 
