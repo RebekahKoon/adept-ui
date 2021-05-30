@@ -13,6 +13,7 @@ import {
 function SearchBar({ headerText }) {
   const [option, setOption] = useState('Job Postings')
   const handleOptionChange = (e) => {
+    console.log(e.value)
     setOption(e.value)
   }
 
@@ -20,13 +21,14 @@ function SearchBar({ headerText }) {
   const handleChange = (e) => {
     e.preventDefault()
     setSearchItem(e.target.value)
-    if (option == 'Job Postings') {
-      var url = '/search-results?page=1&q=' + searchItem
-      Router.push(url)
-    } else {
-      url = '/search-results?page=1&uq=' + searchItem
-      Router.push(url)
-    }
+    const url =
+      option === 'jobPostings'
+        ? '/search-results?page=1&q=' + searchItem
+        : option === 'Job Postings'
+        ? '/search-results?page=1&q=' + searchItem
+        : '/search-results?page=1&uq=' + searchItem
+
+    Router.push(url)
   }
 
   const options = [
