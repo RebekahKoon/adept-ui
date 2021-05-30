@@ -1,13 +1,8 @@
 import styled from 'styled-components'
 import Router from 'next/router'
 import { useState, useEffect } from 'react'
-import { useMutation, useQuery } from '@apollo/client'
 import Select from 'react-select'
-import { CREATE_SKILL } from '../../queries/createSkill'
-import { GET_ALL_SKILLS } from '../../queries/getAllSkills'
-import { StyledButtonSolid } from '../Button'
 import StyledSkillDropdown from './SkillDropdownStyle'
-import { StyledCancelButton } from '../Form/FormStyle'
 
 const SearchSkillDropdownContainer = styled.div`
   span {

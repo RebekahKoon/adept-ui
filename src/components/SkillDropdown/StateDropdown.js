@@ -1,13 +1,8 @@
 import styled from 'styled-components'
 import Router from 'next/router'
 import { useState, useEffect } from 'react'
-import { useMutation, useQuery } from '@apollo/client'
 import Select from 'react-select'
-import { CREATE_SKILL } from '../../queries/createSkill'
-import { GET_ALL_SKILLS } from '../../queries/getAllSkills'
-import { StyledButtonSolid } from '../Button'
 import StyledSkillDropdown from './SkillDropdownStyle'
-import { StyledCancelButton } from '../Form/FormStyle'
 
 const StateDropdownContainer = styled.div`
   span {
@@ -18,6 +13,23 @@ const StateDropdownContainer = styled.div`
 function StateDropdown(props) {
   // Dropdown menu states
   const [states, setStates] = useState(props.stateArr)
+
+  function removeURLParameter(url, parameter) {
+    var urlparts = url.split('?')
+    if (urlparts.length >= 2) {
+      var prefix = encodeURIComponent(parameter) + '='
+      var pars = urlparts[1].split(/[&;]/g)
+
+      for (var i = pars.length; i-- > 0; ) {
+        if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+          pars.splice(i, 1)
+        }
+      }
+
+      return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '')
+    }
+    return url
+  }
 
   const mapStates = (states) => {
     return states.map((state) => ({
@@ -37,12 +49,30 @@ function StateDropdown(props) {
   }
   // Used to determine if the dropdown value has changed
   const handleChange = (newValue, actionMeta) => {
-    SearchState(newValue)
+    console.log(newValue)
+    if (newValue.length == 0) {
+      var newHref = removeURLParameter(window.location.href, 'state')
+      Router.push(newHref)
+    } else {
+      SearchState(newValue)
+    }
+  }
+
+  var searchedState
+  for (var i = 0; i < states.length; i++) {
+    if (props.state == states[i].label) {
+      searchedState = states[i]
+    }
+  }
+
+  if (searchedState == null && props.state) {
+    return null
   }
 
   return (
     <StateDropdownContainer>
       <Select
+        defaultValue={searchedState}
         placeholder={'Search for a state'}
         isClearable
         isMulti={true}

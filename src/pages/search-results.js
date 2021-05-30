@@ -396,7 +396,10 @@ function SearchResultView(props) {
             <SSRCheckBoxOption>
               {props.uq ? (
                 <SkillDropdownContainer>
-                  <StateDropdown stateArr={props.stateArr} />
+                  <StateDropdown
+                    stateArr={props.stateArr}
+                    state={props.state}
+                  />
                 </SkillDropdownContainer>
               ) : (
                 <form>{createSalRangeCheckboxes()}</form>
@@ -512,7 +515,7 @@ export const getServerSideProps = async (context) => {
       tempArr = []
       var tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skills.length - 1; j++) {
+        for (j = 0; j < newArr[i].skills.length; j++) {
           if (newArr[i].skills[j].name == skill) {
             tempArr[tempPos] = newArr[i]
             tempPos++
@@ -621,6 +624,7 @@ export const getServerSideProps = async (context) => {
         skill: skill || null,
         skillArr: orderedArr || null,
         stateArr: orderedStateArr,
+        state: state || null,
         searchLength: arrLen,
       },
     }
@@ -694,7 +698,7 @@ export const getServerSideProps = async (context) => {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++) {
+        for (j = 0; j < newArr[i].skillsRequired.length; j++) {
           if (newArr[i].skillsRequired[j].name == skill) {
             tempArr[tempPos] = newArr[i]
             tempPos++
