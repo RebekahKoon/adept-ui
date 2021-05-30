@@ -335,15 +335,19 @@ function SearchResultView(props) {
   const SearchResultDropdown = () => {
     return (
       <SSRSortByDropdown>
-        Sort by:
-        <Select
-          defaultValue={currOption}
-          onChange={handleOptionChange}
-          options={sortOptions}
-          styles={StyledDropdown}
-          indicatorSeparator={false}
-          isSearchable={false}
-        />
+        {props.uq ? '' : 'Sort by:'}
+        {props.uq ? (
+          ''
+        ) : (
+          <Select
+            defaultValue={currOption}
+            onChange={handleOptionChange}
+            options={sortOptions}
+            styles={StyledDropdown}
+            indicatorSeparator={false}
+            isSearchable={false}
+          />
+        )}
       </SSRSortByDropdown>
     )
   }
