@@ -395,7 +395,9 @@ function SearchResultView(props) {
           <SSRFilterOptions>
             <SSRCheckBoxOption>
               {props.uq ? (
-                <StateDropdown stateArr={props.stateArr} />
+                <SkillDropdownContainer>
+                  <StateDropdown stateArr={props.stateArr} />
+                </SkillDropdownContainer>
               ) : (
                 <form>{createSalRangeCheckboxes()}</form>
               )}
