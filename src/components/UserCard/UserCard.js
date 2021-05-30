@@ -23,7 +23,7 @@ import {
   StyledDate,
 } from '../JobCard/JobCardStyle'
 
-const userButton = styled.button`
+const UserButton = styled.button`
   background: transparent;
   border: none;
   font-size: 1rem;
@@ -94,14 +94,14 @@ function UserCard(props) {
                     />
                   </div>
                 ) : (
-                  <userButton
+                  <UserButton
                     value="View Job"
                     label="ViewJob"
                     onClick={handleClick}
                   >
                     Add Contact
                     <i className="fas fa-plus"></i>
-                  </userButton>
+                  </UserButton>
                 )}
               </StyledViewJob>
             </StyledTitleLine>

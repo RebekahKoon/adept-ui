@@ -388,12 +388,64 @@ export const getServerSideProps = async (context) => {
       variables: { searchTerm: context.query.uq },
     })
     var newArr = userData.searchUsers
+    if (skill) {
+      tempArr = []
+      var tempPos = 0
+      skill = JSON.parse(skill)
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skills.length - 1; j++)
+          for (var k = 0; k < skill.length; k++) {
+            if (k == 0) {
+              if (newArr[i].skills[j].name == skill[k]) {
+                tempArr[tempPos] = newArr[i]
+                tempPos++
+              }
+            } else {
+              if (newArr[i].skills[j].name == skill[k]) {
+                tempArr[tempPos] = newArr[i]
+                tempPos++
+              }
+            }
+          }
+      }
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
+    }
+
+    if (skill) {
+      newArr = exArr
+    }
+
+    if (o !== 'oldest') {
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(b.datePosted) - parseInt(a.datePosted))
+    } else {
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(a.datePosted) - parseInt(b.datePosted))
+    }
+
     var skillArr = []
     for (i = 0; i < newArr.length; i++) {
-      for (j = 0; j < newArr[i].skills.length; j++) {
+      for (var j = 0; j < newArr[i].skills.length; j++) {
         skillArr.push(newArr[i].skills[j].name)
       }
     }
+
+    var sortedArr = skillArr.reduce((sortedArr, index) => {
+      sortedArr[index] = (sortedArr[index] || 0) + 1
+      return sortedArr
+    }, {})
+
+    skillArr.sort(function (i0, i1) {
+      return sortedArr[i1] - sortedArr[i0]
+    })
+
+    var orderedArr = skillArr.filter(function (value, index, self) {
+      return self.indexOf(value) === index
+    })
     return {
       props: {
         data: userData,
@@ -477,11 +529,11 @@ export const getServerSideProps = async (context) => {
     }
     if (skill) {
       tempArr = []
-      var tempPos = 0
+      tempPos = 0
       skill = JSON.parse(skill)
       for (i = 0; i < newArr.length; i++) {
         for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          for (var k = 0; k < skill.length; k++) {
+          for (k = 0; k < skill.length; k++) {
             if (k == 0) {
               if (newArr[i].skillsRequired[j].name == skill[k]) {
                 tempArr[tempPos] = newArr[i]
@@ -521,7 +573,7 @@ export const getServerSideProps = async (context) => {
       }
     }
 
-    var sortedArr = skillArr.reduce((sortedArr, index) => {
+    sortedArr = skillArr.reduce((sortedArr, index) => {
       sortedArr[index] = (sortedArr[index] || 0) + 1
       return sortedArr
     }, {})
@@ -530,7 +582,7 @@ export const getServerSideProps = async (context) => {
       return sortedArr[i1] - sortedArr[i0]
     })
 
-    var orderedArr = skillArr.filter(function (value, index, self) {
+    orderedArr = skillArr.filter(function (value, index, self) {
       return self.indexOf(value) === index
     })
 
