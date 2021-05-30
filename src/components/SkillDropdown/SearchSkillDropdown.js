@@ -22,7 +22,23 @@ function SearchSkillDropdown(props) {
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState({ error: false, message: null })
 
-  var SearchedSkills = props.skill || []
+  function removeURLParameter(url, parameter) {
+    var urlparts = url.split('?')
+    if (urlparts.length >= 2) {
+      var prefix = encodeURIComponent(parameter) + '='
+      var pars = urlparts[1].split(/[&;]/g)
+
+      for (var i = pars.length; i-- > 0; ) {
+        if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+          pars.splice(i, 1)
+        }
+      }
+
+      return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '')
+    }
+    return url
+  }
+
   const mapSkills = (skills) => {
     return skills.map((skill) => ({
       label: skill,
@@ -35,33 +51,35 @@ function SearchSkillDropdown(props) {
   }, [props.skillArr])
 
   const SearchSkill = (targetSkill) => {
-    SearchedSkills.push(targetSkill[0].label)
     var searchParams = new URLSearchParams(window.location.search)
-    searchParams.set('skill', JSON.stringify(SearchedSkills))
+    searchParams.set('skill', targetSkill.label)
     window.location.search = searchParams.toString()
   }
   // Used to determine if the dropdown value has changed
   const handleChange = (newValue, actionMeta) => {
-    SearchSkill(newValue)
+    if (newValue == null) {
+      var newHref = removeURLParameter(window.location.href, 'skill')
+      Router.push(newHref)
+    } else {
+      SearchSkill(newValue)
+    }
   }
-
-  var SearchedSkillsArr = []
-
+  var searchedSkill
   for (var i = 0; i < skills.length; i++) {
-    for (var j = 0; j < SearchedSkills.length; j++) {
-      if (skills[i].label == SearchedSkills[j]) {
-        SearchedSkillsArr.push(skills[i])
-      }
+    if (props.skill == skills[i].label) {
+      searchedSkill = skills[i]
     }
   }
 
+  if (searchedSkill == null && props.skill) {
+    return null
+  }
   return (
     <SearchSkillDropdownContainer>
       <Select
-        defaultValue={SearchedSkillsArr}
+        defaultValue={searchedSkill}
         placeholder={'Search for a skill'}
         isClearable
-        isMulti={true}
         isDisabled={isLoading}
         isLoading={isLoading}
         onChange={handleChange}

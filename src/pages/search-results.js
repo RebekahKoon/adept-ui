@@ -511,21 +511,11 @@ export const getServerSideProps = async (context) => {
     if (skill) {
       tempArr = []
       var tempPos = 0
-      skill = JSON.parse(skill)
       for (i = 0; i < newArr.length; i++) {
         for (j = 0; j < newArr[i].skills.length - 1; j++) {
-          for (var k = 0; k < skill.length; k++) {
-            if (k == 0) {
-              if (newArr[i].skills[j].name == skill[k]) {
-                tempArr[tempPos] = newArr[i]
-                tempPos++
-              }
-            } else {
-              if (newArr[i].skills[j].name == skill[k]) {
-                tempArr[tempPos] = newArr[i]
-                tempPos++
-              }
-            }
+          if (newArr[i].skills[j].name == skill) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
           }
         }
       }
@@ -703,22 +693,13 @@ export const getServerSideProps = async (context) => {
     if (skill) {
       tempArr = []
       tempPos = 0
-      skill = JSON.parse(skill)
       for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          for (k = 0; k < skill.length; k++) {
-            if (k == 0) {
-              if (newArr[i].skillsRequired[j].name == skill[k]) {
-                tempArr[tempPos] = newArr[i]
-                tempPos++
-              }
-            } else {
-              if (newArr[i].skillsRequired[j].name == skill[k]) {
-                tempArr[tempPos] = newArr[i]
-                tempPos++
-              }
-            }
+        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++) {
+          if (newArr[i].skillsRequired[j].name == skill) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
           }
+        }
       }
       for (i = 0; i < tempArr.length; i++) {
         exArr.push(tempArr[i])
@@ -860,22 +841,13 @@ export const getServerSideProps = async (context) => {
     if (skill) {
       tempArr = []
       tempPos = 0
-      skill = JSON.parse(skill)
       for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          for (var k = 0; k < skill.length; k++) {
-            if (k == 0) {
-              if (newArr[i].skillsRequired[j].name == skill[k]) {
-                tempArr[tempPos] = newArr[i]
-                tempPos++
-              }
-            } else {
-              if (newArr[i].skillsRequired[j].name == skill[k]) {
-                tempArr[tempPos] = newArr[i]
-                tempPos++
-              }
-            }
+        for (j = 0; j < newArr[i].skillsRequired.length; j++) {
+          if (newArr[i].skillsRequired[j].name == skill) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
           }
+        }
       }
       for (i = 0; i < tempArr.length; i++) {
         exArr.push(tempArr[i])
