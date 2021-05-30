@@ -1,11 +1,14 @@
 // pages/dashboard.js
 import Router from 'next/router'
 import Select from 'react-select'
+import styled from 'styled-components'
+import { useForm, Controller } from 'react-hook-form'
 import { SEARCH_USERS } from '../queries/searchUsers'
 import { SEARCH_JOBS } from '../queries/search'
 import { GET_ALL_JOBS } from '../queries/getAllJobPostings'
 import Layout from '../components/Layout'
 import UserCard from '../components/UserCard'
+import { Input, Label } from '../components/Input'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -16,7 +19,7 @@ import MainContentFlexContainer from '../components/styles/MainContentFlexContai
 import client from '../apollo/apolloClient'
 import Checkbox from '../components/Checkbox'
 import { JobPostCard } from '../components/JobCard'
-import { SearchSkillDropdown } from '../components/SkillDropdown'
+import { SearchSkillDropdown, StateDropdown } from '../components/SkillDropdown'
 import {
   SSRSearchResults,
   SSRMain,
@@ -37,7 +40,17 @@ import {
   SSRFooterPageNumber,
   SSRFooterNext,
 } from '../styles/SearchResultsStyle'
-import Skill from '../components/Skill'
+import { StyledSkillDropdown } from '../components/SkillDropdown'
+import states from '../utils/states'
+
+const FormGrid = styled.div`
+  margin: 0 auto;
+  display: inline-grid;
+  text-align: left;
+  grid-template-columns: repeat(2, minmax(50px, 600px));
+  gap: 1.5rem 1rem;
+  line-height: 1.25em;
+`
 
 function SearchResultView(props) {
   var dataArr
@@ -334,6 +347,26 @@ function SearchResultView(props) {
     window.location.search = searchParams.toString()
   }
 
+  const updateUserLocation = (location) => {
+    console.log(location)
+  }
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({ mode: 'onSubmit' })
+
+  const onSubmit = (data) => {
+    const input = {
+      state: data.state?.value ? data.state.value : '',
+    }
+
+    updateUserLocation({ variables: input })
+    reset()
+  }
+
   // Render the SearchResultSideBar
   const SearchResultSideBar = () => {
     return (
@@ -356,10 +389,16 @@ function SearchResultView(props) {
           <SSRDividerContainer>
             <hr />
           </SSRDividerContainer>
-          <SSRFilterOptionHeader>Salary Range</SSRFilterOptionHeader>
+          <SSRFilterOptionHeader>
+            {props.uq ? 'Location' : 'Salary Range'}
+          </SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              <form>{createSalRangeCheckboxes()}</form>
+              {props.uq ? (
+                <StateDropdown stateArr={props.stateArr} />
+              ) : (
+                <form>{createSalRangeCheckboxes()}</form>
+              )}
             </SSRCheckBoxOption>
           </SSRFilterOptions>
         </SSRFilterSection>
@@ -442,10 +481,13 @@ export const getServerSideProps = async (context) => {
     })
     var newArr = userData.searchUsers
     var skill = context.query.skill
+    var state = context.query.state
     var exArr = []
+    var stArr = []
     var ut1 = context.query.ut1
     var ut2 = context.query.ut2
     var utArr = []
+    var stateArr = []
 
     if (ut1) {
       tempArr = newArr.filter((term) => term.type == 'EMPLOYER')
@@ -454,14 +496,12 @@ export const getServerSideProps = async (context) => {
       }
     }
     if (ut2) {
-      console.log('made it')
       tempArr = newArr.filter((term) => term.type == 'EMPLOYEE')
       for (i = 0; i < tempArr.length; i++) {
         utArr.push(tempArr[i])
       }
     }
 
-    console.log(utArr)
     if (ut1 || ut2) {
       newArr = utArr
     }
@@ -496,6 +536,24 @@ export const getServerSideProps = async (context) => {
       newArr = exArr
     }
 
+    if (state) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        if (newArr[i].state == state) {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
+      }
+      for (i = 0; i < tempArr.length; i++) {
+        stArr.push(tempArr[i])
+      }
+    }
+
+    if (state) {
+      newArr = stArr
+    }
+
     if (o !== 'oldest') {
       newArr = newArr
         .slice()
@@ -523,6 +581,15 @@ export const getServerSideProps = async (context) => {
     })
 
     var orderedArr = skillArr.filter(function (value, index, self) {
+      return self.indexOf(value) === index
+    })
+
+    for (i = 0; i < newArr.length; i++) {
+      if (newArr[i].state) {
+        stateArr.push(newArr[i].state)
+      }
+    }
+    var orderedStateArr = stateArr.filter(function (value, index, self) {
       return self.indexOf(value) === index
     })
 
@@ -561,6 +628,7 @@ export const getServerSideProps = async (context) => {
         ut2: ut2 || null,
         skill: skill || null,
         skillArr: orderedArr || null,
+        stateArr: orderedStateArr,
         searchLength: arrLen,
       },
     }
