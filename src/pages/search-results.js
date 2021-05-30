@@ -42,19 +42,27 @@ import Skill from '../components/Skill'
 function SearchResultView(props) {
   var dataArr
   var searchLength
+
+  // if this is a user query, take the length and data from that specifically
   if (props.uq) {
     dataArr = props.data.searchUsers
     searchLength = dataArr.length
-  } else {
+  }
+
+  // Otherwise, take the job search length and data
+  else {
     dataArr = props.data
     searchLength = props.searchLength
   }
+
+  // Consts for the checkboxes for JobType and Salary as well as the data of the skills from the search
   const JobType = ['Full Time', 'Part Time', 'Internship']
   const SalaryRange = ['$0 - $40,000', '$40,000 - $100,000', '$100,000 +']
   const skillArr = props.skillArr
 
   const selectedCheckboxes = new Set()
 
+  // Function used to remove URL parameters when a checkbox is unticked
   function removeURLParameter(url, parameter) {
     var urlparts = url.split('?')
     if (urlparts.length >= 2) {
@@ -72,6 +80,7 @@ function SearchResultView(props) {
     return url
   }
 
+  // Toggle and untoggle the checkbox as well as push or remove the value of that chebox from the URL
   const toggleCheckbox = (label) => {
     if (selectedCheckboxes.has(label)) {
       selectedCheckboxes.delete(label)
@@ -113,6 +122,7 @@ function SearchResultView(props) {
     }
   }
 
+  // Create the checkbox
   const createCheckbox = (label) => {
     if (label == 'Full Time' && props.jt1) {
       selectedCheckboxes.add(label)
@@ -187,6 +197,7 @@ function SearchResultView(props) {
 
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
+  // Create the search result data div
   const createDataDivs = () =>
     dataArr.map((data, index) =>
       props.uq ? (
@@ -201,6 +212,7 @@ function SearchResultView(props) {
 
   const createSalRangeCheckboxes = () => SalaryRange.map(createCheckbox)
 
+  // Used to handle the change to the sort dropdown
   const handleOptionChange = (e) => {
     if (e.value == 'newest') {
       var searchParams = new URLSearchParams(window.location.search)
@@ -231,6 +243,7 @@ function SearchResultView(props) {
     currOption = [sortOptions[0]]
   }
 
+  // Create the prev, next, and page count in the footer
   function createFooter() {
     if (props.currPage - 1 == 0 && props.pageCount > 1) {
       return (
@@ -281,6 +294,7 @@ function SearchResultView(props) {
     }
   }
 
+  // Go back a page in your search
   const handleClickPrev = () => {
     var page = parseInt(props.currPage) - 1
     var searchParams = new URLSearchParams(window.location.search)
@@ -288,6 +302,7 @@ function SearchResultView(props) {
     window.location.search = searchParams.toString()
   }
 
+  // Go forward a page in your search
   const handleClickNext = () => {
     var page = parseInt(props.currPage) + 1
     var searchParams = new URLSearchParams(window.location.search)
@@ -295,6 +310,7 @@ function SearchResultView(props) {
     window.location.search = searchParams.toString()
   }
 
+  // Render the SearchResultSideBar
   const SearchResultSideBar = () => {
     return (
       <StyledSideBar>
@@ -332,6 +348,7 @@ function SearchResultView(props) {
     )
   }
 
+  // Render the SearchResultDropdown
   const SearchResultDropdown = () => {
     return (
       <SSRSortByDropdown>
@@ -351,6 +368,8 @@ function SearchResultView(props) {
       </SSRSortByDropdown>
     )
   }
+
+  // Render the rest of the page
   return (
     <Layout>
       <SearchBar headerText="Search Jobs" />
@@ -374,6 +393,7 @@ function SearchResultView(props) {
 export default SearchResultView
 
 export const getServerSideProps = async (context) => {
+  // Redirect user if they try to go to the wrong URL
   if (context.query.page == null) {
     return {
       redirect: {
@@ -382,6 +402,9 @@ export const getServerSideProps = async (context) => {
       },
     }
   }
+
+  /* If the user is searching for a user, run the user search
+     and pass the correct values to the renderer */
   if (context.query.uq) {
     const { data: userData } = await client.query({
       query: SEARCH_USERS,
@@ -459,11 +482,13 @@ export const getServerSideProps = async (context) => {
         sc2: sc2 || null,
         sc3: sc3 || null,
         skill: skill || null,
-        skillArr: skillArr,
+        skillArr: orderedArr || null,
         searchLength: userData.searchUsers.length,
       },
     }
   }
+  /* If the user is searching for a job, run the job search
+     and pass the correct values to the renderer */
   if (context.query.q) {
     const { data: jobData } = await client.query({
       query: SEARCH_JOBS,
@@ -568,7 +593,7 @@ export const getServerSideProps = async (context) => {
 
     skillArr = []
     for (i = 0; i < newArr.length; i++) {
-      for (var j = 0; j < newArr[i].skillsRequired.length; j++) {
+      for (j = 0; j < newArr[i].skillsRequired.length; j++) {
         skillArr.push(newArr[i].skillsRequired[j].name)
       }
     }
@@ -621,6 +646,8 @@ export const getServerSideProps = async (context) => {
       },
     }
   } else {
+    /* If the just clicked on the View Jobs tab, run the job search
+     and pass the correct values to the renderer */
     const { data: allJobData } = await client.query({
       query: GET_ALL_JOBS,
     })
