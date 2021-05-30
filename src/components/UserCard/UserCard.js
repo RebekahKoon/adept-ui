@@ -34,11 +34,15 @@ const UserButton = styled.button`
   background: transparent;
   border: none;
   font-size: 1rem;
+  color: var(--darkPurple);
 
   :hover {
     cursor: pointer;
-    border: solid 1px var(--darkPurple);
-    color: var(--darkPurple);
+    color: var(--darkerPurple);
+  }
+
+  .fa-plus {
+    margin-left: 0.5rem;
   }
 `
 
@@ -120,17 +124,13 @@ function UserCard(props) {
                   : 'Unemployed'}
               </StyledGridItem>
               <StyledGridItem>
-                {props.data.city && props.data.state ? (
-                  <i className="fas fa-map-marker-alt"></i>
-                ) : (
-                  ''
-                )}{' '}
+                <i className="fas fa-map-marker-alt"></i>
                 {props.data.city ? props.data.city : ''}
                 {props.data.state && props.data.city
                   ? `, ${props.data.state}`
                   : props.data.state && !props.data.city
                   ? `${props.data.state}`
-                  : ''}
+                  : 'Location unknown'}
               </StyledGridItem>
               <StyledGridItem>
                 <i className="fas fa-user"></i>{' '}
