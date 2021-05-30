@@ -1,12 +1,14 @@
 // pages/dashboard.js
 import Router from 'next/router'
-import { useState } from 'react'
 import Select from 'react-select'
-
+import styled from 'styled-components'
+import { useForm, Controller } from 'react-hook-form'
+import { SEARCH_USERS } from '../queries/searchUsers'
 import { SEARCH_JOBS } from '../queries/search'
 import { GET_ALL_JOBS } from '../queries/getAllJobPostings'
 import Layout from '../components/Layout'
-import SearchResult from '../components/SearchResult'
+import UserCard from '../components/UserCard'
+import { Input, Label } from '../components/Input'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -17,6 +19,7 @@ import MainContentFlexContainer from '../components/styles/MainContentFlexContai
 import client from '../apollo/apolloClient'
 import Checkbox from '../components/Checkbox'
 import { JobPostCard } from '../components/JobCard'
+import { SearchSkillDropdown, StateDropdown } from '../components/SkillDropdown'
 import {
   SSRSearchResults,
   SSRMain,
@@ -30,20 +33,41 @@ import {
   SSRDivider,
   SSRCheckBoxOption,
   StyledDropdown,
+  SkillDropdownContainer,
   SSRMainContentFooter,
   SSRFooterPagination,
   SSRFooterPrev,
   SSRFooterPageNumber,
   SSRFooterNext,
 } from '../styles/SearchResultsStyle'
+import { StyledSkillDropdown } from '../components/SkillDropdown'
+import states from '../utils/states'
+
+const FormGrid = styled.div`
+  margin: 0 auto;
+  display: inline-grid;
+  text-align: left;
+  grid-template-columns: repeat(2, minmax(50px, 600px));
+  gap: 1.5rem 1rem;
+  line-height: 1.25em;
+`
 
 function SearchResultView(props) {
+  var dataArr
+  var searchLength
+
+  dataArr = props.data
+  searchLength = props.searchLength
+
+  // Consts for the checkboxes for JobType and Salary as well as the data of the skills from the search
   const JobType = ['Full Time', 'Part Time', 'Internship']
   const SalaryRange = ['$0 - $40,000', '$40,000 - $100,000', '$100,000 +']
+  const UserType = ['Employer', 'Employee']
   const skillArr = props.skillArr
-  const dataArr = props.data
+
   const selectedCheckboxes = new Set()
 
+  // Function used to remove URL parameters when a checkbox is unticked
   function removeURLParameter(url, parameter) {
     var urlparts = url.split('?')
     if (urlparts.length >= 2) {
@@ -61,11 +85,18 @@ function SearchResultView(props) {
     return url
   }
 
+  // Toggle and untoggle the checkbox as well as push or remove the value of that chebox from the URL
   const toggleCheckbox = (label) => {
     if (selectedCheckboxes.has(label)) {
       selectedCheckboxes.delete(label)
       var newHref
-      if (label == 'Full Time') {
+      if (label == 'Employer') {
+        newHref = removeURLParameter(window.location.href, 'ut1')
+        Router.push(newHref)
+      } else if (label == 'Employee') {
+        newHref = removeURLParameter(window.location.href, 'ut2')
+        Router.push(newHref)
+      } else if (label == 'Full Time') {
         newHref = removeURLParameter(window.location.href, 'jt1')
         Router.push(newHref)
       } else if (label == 'Part Time') {
@@ -83,25 +114,14 @@ function SearchResultView(props) {
       } else if (label == '$100,000 +') {
         newHref = removeURLParameter(window.location.href, 'sc3')
         Router.push(newHref)
-      } else if (label == props.skillArr[0]) {
-        newHref = removeURLParameter(window.location.href, 'ex1')
-        Router.push(newHref)
-      } else if (label == props.skillArr[1]) {
-        newHref = removeURLParameter(window.location.href, 'ex2')
-        Router.push(newHref)
-      } else if (label == props.skillArr[2]) {
-        newHref = removeURLParameter(window.location.href, 'ex3')
-        Router.push(newHref)
-      } else if (label == props.skillArr[3]) {
-        newHref = removeURLParameter(window.location.href, 'ex4')
-        Router.push(newHref)
-      } else if (label == props.skillArr[4]) {
-        newHref = removeURLParameter(window.location.href, 'ex5')
-        Router.push(newHref)
       }
     } else {
       selectedCheckboxes.add(label)
-      if (label == 'Full Time' && !props.jt1) {
+      if (label == 'Employer' && !props.ut1) {
+        Router.push(window.location.href + '&ut1=Employer')
+      } else if (label == 'Employee' && !props.ut2) {
+        Router.push(window.location.href + '&ut2=Employee')
+      } else if (label == 'Full Time' && !props.jt1) {
         Router.push(window.location.href + '&jt1=FullTime')
       } else if (label == 'Part Time' && !props.jt2) {
         Router.push(window.location.href + '&jt2=PartTime')
@@ -113,22 +133,33 @@ function SearchResultView(props) {
         Router.push(window.location.href + '&sc2=1')
       } else if (label == '$100,000 +' && !props.sc3) {
         Router.push(window.location.href + '&sc3=1')
-      } else if (label == props.skillArr[0] && !props.ex1) {
-        Router.push(window.location.href + '&ex1=' + props.skillArr[0])
-      } else if (label == props.skillArr[1] && !props.ex2) {
-        Router.push(window.location.href + '&ex2=' + props.skillArr[1])
-      } else if (label == props.skillArr[2] && !props.ex3) {
-        Router.push(window.location.href + '&ex3=' + props.skillArr[2])
-      } else if (label == props.skillArr[3] && !props.ex4) {
-        Router.push(window.location.href + '&ex4=' + props.skillArr[3])
-      } else if (label == props.skillArr[4] && !props.ex5) {
-        Router.push(window.location.href + '&ex5=' + props.skillArr[4])
       }
     }
   }
 
+  // Create the checkbox
   const createCheckbox = (label) => {
-    if (label == 'Full Time' && props.jt1) {
+    if (label == 'Employer' && props.ut1) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Employee' && props.ut2) {
+      selectedCheckboxes.add(label)
+      return (
+        <Checkbox
+          label={label}
+          handleCheckboxChange={toggleCheckbox}
+          key={label}
+          checked="true"
+        />
+      )
+    } else if (label == 'Full Time' && props.jt1) {
       selectedCheckboxes.add(label)
       return (
         <Checkbox
@@ -188,91 +219,6 @@ function SearchResultView(props) {
           checked="true"
         />
       )
-    } else if (
-      label == props.skillArr[0] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
-    } else if (
-      label == props.skillArr[1] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
-    } else if (
-      label == props.skillArr[2] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
-    } else if (
-      label == props.skillArr[3] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
-    } else if (
-      label == props.skillArr[4] &&
-      (label == props.ex1 ||
-        label == props.ex2 ||
-        label == props.ex3 ||
-        label == props.ex4 ||
-        label == props.ex5)
-    ) {
-      selectedCheckboxes.add(label)
-      return (
-        <Checkbox
-          label={label}
-          handleCheckboxChange={toggleCheckbox}
-          key={label}
-          checked="true"
-        />
-      )
     } else {
       return (
         <Checkbox
@@ -286,48 +232,33 @@ function SearchResultView(props) {
 
   const createJobTypeCheckboxes = () => JobType.map(createCheckbox)
 
+  const createUserTypeCheckboxes = () => UserType.map(createCheckbox)
+
+  // Create the search result data div
   const createDataDivs = () =>
-    dataArr.map((data, index) => (
-      <JobPostCard jobPosting={dataArr[index]} key={dataArr[index].jobPostId} />
-    ))
+    dataArr.map((data, index) =>
+      props.uq ? (
+        <UserCard data={dataArr[index]} />
+      ) : (
+        <JobPostCard
+          jobPosting={dataArr[index]}
+          key={dataArr[index].jobPostId}
+        />
+      )
+    )
 
   const createSalRangeCheckboxes = () => SalaryRange.map(createCheckbox)
 
-  const createSkillCheckboxes = () => skillArr.map(createCheckbox)
-
+  // Used to handle the change to the sort dropdown
   const handleOptionChange = (e) => {
     if (e.value == 'newest') {
-      if (!props.o) {
-        Router.push(window.location.href + '&o=newest')
-      } else {
-        if (props.q) {
-          Router.push(
-            '/search-results?page=' +
-              props.currPage +
-              '&q=' +
-              props.q +
-              '&o=newest'
-          )
-        } else {
-          Router.push('/search-results?page=' + props.currPage + '&o=newest')
-        }
-      }
+      var searchParams = new URLSearchParams(window.location.search)
+      searchParams.set('o', 'newest')
+      window.location.search = searchParams.toString()
     } else {
-      if (!props.o) {
-        Router.push(window.location.href + '&o=oldest')
-      } else {
-        if (props.q) {
-          Router.push(
-            '/search-results?page=' +
-              props.currPage +
-              '&q=' +
-              props.q +
-              '&o=oldest'
-          )
-        } else {
-          Router.push('/search-results?page=' + props.currPage + '&o=oldest')
-        }
-      }
+      searchParams = new URLSearchParams(window.location.search)
+      searchParams.set('o', 'oldest')
+      window.location.search = searchParams.toString()
     }
   }
 
@@ -349,6 +280,7 @@ function SearchResultView(props) {
     currOption = [sortOptions[0]]
   }
 
+  // Create the prev, next, and page count in the footer
   function createFooter() {
     if (props.currPage - 1 == 0 && props.pageCount > 1) {
       return (
@@ -399,26 +331,57 @@ function SearchResultView(props) {
     }
   }
 
-  const handleClickPrev = (e) => {
-    e.preventDefault()
-    var newPage = parseInt(props.currPage) - 1
-    Router.push('/search-results?page=' + newPage)
+  // Go back a page in your search
+  const handleClickPrev = () => {
+    var page = parseInt(props.currPage) - 1
+    var searchParams = new URLSearchParams(window.location.search)
+    searchParams.set('page', page)
+    window.location.search = searchParams.toString()
   }
 
-  const handleClickNext = (e) => {
-    e.preventDefault()
-    var newPage = parseInt(props.currPage) + 1
-    Router.push('/search-results?page=' + newPage)
+  // Go forward a page in your search
+  const handleClickNext = () => {
+    var page = parseInt(props.currPage) + 1
+    var searchParams = new URLSearchParams(window.location.search)
+    searchParams.set('page', page)
+    window.location.search = searchParams.toString()
   }
 
+  const updateUserLocation = (location) => {
+    console.log(location)
+  }
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({ mode: 'onSubmit' })
+
+  const onSubmit = (data) => {
+    const input = {
+      state: data.state?.value ? data.state.value : '',
+    }
+
+    updateUserLocation({ variables: input })
+    reset()
+  }
+
+  // Render the SearchResultSideBar
   const SearchResultSideBar = () => {
     return (
       <StyledSideBar>
         <SSRFilterSection>
-          <SSRFilterOptionHeader>JobType</SSRFilterOptionHeader>
+          <SSRFilterOptionHeader>
+            {props.uq ? 'User Type' : 'Job Type'}
+          </SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              <form>{createJobTypeCheckboxes()}</form>
+              {props.uq ? (
+                <form>{createUserTypeCheckboxes()}</form>
+              ) : (
+                <form>{createJobTypeCheckboxes()}</form>
+              )}
             </SSRCheckBoxOption>
           </SSRFilterOptions>
         </SSRFilterSection>
@@ -426,10 +389,21 @@ function SearchResultView(props) {
           <SSRDividerContainer>
             <hr />
           </SSRDividerContainer>
-          <SSRFilterOptionHeader>Salary Range</SSRFilterOptionHeader>
+          <SSRFilterOptionHeader>
+            {props.uq ? 'Location' : 'Salary Range'}
+          </SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              <form>{createSalRangeCheckboxes()}</form>
+              {props.uq ? (
+                <SkillDropdownContainer>
+                  <StateDropdown
+                    stateArr={props.stateArr}
+                    state={props.state}
+                  />
+                </SkillDropdownContainer>
+              ) : (
+                <form>{createSalRangeCheckboxes()}</form>
+              )}
             </SSRCheckBoxOption>
           </SSRFilterOptions>
         </SSRFilterSection>
@@ -439,37 +413,44 @@ function SearchResultView(props) {
           </SSRDividerContainer>
           <SSRFilterOptionHeader>Skill</SSRFilterOptionHeader>
           <SSRFilterOptions>
-            <SSRCheckBoxOption>
-              <form>{createSkillCheckboxes()}</form>
-            </SSRCheckBoxOption>
+            <SkillDropdownContainer>
+              <SearchSkillDropdown skillArr={skillArr} skill={props.skill} />
+            </SkillDropdownContainer>
           </SSRFilterOptions>
         </SSRFilterSection>
       </StyledSideBar>
     )
   }
 
+  // Render the SearchResultDropdown
   const SearchResultDropdown = () => {
     return (
       <SSRSortByDropdown>
-        Sort by:
-        <Select
-          defaultValue={currOption}
-          onChange={handleOptionChange}
-          options={sortOptions}
-          styles={StyledDropdown}
-          indicatorSeparator={false}
-          isSearchable={false}
-        />
+        {props.uq ? '' : 'Sort by:'}
+        {props.uq ? (
+          ''
+        ) : (
+          <Select
+            defaultValue={currOption}
+            onChange={handleOptionChange}
+            options={sortOptions}
+            styles={StyledDropdown}
+            indicatorSeparator={false}
+            isSearchable={false}
+          />
+        )}
       </SSRSortByDropdown>
     )
   }
+
+  // Render the rest of the page
   return (
     <Layout>
       <SearchBar headerText="Search Jobs" />
       <MainContentFlexContainer>
         <SSRMain>
           <SSRSearchResultsHeader>
-            {props.data.length} results found
+            {searchLength} results found
             <SearchResultDropdown />
           </SSRSearchResultsHeader>
           <SSRMainContentContainer>
@@ -486,6 +467,7 @@ function SearchResultView(props) {
 export default SearchResultView
 
 export const getServerSideProps = async (context) => {
+  // Redirect user if they try to go to the wrong URL
   if (context.query.page == null) {
     return {
       redirect: {
@@ -494,187 +476,93 @@ export const getServerSideProps = async (context) => {
       },
     }
   }
-  if (context.query.q) {
-    const { data: jobData } = await client.query({
-      query: SEARCH_JOBS,
-      variables: { searchTerm: context.query.q },
-    })
-    var pageCount = Math.ceil(jobData.searchJobPostings.length / 12)
-    return {
-      props: {
-        data: jobData.searchJobPostings,
-        q: context.query.q,
-        currPage: context.query.page,
-        pageCount: pageCount,
-        o: context.query.o || null,
-        jt1: context.query.jt1 || null,
-        jt2: context.query.jt2 || null,
-        jt3: context.query.jt3 || null,
-        sc1: context.query.sc1 || null,
-        sc2: context.query.sc2 || null,
-        sc3: context.query.sc3 || null,
-        ex1: context.query.ex1 || null,
-        ex2: context.query.ex2 || null,
-        ex3: context.query.ex3 || null,
-        ex4: context.query.ex4 || null,
-        ex5: context.query.ex5 || null,
-      },
-    }
-  } else {
-    const { data: allJobData } = await client.query({
-      query: GET_ALL_JOBS,
-    })
-    var jt1 = context.query.jt1
-    var jt2 = context.query.jt2
-    var jt3 = context.query.jt3
-    var sc1 = context.query.sc1
-    var sc2 = context.query.sc2
-    var sc3 = context.query.sc3
-    var ex1 = context.query.ex1
-    var ex2 = context.query.ex2
-    var ex3 = context.query.ex3
-    var ex4 = context.query.ex4
-    var ex5 = context.query.ex5
-    var newArr = allJobData.getAllJobPostings
-    var o = context.query.o
 
-    if (jt1) {
-      var tempArr = []
+  /* If the user is searching for a user, run the user search
+     and pass the correct values to the renderer */
+  if (context.query.uq) {
+    const { data: userData } = await client.query({
+      query: SEARCH_USERS,
+      variables: { searchTerm: context.query.uq },
+    })
+    var newArr = userData.searchUsers
+    var skill = context.query.skill
+    var state = context.query.state
+    var exArr = []
+    var stArr = []
+    var ut1 = context.query.ut1
+    var ut2 = context.query.ut2
+    var utArr = []
+    var stateArr = []
+
+    if (ut1) {
+      tempArr = newArr.filter((term) => term.type == 'EMPLOYER')
+      for (i = 0; i < tempArr.length; i++) {
+        utArr.push(tempArr[i])
+      }
+    }
+    if (ut2) {
+      tempArr = newArr.filter((term) => term.type == 'EMPLOYEE')
+      for (i = 0; i < tempArr.length; i++) {
+        utArr.push(tempArr[i])
+      }
+    }
+
+    if (ut1 || ut2) {
+      newArr = utArr
+    }
+
+    if (skill) {
+      tempArr = []
       var tempPos = 0
-      for (var i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'FULL_TIME') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
-      newArr = tempArr
-    }
-    if (jt2) {
-      tempArr = []
-      tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'PART_TIME') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
-      newArr = tempArr
-    }
-    if (jt3) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].type == 'INTERNSHIP') {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
-      newArr = tempArr
-    }
-    if (sc1) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].salary < 40000) {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
-      newArr = tempArr
-    }
-    if (sc2) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].salary >= 40000 && newArr[i].salary < 100000) {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
-      newArr = tempArr
-    }
-    if (sc3) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        if (newArr[i].salary >= 100000) {
-          tempArr[tempPos] = newArr[i]
-          tempPos++
-        }
-      }
-      newArr = tempArr
-    }
-    if (ex1) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (var j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex1) {
+        for (j = 0; j < newArr[i].skills.length; j++) {
+          if (newArr[i].skills[j].name == skill) {
             tempArr[tempPos] = newArr[i]
             tempPos++
           }
+        }
       }
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
     }
-    if (ex2) {
+
+    if (skill) {
+      newArr = exArr
+    }
+
+    if (state) {
       tempArr = []
       tempPos = 0
       for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex2) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
+        if (newArr[i].state == state) {
+          tempArr[tempPos] = newArr[i]
+          tempPos++
+        }
       }
-      newArr = tempArr
+      for (i = 0; i < tempArr.length; i++) {
+        stArr.push(tempArr[i])
+      }
     }
-    if (ex3) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex3) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      newArr = tempArr
-    }
-    if (ex4) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex4) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      newArr = tempArr
-    }
-    if (ex5) {
-      tempArr = []
-      tempPos = 0
-      for (i = 0; i < newArr.length; i++) {
-        for (j = 0; j < newArr[i].skillsRequired.length - 1; j++)
-          if (newArr[i].skillsRequired[j].name == ex5) {
-            tempArr[tempPos] = newArr[i]
-            tempPos++
-          }
-      }
-      newArr = tempArr
+
+    if (state) {
+      newArr = stArr
     }
 
     if (o !== 'oldest') {
-      newArr = newArr.slice().sort((a, b) => b.datePosted - a.datePosted)
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(b.datePosted) - parseInt(a.datePosted))
     } else {
-      newArr = newArr.slice().sort((a, b) => a.datePosted - b.datePosted)
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(a.datePosted) - parseInt(b.datePosted))
     }
 
     var skillArr = []
     for (i = 0; i < newArr.length; i++) {
-      for (j = 0; j < newArr[i].skillsRequired.length; j++) {
-        skillArr.push(newArr[i].skillsRequired[j].name)
+      for (var j = 0; j < newArr[i].skills.length; j++) {
+        skillArr.push(newArr[i].skills[j].name)
       }
     }
 
@@ -691,14 +579,172 @@ export const getServerSideProps = async (context) => {
       return self.indexOf(value) === index
     })
 
-    if (orderedArr.length > 5) {
-      tempArr = []
-      for (i = 0; i < 5; i++) {
-        tempArr.push(orderedArr[i])
+    for (i = 0; i < newArr.length; i++) {
+      if (newArr[i].state) {
+        stateArr.push(newArr[i].state)
       }
-      orderedArr = tempArr
+    }
+    var orderedStateArr = stateArr.filter(function (value, index, self) {
+      return self.indexOf(value) === index
+    })
+
+    arrLen = newArr.length
+    if (newArr.length > 12) {
+      pageStart = (context.query.page - 1) * 12
+      pageEnd = pageStart + 12
+      length = newArr.length
+      pageCount = Math.ceil(length / 12)
+      if (pageEnd > length) {
+        diff = pageEnd - length
+        pageEnd = pageEnd - diff
+      }
+      finArr = []
+      tempPos = 0
+      for (i = pageStart; i < pageEnd; i++) {
+        finArr[tempPos] = newArr[i]
+        tempPos++
+      }
+    } else {
+      finArr = newArr
+    }
+    return {
+      props: {
+        data: finArr,
+        uq: context.query.uq,
+        currPage: context.query.page,
+        pageCount: pageCount || 0,
+        jt1: jt1 || null,
+        jt2: jt2 || null,
+        jt3: jt3 || null,
+        sc1: sc1 || null,
+        sc2: sc2 || null,
+        sc3: sc3 || null,
+        ut1: ut1 || null,
+        ut2: ut2 || null,
+        skill: skill || null,
+        skillArr: orderedArr || null,
+        stateArr: orderedStateArr,
+        state: state || null,
+        searchLength: arrLen,
+      },
+    }
+  }
+  /* If the user is searching for a job, run the job search
+     and pass the correct values to the renderer */
+  if (context.query.q) {
+    const { data: jobData } = await client.query({
+      query: SEARCH_JOBS,
+      variables: { searchTerm: context.query.q },
+    })
+    var jt1 = context.query.jt1
+    var jt2 = context.query.jt2
+    var jt3 = context.query.jt3
+    var sc1 = context.query.sc1
+    var sc2 = context.query.sc2
+    var sc3 = context.query.sc3
+    skill = context.query.skill
+    newArr = jobData.searchJobPostings
+    var jtArr = []
+    var scArr = []
+    exArr = []
+    var arrLen
+    var o = context.query.o
+
+    if (jt1) {
+      var tempArr = newArr.filter((term) => term.type == 'FULL_TIME')
+      for (var i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
+    }
+    if (jt2) {
+      tempArr = newArr.filter((term) => term.type == 'PART_TIME')
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
+    }
+    if (jt3) {
+      tempArr = newArr.filter((term) => term.type == 'INTERNSHIP')
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
+    }
+    if (jt1 || jt2 || jt3) {
+      newArr = jtArr
+    }
+    if (sc1) {
+      tempArr = newArr.filter((term) => term.salary < 40000)
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
+    }
+    if (sc2) {
+      tempArr = newArr.filter(
+        (term) => term.salary > 40000 && term.salary <= 100000
+      )
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
+    }
+    if (sc3) {
+      tempArr = newArr.filter((term) => term.salary > 100000)
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
+    }
+    if (sc1 || sc2 || sc3) {
+      newArr = scArr
+    }
+    if (skill) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skillsRequired.length; j++) {
+          if (newArr[i].skillsRequired[j].name == skill) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
+        }
+      }
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
     }
 
+    if (skill) {
+      newArr = exArr
+    }
+
+    if (o !== 'oldest') {
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(b.datePosted) - parseInt(a.datePosted))
+    } else {
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(a.datePosted) - parseInt(b.datePosted))
+    }
+
+    skillArr = []
+    for (i = 0; i < newArr.length; i++) {
+      for (j = 0; j < newArr[i].skillsRequired.length; j++) {
+        skillArr.push(newArr[i].skillsRequired[j].name)
+      }
+    }
+
+    sortedArr = skillArr.reduce((sortedArr, index) => {
+      sortedArr[index] = (sortedArr[index] || 0) + 1
+      return sortedArr
+    }, {})
+
+    skillArr.sort(function (i0, i1) {
+      return sortedArr[i1] - sortedArr[i0]
+    })
+
+    orderedArr = skillArr.filter(function (value, index, self) {
+      return self.indexOf(value) === index
+    })
+
+    arrLen = newArr.length
     if (newArr.length > 12) {
       var pageStart = (context.query.page - 1) * 12
       var pageEnd = pageStart + 12
@@ -709,6 +755,154 @@ export const getServerSideProps = async (context) => {
         pageEnd = pageEnd - diff
       }
       var finArr = []
+      tempPos = 0
+      for (i = pageStart; i < pageEnd; i++) {
+        finArr[tempPos] = newArr[i]
+        tempPos++
+      }
+    } else {
+      finArr = newArr
+    }
+    return {
+      props: {
+        data: finArr,
+        q: context.query.q,
+        currPage: context.query.page,
+        pageCount: pageCount || 0,
+        jt1: jt1 || null,
+        jt2: jt2 || null,
+        jt3: jt3 || null,
+        sc1: sc1 || null,
+        sc2: sc2 || null,
+        sc3: sc3 || null,
+        skill: skill || null,
+        skillArr: orderedArr || null,
+        searchLength: arrLen,
+      },
+    }
+  } else {
+    /* If the just clicked on the View Jobs tab, run the job search
+     and pass the correct values to the renderer */
+    const { data: allJobData } = await client.query({
+      query: GET_ALL_JOBS,
+    })
+    jt1 = context.query.jt1
+    jt2 = context.query.jt2
+    jt3 = context.query.jt3
+    sc1 = context.query.sc1
+    sc2 = context.query.sc2
+    sc3 = context.query.sc3
+    skill = context.query.skill
+    newArr = allJobData.getAllJobPostings
+    jtArr = []
+    scArr = []
+    exArr = []
+    o = context.query.o
+    if (jt1) {
+      tempArr = newArr.filter((term) => term.type == 'FULL_TIME')
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
+    }
+    if (jt2) {
+      tempArr = newArr.filter((term) => term.type == 'PART_TIME')
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
+    }
+    if (jt3) {
+      tempArr = newArr.filter((term) => term.type == 'INTERNSHIP')
+      for (i = 0; i < tempArr.length; i++) {
+        jtArr.push(tempArr[i])
+      }
+    }
+    if (jt1 || jt2 || jt3) {
+      newArr = jtArr
+    }
+    if (sc1) {
+      tempArr = newArr.filter((term) => term.salary < 40000)
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
+    }
+    if (sc2) {
+      tempArr = newArr.filter(
+        (term) => term.salary > 40000 && term.salary < 100000
+      )
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
+    }
+    if (sc3) {
+      tempArr = newArr.filter((term) => term.salary > 100000)
+      for (i = 0; i < tempArr.length; i++) {
+        scArr.push(tempArr[i])
+      }
+    }
+    if (sc1 || sc2 || sc3) {
+      newArr = scArr
+    }
+    if (skill) {
+      tempArr = []
+      tempPos = 0
+      for (i = 0; i < newArr.length; i++) {
+        for (j = 0; j < newArr[i].skillsRequired.length; j++) {
+          if (newArr[i].skillsRequired[j].name == skill) {
+            tempArr[tempPos] = newArr[i]
+            tempPos++
+          }
+        }
+      }
+      for (i = 0; i < tempArr.length; i++) {
+        exArr.push(tempArr[i])
+      }
+    }
+
+    if (skill) {
+      newArr = exArr
+    }
+
+    if (o !== 'oldest') {
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(b.datePosted) - parseInt(a.datePosted))
+    } else {
+      newArr = newArr
+        .slice()
+        .sort((a, b) => parseInt(a.datePosted) - parseInt(b.datePosted))
+    }
+
+    skillArr = []
+    for (i = 0; i < newArr.length; i++) {
+      for (j = 0; j < newArr[i].skillsRequired.length; j++) {
+        skillArr.push(newArr[i].skillsRequired[j].name)
+      }
+    }
+
+    sortedArr = skillArr.reduce((sortedArr, index) => {
+      sortedArr[index] = (sortedArr[index] || 0) + 1
+      return sortedArr
+    }, {})
+
+    skillArr.sort(function (i0, i1) {
+      return sortedArr[i1] - sortedArr[i0]
+    })
+
+    orderedArr = skillArr.filter(function (value, index, self) {
+      return self.indexOf(value) === index
+    })
+
+    arrLen = newArr.length
+    if (newArr.length > 12) {
+      pageStart = (context.query.page - 1) * 12
+      pageEnd = pageStart + 12
+      length = newArr.length
+      pageCount = Math.ceil(length / 12)
+      if (pageEnd > length) {
+        diff = pageEnd - length
+        pageEnd = pageEnd - diff
+      }
+      finArr = []
       tempPos = 0
       for (i = pageStart; i < pageEnd; i++) {
         finArr[tempPos] = newArr[i]
@@ -726,15 +920,13 @@ export const getServerSideProps = async (context) => {
           sc1: sc1 || null,
           sc2: sc2 || null,
           sc3: sc3 || null,
-          ex1: ex1 || null,
-          ex2: ex2 || null,
-          ex3: ex3 || null,
-          ex4: ex4 || null,
-          ex5: ex5 || null,
+          skill: skill || null,
           skillArr: orderedArr || null,
+          searchLength: arrLen,
         },
       }
     } else {
+      arrLen = newArr.length
       return {
         props: {
           data: newArr,
@@ -747,12 +939,9 @@ export const getServerSideProps = async (context) => {
           sc1: sc1 || null,
           sc2: sc2 || null,
           sc3: sc3 || null,
-          ex1: ex1 || null,
-          ex2: ex2 || null,
-          ex3: ex3 || null,
-          ex4: ex4 || null,
-          ex5: ex5 || null,
+          skill: skill || null,
           skillArr: orderedArr || null,
+          searchLength: arrLen,
         },
       }
     }

@@ -73,7 +73,7 @@ function SearchResult(props) {
     }
   }
 
-  const date = new Date(props.data.datePosted)
+  const date = new Date(parseInt(props.data.datePosted))
   const months = [
     'Jan',
     'Feb',
@@ -148,7 +148,7 @@ function SearchResult(props) {
       <SSRSearchResultFooter>
         <SSRSkillsContainer>{createSkillDivs()}</SSRSkillsContainer>
         <SSRDate>
-          {months[date.getMonth() + 1] +
+          {months[date.getMonth()] +
             ' ' +
             date.getDate() +
             ', ' +
