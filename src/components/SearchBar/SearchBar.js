@@ -5,6 +5,7 @@ import {
   StyledSearchHeader,
   StyledSearchContainer,
   StyledDropdown,
+  StyledForm,
   StyledSearchBar,
   StyledInput,
   StyledSearchDivider,
@@ -55,15 +56,17 @@ function SearchBar({ headerText }) {
             isSearchable={false}
           />
           <StyledSearchDivider />
-          <StyledInput
-            type="text"
-            placeholder="Search"
-            value={searchItem}
-            onChange={(e) => setSearchItem(e.target.value)}
-          ></StyledInput>
-          <button onClick={handleChange}>
-            <i className="fa fa-search"></i>
-          </button>
+          <StyledForm>
+            <StyledInput
+              type="text"
+              placeholder="Search"
+              value={searchItem}
+              onChange={(e) => setSearchItem(e.target.value)}
+            ></StyledInput>
+            <button onClick={handleChange}>
+              <i className="fa fa-search"></i>
+            </button>
+          </StyledForm>
         </StyledSearchBar>
       </StyledSearchContainer>
     </StyledSearchHeader>
