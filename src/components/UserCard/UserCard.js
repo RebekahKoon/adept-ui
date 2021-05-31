@@ -1,6 +1,7 @@
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
+import ReactTooltip from 'react-tooltip'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import { JobPostSkill } from '../Skill'
@@ -117,13 +118,34 @@ function UserCard(props) {
               </StyledViewJob>
             </StyledTitleLine>
             <StyledUserGrid>
-              <StyledGridItem>
+              <StyledGridItem data-tip data-for={props.data.resume.resumeId}>
                 <i className="fas fa-briefcase"></i>{' '}
-                {props.data.resume.workExperience[0]
-                  ? props.data.resume.workExperience[0].company
-                  : 'Unemployed'}
+                {props.data.resume.workExperience[0] &&
+                props.data.resume.workExperience[0].company.length > 14 ? (
+                  <>
+                    {props.data.resume.workExperience[0].company.substring(
+                      0,
+                      14
+                    )}
+                    ...
+                  </>
+                ) : (
+                  'Unemployed'
+                )}
+                {props.data.resume.workExperience[0] &&
+                  props.data.resume.workExperience[0].company.length > 14 && (
+                    <ReactTooltip
+                      id={props.data.resume.resumeId}
+                      place="bottom"
+                      effect="solid"
+                    >
+                      {props.data.resume.workExperience[0]
+                        ? props.data.resume.workExperience[0].company
+                        : 'Unemployed'}
+                    </ReactTooltip>
+                  )}
               </StyledGridItem>
-              <StyledGridItem>
+              <StyledGridItem data-tip data-for={props.data.userId}>
                 <i className="fas fa-map-marker-alt"></i>
                 {props.data.city ? props.data.city : ''}
                 {props.data.state && props.data.city
@@ -131,13 +153,39 @@ function UserCard(props) {
                   : props.data.state && !props.data.city
                   ? `${props.data.state}`
                   : 'Location unknown'}
+                {/* <ReactTooltip
+                  id={props.data.userId}
+                  place="bottom"
+                  effect="solid"
+                >
+                  {props.data.city ? props.data.city : ''}
+                  {props.data.state && props.data.city
+                    ? `, ${props.data.state}`
+                    : props.data.state && !props.data.city
+                    ? `${props.data.state}`
+                    : 'Location unknown'}
+                </ReactTooltip> */}
               </StyledGridItem>
               <StyledGridItem>
                 <i className="fas fa-user"></i>{' '}
                 {props.data.type === 'EMPLOYER' ? 'Employer' : 'Employee'}
               </StyledGridItem>
-              <StyledGridItem>
-                <i className="fas fa-envelope"></i> {props.data.email}
+              <StyledGridItem data-tip data-for={props.data.email}>
+                <i className="fas fa-envelope"></i>{' '}
+                {props.data.email.length > 11 ? (
+                  <>{props.data.email.substring(0, 11)}...</>
+                ) : (
+                  props.data.email
+                )}
+                {props.data.email.length > 11 && (
+                  <ReactTooltip
+                    id={props.data.email}
+                    place="bottom"
+                    effect="solid"
+                  >
+                    {props.data.email}
+                  </ReactTooltip>
+                )}
               </StyledGridItem>
             </StyledUserGrid>
           </StyledJobCardText>

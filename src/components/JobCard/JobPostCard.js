@@ -1,3 +1,4 @@
+import ReactTooltip from 'react-tooltip'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -23,8 +24,19 @@ const JobMainContent = ({ jobPosting }) => {
     <StyledJobCardTop>
       <i className="fab fa-asymmetrik fa-3x"></i>
       <StyledJobCardText>
-        <StyledTitleLine>
-          <h3>{jobPosting.positionTitle}</h3>
+        <StyledTitleLine data-tip data-for={jobPosting.jobPostId}>
+          <h3>
+            {jobPosting.positionTitle.length > 48 ? (
+              <>{jobPosting.positionTitle.substring(0, 48)}...</>
+            ) : (
+              jobPosting.positionTitle
+            )}
+          </h3>
+          {jobPosting.positionTitle.length > 48 && (
+            <ReactTooltip id={jobPosting.jobPostId} place="top" effect="solid">
+              {jobPosting.positionTitle}
+            </ReactTooltip>
+          )}
           <StyledViewJob>
             <Link href={`/job-posting/${jobPosting.jobPostId}`}>
               <a>
@@ -34,8 +46,22 @@ const JobMainContent = ({ jobPosting }) => {
           </StyledViewJob>
         </StyledTitleLine>
         <StyledJobCardGrid>
-          <StyledGridItem>
-            <i className="fas fa-briefcase"></i> {jobPosting.company}
+          <StyledGridItem data-tip data-for={jobPosting.company}>
+            <i className="fas fa-briefcase"></i>{' '}
+            {jobPosting.company.length > 20 ? (
+              <>{jobPosting.company.substring(0, 20)}...</>
+            ) : (
+              jobPosting.company
+            )}
+            {jobPosting.company.length > 20 && (
+              <ReactTooltip
+                id={jobPosting.company}
+                place="bottom"
+                effect="solid"
+              >
+                {jobPosting.company}
+              </ReactTooltip>
+            )}
           </StyledGridItem>
           <StyledGridItem>
             <i className="fas fa-map-marker-alt"></i> {jobPosting.city},{' '}
