@@ -10,6 +10,7 @@ import { useQuery, useMutation } from '@apollo/client'
 import { GET_USER_CONTACTS_AND_SKILLS } from '../../queries/jobPosting'
 import { ADD_CONTACT_TO_USER } from '../../queries/addContactToUser'
 import useUser from '../../lib/useUser'
+import { ButtonSolid } from '../../components/Button'
 import {
   StyledJobCardContainer,
   StyledJobCardContent,
@@ -33,20 +34,9 @@ const StyledUserGrid = styled(StyledJobCardGrid)`
   }
 `
 
-const UserButton = styled.button`
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  color: var(--darkPurple);
-
-  :hover {
-    cursor: pointer;
-    color: var(--darkerPurple);
-  }
-
-  .fa-plus {
-    margin-left: 0.5rem;
-  }
+const UserButton = styled(ButtonSolid)`
+  border-radius: 1rem;
+  font-size: 0.875rem;
 `
 
 const JobSkills = ({ skills }) => {
@@ -147,7 +137,6 @@ function UserCard(props) {
                     onClick={handleClick}
                   >
                     {hasConnected ? 'Connected' : 'Connect'}
-                    <i className="fas fa-plus"></i>
                   </UserButton>
                 ) : (
                   ''
