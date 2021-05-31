@@ -229,7 +229,7 @@ const EducationForm = ({ userId, setUserEducation }) => {
   )
 }
 
-const Education = ({ educationData, userId }) => {
+const Education = ({ educationData, userId, user }) => {
   const [userEducation, setUserEducation] = useState(educationData)
 
   return (
