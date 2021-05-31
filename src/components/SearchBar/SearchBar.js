@@ -14,7 +14,6 @@ import {
 function SearchBar({ headerText }) {
   const [option, setOption] = useState('Job Postings')
   const handleOptionChange = (e) => {
-    console.log(e.value)
     setOption(e.value)
   }
 

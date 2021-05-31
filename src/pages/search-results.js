@@ -18,6 +18,7 @@ import MainContentFlexContainer from '../components/styles/MainContentFlexContai
 import client from '../apollo/apolloClient'
 import Checkbox from '../components/Checkbox'
 import { JobPostCard } from '../components/JobCard'
+import useUser from '../lib/useUser'
 import { SearchSkillDropdown, StateDropdown } from '../components/SkillDropdown'
 import {
   SSRSearchResults,
@@ -236,7 +237,7 @@ function SearchResultView(props) {
   // Create the search result data div
   const createDataDivs = () =>
     dataArr.map((data, index) =>
-      props.uq ? (
+      props.uq || props.uq === '' ? (
         <UserCard data={dataArr[index]} />
       ) : (
         <JobPostCard
@@ -478,7 +479,8 @@ export const getServerSideProps = async (context) => {
 
   /* If the user is searching for a user, run the user search
      and pass the correct values to the renderer */
-  if (context.query.uq) {
+  if (context.query.uq || context.query.uq === '') {
+    console.log('yo')
     const { data: userData } = await client.query({
       query: SEARCH_USERS,
       variables: { searchTerm: context.query.uq },
