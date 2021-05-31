@@ -369,7 +369,7 @@ function SearchResultView(props) {
   // Render the SearchResultSideBar
   const SearchResultSideBar = () => {
     return (
-      <StyledSideBar>
+      <StyledSideBar style={{ marginBottom: '2.5rem' }}>
         <SSRFilterSection>
           <SSRFilterOptionHeader>
             {props.uq ? 'User Type' : 'Job Type'}

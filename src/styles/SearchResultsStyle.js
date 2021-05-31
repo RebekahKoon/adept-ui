@@ -66,6 +66,7 @@ export const SSRFilterOptions = styled.div`
 
 export const SSRFilterOptionHeader = styled.div`
   font-weight: bold;
+  padding-bottom: 0.5rem;
 `
 
 export const SSRDividerContainer = styled.div`
@@ -85,7 +86,6 @@ export const SSRCheckBoxOption = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  position: relative;
   color: black;
   height: 100%;
 
