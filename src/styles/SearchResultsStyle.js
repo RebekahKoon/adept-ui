@@ -142,6 +142,8 @@ export const StyledDropdown = {
 
 export const SSRMainContentFooter = styled.div`
   display: flex;
+  margin: 0 auto;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -150,6 +152,11 @@ export const SSRMainContentFooter = styled.div`
 
 export const SSRFooterPagination = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
   flex-direction: row;
   align-items: center;
   padding: 40px;
@@ -172,7 +179,9 @@ export const SSRFooterPrev = styled.div`
 
 export const SSRFooterPageNumber = styled.div`
   display: flex;
-  flex-direction: row;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
   justify-content: center;
   align-items: center;
   padding: 14px 19px;
@@ -180,12 +189,16 @@ export const SSRFooterPageNumber = styled.div`
 
 export const SSRFooterNext = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 14px 19px;
 
   font-size: 1rem;
+
+  .fa-chevron-right {
+    margin-left: 0.5rem;
+    color: var(--lightPurple);
+  }
 
   :hover {
     cursor: pointer;
