@@ -446,7 +446,7 @@ function SearchResultView(props) {
   // Render the rest of the page
   return (
     <Layout>
-      <SearchBar headerText="Search Jobs" />
+      <SearchBar headerText="Search for jobs or users" />
       <MainContentFlexContainer>
         <SSRMain>
           <SSRSearchResultsHeader>
@@ -480,7 +480,6 @@ export const getServerSideProps = async (context) => {
   /* If the user is searching for a user, run the user search
      and pass the correct values to the renderer */
   if (context.query.uq || context.query.uq === '') {
-    console.log('yo')
     const { data: userData } = await client.query({
       query: SEARCH_USERS,
       variables: { searchTerm: context.query.uq },

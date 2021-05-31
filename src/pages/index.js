@@ -123,7 +123,7 @@ const Index = () => (
           </p>
           <StyledRow>
             <i className="fas fa-check fa-2x"></i>
-            Fill out a resume and define your skillset
+            Fill out a resume and define your skill set
           </StyledRow>
           <StyledRow>
             <i className="fas fa-check fa-2x"></i>
