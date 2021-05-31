@@ -26,13 +26,13 @@ const JobMainContent = ({ jobPosting }) => {
       <StyledJobCardText>
         <StyledTitleLine data-tip data-for={jobPosting.jobPostId}>
           <h3>
-            {jobPosting.positionTitle.length > 48 ? (
-              <>{jobPosting.positionTitle.substring(0, 48)}...</>
+            {jobPosting.positionTitle.length > 30 ? (
+              <>{jobPosting.positionTitle.substring(0, 30)}...</>
             ) : (
               jobPosting.positionTitle
             )}
           </h3>
-          {jobPosting.positionTitle.length > 48 && (
+          {jobPosting.positionTitle.length > 30 && (
             <ReactTooltip id={jobPosting.jobPostId} place="top" effect="solid">
               {jobPosting.positionTitle}
             </ReactTooltip>

@@ -66,6 +66,7 @@ function UserCard(props) {
   const [contacts, setContacts] = useState()
   const [hasConnected, setHasConnected] = useState(false)
   const { user } = useUser()
+  // const [userId, setUserId] = useState(user.userId)
 
   const { data: userData } = useQuery(GET_USER_CONTACTS_AND_SKILLS, {
     variables: { userId: user.userId },

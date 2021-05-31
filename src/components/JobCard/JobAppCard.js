@@ -29,13 +29,13 @@ const JobMainContent = ({ jobApplication }) => {
           data-for={jobApplication.jobPosting.positionTitle}
         >
           <h3>
-            {jobApplication.jobPosting.positionTitle.length > 48 ? (
-              <>{jobApplication.jobPosting.positionTitle.substring(0, 48)}...</>
+            {jobApplication.jobPosting.positionTitle.length > 30 ? (
+              <>{jobApplication.jobPosting.positionTitle.substring(0, 30)}...</>
             ) : (
               jobApplication.jobPosting.positionTitle
             )}
           </h3>
-          {jobApplication.jobPosting.positionTitle.length > 48 && (
+          {jobApplication.jobPosting.positionTitle.length > 30 && (
             <ReactTooltip
               id={jobApplication.jobPosting.positionTitle}
               place="top"
