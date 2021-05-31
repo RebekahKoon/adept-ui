@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -5,7 +6,8 @@ import ReactTooltip from 'react-tooltip'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import { JobPostSkill } from '../Skill'
-import { useMutation } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
+import { GET_USER_CONTACTS_AND_SKILLS } from '../../queries/jobPosting'
 import { ADD_CONTACT_TO_USER } from '../../queries/addContactToUser'
 import useUser from '../../lib/useUser'
 import {
@@ -60,7 +62,36 @@ const JobSkills = ({ skills }) => {
 }
 
 function UserCard(props) {
+  const [isUser, setIsUser] = useState(false)
+  const [contacts, setContacts] = useState()
+  const [hasConnected, setHasConnected] = useState(false)
   const { user } = useUser()
+
+  const { data: userData } = useQuery(GET_USER_CONTACTS_AND_SKILLS, {
+    variables: { userId: user.userId },
+    onCompleted: (data) => {
+      if (data) {
+        setContacts(data.getUserById.contacts)
+      }
+    },
+    onError: (error) => {
+      console.log(error)
+    },
+  })
+
+  useEffect(() => {
+    setContacts(userData?.getUserById.contacts)
+    setHasConnected(
+      userData?.getUserById?.contacts.filter(
+        (contact) => contact.userId === props.data.userId
+      ).length !== 0
+    )
+  }, [userData, user.userId, props.data.userId])
+  console.log(user)
+  // setContact(
+  //   user.contacts.filter((contact) => contact.userId === props.data.userId)
+  // )
+
   const skillsArr = props.data.skills
   const [
     addContactToUser,
@@ -78,6 +109,8 @@ function UserCard(props) {
     addContactToUser({
       variables: { userId: user.userId, contactId: props.data.userId },
     })
+
+    setHasConnected(true)
   }
 
   return (
@@ -105,15 +138,18 @@ function UserCard(props) {
                       width={32}
                     />
                   </div>
-                ) : (
+                ) : props.data.userId !== user.userId ? (
                   <UserButton
+                    disabled={addSkillToUserLoading || hasConnected}
                     value="View Job"
                     label="ViewJob"
                     onClick={handleClick}
                   >
-                    Add Contact
+                    {hasConnected ? 'Connected' : 'Connect'}
                     <i className="fas fa-plus"></i>
                   </UserButton>
+                ) : (
+                  ''
                 )}
               </StyledViewJob>
             </StyledTitleLine>
