@@ -90,7 +90,7 @@ const UnauthedNavBar = (params) => {
         </StyledNavItem>
 
         <StyledNavItem>
-          <Link href="/post-job">Sign in</Link>
+          <Link href="/login">Sign in</Link>
         </StyledNavItem>
 
         <StyledNavItem>

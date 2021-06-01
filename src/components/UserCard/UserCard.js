@@ -79,9 +79,6 @@ function UserCard(props) {
     )
   }, [userData, user.userId, props.data.userId])
   console.log(user)
-  // setContact(
-  //   user.contacts.filter((contact) => contact.userId === props.data.userId)
-  // )
 
   const skillsArr = props.data.skills
   const [
