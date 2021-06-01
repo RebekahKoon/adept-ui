@@ -450,6 +450,7 @@ const Dashboard = (props) => {
             <Education
               educationData={props.currentUser.resume.education}
               userId={props.currentUser.userId}
+              user={props.currentUser}
             />
             <WorkExperience
               userWorkExperience={userWorkExperience}
@@ -477,13 +478,13 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
   }
   const { data: skillsData } = await client.query({
     query: GET_ALL_SKILLS,
-    fetchPolicy: 'no-cache',
+    // fetchPolicy: 'no-cache',
   })
 
   const { data: userData } = await client.query({
     query: GET_USER_BY_ID,
     variables: { userId: user.userId },
-    fetchPolicy: 'no-cache',
+    // fetchPolicy: 'no-cache',
   })
 
   return {

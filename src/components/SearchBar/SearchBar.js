@@ -5,6 +5,7 @@ import {
   StyledSearchHeader,
   StyledSearchContainer,
   StyledDropdown,
+  StyledForm,
   StyledSearchBar,
   StyledInput,
   StyledSearchDivider,
@@ -20,7 +21,13 @@ function SearchBar({ headerText }) {
   const handleChange = (e) => {
     e.preventDefault()
     setSearchItem(e.target.value)
-    var url = '/search-results?page=1&q=' + searchItem
+    const url =
+      option === 'jobPostings'
+        ? '/search-results?page=1&q=' + searchItem
+        : option === 'Job Postings'
+        ? '/search-results?page=1&q=' + searchItem
+        : '/search-results?page=1&uq=' + searchItem
+
     Router.push(url)
   }
 
@@ -48,15 +55,17 @@ function SearchBar({ headerText }) {
             isSearchable={false}
           />
           <StyledSearchDivider />
-          <StyledInput
-            type="text"
-            placeholder="Search"
-            value={searchItem}
-            onChange={(e) => setSearchItem(e.target.value)}
-          ></StyledInput>
-          <button onClick={handleChange}>
-            <i className="fa fa-search"></i>
-          </button>
+          <StyledForm>
+            <StyledInput
+              type="text"
+              placeholder="Search"
+              value={searchItem}
+              onChange={(e) => setSearchItem(e.target.value)}
+            ></StyledInput>
+            <button onClick={handleChange}>
+              <i className="fa fa-search"></i>
+            </button>
+          </StyledForm>
         </StyledSearchBar>
       </StyledSearchContainer>
     </StyledSearchHeader>

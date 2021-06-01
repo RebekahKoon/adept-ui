@@ -1,3 +1,4 @@
+import ReactTooltip from 'react-tooltip'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -23,8 +24,26 @@ const JobMainContent = ({ jobApplication }) => {
     <StyledJobCardTop>
       <i className="fab fa-asymmetrik fa-3x"></i>
       <StyledJobCardText>
-        <StyledTitleLine>
-          <h3>{jobApplication.jobPosting.positionTitle}</h3>
+        <StyledTitleLine
+          data-tip
+          data-for={jobApplication.jobPosting.positionTitle}
+        >
+          <h3>
+            {jobApplication.jobPosting.positionTitle.length > 30 ? (
+              <>{jobApplication.jobPosting.positionTitle.substring(0, 30)}...</>
+            ) : (
+              jobApplication.jobPosting.positionTitle
+            )}
+          </h3>
+          {jobApplication.jobPosting.positionTitle.length > 30 && (
+            <ReactTooltip
+              id={jobApplication.jobPosting.positionTitle}
+              place="top"
+              effect="solid"
+            >
+              {jobApplication.jobPosting.positionTitle}
+            </ReactTooltip>
+          )}
           <StyledViewJob>
             <Link href={`/job-posting/${jobApplication.jobPosting.jobPostId}`}>
               <a>
@@ -34,9 +53,22 @@ const JobMainContent = ({ jobApplication }) => {
           </StyledViewJob>
         </StyledTitleLine>
         <StyledJobCardGrid>
-          <StyledGridItem>
+          <StyledGridItem data-tip data-for={jobApplication.jobPosting.company}>
             <i className="fas fa-briefcase"></i>{' '}
-            {jobApplication.jobPosting.company}
+            {jobApplication.jobPosting.company.length > 20 ? (
+              <>{jobApplication.jobPosting.company.substring(0, 20)}...</>
+            ) : (
+              jobApplication.jobPosting.company
+            )}
+            {jobApplication.jobPosting.company.length > 20 && (
+              <ReactTooltip
+                id={jobApplication.jobPosting.company}
+                place="bottom"
+                effect="solid"
+              >
+                {jobApplication.jobPosting.company}
+              </ReactTooltip>
+            )}
           </StyledGridItem>
           <StyledGridItem>
             <i className="fas fa-map-marker-alt"></i>{' '}

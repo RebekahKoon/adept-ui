@@ -51,9 +51,15 @@ const Footer = () => (
           </StyledColumn>
         </StyledFooterNav>
         <StyledFooterIconsColumn>
-          <i className="fab fa-github-alt fa-lg"></i>
-          <i className="fab fa-github fa-lg"></i>
-          <i className="fab fa-github-square fa-lg"></i>
+          <a href="https://github.com/RebekahKoon">
+            <i className="fab fa-github-alt fa-lg"></i>
+          </a>
+          <a href="https://github.com/devnguy">
+            <i className="fab fa-github fa-lg"></i>
+          </a>
+          <a href="https://github.com/RedWolf625">
+            <i className="fab fa-github-square fa-lg"></i>
+          </a>
         </StyledFooterIconsColumn>
       </StyledFooterContainer>
     </MainContentContainer>

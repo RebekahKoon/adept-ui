@@ -34,6 +34,9 @@ const AuthedNavBar = (params) => {
             <StyledNavItem>
               <Link href="/postings">Your Postings</Link>
             </StyledNavItem>
+            <StyledNavItem>
+              <Link href="/job-applications">Your Applications</Link>
+            </StyledNavItem>
           </>
         )}
 
@@ -87,7 +90,7 @@ const UnauthedNavBar = (params) => {
         </StyledNavItem>
 
         <StyledNavItem>
-          <Link href="/post-job">Sign in</Link>
+          <Link href="/login">Sign in</Link>
         </StyledNavItem>
 
         <StyledNavItem>

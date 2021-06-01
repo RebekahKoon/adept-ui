@@ -73,6 +73,12 @@ export const StyledInput = styled.input`
   }
 `
 
+export const StyledForm = styled.form`
+  display: flex;
+  width: 100%;
+  margin-right: 0.5rem;
+`
+
 export const StyledDropdown = {
   option: (provided) => ({
     ...provided,

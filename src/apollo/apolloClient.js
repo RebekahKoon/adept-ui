@@ -26,7 +26,12 @@ const client = new ApolloClient({
   // The `from` function combines an array of individual links
   // into a link chain
   link: from([errorLink, httpLink]),
-  cache,
+  cache: cache,
+  defaultOptions: {
+    query: {
+      fetchPolicy: 'network-only',
+    },
+  },
 })
 
 export default client
