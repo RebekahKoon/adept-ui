@@ -34,7 +34,7 @@ const MostCommonSkills = ({ applicants = [], userSkills = [] }) => {
             <CSSTransition key={index} timeout={300} classNames="transition">
               <JobPostSkill
                 name={skill}
-                hasSkill={userSkills.includes(skill)}
+                hasSkill={userSkills?.includes(skill)}
               />
             </CSSTransition>
           ))}
