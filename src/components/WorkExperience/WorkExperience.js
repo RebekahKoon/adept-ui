@@ -52,13 +52,15 @@ const WorkExperienceData = ({
       onError(e) {
         console.log(e)
       },
-      refetchQueries: [
+      refetchQueries: () => [
         {
           query: GET_USER_BY_ID,
-          variables: { userId: userId },
+          variables: { userId },
+          fetchPolicy: 'network-only',
         },
       ],
       awaitRefetchQueries: true,
+      partialRefetch: true,
     }
   )
 
@@ -129,13 +131,15 @@ const FormInputFields = ({
       onError(e) {
         console.log(e)
       },
-      refetchQueries: [
+      refetchQueries: () => [
         {
           query: GET_USER_BY_ID,
-          variables: { userId: userId },
+          variables: { userId },
+          fetchPolicy: 'network-only',
         },
       ],
       awaitRefetchQueries: true,
+      partialRefetch: true,
     }
   )
 

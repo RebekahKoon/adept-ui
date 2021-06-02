@@ -29,7 +29,7 @@ const client = new ApolloClient({
   cache: cache,
   defaultOptions: {
     query: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-first',
     },
   },
 })

@@ -53,31 +53,34 @@ const JobSkills = ({ skills }) => {
 
 function UserCard(props) {
   const [isUser, setIsUser] = useState(false)
-  const [contacts, setContacts] = useState()
+  const [contacts, setContacts] = useState(props.data.contacts)
   const [hasConnected, setHasConnected] = useState(false)
   const { user } = useUser()
+  const [currUser, setCurrUser] = useState(user.userId)
   // const [userId, setUserId] = useState(user.userId)
 
-  const { data: userData } = useQuery(GET_USER_CONTACTS_AND_SKILLS, {
-    variables: { userId: user.userId },
-    onCompleted: (data) => {
-      if (data) {
-        setContacts(data.getUserById.contacts)
-      }
-    },
-    onError: (error) => {
-      console.log(error)
-    },
-  })
+  console.log(contacts)
 
-  useEffect(() => {
-    setContacts(userData?.getUserById.contacts)
-    setHasConnected(
-      userData?.getUserById?.contacts.filter(
-        (contact) => contact.userId === props.data.userId
-      ).length !== 0
-    )
-  }, [userData, user.userId, props.data.userId])
+  // const { data: userData } = useQuery(GET_USER_CONTACTS_AND_SKILLS, {
+  //   variables: { userId: user.userId },
+  //   onCompleted: (data) => {
+  //     if (data) {
+  //       setContacts(data.getUserById.contacts)
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.log(error)
+  //   },
+  // })
+
+  // useEffect(() => {
+  //   setContacts(userData?.getUserById.contacts)
+  //   setHasConnected(
+  //     userData?.getUserById?.contacts.filter(
+  //       (contact) => contact.userId === props.data.userId
+  //     ).length !== 0
+  //   )
+  // }, [userData, user.userId, props.data.userId])
   console.log(user)
 
   const skillsArr = props.data.skills
@@ -126,7 +129,7 @@ function UserCard(props) {
                       width={32}
                     />
                   </div>
-                ) : props.data.userId !== user.userId ? (
+                ) : props.data.userId !== currUser ? (
                   <UserButton
                     disabled={addSkillToUserLoading || hasConnected}
                     value="View Job"

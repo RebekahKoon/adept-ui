@@ -36,6 +36,9 @@ export const SEARCH_USERS = gql`
         skillId
         name
       }
+      contacts {
+        userId
+      }
     }
   }
 `

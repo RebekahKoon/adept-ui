@@ -20,6 +20,7 @@ import {
   StyledAddEducationButton,
   StyledRemoveButtonContainer,
 } from './EducationStyle'
+import client from '../../apollo/apolloClient'
 
 const EducationData = ({
   userEducation,
@@ -40,10 +41,11 @@ const EducationData = ({
     onError(e) {
       console.log(e)
     },
-    refetchQueries: [
+    refetchQueries: () => [
       {
         query: GET_USER_BY_ID,
         variables: { userId: userId },
+        fetchPolicy: 'network-only',
       },
     ],
     awaitRefetchQueries: true,
@@ -106,10 +108,11 @@ const EducationForm = ({ userId, setUserEducation }) => {
       onError(e) {
         console.log(e)
       },
-      refetchQueries: [
+      refetchQueries: () => [
         {
           query: GET_USER_BY_ID,
           variables: { userId: userId },
+          fetchPolicy: 'network-only',
         },
       ],
       awaitRefetchQueries: true,
