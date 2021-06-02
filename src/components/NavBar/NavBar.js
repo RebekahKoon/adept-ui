@@ -63,7 +63,7 @@ const AuthedNavBar = (params) => {
               e.preventDefault()
               try {
                 mutateUser(
-                  fetchJson(`${url}/api/login`, {
+                  fetchJson(`${url}/api/logout`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                   }),
