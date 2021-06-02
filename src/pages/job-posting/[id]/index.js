@@ -254,7 +254,7 @@ const JobPosting = ({ user }) => {
                       {data?.getJobPostingById?.skillsRequired?.map((skill) => (
                         <JobPostSkill
                           name={skill.name}
-                          hasSkill={userSkills.includes(skill.name)}
+                          hasSkill={userSkills?.includes(skill.name)}
                           key={skill.skillId}
                         />
                       ))}
