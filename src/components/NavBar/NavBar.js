@@ -15,6 +15,12 @@ import fetchJson from '../../lib/fetchJson.js'
 
 const AuthedNavBar = (params) => {
   const { user, mutateUser } = useUser()
+
+  const url =
+    process.env.NODE_ENV === 'production'
+      ? process.env.NEXT_PUBLIC_PROD_ENDPOINT
+      : 'http://localhost:3000'
+
   return (
     <StyledNavContainer>
       <StyledNavLogo>
@@ -57,7 +63,7 @@ const AuthedNavBar = (params) => {
               e.preventDefault()
               try {
                 mutateUser(
-                  await fetchJson('/api/logout', {
+                  fetchJson(`${url}/api/logout`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                   }),
