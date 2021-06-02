@@ -58,27 +58,27 @@ function UserCard(props) {
   const { user } = useUser()
   // const [userId, setUserId] = useState(user.userId)
 
-  const { data: userData } = useQuery(GET_USER_CONTACTS_AND_SKILLS, {
-    variables: { userId: user.userId },
-    onCompleted: (data) => {
-      if (data) {
-        setContacts(data.getUserById.contacts)
-      }
-    },
-    onError: (error) => {
-      console.log(error)
-    },
-  })
+  // const { data: userData } = useQuery(GET_USER_CONTACTS_AND_SKILLS, {
+  //   variables: { userId: user.userId },
+  //   onCompleted: (data) => {
+  //     if (data) {
+  //       setContacts(data.getUserById.contacts)
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.log(error)
+  //   },
+  // })
 
-  useEffect(() => {
-    setContacts(userData?.getUserById.contacts)
-    setHasConnected(
-      userData?.getUserById?.contacts.filter(
-        (contact) => contact.userId === props.data.userId
-      ).length !== 0
-    )
-  }, [userData, user.userId, props.data.userId])
-  console.log(user)
+  // useEffect(() => {
+  //   setContacts(userData?.getUserById.contacts)
+  //   setHasConnected(
+  //     userData?.getUserById?.contacts.filter(
+  //       (contact) => contact.userId === props.data.userId
+  //     ).length !== 0
+  //   )
+  // }, [userData, user.userId, props.data.userId])
+  // console.log(user)
 
   const skillsArr = props.data.skills
   const [
@@ -109,7 +109,7 @@ function UserCard(props) {
           <StyledJobCardText>
             <StyledTitleLine>
               <h3>{props.data.name}</h3>
-              <StyledViewJob>
+              {/* <StyledViewJob>
                 {addSkillToUserLoading ? (
                   <div
                     style={{
@@ -138,7 +138,7 @@ function UserCard(props) {
                 ) : (
                   ''
                 )}
-              </StyledViewJob>
+              </StyledViewJob> */}
             </StyledTitleLine>
             <StyledUserGrid>
               <StyledGridItem data-tip data-for={props.data.resume.resumeId}>

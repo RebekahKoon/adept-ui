@@ -377,7 +377,7 @@ function SearchResultView(props) {
           </SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              {props.uq ? (
+              {props.uq || props.uq === '' ? (
                 <form>{createUserTypeCheckboxes()}</form>
               ) : (
                 <form>{createJobTypeCheckboxes()}</form>
@@ -390,11 +390,11 @@ function SearchResultView(props) {
             <hr />
           </SSRDividerContainer>
           <SSRFilterOptionHeader>
-            {props.uq ? 'Location' : 'Salary Range'}
+            {props.uq || props.uq === '' ? 'Location' : 'Salary Range'}
           </SSRFilterOptionHeader>
           <SSRFilterOptions>
             <SSRCheckBoxOption>
-              {props.uq ? (
+              {props.uq || props.uq === '' ? (
                 <SkillDropdownContainer>
                   <StateDropdown
                     stateArr={props.stateArr}
