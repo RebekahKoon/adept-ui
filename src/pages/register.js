@@ -139,6 +139,11 @@ const RegisterForm = () => {
     },
   })
 
+  const url =
+    process.env.NODE_ENV === 'production'
+      ? process.env.NEXT_PUBLIC_PROD_ENDPOINT
+      : 'http://localhost:3000'
+
   const onSubmit = async (data) => {
     const PASSWORD_MISMATCH = 'Password does not match'
     const UNIQUE_CONSTRAINT = 'unique'
@@ -159,7 +164,7 @@ const RegisterForm = () => {
       }
       setIsLoginLoading(true)
       await mutateUser(
-        fetchJson('/api/login', {
+        fetchJson(`${url}/api/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),

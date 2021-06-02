@@ -99,6 +99,11 @@ const LoginForm = () => {
   })
   const [isLoading, setIsLoading] = useState(false)
 
+  const url =
+    process.env.NODE_ENV === 'production'
+      ? process.env.NEXT_PUBLIC_PROD_ENDPOINT
+      : 'http://localhost:3000'
+
   const {
     register,
     handleSubmit,
@@ -117,7 +122,7 @@ const LoginForm = () => {
     setIsLoading(true)
     try {
       await mutateUser(
-        fetchJson('/api/login', {
+        fetchJson(`${url}/api/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
