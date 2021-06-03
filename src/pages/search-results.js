@@ -426,8 +426,8 @@ function SearchResultView(props) {
   const SearchResultDropdown = () => {
     return (
       <SSRSortByDropdown>
-        {props.uq ? '' : 'Sort by:'}
-        {props.uq ? (
+        {props.uq || props.uq === '' ? '' : 'Sort by:'}
+        {props.uq || props.uq === '' ? (
           ''
         ) : (
           <Select
